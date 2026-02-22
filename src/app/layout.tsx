@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Providers } from "@/providers/ChakraProvider";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Inside My Mind",

@@ -1,0 +1,119 @@
+:root {
+  --background: 60 20% 95%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 54 100% 45%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 152 100% 40%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 60 10% 90%;
+  --muted-foreground: 0 0% 30%;
+  --accent: 0 100% 71%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 0%;
+  --input: 0 0% 0%;
+  --ring: 54 100% 45%;
+  --radius: 0px;
+  --sidebar-background: 54 100% 45%;
+  --sidebar-foreground: 0 0% 0%;
+  --sidebar-primary: 0 0% 0%;
+  --sidebar-primary-foreground: 54 100% 45%;
+  --sidebar-accent: 54 100% 55%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 0 0% 0%;
+  --sidebar-ring: 0 0% 0%;
+  --brutal-shadow: 4px 4px 0px 0px hsl(0 0% 0%);
+  --brutal-shadow-sm: 2px 2px 0px 0px hsl(0 0% 0%);
+  --brutal-shadow-lg: 6px 6px 0px 0px hsl(0 0% 0%);
+  --brutal-border: 3px solid hsl(0 0% 0%);
+  --brutal-border-sm: 2px solid hsl(0 0% 0%);
+  --habit-gym: 280 80% 60%;
+  --habit-reading: 200 100% 50%;
+  --habit-english: 30 100% 55%;
+  --surface-yellow: 54 100% 70%;
+  --surface-mint: 152 80% 70%;
+  --surface-coral: 0 100% 80%;
+  --surface-lavender: 280 80% 80%;
+  --surface-sky: 200 90% 75%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-weight: 400;
+}
+
+/* Buttons */
+button {
+  border: var(--border-width) solid var(--color-black);
+  box-shadow: var(--shadow);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000;
+}
+
+button:active {
+  box-shadow: 2px 2px 0px #000;
+  transform: translate(2px, 2px);
+}
+
+/* Inputs & Textareas */
+input,
+textarea {
+  border: var(--border-width) solid var(--color-black);
+  box-shadow: var(--shadow);
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  padding: 12px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: var(--shadow);
+  border-color: var(--color-black);
+}
+
+/* Cards */
+.card {
+  border: var(--border-width) solid var(--color-black);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  border-radius: 0;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
