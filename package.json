@@ -25,7 +25,7 @@
     "@types/react": "19.2.14",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.0.0",
     "eslint-config-next": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^9.0.0",
