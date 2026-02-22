@@ -1,0 +1,17 @@
+# PNPM Configuration
+# Ensures consistent behavior across all environments
+
+# Use node-modules layout for compatibility
+node-linker=node-modules
+
+# Auto install peer dependencies
+auto-install-peers=true
+
+# Use npm registry
+registry=https://registry.npmjs.org/
+
+# Strict peer dependencies
+strict-peer-dependencies=false
+
+# Use shamefully-hoist to flatten node_modules
+shamefully-hoist=true
