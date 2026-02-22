@@ -83,28 +83,8 @@ export default function LoginPage() {
               <Stack gap={5}>
                 <Input
                   label="EMAIL"
-                  labelProps={{
-                    fontSize: "sm",
-                    fontWeight: "bold",
-                    letterSpacing: "wider",
-                    textTransform: "uppercase",
-                    mb: 2,
-                  }}
                   type="email"
                   placeholder="your@email.com"
-                  p={4}
-                  borderWidth="2px"
-                  borderColor="black"
-                  borderRadius="0"
-                  bg="hsl(60, 20%, 95%)"
-                  fontWeight="medium"
-                  fontSize="base"
-                  _focus={{
-                    outline: "none",
-                    borderColor: "black",
-                    boxShadow: "0 0 0 2px hsl(54, 100%, 45%)",
-                  }}
-                  _placeholder={{ color: "hsl(0, 0%, 30%)" }}
                   error={errors.email?.message}
                   {...register("email", {
                     required: "Email is required",
@@ -117,28 +97,8 @@ export default function LoginPage() {
 
                 <Input
                   label="PASSWORD"
-                  labelProps={{
-                    fontSize: "sm",
-                    fontWeight: "bold",
-                    letterSpacing: "wider",
-                    textTransform: "uppercase",
-                    mb: 2,
-                  }}
                   type="password"
                   placeholder="••••••••"
-                  p={4}
-                  borderWidth="2px"
-                  borderColor="black"
-                  borderRadius="0"
-                  bg="hsl(60, 20%, 95%)"
-                  fontWeight="medium"
-                  fontSize="base"
-                  _focus={{
-                    outline: "none",
-                    borderColor: "black",
-                    boxShadow: "0 0 0 2px hsl(54, 100%, 45%)",
-                  }}
-                  _placeholder={{ color: "hsl(0, 0%, 30%)" }}
                   error={errors.password?.message}
                   {...register("password", {
                     required: "Password is required",
@@ -149,31 +109,7 @@ export default function LoginPage() {
                   })}
                 />
 
-                <Button
-                  type="submit"
-                  py={5}
-                  fontSize="lg"
-                  fontWeight="bold"
-                  letterSpacing="wider"
-                  textTransform="uppercase"
-                  bg="hsl(54, 100%, 45%)"
-                  color="black"
-                  borderWidth="3px"
-                  borderColor="black"
-                  borderRadius="0"
-                  boxShadow="4px 4px 0px 0px black"
-                  transition="all 0.1s ease"
-                  _hover={{
-                    transform: "translate(-2px, -2px)",
-                    boxShadow: "6px 6px 0px black",
-                  }}
-                  _active={{
-                    transform: "translate(2px, 2px)",
-                    boxShadow: "2px 2px 0px black",
-                  }}
-                  isLoading={isPending}
-                  width="100%"
-                >
+                <Button type="submit" isLoading={isPending}>
                   Log In →
                 </Button>
               </Stack>
