@@ -1,0 +1,37 @@
+{
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "subtitle": "Acesse sua conta",
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "loading": "Entrando...",
+      "noAccount": "Não tem uma conta?",
+      "register": "Cadastre-se"
+    },
+    "register": {
+      "title": "Criar conta",
+      "subtitle": "Comece sua jornada",
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Criar conta",
+      "loading": "Criando conta...",
+      "hasAccount": "Já tem uma conta?",
+      "login": "Entrar"
+    }
+  },
+  "nav": {
+    "dailyLab": "Daily Lab",
+    "habits": "Hábitos",
+    "analytics": "Análises",
+    "profile": "Perfil"
+  },
+  "pages": {
+    "dailyLab": "Daily Lab",
+    "habits": "Hábitos",
+    "analytics": "Análises",
+    "profile": "Perfil"
+  }
+}

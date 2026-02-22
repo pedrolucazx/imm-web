@@ -1,0 +1,37 @@
+{
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Access your account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "loading": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "register": "Sign Up"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Start your journey",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create account",
+      "loading": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "login": "Sign In"
+    }
+  },
+  "nav": {
+    "dailyLab": "Daily Lab",
+    "habits": "Habits",
+    "analytics": "Analytics",
+    "profile": "Profile"
+  },
+  "pages": {
+    "dailyLab": "Daily Lab",
+    "habits": "Habits",
+    "analytics": "Analytics",
+    "profile": "Profile"
+  }
+}

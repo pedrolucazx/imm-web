@@ -1,0 +1,37 @@
+{
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Accede a tu cuenta",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "loading": "Iniciando sesión...",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Regístrate"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "subtitle": "Comienza tu viaje",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Crear cuenta",
+      "loading": "Creando cuenta...",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Iniciar sesión"
+    }
+  },
+  "nav": {
+    "dailyLab": "Daily Lab",
+    "habits": "Hábitos",
+    "analytics": "Análisis",
+    "profile": "Perfil"
+  },
+  "pages": {
+    "dailyLab": "Daily Lab",
+    "habits": "Hábitos",
+    "analytics": "Análisis",
+    "profile": "Perfil"
+  }
+}
