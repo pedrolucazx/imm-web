@@ -14,6 +14,10 @@
     "commit": "cz commit"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.33.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "framer-motion": "^12.34.3",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -25,7 +29,7 @@
     "@types/react": "19.2.14",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.0.0",
+    "eslint": "^8.0.0",
     "eslint-config-next": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^9.0.0",
