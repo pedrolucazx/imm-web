@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authService } from "@/services/auth.service";
+import { authService } from "@/lib/auth.service";
 import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
 
 // Register mutation

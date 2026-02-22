@@ -1,4 +1,4 @@
-import { api } from "@/lib/api";
+import { api } from "@/lib/api-client";
 import { ENDPOINTS } from "@/lib/endpoints";
 import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
 

@@ -1,34 +1,33 @@
 "use client";
 
 import { Button, Input, toaster } from "@/components/ui";
-import { useRegister } from "@/hooks/useAuth";
+import { useLogin } from "@/lib/hooks/useAuth";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-interface RegisterForm {
-  name: string;
+interface LoginForm {
   email: string;
   password: string;
 }
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const router = useRouter();
-  const { mutate: register, isPending } = useRegister();
+  const { mutate: login, isPending } = useLogin();
 
   const {
-    register: registerField,
+    register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterForm>();
+  } = useForm<LoginForm>();
 
-  const onSubmit = (data: RegisterForm) => {
-    register(data, {
+  const onSubmit = (data: LoginForm) => {
+    login(data, {
       onSuccess: () => {
         toaster.create({
-          title: "Account created!",
-          description: "Welcome to your 66-day transformation journey.",
+          title: "Welcome back!",
+          description: "You've successfully logged in.",
           type: "success",
           meta: { closable: true },
         });
@@ -36,8 +35,8 @@ export default function RegisterPage() {
       },
       onError: (error) => {
         toaster.create({
-          title: "Registration failed",
-          description: error.message || "Please try again.",
+          title: "Login failed",
+          description: error.message || "Invalid email or password.",
           type: "error",
           meta: { closable: true },
         });
@@ -73,49 +72,15 @@ export default function RegisterPage() {
           <Stack gap={8}>
             <Box>
               <Heading size="2xl" fontWeight="bold" mb={2}>
-                Create Account
+                Log In
               </Heading>
               <Text fontSize="md" color="hsl(0, 0%, 30%)" fontWeight="medium">
-                Start your 66-day transformation today.
+                Welcome back. Let&apos;s keep the streak alive.
               </Text>
             </Box>
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack gap={5}>
-                <Input
-                  label="NAME"
-                  labelProps={{
-                    fontSize: "sm",
-                    fontWeight: "bold",
-                    letterSpacing: "wider",
-                    textTransform: "uppercase",
-                    mb: 2,
-                  }}
-                  type="text"
-                  placeholder="Your name"
-                  p={4}
-                  borderWidth="2px"
-                  borderColor="black"
-                  borderRadius="0"
-                  bg="hsl(60, 20%, 95%)"
-                  fontWeight="medium"
-                  fontSize="base"
-                  _focus={{
-                    outline: "none",
-                    borderColor: "black",
-                    boxShadow: "0 0 0 2px hsl(54, 100%, 45%)",
-                  }}
-                  _placeholder={{ color: "hsl(0, 0%, 30%)" }}
-                  error={errors.name?.message}
-                  {...registerField("name", {
-                    required: "Name is required",
-                    minLength: {
-                      value: 2,
-                      message: "Name must be at least 2 characters",
-                    },
-                  })}
-                />
-
                 <Input
                   label="EMAIL"
                   labelProps={{
@@ -141,7 +106,7 @@ export default function RegisterPage() {
                   }}
                   _placeholder={{ color: "hsl(0, 0%, 30%)" }}
                   error={errors.email?.message}
-                  {...registerField("email", {
+                  {...register("email", {
                     required: "Email is required",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -160,7 +125,7 @@ export default function RegisterPage() {
                     mb: 2,
                   }}
                   type="password"
-                  placeholder="Min. 6 characters"
+                  placeholder="••••••••"
                   p={4}
                   borderWidth="2px"
                   borderColor="black"
@@ -175,7 +140,7 @@ export default function RegisterPage() {
                   }}
                   _placeholder={{ color: "hsl(0, 0%, 30%)" }}
                   error={errors.password?.message}
-                  {...registerField("password", {
+                  {...register("password", {
                     required: "Password is required",
                     minLength: {
                       value: 6,
@@ -209,7 +174,7 @@ export default function RegisterPage() {
                   isLoading={isPending}
                   width="100%"
                 >
-                  Start 66-Day Journey →
+                  Log In →
                 </Button>
               </Stack>
             </form>
@@ -221,9 +186,9 @@ export default function RegisterPage() {
               fontWeight="medium"
               mt={6}
             >
-              Already have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link
-                href="/login"
+                href="/register"
                 style={{
                   fontWeight: "bold",
                   color: "black",
@@ -231,7 +196,7 @@ export default function RegisterPage() {
                   textUnderlineOffset: "4px",
                 }}
               >
-                Log In
+                Sign Up
               </Link>
             </Text>
           </Stack>
