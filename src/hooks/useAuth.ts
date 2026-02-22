@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/lib/api";
+import { authService } from "@/services/auth.service";
 import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
 
 // Register mutation
@@ -8,10 +8,10 @@ export function useRegister() {
 
   return useMutation({
     mutationFn: async (data: RegisterInput): Promise<AuthResponse> => {
-      return api.post<AuthResponse>("/auth/register", data);
+      return authService.register(data);
     },
     onSuccess: (data) => {
-      api.setToken(data.token);
+      authService.setToken(data.token);
       queryClient.setQueryData(["user"], data.user);
     },
   });
@@ -23,10 +23,10 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: async (data: LoginInput): Promise<AuthResponse> => {
-      return api.post<AuthResponse>("/auth/login", data);
+      return authService.login(data);
     },
     onSuccess: (data) => {
-      api.setToken(data.token);
+      authService.setToken(data.token);
       queryClient.setQueryData(["user"], data.user);
     },
   });
@@ -37,7 +37,7 @@ export function useLogout() {
   const queryClient = useQueryClient();
 
   return () => {
-    api.removeToken();
+    authService.removeToken();
     queryClient.setQueryData(["user"], null);
     queryClient.clear();
   };
