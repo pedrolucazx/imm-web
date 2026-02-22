@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components/ui";
+import { Button, Input, toaster } from "@/components/ui";
 import { useLogin } from "@/hooks/useAuth";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
@@ -14,7 +14,7 @@ interface LoginForm {
 
 export default function LoginPage() {
   const router = useRouter();
-  const { mutate: login, isPending, isError, error } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   const {
     register,
@@ -25,7 +25,21 @@ export default function LoginPage() {
   const onSubmit = (data: LoginForm) => {
     login(data, {
       onSuccess: () => {
+        toaster.create({
+          title: "Welcome back!",
+          description: "You've successfully logged in.",
+          type: "success",
+          meta: { closable: true },
+        });
         router.push("/app");
+      },
+      onError: (error) => {
+        toaster.create({
+          title: "Login failed",
+          description: error.message || "Invalid email or password.",
+          type: "error",
+          meta: { closable: true },
+        });
       },
     });
   };
@@ -134,12 +148,6 @@ export default function LoginPage() {
                     },
                   })}
                 />
-
-                {isError && (
-                  <Text color="red.500" fontSize="sm">
-                    {error?.message || "Error logging in"}
-                  </Text>
-                )}
 
                 <Button
                   type="submit"

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input } from "@/components/ui";
+import { Button, Input, toaster } from "@/components/ui";
 import { useRegister } from "@/hooks/useAuth";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
@@ -15,7 +15,7 @@ interface RegisterForm {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { mutate: register, isPending, isError, error } = useRegister();
+  const { mutate: register, isPending } = useRegister();
 
   const {
     register: registerField,
@@ -26,7 +26,21 @@ export default function RegisterPage() {
   const onSubmit = (data: RegisterForm) => {
     register(data, {
       onSuccess: () => {
+        toaster.create({
+          title: "Account created!",
+          description: "Welcome to your 66-day transformation journey.",
+          type: "success",
+          meta: { closable: true },
+        });
         router.push("/app");
+      },
+      onError: (error) => {
+        toaster.create({
+          title: "Registration failed",
+          description: error.message || "Please try again.",
+          type: "error",
+          meta: { closable: true },
+        });
       },
     });
   };
@@ -169,12 +183,6 @@ export default function RegisterPage() {
                     },
                   })}
                 />
-
-                {isError && (
-                  <Text color="red.500" fontSize="sm">
-                    {error?.message || "Error creating account"}
-                  </Text>
-                )}
 
                 <Button
                   type="submit"

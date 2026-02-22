@@ -5,3 +5,5 @@ export { Input } from "./Input";
 export type { InputProps } from "./Input";
 
 export { Field } from "./field";
+
+export { Toaster, toaster } from "./toaster";
