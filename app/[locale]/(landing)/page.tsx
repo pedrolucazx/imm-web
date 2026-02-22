@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@/components/ui";
 import {
   Box,
-  Button,
   Container,
   Heading,
   Text,
@@ -127,70 +127,10 @@ export default function Home() {
           Buttons
         </Heading>
         <HStack gap={4} flexWrap="wrap">
-          <Button
-            bg="hsl(var(--primary))"
-            color="hsl(var(--primary-foreground))"
-            border="var(--brutal-border)"
-            boxShadow="var(--brutal-shadow)"
-            borderRadius={0}
-            px={6}
-            py={6}
-            fontWeight="900"
-            _hover={{
-              boxShadow: "var(--brutal-shadow-lg)",
-              transform: "translate(-2px, -2px)",
-            }}
-          >
-            Primary Button
-          </Button>
-          <Button
-            bg="hsl(var(--secondary))"
-            color="hsl(var(--secondary-foreground))"
-            border="var(--brutal-border)"
-            boxShadow="var(--brutal-shadow)"
-            borderRadius={0}
-            px={6}
-            py={6}
-            fontWeight="900"
-            _hover={{
-              boxShadow: "var(--brutal-shadow-lg)",
-              transform: "translate(-2px, -2px)",
-            }}
-          >
-            Secondary Button
-          </Button>
-          <Button
-            bg="hsl(var(--accent))"
-            color="hsl(var(--accent-foreground))"
-            border="var(--brutal-border)"
-            boxShadow="var(--brutal-shadow)"
-            borderRadius={0}
-            px={6}
-            py={6}
-            fontWeight="900"
-            _hover={{
-              boxShadow: "var(--brutal-shadow-lg)",
-              transform: "translate(-2px, -2px)",
-            }}
-          >
-            Accent Button
-          </Button>
-          <Button
-            bg="hsl(var(--muted))"
-            color="hsl(var(--muted-foreground))"
-            border="var(--brutal-border)"
-            boxShadow="var(--brutal-shadow)"
-            borderRadius={0}
-            px={6}
-            py={6}
-            fontWeight="900"
-            _hover={{
-              boxShadow: "var(--brutal-shadow-lg)",
-              transform: "translate(-2px, -2px)",
-            }}
-          >
-            Muted Button
-          </Button>
+          <Button variant="primary">Primary Button</Button>
+          <Button variant="secondary">Secondary Button</Button>
+          <Button variant="accent">Accent Button</Button>
+          <Button variant="muted">Muted Button</Button>
         </HStack>
       </Box>
 
@@ -252,22 +192,7 @@ export default function Home() {
             }}
             fontSize="md"
           />
-          <Button
-            bg="hsl(var(--accent))"
-            color="hsl(var(--accent-foreground))"
-            border="var(--brutal-border)"
-            boxShadow="var(--brutal-shadow)"
-            borderRadius={0}
-            px={6}
-            py={6}
-            fontWeight="900"
-            _hover={{
-              boxShadow: "var(--brutal-shadow-lg)",
-              transform: "translate(-2px, -2px)",
-            }}
-          >
-            🤖 Save & Get AI Analysis
-          </Button>
+          <Button variant="accent">🤖 Save & Get AI Analysis</Button>
         </VStack>
       </Box>
 

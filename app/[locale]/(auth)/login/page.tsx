@@ -109,7 +109,7 @@ export default function LoginPage() {
                   })}
                 />
 
-                <Button type="submit" isLoading={isPending}>
+                <Button type="submit" isLoading={isPending} width="100%">
                   Log In →
                 </Button>
               </Stack>

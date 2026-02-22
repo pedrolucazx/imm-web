@@ -124,7 +124,7 @@ export default function RegisterPage() {
                   })}
                 />
 
-                <Button type="submit" isLoading={isPending}>
+                <Button type="submit" isLoading={isPending} width="100%">
                   Start 66-Day Journey →
                 </Button>
               </Stack>
