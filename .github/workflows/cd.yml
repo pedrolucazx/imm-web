@@ -33,7 +33,7 @@ jobs:
           cache: "yarn"
 
       - name: Install Vercel CLI
-        run: yarn global add vercel@latest
+        run: yarn global add vercel@50.22.1
 
       - name: Pull Vercel environment info
         run: |
