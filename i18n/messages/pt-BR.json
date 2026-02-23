@@ -1,6 +1,41 @@
 {
   "common": {
-    "appName": "\ud83e\udde0 Inside My Mind"
+    "appName": "🧠 Inside My Mind"
+  },
+  "landing": {
+    "nav": {
+      "login": "Entrar",
+      "signup": "Cadastrar"
+    },
+    "hero": {
+      "titleLine1": "Domine Sua Mente.",
+      "titleLine2": "Construa Seus Hábitos.",
+      "subtitle": "Um rastreador de hábitos brutalmente honesto com diário impulsionado por IA. Comprometa-se com 66 dias. Transforme sua vida.",
+      "cta": "Começar Jornada de 66 Dias →"
+    },
+    "features": {
+      "title": "Por que Inside My Mind?",
+      "ai": {
+        "title": "Diário com IA",
+        "description": "Escreva em português, receba correções, análise de humor e insights acionáveis do seu coach de IA pessoal."
+      },
+      "ultralearning": {
+        "title": "Ultralearning & Flow",
+        "description": "Baseado nos princípios de Ultralearning e Flow. Otimize suas rotinas diárias para foco profundo e aquisição rápida de habilidades."
+      },
+      "consistency": {
+        "title": "Consistência de 66 Dias",
+        "description": "A ciência diz que 66 dias constroem um hábito. Acompanhe suas sequências, visualize o progresso e nunca quebre a corrente."
+      }
+    },
+    "cta": {
+      "title": "Pronto para construir hábitos inquebráveis?",
+      "subtitle": "Participe do desafio de 66 dias. Sem desculpas, sem atalhos.",
+      "button": "Começar — É Grátis"
+    },
+    "footer": {
+      "copy": "© 2026 Inside My Mind. Feito com 🧠 e disciplina."
+    }
   },
   "auth": {
     "login": {
@@ -11,10 +46,10 @@
       "emailRequired": "E-mail é obrigatório",
       "emailInvalid": "E-mail inválido",
       "passwordLabel": "SENHA",
-      "passwordPlaceholder": "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
+      "passwordPlaceholder": "••••••••",
       "passwordRequired": "Senha é obrigatória",
       "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
-      "submit": "Entrar \u2192",
+      "submit": "Entrar →",
       "toastSuccessTitle": "Bem-vindo de volta!",
       "toastSuccessDesc": "Login realizado com sucesso.",
       "toastErrorTitle": "Falha no login",
@@ -37,7 +72,7 @@
       "passwordPlaceholder": "Mín. 6 caracteres",
       "passwordRequired": "Senha é obrigatória",
       "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
-      "submit": "Começar Jornada de 66 Dias \u2192",
+      "submit": "Começar Jornada de 66 Dias →",
       "toastSuccessTitle": "Conta criada!",
       "toastSuccessDesc": "Bem-vindo à sua jornada de transformação de 66 dias.",
       "toastErrorTitle": "Falha no cadastro",

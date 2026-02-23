@@ -2,6 +2,41 @@
   "common": {
     "appName": "\ud83e\udde0 Inside My Mind"
   },
+  "landing": {
+    "nav": {
+      "login": "Log In",
+      "signup": "Sign Up"
+    },
+    "hero": {
+      "titleLine1": "Master Your Mind.",
+      "titleLine2": "Build Your Habits.",
+      "subtitle": "A brutally honest habit tracker with AI-powered journaling. Commit to 66 days. Transform your life.",
+      "cta": "Start 66-Day Journey \u2192"
+    },
+    "features": {
+      "title": "Why Inside My Mind?",
+      "ai": {
+        "title": "AI-Powered Journaling",
+        "description": "Write in English, get instant grammar corrections, mood analysis, and actionable insights from your personal AI coach."
+      },
+      "ultralearning": {
+        "title": "Ultralearning & Flow",
+        "description": "Built on principles from Ultralearning and Flow. Optimize your daily routines for deep focus and rapid skill acquisition."
+      },
+      "consistency": {
+        "title": "66-Day Consistency",
+        "description": "Science says 66 days builds a habit. Track your streaks, visualize progress, and never break the chain."
+      }
+    },
+    "cta": {
+      "title": "Ready to build unbreakable habits?",
+      "subtitle": "Join the 66-day challenge. No excuses, no shortcuts.",
+      "button": "Get Started \u2014 It's Free"
+    },
+    "footer": {
+      "copy": "\u00a9 2026 Inside My Mind. Built with \ud83e\udde0 and discipline."
+    }
+  },
   "auth": {
     "login": {
       "title": "Log In",
