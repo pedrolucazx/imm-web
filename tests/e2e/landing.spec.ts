@@ -1,10 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-/**
- * E2E tests run against the real Next.js dev server (started by playwright.config.ts).
- * These tests simulate real user interactions in a browser.
- */
-
 test.describe("Landing page", () => {
   test("loads and shows the main heading", async ({ page }) => {
     await page.goto("/");
