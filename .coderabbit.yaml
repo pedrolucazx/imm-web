@@ -1,0 +1,45 @@
+# CodeRabbit Configuration — imm-web (Frontend)
+# Documentação: https://docs.coderabbit.ai/guides/configure-coderabbit
+
+language: "pt-BR"
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false  # IA NÃO bloqueia merge — apenas comenta
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+      - develop
+
+  path_filters:
+    - "!**/node_modules/**"
+    - "!**/.next/**"
+    - "!**/coverage/**"
+    - "!**/playwright-report/**"
+    - "!yarn.lock"
+    - "!package-lock.json"
+
+chat:
+  auto_reply: true
+
+instructions:
+  - "Este repositório é o frontend do projeto 'Inside My Mind', uma SaaS de habit tracking."
+  - "Stack: Next.js 15 + React 19 + TypeScript + Chakra UI v3 + TanStack Query + Axios."
+  - "O design segue o estilo neo-brutalism com Chakra UI v3."
+  - "IMPORTANTE (Chakra UI v3): imports de componentes base vêm de '@chakra-ui/react'. Componentes customizados (Toaster, Provider) vêm de 'components/ui' (imports relativos)."
+  - "Props booleanas do Chakra v3 NÃO usam prefixo 'is': use open (não isOpen), disabled (não isDisabled), invalid (não isInvalid)."
+  - "Use colorPalette (não colorScheme) e VStack/HStack (não Stack, que está depreciado)."
+  - "Use compound components: Dialog.Root, Table.Root, Tabs.Root, Menu.Root, etc."
+  - "Ícones: use '@phosphor-icons/react'. Não usar '@chakra-ui/icons'."
+  - "Formulários devem usar react-hook-form."
+  - "Chamadas HTTP devem passar por hooks do TanStack Query — não faça fetch direto nos componentes."
+  - "Siga os padrões de commit convencional (feat, fix, chore, docs, test, refactor)."
+  - "Sempre verifique se há testes para os componentes adicionados."
+  - "Aponte problemas de acessibilidade (a11y) nos componentes."
