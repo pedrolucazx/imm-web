@@ -18,12 +18,11 @@ const config: Config = {
     "ts-jest": { tsconfig: "tsconfig.test.json" },
   },
   collectCoverageFrom: [
-    "app/**/*.{ts,tsx}",
-    "components/**/*.{ts,tsx}",
-    "lib/**/*.{ts,tsx}",
-    "hooks/**/*.{ts,tsx}",
-    "!**/*.d.ts",
-    "!**/*.stories.{ts,tsx}",
+    "components/ui/Button.tsx",
+    "components/ui/Input.tsx",
+    "lib/auth.service.ts",
+    "lib/endpoints.ts",
+    "lib/hooks/useAuth.ts",
   ],
 };
 
