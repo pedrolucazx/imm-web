@@ -3,6 +3,7 @@
 import { Button, Input, toaster } from "@/components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,8 @@ interface RegisterForm {
 }
 
 export default function RegisterPage() {
+  const t = useTranslations("auth.register");
+  const tc = useTranslations("common");
   const router = useRouter();
   const { mutate: register, isPending } = useRegister();
 
@@ -27,8 +30,8 @@ export default function RegisterPage() {
     register(data, {
       onSuccess: () => {
         toaster.create({
-          title: "Account created!",
-          description: "Welcome to your 66-day transformation journey.",
+          title: t("toastSuccessTitle"),
+          description: t("toastSuccessDesc"),
           type: "success",
           meta: { closable: true },
         });
@@ -36,8 +39,8 @@ export default function RegisterPage() {
       },
       onError: (error) => {
         toaster.create({
-          title: "Registration failed",
-          description: error.message || "Please try again.",
+          title: t("toastErrorTitle"),
+          description: error.message || t("toastErrorDesc"),
           type: "error",
           meta: { closable: true },
         });
@@ -58,7 +61,7 @@ export default function RegisterPage() {
       <Box w="100%" maxW="md">
         <Link href="/">
           <Heading size="xl" fontWeight="bold" mb={10}>
-            🧠 Inside My Mind
+            {tc("appName")}
           </Heading>
         </Link>
 
@@ -73,59 +76,59 @@ export default function RegisterPage() {
           <Stack gap={8}>
             <Box>
               <Heading size="2xl" fontWeight="bold" mb={2}>
-                Create Account
+                {t("title")}
               </Heading>
               <Text fontSize="md" color="hsl(0, 0%, 30%)" fontWeight="medium">
-                Start your 66-day transformation today.
+                {t("subtitle")}
               </Text>
             </Box>
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack gap={5}>
                 <Input
-                  label="NAME"
+                  label={t("nameLabel")}
                   type="text"
-                  placeholder="Your name"
+                  placeholder={t("namePlaceholder")}
                   error={errors.name?.message}
                   {...registerField("name", {
-                    required: "Name is required",
+                    required: t("nameRequired"),
                     minLength: {
                       value: 2,
-                      message: "Name must be at least 2 characters",
+                      message: t("nameMinLength"),
                     },
                   })}
                 />
 
                 <Input
-                  label="EMAIL"
+                  label={t("emailLabel")}
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t("emailPlaceholder")}
                   error={errors.email?.message}
                   {...registerField("email", {
-                    required: "Email is required",
+                    required: t("emailRequired"),
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email",
+                      message: t("emailInvalid"),
                     },
                   })}
                 />
 
                 <Input
-                  label="PASSWORD"
+                  label={t("passwordLabel")}
                   type="password"
-                  placeholder="Min. 6 characters"
+                  placeholder={t("passwordPlaceholder")}
                   error={errors.password?.message}
                   {...registerField("password", {
-                    required: "Password is required",
+                    required: t("passwordRequired"),
                     minLength: {
                       value: 6,
-                      message: "Password must be at least 6 characters",
+                      message: t("passwordMinLength"),
                     },
                   })}
                 />
 
                 <Button type="submit" isLoading={isPending} width="100%">
-                  Start 66-Day Journey →
+                  {t("submit")}
                 </Button>
               </Stack>
             </form>
@@ -137,7 +140,7 @@ export default function RegisterPage() {
               fontWeight="medium"
               mt={6}
             >
-              Already have an account?{" "}
+              {t("hasAccount")}{" "}
               <Link
                 href="/login"
                 style={{
@@ -147,7 +150,7 @@ export default function RegisterPage() {
                   textUnderlineOffset: "4px",
                 }}
               >
-                Log In
+                {t("loginLink")}
               </Link>
             </Text>
           </Stack>

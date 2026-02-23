@@ -3,6 +3,7 @@
 import { Button, Input, toaster } from "@/components/ui";
 import { useLogin } from "@/lib/hooks/useAuth";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -13,6 +14,8 @@ interface LoginForm {
 }
 
 export default function LoginPage() {
+  const t = useTranslations("auth.login");
+  const tc = useTranslations("common");
   const router = useRouter();
   const { mutate: login, isPending } = useLogin();
 
@@ -26,8 +29,8 @@ export default function LoginPage() {
     login(data, {
       onSuccess: () => {
         toaster.create({
-          title: "Welcome back!",
-          description: "You've successfully logged in.",
+          title: t("toastSuccessTitle"),
+          description: t("toastSuccessDesc"),
           type: "success",
           meta: { closable: true },
         });
@@ -35,8 +38,8 @@ export default function LoginPage() {
       },
       onError: (error) => {
         toaster.create({
-          title: "Login failed",
-          description: error.message || "Invalid email or password.",
+          title: t("toastErrorTitle"),
+          description: error.message || t("toastErrorDesc"),
           type: "error",
           meta: { closable: true },
         });
@@ -57,7 +60,7 @@ export default function LoginPage() {
       <Box w="100%" maxW="md">
         <Link href="/">
           <Heading size="xl" fontWeight="bold" mb={10}>
-            🧠 Inside My Mind
+            {tc("appName")}
           </Heading>
         </Link>
 
@@ -72,45 +75,45 @@ export default function LoginPage() {
           <Stack gap={8}>
             <Box>
               <Heading size="2xl" fontWeight="bold" mb={2}>
-                Log In
+                {t("title")}
               </Heading>
               <Text fontSize="md" color="hsl(0, 0%, 30%)" fontWeight="medium">
-                Welcome back. Let&apos;s keep the streak alive.
+                {t("subtitle")}
               </Text>
             </Box>
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <Stack gap={5}>
                 <Input
-                  label="EMAIL"
+                  label={t("emailLabel")}
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t("emailPlaceholder")}
                   error={errors.email?.message}
                   {...register("email", {
-                    required: "Email is required",
+                    required: t("emailRequired"),
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Invalid email",
+                      message: t("emailInvalid"),
                     },
                   })}
                 />
 
                 <Input
-                  label="PASSWORD"
+                  label={t("passwordLabel")}
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t("passwordPlaceholder")}
                   error={errors.password?.message}
                   {...register("password", {
-                    required: "Password is required",
+                    required: t("passwordRequired"),
                     minLength: {
                       value: 6,
-                      message: "Password must be at least 6 characters",
+                      message: t("passwordMinLength"),
                     },
                   })}
                 />
 
                 <Button type="submit" isLoading={isPending} width="100%">
-                  Log In →
+                  {t("submit")}
                 </Button>
               </Stack>
             </form>
@@ -122,7 +125,7 @@ export default function LoginPage() {
               fontWeight="medium"
               mt={6}
             >
-              Don&apos;t have an account?{" "}
+              {t("noAccount")}{" "}
               <Link
                 href="/register"
                 style={{
@@ -132,7 +135,7 @@ export default function LoginPage() {
                   textUnderlineOffset: "4px",
                 }}
               >
-                Sign Up
+                {t("registerLink")}
               </Link>
             </Text>
           </Stack>

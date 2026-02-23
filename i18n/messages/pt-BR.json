@@ -1,34 +1,52 @@
 {
+  "common": {
+    "appName": "\ud83e\udde0 Inside My Mind"
+  },
   "auth": {
     "login": {
       "title": "Entrar",
-      "subtitle": "Acesse sua conta",
-      "email": "E-mail",
-      "password": "Senha",
-      "submit": "Entrar",
-      "loading": "Entrando...",
+      "subtitle": "Bem-vindo de volta. Vamos manter a sequência.",
+      "emailLabel": "E-MAIL",
+      "emailPlaceholder": "seu@email.com",
+      "emailRequired": "E-mail é obrigatório",
+      "emailInvalid": "E-mail inválido",
+      "passwordLabel": "SENHA",
+      "passwordPlaceholder": "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
+      "passwordRequired": "Senha é obrigatória",
+      "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
+      "submit": "Entrar \u2192",
+      "toastSuccessTitle": "Bem-vindo de volta!",
+      "toastSuccessDesc": "Login realizado com sucesso.",
+      "toastErrorTitle": "Falha no login",
+      "toastErrorDesc": "E-mail ou senha inválidos.",
       "noAccount": "Não tem uma conta?",
-      "register": "Cadastre-se"
+      "registerLink": "Cadastre-se"
     },
     "register": {
-      "title": "Criar conta",
-      "subtitle": "Comece sua jornada",
-      "name": "Nome",
-      "email": "E-mail",
-      "password": "Senha",
-      "submit": "Criar conta",
-      "loading": "Criando conta...",
+      "title": "Criar Conta",
+      "subtitle": "Comece sua transformação de 66 dias hoje.",
+      "nameLabel": "NOME",
+      "namePlaceholder": "Seu nome",
+      "nameRequired": "Nome é obrigatório",
+      "nameMinLength": "O nome deve ter pelo menos 2 caracteres",
+      "emailLabel": "E-MAIL",
+      "emailPlaceholder": "seu@email.com",
+      "emailRequired": "E-mail é obrigatório",
+      "emailInvalid": "E-mail inválido",
+      "passwordLabel": "SENHA",
+      "passwordPlaceholder": "Mín. 6 caracteres",
+      "passwordRequired": "Senha é obrigatória",
+      "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
+      "submit": "Começar Jornada de 66 Dias \u2192",
+      "toastSuccessTitle": "Conta criada!",
+      "toastSuccessDesc": "Bem-vindo à sua jornada de transformação de 66 dias.",
+      "toastErrorTitle": "Falha no cadastro",
+      "toastErrorDesc": "Por favor, tente novamente.",
       "hasAccount": "Já tem uma conta?",
-      "login": "Entrar"
+      "loginLink": "Entrar"
     }
   },
   "nav": {
-    "dailyLab": "Daily Lab",
-    "habits": "Hábitos",
-    "analytics": "Análises",
-    "profile": "Perfil"
-  },
-  "pages": {
     "dailyLab": "Daily Lab",
     "habits": "Hábitos",
     "analytics": "Análises",

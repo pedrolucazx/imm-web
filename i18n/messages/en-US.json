@@ -1,34 +1,52 @@
 {
+  "common": {
+    "appName": "\ud83e\udde0 Inside My Mind"
+  },
   "auth": {
     "login": {
-      "title": "Sign In",
-      "subtitle": "Access your account",
-      "email": "Email",
-      "password": "Password",
-      "submit": "Sign In",
-      "loading": "Signing in...",
+      "title": "Log In",
+      "subtitle": "Welcome back. Let's keep the streak alive.",
+      "emailLabel": "EMAIL",
+      "emailPlaceholder": "your@email.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
+      "passwordLabel": "PASSWORD",
+      "passwordPlaceholder": "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "submit": "Log In \u2192",
+      "toastSuccessTitle": "Welcome back!",
+      "toastSuccessDesc": "You've successfully logged in.",
+      "toastErrorTitle": "Login failed",
+      "toastErrorDesc": "Invalid email or password.",
       "noAccount": "Don't have an account?",
-      "register": "Sign Up"
+      "registerLink": "Sign Up"
     },
     "register": {
-      "title": "Create account",
-      "subtitle": "Start your journey",
-      "name": "Name",
-      "email": "Email",
-      "password": "Password",
-      "submit": "Create account",
-      "loading": "Creating account...",
+      "title": "Create Account",
+      "subtitle": "Start your 66-day transformation today.",
+      "nameLabel": "NAME",
+      "namePlaceholder": "Your name",
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 2 characters",
+      "emailLabel": "EMAIL",
+      "emailPlaceholder": "your@email.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
+      "passwordLabel": "PASSWORD",
+      "passwordPlaceholder": "Min. 6 characters",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "submit": "Start 66-Day Journey \u2192",
+      "toastSuccessTitle": "Account created!",
+      "toastSuccessDesc": "Welcome to your 66-day transformation journey.",
+      "toastErrorTitle": "Registration failed",
+      "toastErrorDesc": "Please try again.",
       "hasAccount": "Already have an account?",
-      "login": "Sign In"
+      "loginLink": "Log In"
     }
   },
   "nav": {
-    "dailyLab": "Daily Lab",
-    "habits": "Habits",
-    "analytics": "Analytics",
-    "profile": "Profile"
-  },
-  "pages": {
     "dailyLab": "Daily Lab",
     "habits": "Habits",
     "analytics": "Analytics",
