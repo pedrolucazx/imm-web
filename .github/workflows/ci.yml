@@ -6,6 +6,9 @@ on:
   push:
     branches: [main, develop]
 
+permissions:
+  contents: read
+
 jobs:
   # ─────────────────────────────────────────────────────────────
   # 1. Lint & Format
@@ -78,7 +81,6 @@ jobs:
 
       - name: Upload coverage
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: web-coverage
           path: coverage/

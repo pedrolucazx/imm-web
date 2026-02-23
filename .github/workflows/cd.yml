@@ -3,8 +3,8 @@ name: "CD — Deploy (Vercel)"
 on:
   push:
     branches:
-      - main     # → Produção Vercel
-      - develop  # → Preview Vercel
+      - main # → Produção Vercel
+      - develop # → Preview Vercel
 
 concurrency:
   group: deploy-web-${{ github.ref_name }}
@@ -30,6 +30,12 @@ jobs:
 
       - name: Install Vercel CLI
         run: yarn global add vercel@latest
+
+      - name: Install system dependencies for Playwright
+        run: sudo apt-get install libevent-2.1-7t64 libavif16
+
+      - name: Install Playwright Browsers
+        run: yarn playwright install
 
       - name: Pull Vercel environment info
         run: |
@@ -59,4 +65,5 @@ jobs:
           echo "✅ Deploy concluído: $DEPLOY_URL"
 
       - name: Print deployment URL
-        run: echo "🌐 Frontend disponível em: ${{ steps.deploy.outputs.url }}"
+        run: |
+          echo "🌐 Frontend disponível em: ${{ steps.deploy.outputs.url }}"
