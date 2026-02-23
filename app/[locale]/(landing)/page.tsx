@@ -4,23 +4,25 @@ import { Button } from "@/components/ui";
 import { Link } from "@/lib/navigation";
 import { Box, Flex, Grid, Heading, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { Brain, Robot, Lightning, Fire } from "@phosphor-icons/react";
+import React from "react";
 
 const features = [
   {
     bg: "hsl(var(--surface-mint))",
-    icon: "🤖",
+    icon: Robot,
     titleKey: "features.ai.title" as const,
     descKey: "features.ai.description" as const,
   },
   {
     bg: "hsl(var(--surface-yellow))",
-    icon: "⚡",
+    icon: Lightning,
     titleKey: "features.ultralearning.title" as const,
     descKey: "features.ultralearning.description" as const,
   },
   {
     bg: "hsl(var(--surface-coral))",
-    icon: "🔥",
+    icon: Fire,
     titleKey: "features.consistency.title" as const,
     descKey: "features.consistency.description" as const,
   },
@@ -42,7 +44,10 @@ export default function Home() {
         <Box maxW="6xl" mx="auto" px={6}>
           <Flex h="16" align="center" justify="space-between">
             <Heading as="span" fontSize="2xl" fontWeight="900">
-              🧠 Inside My Mind
+              <Flex align="center" gap={2}>
+                <Brain size={28} weight="bold" />
+                Inside My Mind
+              </Flex>
             </Heading>
             <Flex gap={3}>
               <Link href="/login">
@@ -136,9 +141,9 @@ export default function Home() {
                   borderRadius={0}
                   p={8}
                 >
-                  <Text fontSize="5xl" mb={4} display="block">
-                    {icon}
-                  </Text>
+                  <Box mb={4} display="flex">
+                    {React.createElement(icon, { size: 48, weight: "bold" })}
+                  </Box>
                   <Heading as="h4" fontSize="2xl" fontWeight="900" mb={3}>
                     {t(titleKey)}
                   </Heading>
