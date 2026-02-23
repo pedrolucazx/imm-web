@@ -4,25 +4,28 @@ import { Button } from "@/components/ui";
 import { Link } from "@/lib/navigation";
 import { Box, Flex, Grid, Heading, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { Brain, Robot, Lightning, Fire } from "@phosphor-icons/react";
+import { BrainIcon, RobotIcon, LightningIcon, FireIcon } from "@phosphor-icons/react";
 import React from "react";
 
 const features = [
   {
     bg: "hsl(var(--surface-mint))",
-    icon: Robot,
+    icon: RobotIcon,
+    iconColor: "hsl(260 80% 40%)",
     titleKey: "features.ai.title" as const,
     descKey: "features.ai.description" as const,
   },
   {
     bg: "hsl(var(--surface-yellow))",
-    icon: Lightning,
+    icon: LightningIcon,
+    iconColor: "hsl(25 100% 40%)",
     titleKey: "features.ultralearning.title" as const,
     descKey: "features.ultralearning.description" as const,
   },
   {
     bg: "hsl(var(--surface-coral))",
-    icon: Fire,
+    icon: FireIcon,
+    iconColor: "hsl(0 80% 35%)",
     titleKey: "features.consistency.title" as const,
     descKey: "features.consistency.description" as const,
   },
@@ -45,7 +48,7 @@ export default function Home() {
           <Flex h="16" align="center" justify="space-between">
             <Heading as="span" fontSize="2xl" fontWeight="900">
               <Flex align="center" gap={2}>
-                <Brain size={28} weight="bold" />
+                <BrainIcon size={28} weight="fill" color="hsl(var(--primary))" />
                 Inside My Mind
               </Flex>
             </Heading>
@@ -132,7 +135,7 @@ export default function Home() {
               {t("features.title")}
             </Heading>
             <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} w="full">
-              {features.map(({ bg, icon, titleKey, descKey }) => (
+              {features.map(({ bg, icon, iconColor, titleKey, descKey }) => (
                 <Box
                   key={titleKey}
                   bg={bg}
@@ -142,7 +145,7 @@ export default function Home() {
                   p={8}
                 >
                   <Box mb={4} display="flex">
-                    {React.createElement(icon, { size: 48, weight: "bold" })}
+                    {React.createElement(icon, { size: 48, weight: "fill", color: iconColor })}
                   </Box>
                   <Heading as="h4" fontSize="2xl" fontWeight="900" mb={3}>
                     {t(titleKey)}
