@@ -81,6 +81,7 @@ jobs:
 
       - name: Upload coverage
         uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: web-coverage
           path: coverage/
@@ -140,8 +141,6 @@ jobs:
 
       - name: Build Next.js
         run: yarn build
-        env:
-          NEXT_PUBLIC_API_URL: http://localhost:3333
 
       - name: Run E2E tests
         run: yarn test:e2e

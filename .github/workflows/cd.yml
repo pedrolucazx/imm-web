@@ -17,6 +17,10 @@ jobs:
     environment:
       name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
       url: ${{ github.ref_name == 'main' && 'https://inside-my-mind.vercel.app' || 'https://inside-my-mind-dev.vercel.app' }}
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
     steps:
       - name: Checkout
@@ -31,35 +35,29 @@ jobs:
       - name: Install Vercel CLI
         run: yarn global add vercel@latest
 
-      - name: Install system dependencies for Playwright
-        run: sudo apt-get install libevent-2.1-7t64 libavif16
-
-      - name: Install Playwright Browsers
-        run: yarn playwright install
-
       - name: Pull Vercel environment info
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+            vercel pull --yes --environment=production
           else
-            vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+            vercel pull --yes --environment=preview
           fi
 
       - name: Build project via Vercel
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+            vercel build --prod
           else
-            vercel build --token=${{ secrets.VERCEL_TOKEN }}
+            vercel build
           fi
 
       - name: Deploy to Vercel
         id: deploy
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
-            DEPLOY_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+            DEPLOY_URL=$(vercel deploy --prebuilt --prod | tail -1)
           else
-            DEPLOY_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+            DEPLOY_URL=$(vercel deploy --prebuilt | tail -1)
           fi
           echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
           echo "✅ Deploy concluído: $DEPLOY_URL"
