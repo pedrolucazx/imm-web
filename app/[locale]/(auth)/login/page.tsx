@@ -2,10 +2,9 @@
 
 import { Button, Input, toaster } from "@/components/ui";
 import { useLogin } from "@/lib/hooks/useAuth";
+import { Link, useRouter } from "@/lib/navigation";
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface LoginForm {
