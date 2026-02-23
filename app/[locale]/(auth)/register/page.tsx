@@ -3,8 +3,9 @@
 import { Button, Input, toaster } from "@/components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
-import { Box, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { BrainIcon } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 
 interface RegisterForm {
@@ -60,7 +61,10 @@ export default function RegisterPage() {
       <Box w="100%" maxW="md">
         <Link href="/">
           <Heading size="xl" fontWeight="bold" mb={10}>
-            {tc("appName")}
+            <Flex align="center" gap={2}>
+              <BrainIcon size={28} weight="fill" color="hsl(var(--primary))" />
+              {tc("appName")}
+            </Flex>
           </Heading>
         </Link>
 

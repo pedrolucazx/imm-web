@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "\ud83e\udde0 Inside My Mind"
+    "appName": "Inside My Mind"
   },
   "landing": {
     "nav": {
@@ -11,7 +11,7 @@
       "titleLine1": "Master Your Mind.",
       "titleLine2": "Build Your Habits.",
       "subtitle": "A brutally honest habit tracker with AI-powered journaling. Commit to 66 days. Transform your life.",
-      "cta": "Start 66-Day Journey \u2192"
+      "cta": "Start 66-Day Journey →"
     },
     "features": {
       "title": "Why Inside My Mind?",
@@ -31,10 +31,10 @@
     "cta": {
       "title": "Ready to build unbreakable habits?",
       "subtitle": "Join the 66-day challenge. No excuses, no shortcuts.",
-      "button": "Get Started \u2014 It's Free"
+      "button": "Get Started — It's Free"
     },
     "footer": {
-      "copy": "\u00a9 2026 Inside My Mind. Built with \ud83e\udde0 and discipline."
+      "copy": "© 2026 Inside My Mind. Built with brain and discipline."
     }
   },
   "auth": {
@@ -46,10 +46,10 @@
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email",
       "passwordLabel": "PASSWORD",
-      "passwordPlaceholder": "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
+      "passwordPlaceholder": "••••••••",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-      "submit": "Log In \u2192",
+      "submit": "Log In →",
       "toastSuccessTitle": "Welcome back!",
       "toastSuccessDesc": "You've successfully logged in.",
       "toastErrorTitle": "Login failed",
@@ -72,7 +72,7 @@
       "passwordPlaceholder": "Min. 6 characters",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-      "submit": "Start 66-Day Journey \u2192",
+      "submit": "Start 66-Day Journey →",
       "toastSuccessTitle": "Account created!",
       "toastSuccessDesc": "Welcome to your 66-day transformation journey.",
       "toastErrorTitle": "Registration failed",

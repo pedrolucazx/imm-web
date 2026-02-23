@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "🧠 Inside My Mind"
+    "appName": "Inside My Mind"
   },
   "landing": {
     "nav": {
@@ -34,7 +34,7 @@
       "button": "Começar — É Grátis"
     },
     "footer": {
-      "copy": "© 2026 Inside My Mind. Feito com 🧠 e disciplina."
+      "copy": "© 2026 Inside My Mind. Feito com foco e disciplina."
     }
   },
   "auth": {
