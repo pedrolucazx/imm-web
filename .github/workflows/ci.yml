@@ -11,10 +11,13 @@ permissions:
 
 jobs:
   # ─────────────────────────────────────────────────────────────
-  # 1. Lint & Format
+  # 1. Quality Gate — Lint, Typecheck & Unit Tests
+  #    Consolidado em um único job: o overhead de setup (~15s)
+  #    é maior que o tempo de execução (~6s), então separar
+  #    em jobs distintos desperdiça minutos do GitHub Actions.
   # ─────────────────────────────────────────────────────────────
-  lint:
-    name: "Lint & Format"
+  quality:
+    name: "Quality Gate"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,54 +32,16 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Run ESLint
+      - name: Lint (ESLint)
         run: yarn lint
 
-      - name: Check Prettier formatting
+      - name: Format check (Prettier)
         run: yarn format:check
 
-  # ─────────────────────────────────────────────────────────────
-  # 2. TypeScript Type-check
-  # ─────────────────────────────────────────────────────────────
-  typecheck:
-    name: "TypeScript Type-check"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Run tsc
+      - name: Type check (tsc)
         run: yarn tsc --noEmit
 
-  # ─────────────────────────────────────────────────────────────
-  # 3. Unit & Integration Tests
-  # ─────────────────────────────────────────────────────────────
-  test-unit:
-    name: "Unit Tests"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Run unit tests with coverage
+      - name: Unit & Integration tests
         run: yarn test:coverage
 
       - name: Upload coverage
@@ -88,11 +53,14 @@ jobs:
           retention-days: 7
 
   # ─────────────────────────────────────────────────────────────
-  # 4. E2E Tests (Playwright)
+  # 2. E2E Tests (Playwright)
+  #    Separado porque precisa de build do Next.js + browser,
+  #    o que justifica um job dedicado com cache próprio.
   # ─────────────────────────────────────────────────────────────
-  test-e2e:
-    name: "E2E Tests (Playwright)"
+  e2e:
+    name: "E2E Tests"
     runs-on: ubuntu-latest
+    needs: quality
     env:
       NEXT_PUBLIC_API_URL: http://localhost:3333
 
@@ -109,7 +77,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # Cache Playwright browser binaries — skips ~300 MB download on repeated runs
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v4
@@ -123,17 +90,14 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: yarn playwright install --with-deps chromium
 
-      # Install only OS-level deps when browser binary was restored from cache
       - name: Install Playwright system dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: yarn playwright install-deps chromium
 
-      # Cache Next.js build output — avoids full rebuild when source is unchanged
       - name: Cache Next.js build
         uses: actions/cache@v4
         with:
-          path: |
-            .next/cache
+          path: .next/cache
           key: nextjs-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/*.ts', '**/*.tsx', '**/*.css', '**/*.json') }}
           restore-keys: |
             nextjs-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
