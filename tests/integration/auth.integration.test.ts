@@ -1,6 +1,7 @@
-import "../../__setup__/msw/server";
+/** @jest-environment node */
+import "../__setup__/msw/server";
 import { http, HttpResponse } from "msw";
-import { server } from "../../__setup__/msw/server";
+import { server } from "../__setup__/msw/server";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
 

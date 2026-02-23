@@ -13,6 +13,10 @@ const config: Config = {
     "<rootDir>/tests/unit/**/*.test.{ts,tsx}",
     "<rootDir>/tests/integration/**/*.test.ts",
   ],
+  transformIgnorePatterns: ["/node_modules/(?!(msw|@mswjs|until-async)/)"],
+  globals: {
+    "ts-jest": { tsconfig: "tsconfig.test.json" },
+  },
   collectCoverageFrom: [
     "app/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
@@ -23,4 +27,12 @@ const config: Config = {
   ],
 };
 
-export default createJestConfig(config);
+// Override transformIgnorePatterns after next/jest merges its own /node_modules/ pattern.
+// Jest ignores a file if ANY pattern matches, so we must replace — not append.
+export default async () => {
+  const resolved = await (createJestConfig(config) as () => Promise<Config>)();
+  return {
+    ...resolved,
+    transformIgnorePatterns: ["/node_modules/(?!(msw|@mswjs|until-async)/)"],
+  };
+};
