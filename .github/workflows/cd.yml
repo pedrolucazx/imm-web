@@ -1,10 +1,11 @@
-name: "CD — Deploy (Vercel)"
+name: CD — Deploy (Vercel)
 
 on:
   push:
     branches:
-      - main # → Produção Vercel
-      - develop # → Preview Vercel
+      - main
+      - develop
+  workflow_dispatch:
 
 concurrency:
   group: deploy-web-${{ github.ref_name }}
@@ -15,8 +16,7 @@ jobs:
     name: "Deploy to Vercel (${{ github.ref_name }})"
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
-      url: ${{ github.ref_name == 'main' && 'https://inside-my-mind.vercel.app' || 'https://inside-my-mind-dev.vercel.app' }}
+      name: ${{ github.ref_name == 'main' && 'production' || 'homolog' }}
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -26,42 +26,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
-
-      - name: Install Vercel CLI
-        run: yarn global add vercel@50.22.1
-
-      - name: Pull Vercel environment info
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel pull --yes --environment=production
-          else
-            vercel pull --yes --environment=preview
-          fi
-
-      - name: Build project via Vercel
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel build --prod
-          else
-            vercel build
-          fi
-
       - name: Deploy to Vercel
-        id: deploy
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            DEPLOY_URL=$(vercel deploy --prebuilt --prod | tail -1)
-          else
-            DEPLOY_URL=$(vercel deploy --prebuilt | tail -1)
-          fi
-          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "✅ Deploy concluído: $DEPLOY_URL"
-
-      - name: Print deployment URL
-        run: |
-          echo "🌐 Frontend disponível em: ${{ steps.deploy.outputs.url }}"
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: ${{ github.ref_name == 'main' && '--prod' || '' }}
