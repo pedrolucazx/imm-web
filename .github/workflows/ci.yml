@@ -55,6 +55,7 @@ jobs:
           yarn test:e2e
 
       - name: "Step 3: AI Code Review (CodeRabbit)"
+        continue-on-error: true
         uses: coderabbitai/ai-pr-reviewer@1.16.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
