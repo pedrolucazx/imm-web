@@ -17,6 +17,8 @@ export default defineConfig({
     // Reduce default action timeout — fail fast instead of hanging 30s
     actionTimeout: 10000,
   },
+  // Intentionally limited to Chromium in CI for speed and cost.
+  // Firefox and WebKit coverage is handled on a separate nightly/weekly schedule.
   projects: [
     {
       name: "chromium",
