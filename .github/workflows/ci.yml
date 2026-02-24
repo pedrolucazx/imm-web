@@ -29,12 +29,25 @@ jobs:
       - name: "Install dependencies"
         run: yarn install --frozen-lockfile
 
-      - name: "Step 1: Code Quality"
-        run: |
-          yarn lint
-          yarn format:check
-          yarn tsc --noEmit
-          yarn test:coverage
+      - name: "Code Quality: Lint"
+        run: yarn lint
+
+      - name: "Code Quality: Format Check"
+        run: yarn format:check
+
+      - name: "Code Quality: Typecheck"
+        run: yarn tsc --noEmit
+
+      - name: "Code Quality: Tests Coverage"
+        run: yarn test:coverage
+
+      - name: "Upload coverage report"
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
 
       - name: "Step 2: E2E Tests"
         run: |
@@ -43,7 +56,8 @@ jobs:
           yarn test:e2e
 
       - name: "Step 3: AI Code Review (CodeRabbit)"
-        if: success()
-        uses: coderabbitai/ai-pr-reviewer@latest
+        uses: coderabbitai/ai-pr-reviewer@v0.7.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

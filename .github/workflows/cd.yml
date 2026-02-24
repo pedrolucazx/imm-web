@@ -1,7 +1,10 @@
 name: CD — Deploy (Vercel)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI — imm-web"]
+    types:
+      - completed
     branches:
       - main
       - develop
@@ -13,23 +16,20 @@ concurrency:
 
 jobs:
   deploy:
-    name: "Deploy to Vercel (${{ github.ref_name }})"
+    name: "Deploy to Vercel (${{ github.ref_name || github.event.workflow_run.head_branch }})"
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     environment:
-      name: ${{ github.ref_name == 'main' && 'production' || 'homolog' }}
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      name: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && 'production' || 'homolog' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
+        uses: amondnet/vercel-action@v41.1.4
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: ${{ github.ref_name == 'main' && '--prod' || '' }}
+          vercel-args: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && '--prod' || '' }}
