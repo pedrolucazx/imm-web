@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write # Necessário para o CodeRabbit
 
 jobs:
   quality_and_e2e:
@@ -57,7 +56,6 @@ jobs:
       - name: "Step 3: AI Code Review (CodeRabbit)"
         continue-on-error: true
         uses: coderabbitai/ai-pr-reviewer@1.16.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
