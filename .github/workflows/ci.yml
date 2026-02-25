@@ -1,46 +1,84 @@
 name: CI — imm-web
 
 on:
+  push:
+    branches:
+      - develop
   pull_request:
     branches:
       - develop
+      - main
 
 permissions:
   contents: read
-  pull-requests: write # Necessário para o CodeRabbit
+
+# Cancela runs em andamento para o mesmo branch quando há novo push
+concurrency:
+  group: ci-web-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  quality_and_e2e:
+  # ─────────────────────────────────────────────────────────────
+  # Step 1: Code Quality — falha imediata; bloqueia tudo abaixo
+  # ─────────────────────────────────────────────────────────────
+  code_quality:
+    name: "Step 1: Code Quality"
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_API_URL: http://localhost:3333
-
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: "Setup Node.js"
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "yarn"
 
-      - name: "Install dependencies"
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: "Code Quality: Lint"
+      - name: Lint
         run: yarn lint
 
-      - name: "Code Quality: Format Check"
+      - name: Format Check
         run: yarn format:check
 
-      - name: "Code Quality: Typecheck"
+      - name: Type Check
         run: yarn tsc --noEmit
 
-      - name: "Code Quality: Tests Coverage"
+  # ─────────────────────────────────────────────────────────────
+  # Step 2: Automated Tests — só roda se Step 1 passar
+  # ─────────────────────────────────────────────────────────────
+  tests:
+    name: "Step 2: Automated Tests"
+    needs: code_quality
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_URL: http://localhost:3333
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Unit Tests
+        run: yarn test:unit
+
+      - name: Integration Tests
+        run: yarn test:integration
+
+      - name: Coverage Report
         run: yarn test:coverage
 
-      - name: "Upload coverage report"
+      - name: Upload Coverage
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -48,16 +86,54 @@ jobs:
           path: coverage/
           retention-days: 7
 
-      - name: "Step 2: E2E Tests"
-        run: |
-          yarn playwright install --with-deps chromium
-          yarn build
-          yarn test:e2e
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps chromium
 
-      - name: "Step 3: AI Code Review (CodeRabbit)"
+      - name: Build (required for E2E)
+        run: yarn build
+
+      - name: E2E Tests
+        run: yarn test:e2e
+
+  # ─────────────────────────────────────────────────────────────
+  # Step 3: CodeRabbit — só em PRs, só se Step 2 passar
+  # continue-on-error: true → falha do CodeRabbit é aviso, não bloqueio
+  # ─────────────────────────────────────────────────────────────
+  ai_review:
+    name: "Step 3: AI Code Review (CodeRabbit)"
+    needs: tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && needs.tests.result == 'success'
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: CodeRabbit Review
         continue-on-error: true
         uses: coderabbitai/ai-pr-reviewer@1.16.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  # ─────────────────────────────────────────────────────────────
+  # Quality Gate — status check obrigatório para branch protection
+  # NÃO depende do ai_review: CodeRabbit nunca bloqueia merge
+  # ─────────────────────────────────────────────────────────────
+  quality_gate:
+    name: "Quality Gate"
+    needs: [code_quality, tests]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Evaluate required checks
+        run: |
+          if [ "${{ needs.code_quality.result }}" != "success" ] || \
+             [ "${{ needs.tests.result }}" != "success" ]; then
+            echo "❌ Required checks failed."
+            echo "  code_quality : ${{ needs.code_quality.result }}"
+            echo "  tests        : ${{ needs.tests.result }}"
+            exit 1
+          fi
+          echo "✅ All required checks passed."
