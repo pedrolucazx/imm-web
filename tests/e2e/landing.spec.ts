@@ -6,16 +6,20 @@ test.describe("Landing page", () => {
     await expect(page).toHaveTitle(/Inside My Mind/i);
   });
 
+  // Explicitly navigating to /pt-BR/ to avoid dependency on the default locale
   test("navigate to login page from header", async ({ page }) => {
-    await page.goto("/");
-    await page.getByRole("link", { name: /login|entrar/i }).click();
+    await page.goto("/pt-BR/");
+    await page
+      .getByRole("link", { name: /entrar|log in/i })
+      .first()
+      .click();
     await expect(page).toHaveURL(/\/login/);
   });
 
   test("navigate to register page from CTA", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/pt-BR/");
     await page
-      .getByRole("link", { name: /get started|começar/i })
+      .getByRole("link", { name: /começar jornada|start 66-day journey/i })
       .first()
       .click();
     await expect(page).toHaveURL(/\/register/);
@@ -24,13 +28,13 @@ test.describe("Landing page", () => {
 
 test.describe("Auth pages", () => {
   test("login page renders the form", async ({ page }) => {
-    await page.goto("/login");
-    await expect(page.getByRole("textbox", { name: /email/i })).toBeVisible();
-    await expect(page.getByRole("textbox", { name: /password|senha/i })).toBeVisible();
+    await page.goto("/pt-BR/login");
+    await expect(page.getByRole("textbox", { name: /e-mail|email/i })).toBeVisible();
+    await expect(page.getByLabel(/senha|password/i)).toBeVisible();
   });
 
   test("register page renders the form", async ({ page }) => {
-    await page.goto("/register");
-    await expect(page.getByRole("textbox", { name: /email/i })).toBeVisible();
+    await page.goto("/pt-BR/register");
+    await expect(page.getByRole("textbox", { name: /e-mail|email/i })).toBeVisible();
   });
 });

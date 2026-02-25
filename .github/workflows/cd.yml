@@ -1,10 +1,14 @@
-name: "CD — Deploy (Vercel)"
+name: CD — Deploy (Vercel)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI — imm-web"]
+    types:
+      - completed
     branches:
-      - main     # → Produção Vercel
-      - develop  # → Preview Vercel
+      - main
+      - develop
+  workflow_dispatch:
 
 concurrency:
   group: deploy-web-${{ github.ref_name }}
@@ -12,51 +16,20 @@ concurrency:
 
 jobs:
   deploy:
-    name: "Deploy to Vercel (${{ github.ref_name }})"
+    name: "Deploy to Vercel (${{ github.ref_name || github.event.workflow_run.head_branch }})"
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     environment:
-      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
-      url: ${{ github.ref_name == 'main' && 'https://inside-my-mind.vercel.app' || 'https://inside-my-mind-dev.vercel.app' }}
+      name: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && 'production' || 'homolog' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel environment info
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          else
-            vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          fi
-
-      - name: Build project via Vercel
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          else
-            vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          fi
-
       - name: Deploy to Vercel
-        id: deploy
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            DEPLOY_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
-          else
-            DEPLOY_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
-          fi
-          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "✅ Deploy concluído: $DEPLOY_URL"
-
-      - name: Print deployment URL
-        run: echo "🌐 Frontend disponível em: ${{ steps.deploy.outputs.url }}"
+        uses: amondnet/vercel-action@v41.1.4
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && '--prod' || '' }}
