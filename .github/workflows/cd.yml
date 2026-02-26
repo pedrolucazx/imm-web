@@ -32,4 +32,6 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && '--prod' || '' }}
+          vercel-args: >-
+            ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && '--prod' || '' }}
+            --build-env NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
