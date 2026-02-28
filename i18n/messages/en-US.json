@@ -16,6 +16,7 @@
     "phases": {
       "title": "The 66-Day Rule",
       "subtitle": "Research shows it takes 66 days to form an automatic habit. We break this into 3 phases — each with AI-powered guidance.",
+      "phaseLabel": "Phase {num} · Days {days}",
       "phase1": {
         "days": "1-14",
         "title": "Foundation",

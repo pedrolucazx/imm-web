@@ -118,36 +118,36 @@ export default function Home() {
               Inside My Mind
             </Heading>
             <Flex gap={3} width="100%">
-              <Link href="/login" style={{ flex: 1 }}>
-                <Button
-                  variant="muted"
-                  px={5}
-                  py={3}
-                  minH="11"
-                  fontSize="sm"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  letterSpacing="wider"
-                  w="full"
-                >
-                  {t("nav.login")}
-                </Button>
-              </Link>
-              <Link href="/register" style={{ flex: 1 }}>
-                <Button
-                  variant="primary"
-                  px={5}
-                  py={3}
-                  minH="11"
-                  fontSize="sm"
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  letterSpacing="wider"
-                  w="full"
-                >
-                  {t("nav.signup")}
-                </Button>
-              </Link>
+              <Button
+                asChild
+                variant="muted"
+                px={5}
+                py={3}
+                minH="11"
+                fontSize="sm"
+                fontWeight="bold"
+                textTransform="uppercase"
+                letterSpacing="wider"
+                w="full"
+                style={{ flex: 1 }}
+              >
+                <Link href="/login">{t("nav.login")}</Link>
+              </Button>
+              <Button
+                asChild
+                variant="primary"
+                px={5}
+                py={3}
+                minH="11"
+                fontSize="sm"
+                fontWeight="bold"
+                textTransform="uppercase"
+                letterSpacing="wider"
+                w="full"
+                style={{ flex: 1 }}
+              >
+                <Link href="/register">{t("nav.signup")}</Link>
+              </Button>
             </Flex>
           </Flex>
         </Box>
@@ -273,7 +273,7 @@ export default function Home() {
                   letterSpacing="wider"
                   mb={1}
                 >
-                  Phase {p.num} · Days {t(p.daysKey)}
+                  {t("phases.phaseLabel", { num: p.num, days: t(p.daysKey) })}
                 </Text>
                 <Heading as="h4" fontSize="2xl" fontWeight="900" mb={2}>
                   {t(p.titleKey)}
@@ -474,7 +474,7 @@ export default function Home() {
             {t("opensource.subtitle")}
           </Text>
           <a
-            href="https://github.com"
+            href="https://github.com/pedrolucazx/imm-web"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -568,7 +568,7 @@ export default function Home() {
               {t("footer.copy")}
             </Text>
             <a
-              href="https://github.com"
+              href="https://github.com/pedrolucazx/imm-web"
               target="_blank"
               rel="noopener noreferrer"
               style={{

@@ -16,6 +16,7 @@
     "phases": {
       "title": "A Regra dos 66 Dias",
       "subtitle": "A pesquisa mostra que leva 66 dias para formar um hábito automático. Dividimos isso em 3 fases — cada uma com orientação de IA.",
+      "phaseLabel": "Fase {num} · Dias {days}",
       "phase1": {
         "days": "1-14",
         "title": "Fundação",
@@ -37,7 +38,7 @@
       "subtitle": "Diário como prática imersiva. A IA se adapta por tipo de hábito — habilidades linguísticas recebem um Professor de Idiomas, hábitos comportamentais recebem um Coach Comportamental.",
       "howItWorks": "Como funciona:",
       "steps": {
-        "1": "Crie um hábito e escolha sua skill alvo (idioma ou comportamental).",
+        "1": "Crie um hábito e escolha sua habilidade alvo (idioma ou comportamental).",
         "2": "A IA gera um plano de 66 dias com fases, tarefas e técnicas.",
         "3": "Escreva diariamente. O agente de IA correto analisa sua entrada e dá feedback."
       }
@@ -84,12 +85,12 @@
       },
       "freeAI": {
         "title": "IA 100% Grátis",
-        "desc": "Custo zero para sempre. Sem cartão de crédito, sem trial."
+        "desc": "Custo zero para sempre. Sem cartão de crédito, sem período de teste."
       }
     },
     "opensource": {
       "title": "100% Grátis & Código Aberto",
-      "subtitle": "Inside My Mind é construído em público como um projeto de aprendizado para arquitetura SaaS. Sem tiers pagos, sem monetização. Contribua, faça fork ou aprenda com o código.",
+      "subtitle": "Inside My Mind é construído em público como um projeto de aprendizado para arquitetura SaaS. Sem níveis pagos, sem monetização. Contribua, faça fork ou aprenda com o código.",
       "cta": "⭐ Ver no GitHub"
     },
     "cta": {
