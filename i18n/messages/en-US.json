@@ -5,36 +5,102 @@
   "landing": {
     "nav": {
       "login": "Log In",
-      "signup": "Sign Up"
+      "signup": "Start Free"
     },
     "hero": {
       "titleLine1": "Master Your Mind.",
       "titleLine2": "Build Your Habits.",
-      "subtitle": "A brutally honest habit tracker with AI-powered journaling. Commit to 66 days. Transform your life.",
-      "cta": "Start 66-Day Journey →"
+      "subtitle": "Stop abandoning habits by week 2. Three free AI agents guide you through a science-backed 66-day journey — from intention to automaticity.",
+      "cta": "Get Started — 100% Free →"
     },
-    "features": {
-      "title": "Why Inside My Mind?",
-      "ai": {
-        "title": "AI-Powered Journaling",
-        "description": "Write in English, get instant grammar corrections, mood analysis, and actionable insights from your personal AI coach."
+    "phases": {
+      "title": "The 66-Day Rule",
+      "subtitle": "Research shows it takes 66 days to form an automatic habit. We break this into 3 phases — each with AI-powered guidance.",
+      "phaseLabel": "Phase {num} · Days {days}",
+      "phase1": {
+        "days": "1-14",
+        "title": "Foundation",
+        "desc": "Establish your routine. Create the trigger that makes it stick."
       },
-      "ultralearning": {
-        "title": "Ultralearning & Flow",
-        "description": "Built on principles from Ultralearning and Flow. Optimize your daily routines for deep focus and rapid skill acquisition."
+      "phase2": {
+        "days": "15-44",
+        "title": "Active Production",
+        "desc": "Intentional growth. Every session harder than the last."
       },
-      "consistency": {
-        "title": "66-Day Consistency",
-        "description": "Science says 66 days builds a habit. Track your streaks, visualize progress, and never break the chain."
+      "phase3": {
+        "days": "45-66",
+        "title": "Consolidation",
+        "desc": "The habit runs itself. You become someone who just does this."
       }
     },
+    "ultralearning": {
+      "title": "Your Journal. Real AI Feedback.",
+      "subtitle": "Journaling as immersive practice. The AI adapts per habit type — linguistic skills get a Language Teacher, behavioral habits get a Behavioral Coach.",
+      "howItWorks": "How it works:",
+      "steps": {
+        "1": "Create a habit and choose your target skill (language or behavioral).",
+        "2": "The AI generates a 66-day plan with phases, tasks, and techniques.",
+        "3": "Journal daily. The right AI agent analyzes your entry and gives feedback."
+      }
+    },
+    "agents": {
+      "title": "3 AI Agents, Zero Cost",
+      "habitPlanner": {
+        "title": "Habit Planner",
+        "desc": "Get a personalized 66-day plan with daily tasks, phases, and proven techniques — built in seconds.",
+        "badge": "⚡ Powered by Free AI"
+      },
+      "languageTeacher": {
+        "title": "Language Teacher",
+        "desc": "Practicing English? Get grammar scores, vocabulary analysis, corrections, and daily challenges.",
+        "badge": "⚡ Powered by Free AI"
+      },
+      "behavioralCoach": {
+        "title": "Behavioral Coach",
+        "desc": "Tracks your mood, energy, consistency patterns, and gives micro-actions for tomorrow.",
+        "badge": "⚡ Powered by Free AI"
+      }
+    },
+    "features": {
+      "title": "Everything You Need to Not Quit",
+      "cycles": {
+        "title": "66-Day Cycles",
+        "desc": "Every day counts. See all 66 days ahead of you."
+      },
+      "analytics": {
+        "title": "Streak Analytics",
+        "desc": "Watch your consistency grow. Don't break the chain."
+      },
+      "journaling": {
+        "title": "Daily Journaling",
+        "desc": "Write daily. Get smarter feedback than any journal app."
+      },
+      "voice": {
+        "title": "Voice Input",
+        "desc": "Quick voice logging. Coming soon."
+      },
+      "multilanguage": {
+        "title": "Multi-language",
+        "desc": "Practice in your target language. Track it here."
+      },
+      "freeAI": {
+        "title": "100% Free AI",
+        "desc": "Zero cost forever. No credit card, no trial."
+      }
+    },
+    "opensource": {
+      "title": "100% Free & Open Source",
+      "subtitle": "Inside My Mind is built in public as a learning project for SaaS architecture. No paid tiers, no monetization. Contribute, fork, or learn from the code.",
+      "cta": "⭐ View on GitHub"
+    },
     "cta": {
-      "title": "Ready to build unbreakable habits?",
-      "subtitle": "Join the 66-day challenge. No excuses, no shortcuts.",
-      "button": "Get Started — It's Free"
+      "title": "Stop planning. Start today.",
+      "subtitle": "66 days. 3 AI agents. Zero excuses. 100% free.",
+      "button": "Get Started — 100% Free →"
     },
     "footer": {
-      "copy": "© 2026 Inside My Mind. Built with brain and discipline."
+      "copy": "© 2026 Inside My Mind. Built with 🧠 and discipline.",
+      "github": "GitHub →"
     }
   },
   "auth": {
