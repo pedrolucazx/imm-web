@@ -16,6 +16,7 @@
     "phases": {
       "title": "La Regla de los 66 Días",
       "subtitle": "La investigación muestra que toma 66 días formar un hábito automático. Dividimos esto en 3 fases — cada una con guía de IA.",
+      "phaseLabel": "Fase {num} · Días {days}",
       "phase1": {
         "days": "1-14",
         "title": "Fundación",
@@ -94,7 +95,7 @@
     },
     "cta": {
       "title": "Deja de planear. Empieza hoy.",
-      "subtitle": "66 días. 3 agentes de IA. Zero excusas. 100% gratis.",
+      "subtitle": "66 días. 3 agentes de IA. Cero excusas. 100% gratis.",
       "button": "Comenzar — 100% Gratis →"
     },
     "footer": {
