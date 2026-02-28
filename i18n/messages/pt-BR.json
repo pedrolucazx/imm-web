@@ -5,36 +5,102 @@
   "landing": {
     "nav": {
       "login": "Entrar",
-      "signup": "Cadastrar"
+      "signup": "Começar Grátis"
     },
     "hero": {
       "titleLine1": "Domine Sua Mente.",
       "titleLine2": "Construa Seus Hábitos.",
-      "subtitle": "Um rastreador de hábitos brutalmente honesto com diário impulsionado por IA. Comprometa-se com 66 dias. Transforme sua vida.",
-      "cta": "Começar Jornada de 66 Dias →"
+      "subtitle": "Pare de abandonar seus hábitos na semana 2. Três agentes de IA gratuitos te guiam pelos 66 dias baseados em ciência — da intenção ao automatismo.",
+      "cta": "Começar — 100% Grátis →"
     },
-    "features": {
-      "title": "Por que Inside My Mind?",
-      "ai": {
-        "title": "Diário com IA",
-        "description": "Escreva em português, receba correções, análise de humor e insights acionáveis do seu coach de IA pessoal."
+    "phases": {
+      "title": "A Regra dos 66 Dias",
+      "subtitle": "A pesquisa mostra que leva 66 dias para formar um hábito automático. Dividimos isso em 3 fases — cada uma com orientação de IA.",
+      "phaseLabel": "Fase {num} · Dias {days}",
+      "phase1": {
+        "days": "1-14",
+        "title": "Fundação",
+        "desc": "Estabeleça a rotina. Crie o gatilho que faz o hábito acontecer."
       },
-      "ultralearning": {
-        "title": "Ultralearning & Flow",
-        "description": "Baseado nos princípios de Ultralearning e Flow. Otimize suas rotinas diárias para foco profundo e aquisição rápida de habilidades."
+      "phase2": {
+        "days": "15-44",
+        "title": "Produção Ativa",
+        "desc": "Crescimento intencional. Cada sessão mais difícil que a anterior."
       },
-      "consistency": {
-        "title": "Consistência de 66 Dias",
-        "description": "A ciência diz que 66 dias constroem um hábito. Acompanhe suas sequências, visualize o progresso e nunca quebre a corrente."
+      "phase3": {
+        "days": "45-66",
+        "title": "Consolidação",
+        "desc": "O hábito vira piloto automático. Você vira quem simplesmente faz isso."
       }
     },
+    "ultralearning": {
+      "title": "Seu Diário. Feedback Real de IA.",
+      "subtitle": "Diário como prática imersiva. A IA se adapta por tipo de hábito — habilidades linguísticas recebem um Professor de Idiomas, hábitos comportamentais recebem um Coach Comportamental.",
+      "howItWorks": "Como funciona:",
+      "steps": {
+        "1": "Crie um hábito e escolha sua habilidade alvo (idioma ou comportamental).",
+        "2": "A IA gera um plano de 66 dias com fases, tarefas e técnicas.",
+        "3": "Escreva diariamente. O agente de IA correto analisa sua entrada e dá feedback."
+      }
+    },
+    "agents": {
+      "title": "3 Agentes de IA, Custo Zero",
+      "habitPlanner": {
+        "title": "Habit Planner",
+        "desc": "Receba um plano personalizado de 66 dias com tarefas diárias, fases e técnicas comprovadas — gerado em segundos.",
+        "badge": "⚡ Alimentado por IA Gratuita"
+      },
+      "languageTeacher": {
+        "title": "Professor de Idiomas",
+        "desc": "Pratica inglês? Receba pontuação gramatical, análise de vocabulário, correções e desafios diários.",
+        "badge": "⚡ Alimentado por IA Gratuita"
+      },
+      "behavioralCoach": {
+        "title": "Coach Comportamental",
+        "desc": "Rastreia seu humor, energia, padrões de consistência e dá micro-ações para amanhã.",
+        "badge": "⚡ Alimentado por IA Gratuita"
+      }
+    },
+    "features": {
+      "title": "Tudo Que Você Precisa Para Não Desistir",
+      "cycles": {
+        "title": "Ciclos de 66 Dias",
+        "desc": "Cada dia conta. Veja os 66 dias à sua frente."
+      },
+      "analytics": {
+        "title": "Análise de Sequência",
+        "desc": "Veja sua consistência crescer. Não quebre a corrente."
+      },
+      "journaling": {
+        "title": "Diário Diário",
+        "desc": "Escreva todo dia. Receba feedback mais inteligente que qualquer app de diário."
+      },
+      "voice": {
+        "title": "Entrada de Voz",
+        "desc": "Registro rápido por voz. Em breve."
+      },
+      "multilanguage": {
+        "title": "Multilíngue",
+        "desc": "Pratique no seu idioma alvo. Rastreie aqui."
+      },
+      "freeAI": {
+        "title": "IA 100% Grátis",
+        "desc": "Custo zero para sempre. Sem cartão de crédito, sem período de teste."
+      }
+    },
+    "opensource": {
+      "title": "100% Grátis & Código Aberto",
+      "subtitle": "Inside My Mind é construído em público como um projeto de aprendizado para arquitetura SaaS. Sem níveis pagos, sem monetização. Contribua, faça fork ou aprenda com o código.",
+      "cta": "⭐ Ver no GitHub"
+    },
     "cta": {
-      "title": "Pronto para construir hábitos inquebráveis?",
-      "subtitle": "Participe do desafio de 66 dias. Sem desculpas, sem atalhos.",
-      "button": "Começar — É Grátis"
+      "title": "Pare de planejar. Comece hoje.",
+      "subtitle": "66 dias. 3 agentes de IA. Zero desculpas. 100% grátis.",
+      "button": "Começar — 100% Grátis →"
     },
     "footer": {
-      "copy": "© 2026 Inside My Mind. Feito com foco e disciplina."
+      "copy": "© 2026 Inside My Mind. Feito com 🧠 e disciplina.",
+      "github": "GitHub →"
     }
   },
   "auth": {
