@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui";
-import { landingStyles } from "./landing.styles";
 import { Link } from "@/lib/navigation";
-import { Box, Flex, Grid, Heading, Text, VStack, chakra } from "@chakra-ui/react";
+import { Box, Grid, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import React from "react";
+import { s } from "./landing.styles";
+
+const ChakraLink = chakra(Link);
 
 const phases = [
   {
@@ -13,21 +13,21 @@ const phases = [
     daysKey: "phases.phase1.days" as const,
     titleKey: "phases.phase1.title" as const,
     descKey: "phases.phase1.desc" as const,
-    color: "surface.mint",
+    bg: "surface.mint",
   },
   {
     num: 2,
     daysKey: "phases.phase2.days" as const,
     titleKey: "phases.phase2.title" as const,
     descKey: "phases.phase2.desc" as const,
-    color: "surface.yellow",
+    bg: "surface.yellow",
   },
   {
     num: 3,
     daysKey: "phases.phase3.days" as const,
     titleKey: "phases.phase3.title" as const,
     descKey: "phases.phase3.desc" as const,
-    color: "surface.coral",
+    bg: "surface.coral",
   },
 ];
 
@@ -37,21 +37,21 @@ const agents = [
     titleKey: "agents.habitPlanner.title" as const,
     descKey: "agents.habitPlanner.desc" as const,
     badgeKey: "agents.habitPlanner.badge" as const,
-    color: "surface.sky",
+    bg: "surface.sky",
   },
   {
     icon: "📝",
     titleKey: "agents.languageTeacher.title" as const,
     descKey: "agents.languageTeacher.desc" as const,
     badgeKey: "agents.languageTeacher.badge" as const,
-    color: "surface.mint",
+    bg: "surface.mint",
   },
   {
     icon: "🎯",
     titleKey: "agents.behavioralCoach.title" as const,
     descKey: "agents.behavioralCoach.desc" as const,
     badgeKey: "agents.behavioralCoach.badge" as const,
-    color: "surface.lavender",
+    bg: "surface.lavender",
   },
 ];
 
@@ -88,115 +88,69 @@ const features = [
   },
 ];
 
+const ultralearningSteps = ["1️⃣", "2️⃣", "3️⃣"] as const;
+
 export default function Home() {
   const t = useTranslations("landing");
 
   return (
-    <Box minH="100vh" display="flex" flexDirection="column" bg="canvas">
+    <Box {...s.pageWrapper}>
       {/* Nav */}
-      <Box
-        as="header"
-        borderBottom="3px solid black"
-        bg="white"
-        position="sticky"
-        top={0}
-        zIndex={50}
-      >
-        <Box maxW="6xl" mx="auto" px={6} py={4}>
-          <Flex
-            align={{ base: "flex-start", md: "center" }}
-            justify={{ base: "flex-start", md: "space-between" }}
-            direction={{ base: "column", md: "row" }}
-            gap={{ base: 3, md: 0 }}
-          >
-            <Heading as="span" fontSize="2xl" fontWeight="900" whiteSpace="nowrap">
-              <Box as="span" aria-hidden="true">
-                🧠
-              </Box>{" "}
-              Inside My Mind
-            </Heading>
-            <Flex gap={3} width="100%">
-              <Button
-                asChild
-                variant="muted"
-                px={5}
-                py={3}
-                minH="11"
-                fontSize="sm"
-                w="full"
-                flex={1}
-              >
-                <Link href="/login">{t("nav.login")}</Link>
-              </Button>
-              <Button
-                asChild
-                variant="primary"
-                px={5}
-                py={3}
-                minH="11"
-                fontSize="sm"
-                w="full"
-                flex={1}
-              >
-                <Link href="/register">{t("nav.signup")}</Link>
-              </Button>
-            </Flex>
-          </Flex>
+      <Box as="header" {...s.header}>
+        <Box {...s.navContainer}>
+          <Box {...s.navInner}>
+            <Text {...s.navBrand}>🧠 Inside My Mind</Text>
+            <Box {...s.navButtons}>
+              <ChakraLink href="/login" {...s.navLoginBtn}>
+                {t("nav.login")}
+              </ChakraLink>
+              <ChakraLink href="/register" {...s.navSignupBtn}>
+                {t("nav.signup")}
+              </ChakraLink>
+            </Box>
+          </Box>
         </Box>
       </Box>
 
       {/* Hero */}
-      <Box as="section" py={{ base: 20, md: 24 }}>
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Box maxW="3xl">
-            <Heading as="h2" textStyle="heroTitle" mb={6}>
+      <Box as="section" {...s.heroSection}>
+        <Box {...s.container}>
+          <Box {...s.heroBox}>
+            <Text as="h1" {...s.heroTitle}>
               {t("hero.titleLine1")}
               <br />
-              <Box as="span" bg="primary" px={2} display="inline-block" mt={2}>
+              <Box as="span" {...s.heroHighlight}>
                 {t("hero.titleLine2")}
               </Box>
-            </Heading>
-            <Text textStyle="sectionSubtitle" mb={10} maxW="xl">
-              {t("hero.subtitle")}
             </Text>
-            <Button
-              asChild
-              variant="primary"
-              px={10}
-              py={6}
-              fontSize="xl"
-              _motionReduce={{ transition: "none", _hover: { transform: "none" } }}
-            >
-              <Link href="/register">{t("hero.cta")}</Link>
-            </Button>
+            <Text {...s.heroSubtitle}>{t("hero.subtitle")}</Text>
+            <ChakraLink href="/register" {...s.heroCtaBtn}>
+              {t("hero.cta")}
+            </ChakraLink>
           </Box>
         </Box>
       </Box>
 
       {/* 66-Day Rule */}
-      <Box as="section" borderTop="3px solid black" bg="white" py={20}>
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Heading as="h3" textStyle="sectionTitle" mb={3}>
+      <Box as="section" {...s.sectionCard}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.phasesTitle}>
             {t("phases.title")}
-          </Heading>
-          <Text textStyle="sectionSubtitle" mb={10} maxW="2xl">
-            {t("phases.subtitle")}
           </Text>
-          <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} w="full">
+          <Text {...s.phasesSubtitle}>{t("phases.subtitle")}</Text>
+          <Grid {...s.grid3}>
             {phases.map((p) => (
-              <Box key={p.num} bg={p.color} layerStyle="cardBrutal" p={8} position="relative">
-                <Text as="span" aria-hidden="true" {...landingStyles.phaseNumber}>
+              <Box key={p.num} bg={p.bg} {...s.phaseCard}>
+                <Text as="span" {...s.phaseNumber}>
                   {p.num}
                 </Text>
-                <Text textStyle="label" mb={1}>
+                <Text {...s.phaseLabel}>
                   {t("phases.phaseLabel", { num: p.num, days: t(p.daysKey) })}
                 </Text>
-                <Heading as="h4" fontSize="2xl" fontWeight="900" mb={2}>
+                <Text as="h4" {...s.phaseTitle}>
                   {t(p.titleKey)}
-                </Heading>
-                <Text fontSize="base" fontWeight="500">
-                  {t(p.descKey)}
                 </Text>
+                <Text {...s.phaseDesc}>{t(p.descKey)}</Text>
               </Box>
             ))}
           </Grid>
@@ -204,55 +158,41 @@ export default function Home() {
       </Box>
 
       {/* Ultralearning */}
-      <Box as="section" borderTop="3px solid black" py={20}>
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Heading as="h3" textStyle="sectionTitle" mb={3}>
+      <Box as="section" {...s.sectionBase}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.ultralearningTitle}>
             {t("ultralearning.title")}
-          </Heading>
-          <Text textStyle="sectionSubtitle" mb={6} maxW="2xl">
-            {t("ultralearning.subtitle")}
           </Text>
-          <Box bg="surface.yellow" p={8} maxW="2xl" layerStyle="cardBrutal">
-            <Text fontSize="lg" fontWeight="900" mb={4}>
-              {t("ultralearning.howItWorks")}
-            </Text>
-            <VStack gap={3} align="start">
+          <Text {...s.ultralearningSubtitle}>{t("ultralearning.subtitle")}</Text>
+          <Box {...s.ultraCard}>
+            <Text {...s.ultraCardHeading}>{t("ultralearning.howItWorks")}</Text>
+            <Box {...s.ultraStepList}>
               {(["1", "2", "3"] as const).map((n, i) => (
-                <Flex key={n} gap={3} align="start">
-                  <Text fontSize="xl" aria-hidden="true">
-                    {["1️⃣", "2️⃣", "3️⃣"][i]}
-                  </Text>
-                  <Text fontSize="base" fontWeight="500">
-                    {t(`ultralearning.steps.${n}`)}
-                  </Text>
-                </Flex>
+                <Box key={n} {...s.ultraStepRow}>
+                  <Text {...s.ultraStepEmoji}>{ultralearningSteps[i]}</Text>
+                  <Text {...s.ultraStep}>{t(`ultralearning.steps.${n}`)}</Text>
+                </Box>
               ))}
-            </VStack>
+            </Box>
           </Box>
         </Box>
       </Box>
 
       {/* 3 AI Agents */}
-      <Box as="section" borderTop="3px solid black" bg="white" py={20}>
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Heading as="h3" textStyle="sectionTitle" mb={10}>
+      <Box as="section" {...s.sectionCard}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.agentsTitle}>
             {t("agents.title")}
-          </Heading>
-          <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} w="full">
+          </Text>
+          <Grid {...s.grid3}>
             {agents.map((a) => (
-              <Box key={a.titleKey} bg={a.color} p={8} layerStyle="cardBrutal">
-                <Flex align="center" gap={3} mb={3}>
-                  <Text fontSize="4xl" lineHeight={1} aria-hidden="true">
-                    {a.icon}
-                  </Text>
-                  <Heading as="h4" fontSize="2xl" fontWeight="900">
-                    {t(a.titleKey)}
-                  </Heading>
-                </Flex>
-                <Text fontSize="base" fontWeight="500" mb={4}>
-                  {t(a.descKey)}
+              <Box key={a.titleKey} bg={a.bg} {...s.agentCard}>
+                <Text {...s.agentIcon}>{a.icon}</Text>
+                <Text as="h4" {...s.agentTitle}>
+                  {t(a.titleKey)}
                 </Text>
-                <Box as="span" {...landingStyles.agentBadge}>
+                <Text {...s.agentDesc}>{t(a.descKey)}</Text>
+                <Box as="span" {...s.agentBadge}>
                   {t(a.badgeKey)}
                 </Box>
               </Box>
@@ -262,30 +202,19 @@ export default function Home() {
       </Box>
 
       {/* Features Grid */}
-      <Box as="section" borderTop="3px solid black" py={20}>
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Heading as="h3" textStyle="featuresTitle" mb={8}>
+      <Box as="section" {...s.sectionBase}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.featuresTitle}>
             {t("features.title")}
-          </Heading>
-          <Grid
-            templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" }}
-            gap={4}
-          >
+          </Text>
+          <Grid {...s.gridFeatures}>
             {features.map((f) => (
-              <Box key={f.titleKey} bg="white" p={6} layerStyle="cardBrutal">
-                <Flex align="center" gap={4}>
-                  <Text fontSize="3xl" flexShrink={0} lineHeight={1} aria-hidden="true">
-                    {f.icon}
-                  </Text>
-                  <Box>
-                    <Heading as="h4" fontSize="lg" fontWeight="900" mb={1}>
-                      {t(f.titleKey)}
-                    </Heading>
-                    <Text fontSize="sm" fontWeight="500" color="mutedFg">
-                      {t(f.descKey)}
-                    </Text>
-                  </Box>
-                </Flex>
+              <Box key={f.titleKey} {...s.featureCard}>
+                <Text {...s.featureIcon}>{f.icon}</Text>
+                <Text as="h4" {...s.featureTitle}>
+                  {t(f.titleKey)}
+                </Text>
+                <Text {...s.featureDesc}>{t(f.descKey)}</Text>
               </Box>
             ))}
           </Grid>
@@ -293,84 +222,50 @@ export default function Home() {
       </Box>
 
       {/* Open Source */}
-      <Box as="section" borderTop="3px solid black" bg="surface.lavender" py={20}>
-        <Box maxW="6xl" mx="auto" px={6} textAlign="center">
-          <Heading as="h3" textStyle="sectionTitle" mb={4}>
+      <Box as="section" {...s.opensourceSection}>
+        <Box {...s.centeredContent}>
+          <Text as="h2" {...s.opensourceTitle}>
             {t("opensource.title")}
-          </Heading>
-          <Text textStyle="sectionSubtitle" mb={8} maxW="2xl" mx="auto">
-            {t("opensource.subtitle")}
           </Text>
-          <Button
-            asChild
-            variant="primary"
-            px={8}
-            py={4}
-            fontSize="lg"
-            bg="black"
-            color="white"
-            _motionReduce={{ transition: "none", _hover: { transform: "none" } }}
+          <Text {...s.opensourceSubtitle}>{t("opensource.subtitle")}</Text>
+          <chakra.a
+            href="https://github.com/pedrolucazx/imm-web"
+            target="_blank"
+            rel="noopener noreferrer"
+            {...s.githubBtn}
           >
-            <a
-              href="https://github.com/pedrolucazx/imm-web"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("opensource.cta")}
-            </a>
-          </Button>
+            {t("opensource.cta")}
+          </chakra.a>
         </Box>
       </Box>
 
       {/* Final CTA */}
-      <Box as="section" borderTop="3px solid black" bg="black" color="white" py={16}>
-        <Box maxW="6xl" mx="auto" px={6} textAlign="center">
-          <Heading as="h3" fontSize="4xl" fontWeight="900" mb={4}>
+      <Box as="section" {...s.ctaSection}>
+        <Box {...s.centeredContent}>
+          <Text as="h2" {...s.ctaTitle}>
             {t("cta.title")}
-          </Heading>
-          <Text fontSize="lg" fontWeight="500" mb={8} opacity={0.8}>
-            {t("cta.subtitle")}
           </Text>
-          <Button
-            asChild
-            variant="primary"
-            px={10}
-            py={5}
-            fontSize="lg"
-            _motionReduce={{ transition: "none", _hover: { transform: "none" } }}
-          >
-            <Link href="/register">{t("cta.button")}</Link>
-          </Button>
+          <Text {...s.ctaSubtitle}>{t("cta.subtitle")}</Text>
+          <ChakraLink href="/register" {...s.ctaBtn}>
+            {t("cta.button")}
+          </ChakraLink>
         </Box>
       </Box>
 
       {/* Footer */}
-      <Box as="footer" bg="white" borderTop="3px solid black" py={6}>
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Flex
-            align="center"
-            justify={{ base: "center", md: "space-between" }}
-            direction={{ base: "column", md: "row" }}
-            gap={4}
-            textAlign={{ base: "center", md: "left" }}
-          >
-            <Text fontSize="sm" fontWeight="900" color="mutedFg">
-              {t("footer.copy")}
-            </Text>
+      <Box as="footer" {...s.footer}>
+        <Box {...s.container}>
+          <Box {...s.footerInner}>
+            <Text {...s.footerText}>{t("footer.copy")}</Text>
             <chakra.a
               href="https://github.com/pedrolucazx/imm-web"
               target="_blank"
               rel="noopener noreferrer"
-              fontSize="sm"
-              fontWeight="900"
-              color="mutedFg"
-              transition="color 0.1s"
-              textDecoration="none"
-              _hover={{ color: "black" }}
+              {...s.footerLink}
             >
               {t("footer.github")}
             </chakra.a>
-          </Flex>
+          </Box>
         </Box>
       </Box>
     </Box>
