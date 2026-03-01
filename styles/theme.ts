@@ -146,7 +146,7 @@ const config = defineConfig({
         value: {
           fontSize: { base: "1.125rem", md: "1.25rem" },
           fontWeight: "500",
-          color: "{colors.mutedFg}",
+          color: "mutedFg",
         },
       },
       label: {

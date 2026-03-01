@@ -88,6 +88,8 @@ const features = [
   },
 ];
 
+const ultralearningSteps = ["1️⃣", "2️⃣", "3️⃣"] as const;
+
 export default function Home() {
   const t = useTranslations("landing");
 
@@ -114,7 +116,7 @@ export default function Home() {
       <Box as="section" {...s.heroSection}>
         <Box {...s.container}>
           <Box {...s.heroBox}>
-            <Text as="h2" {...s.heroTitle}>
+            <Text as="h1" {...s.heroTitle}>
               {t("hero.titleLine1")}
               <br />
               <Box as="span" {...s.heroHighlight}>
@@ -167,7 +169,7 @@ export default function Home() {
             <Box {...s.ultraStepList}>
               {(["1", "2", "3"] as const).map((n, i) => (
                 <Box key={n} {...s.ultraStepRow}>
-                  <Text {...s.ultraStepEmoji}>{["1️⃣", "2️⃣", "3️⃣"][i]}</Text>
+                  <Text {...s.ultraStepEmoji}>{ultralearningSteps[i]}</Text>
                   <Text {...s.ultraStep}>{t(`ultralearning.steps.${n}`)}</Text>
                 </Box>
               ))}

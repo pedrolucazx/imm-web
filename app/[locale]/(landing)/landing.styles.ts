@@ -338,7 +338,6 @@ export const s: Record<string, SystemStyleObject> = {
   githubBtn: {
     ...btnBase,
     ...brutalCard,
-    ...brutalHover,
     px: 8,
     py: 4,
     bg: "black",
@@ -346,10 +345,16 @@ export const s: Record<string, SystemStyleObject> = {
     fontSize: "lg",
     w: { base: "full", md: "auto" },
     textAlign: "center",
+    transition: "transform 0.1s ease, box-shadow 0.1s ease",
+    cursor: "pointer",
     _hover: {
       transform: "translate(-2px, -2px)",
       boxShadow: "6px 6px 0px 0px black",
       color: "white",
+    },
+    _active: {
+      transform: "translate(2px, 2px)",
+      boxShadow: "none",
     },
   },
 
