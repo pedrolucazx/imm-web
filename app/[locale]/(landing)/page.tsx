@@ -88,9 +88,6 @@ const features = [
   },
 ];
 
-const reducedMotion = () =>
-  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 export default function Home() {
   const t = useTranslations("landing");
 
@@ -304,38 +301,24 @@ export default function Home() {
           <Text textStyle="sectionSubtitle" mb={8} maxW="2xl" mx="auto">
             {t("opensource.subtitle")}
           </Text>
-          <a
-            href="https://github.com/pedrolucazx/imm-web"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-block",
-              padding: "1rem 2rem",
-              backgroundColor: "black",
-              color: "white",
-              fontWeight: 900,
-              fontSize: "1.125rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              border: "3px solid black",
-              boxShadow: "4px 4px 0 black",
-              borderRadius: 0,
-              transition: "transform 0.1s, box-shadow 0.1s",
-              cursor: "pointer",
-              textDecoration: "none",
-            }}
-            onMouseEnter={(e) => {
-              if (reducedMotion()) return;
-              e.currentTarget.style.transform = "translate(-2px, -2px)";
-              e.currentTarget.style.boxShadow = "6px 6px 0 black";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "";
-              e.currentTarget.style.boxShadow = "4px 4px 0 black";
-            }}
+          <Button
+            asChild
+            variant="primary"
+            px={8}
+            py={4}
+            fontSize="lg"
+            bg="black"
+            color="white"
+            _motionReduce={{ transition: "none", _hover: { transform: "none" } }}
           >
-            {t("opensource.cta")}
-          </a>
+            <a
+              href="https://github.com/pedrolucazx/imm-web"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("opensource.cta")}
+            </a>
+          </Button>
         </Box>
       </Box>
 
@@ -374,26 +357,20 @@ export default function Home() {
             <Text fontSize="sm" fontWeight="900" color="mutedFg">
               {t("footer.copy")}
             </Text>
-            <a
+            <Box
+              as="a"
               href="https://github.com/pedrolucazx/imm-web"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                fontSize: "0.875rem",
-                fontWeight: 900,
-                color: "hsl(0, 0%, 30%)",
-                transition: "color 0.1s",
-                textDecoration: "none",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "black";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "hsl(0, 0%, 30%)";
-              }}
+              fontSize="sm"
+              fontWeight="900"
+              color="mutedFg"
+              transition="color 0.1s"
+              textDecoration="none"
+              _hover={{ color: "black" }}
             >
               {t("footer.github")}
-            </a>
+            </Box>
           </Flex>
         </Box>
       </Box>

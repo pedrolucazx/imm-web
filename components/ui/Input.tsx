@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               ? `0 0 0 2px var(--chakra-colors-error)`
               : `0 0 0 2px var(--chakra-colors-primary)`,
           }}
-          _placeholder={{ color: "hsl(0, 0%, 30%)" }}
+          _placeholder={{ color: "mutedFg" }}
           {...props}
         />
         {helperText && !hasError && <Field.HelperText>{helperText}</Field.HelperText>}
