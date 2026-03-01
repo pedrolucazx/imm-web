@@ -32,6 +32,9 @@ jobs:
           elif [[ "$BRANCH" == "develop" && -z "${{ secrets.VERCEL_PROJECT_ID_DEV }}" ]]; then
             echo "::error::VERCEL_PROJECT_ID_DEV is required for develop branch"
             exit 1
+          elif [[ "$BRANCH" != "main" && "$BRANCH" != "develop" ]]; then
+            echo "::error::Unsupported branch for CD: $BRANCH (allowed: main, develop)"
+            exit 1
           fi
 
       - name: Checkout
