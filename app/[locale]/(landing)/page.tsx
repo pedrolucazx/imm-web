@@ -158,7 +158,7 @@ export default function Home() {
       </Box>
 
       {/* Ultralearning */}
-      <Box as="section" {...s.sectionPlain}>
+      <Box as="section" {...s.sectionBase}>
         <Box {...s.container}>
           <Text as="h3" {...s.ultralearningTitle}>
             {t("ultralearning.title")}
@@ -202,7 +202,7 @@ export default function Home() {
       </Box>
 
       {/* Features Grid */}
-      <Box as="section" {...s.sectionPlain}>
+      <Box as="section" {...s.sectionBase}>
         <Box {...s.container}>
           <Text as="h3" {...s.featuresTitle}>
             {t("features.title")}

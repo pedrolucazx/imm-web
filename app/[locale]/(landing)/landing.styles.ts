@@ -50,16 +50,13 @@ const sectionSubtitle: SystemStyleObject = {
   maxW: "2xl",
 };
 
-export const s: Record<string, SystemStyleObject> = {
-  // ── Page ──────────────────────────────────────────────────
+export const s = {
   pageWrapper: {
     minH: "100vh",
     display: "flex",
     flexDirection: "column",
     bg: "canvas",
   },
-
-  // ── Nav ───────────────────────────────────────────────────
   header: {
     borderBottom: "3px solid black",
     bg: "card",
@@ -112,8 +109,6 @@ export const s: Record<string, SystemStyleObject> = {
     w: { base: "full", md: "auto" },
     textAlign: "center",
   },
-
-  // ── Hero ──────────────────────────────────────────────────
   heroSection: {
     py: { base: 20, md: 32 },
   },
@@ -156,18 +151,12 @@ export const s: Record<string, SystemStyleObject> = {
     textAlign: "center",
     whiteSpace: "nowrap",
   },
-
-  // ── Section layouts ───────────────────────────────────────
   sectionCard: {
     borderTop: "3px solid black",
     bg: "card",
     py: 20,
   },
-  sectionPlain: {
-    borderTop: "3px solid black",
-    py: 20,
-  },
-  sectionCentered: {
+  sectionBase: {
     borderTop: "3px solid black",
     py: 20,
   },
@@ -177,8 +166,6 @@ export const s: Record<string, SystemStyleObject> = {
     px: 6,
     textAlign: "center",
   },
-
-  // ── Section typography ────────────────────────────────────
   phasesTitle: { ...sectionTitle, mb: 3 },
   phasesSubtitle: { ...sectionSubtitle, mb: 10 },
   ultralearningTitle: { ...sectionTitle, mb: 3 },
@@ -192,8 +179,6 @@ export const s: Record<string, SystemStyleObject> = {
     mb: 8,
   },
   opensourceTitle: { ...sectionTitle, mb: 4 },
-
-  // ── Grids ─────────────────────────────────────────────────
   grid3: {
     gridTemplateColumns: { base: "1fr", md: "repeat(3, 1fr)" },
     gap: 6,
@@ -203,8 +188,6 @@ export const s: Record<string, SystemStyleObject> = {
     gridTemplateColumns: { base: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
     gap: 4,
   },
-
-  // ── Phase cards ───────────────────────────────────────────
   phaseCard: {
     ...brutalCard,
     p: 8,
@@ -235,8 +218,6 @@ export const s: Record<string, SystemStyleObject> = {
     fontSize: "md",
     fontWeight: "500",
   },
-
-  // ── Ultralearning ─────────────────────────────────────────
   ultraCard: {
     ...brutalCard,
     bg: "surface.yellow",
@@ -266,8 +247,6 @@ export const s: Record<string, SystemStyleObject> = {
     fontSize: "md",
     fontWeight: "500",
   },
-
-  // ── Agent cards ───────────────────────────────────────────
   agentCard: {
     ...brutalCard,
     p: 8,
@@ -298,8 +277,6 @@ export const s: Record<string, SystemStyleObject> = {
     fontWeight: "900",
     textTransform: "uppercase",
   },
-
-  // ── Feature cards ─────────────────────────────────────────
   featureCard: {
     ...brutalCard,
     bg: "card",
@@ -320,8 +297,6 @@ export const s: Record<string, SystemStyleObject> = {
     fontWeight: "500",
     color: "mutedFg",
   },
-
-  // ── Open Source ───────────────────────────────────────────
   opensourceSection: {
     borderTop: "3px solid black",
     bg: "surface.lavender",
@@ -357,8 +332,6 @@ export const s: Record<string, SystemStyleObject> = {
       boxShadow: "none",
     },
   },
-
-  // ── Final CTA ─────────────────────────────────────────────
   ctaSection: {
     borderTop: "3px solid black",
     bg: "black",
@@ -388,8 +361,6 @@ export const s: Record<string, SystemStyleObject> = {
     textAlign: "center",
     whiteSpace: "nowrap",
   },
-
-  // ── Footer ────────────────────────────────────────────────
   footer: {
     bg: "card",
     borderTop: "3px solid black",
@@ -412,4 +383,4 @@ export const s: Record<string, SystemStyleObject> = {
     textDecoration: "none",
     _hover: { color: "black" },
   },
-};
+} satisfies Record<string, SystemStyleObject>;
