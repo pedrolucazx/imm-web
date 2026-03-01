@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui";
 import { landingStyles } from "./landing.styles";
 import { Link } from "@/lib/navigation";
-import { Box, Flex, Grid, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Text, VStack, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import React from "react";
 
@@ -124,7 +124,7 @@ export default function Home() {
                 minH="11"
                 fontSize="sm"
                 w="full"
-                style={{ flex: 1 }}
+                flex={1}
               >
                 <Link href="/login">{t("nav.login")}</Link>
               </Button>
@@ -136,7 +136,7 @@ export default function Home() {
                 minH="11"
                 fontSize="sm"
                 w="full"
-                style={{ flex: 1 }}
+                flex={1}
               >
                 <Link href="/register">{t("nav.signup")}</Link>
               </Button>
@@ -357,8 +357,7 @@ export default function Home() {
             <Text fontSize="sm" fontWeight="900" color="mutedFg">
               {t("footer.copy")}
             </Text>
-            <Box
-              as="a"
+            <chakra.a
               href="https://github.com/pedrolucazx/imm-web"
               target="_blank"
               rel="noopener noreferrer"
@@ -370,7 +369,7 @@ export default function Home() {
               _hover={{ color: "black" }}
             >
               {t("footer.github")}
-            </Box>
+            </chakra.a>
           </Flex>
         </Box>
       </Box>
