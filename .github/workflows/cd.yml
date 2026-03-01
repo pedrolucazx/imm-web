@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-web-${{ github.ref_name }}
+  group: deploy-web-${{ github.event.workflow_run.head_branch || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -25,11 +25,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v41.1.4
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-project-id: >-
+            ${{ (github.event.workflow_run.head_branch || github.ref_name) == 'main' && secrets.VERCEL_PROJECT_ID
+              || (github.event.workflow_run.head_branch || github.ref_name) == 'develop' && secrets.VERCEL_PROJECT_ID_DEV
+              || '' }}
           vercel-args: "--prod"
