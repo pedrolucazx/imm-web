@@ -7,15 +7,30 @@ const config = defineConfig({
       height: "100%",
       backgroundColor: "{colors.brand.background}",
       color: "black",
-      fontFamily: "system-ui, -apple-system, sans-serif",
+      fontFamily: "var(--font-sans), system-ui, sans-serif",
       fontWeight: "400",
     },
     "h1, h2, h3, h4, h5, h6": {
-      fontWeight: "900",
-      letterSpacing: "-0.02em",
+      fontWeight: "700",
+      letterSpacing: "-0.025em",
     },
   },
   theme: {
+    keyframes: {
+      "accordion-down": {
+        from: { height: "0" },
+        to: { height: "var(--radix-accordion-content-height)" },
+      },
+      "accordion-up": {
+        from: { height: "var(--radix-accordion-content-height)" },
+        to: { height: "0" },
+      },
+      "pulse-brutal": {
+        "0%": { transform: "scale(1)" },
+        "50%": { transform: "scale(1.05)" },
+        "100%": { transform: "scale(1)" },
+      },
+    },
     tokens: {
       colors: {
         brand: {
@@ -32,11 +47,21 @@ const config = defineConfig({
           sky: { value: "hsl(200, 90%, 75%)" },
           lavender: { value: "hsl(280, 80%, 80%)" },
         },
+        habit: {
+          gym: { value: "hsl(280, 80%, 60%)" },
+          reading: { value: "hsl(200, 100%, 50%)" },
+          english: { value: "hsl(30, 100%, 55%)" },
+        },
       },
       shadows: {
         brutal: { value: "4px 4px 0px 0px black" },
         "brutal-sm": { value: "2px 2px 0px 0px black" },
         "brutal-lg": { value: "6px 6px 0px 0px black" },
+      },
+      animations: {
+        "accordion-down": { value: "accordion-down 0.2s ease-out" },
+        "accordion-up": { value: "accordion-up 0.2s ease-out" },
+        "pulse-brutal": { value: "pulse-brutal 0.3s ease-in-out" },
       },
     },
     semanticTokens: {
@@ -50,48 +75,87 @@ const config = defineConfig({
         info: { value: "hsl(200, 100%, 50%)" },
         canvas: { value: "{colors.brand.background}" },
         mutedFg: { value: "hsl(0, 0%, 30%)" },
+        card: { value: "hsl(0, 0%, 100%)" },
+        border: { value: "hsl(0, 0%, 0%)" },
+        ring: { value: "{colors.brand.yellow}" },
+        sidebar: {
+          bg: { value: "{colors.brand.yellow}" },
+          fg: { value: "hsl(0, 0%, 0%)" },
+          primary: { value: "hsl(0, 0%, 0%)" },
+          primaryFg: { value: "{colors.brand.yellow}" },
+          accent: { value: "hsl(54, 100%, 55%)" },
+          accentFg: { value: "hsl(0, 0%, 0%)" },
+          border: { value: "hsl(0, 0%, 0%)" },
+        },
       },
     },
     layerStyles: {
       cardBrutal: {
-        border: "3px solid black",
-        boxShadow: "brutal",
-        borderRadius: "0",
+        value: {
+          border: "3px solid black",
+          boxShadow: "4px 4px 0px 0px black",
+          borderRadius: "0",
+        },
       },
       cardBrutalSm: {
-        border: "2px solid black",
-        boxShadow: "brutal-sm",
-        borderRadius: "0",
+        value: {
+          border: "2px solid black",
+          boxShadow: "2px 2px 0px 0px black",
+          borderRadius: "0",
+        },
+      },
+      brutalHover: {
+        value: {
+          transition: "transform 0.1s ease, box-shadow 0.1s ease",
+          _hover: {
+            transform: "translate(-2px, -2px)",
+            boxShadow: "6px 6px 0px 0px black",
+          },
+          _active: {
+            transform: "translate(2px, 2px)",
+            boxShadow: "none",
+          },
+        },
       },
     },
     textStyles: {
       heroTitle: {
-        fontSize: { base: "5xl", md: "7xl" },
-        fontWeight: "900",
-        lineHeight: "1.1",
+        value: {
+          fontSize: { base: "3rem", md: "4.5rem" },
+          fontWeight: "700",
+          lineHeight: "1.1",
+        },
       },
       sectionTitle: {
-        fontSize: { base: "2xl", md: "4xl" },
-        fontWeight: "900",
-        textTransform: "uppercase",
-        letterSpacing: "wider",
+        value: {
+          fontSize: { base: "1.875rem", md: "2.25rem" },
+          fontWeight: "700",
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+        },
       },
       featuresTitle: {
-        fontSize: "3xl",
-        fontWeight: "900",
-        textTransform: "uppercase",
-        letterSpacing: "wider",
+        value: {
+          fontSize: "1.875rem",
+          fontWeight: "700",
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+        },
       },
       sectionSubtitle: {
-        fontSize: { base: "lg", md: "xl" },
-        fontWeight: "500",
-        color: "mutedFg",
+        value: {
+          fontSize: { base: "1.125rem", md: "1.25rem" },
+          fontWeight: "500",
+          color: "mutedFg",
+        },
       },
       label: {
-        fontSize: "sm",
-        fontWeight: "900",
-        textTransform: "uppercase",
-        letterSpacing: "wider",
+        value: {
+          fontSize: "0.875rem",
+          fontWeight: "700",
+          textTransform: "uppercase",
+          letterSpacing: "0.05em",
+        },
       },
     },
   },
