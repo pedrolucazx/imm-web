@@ -23,6 +23,17 @@ jobs:
       name: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && 'production' || 'homolog' }}
 
     steps:
+      - name: Validate secrets
+        run: |
+          BRANCH="${{ github.event.workflow_run.head_branch || github.ref_name }}"
+          if [[ "$BRANCH" == "main" && -z "${{ secrets.VERCEL_PROJECT_ID }}" ]]; then
+            echo "::error::VERCEL_PROJECT_ID is required for main branch"
+            exit 1
+          elif [[ "$BRANCH" == "develop" && -z "${{ secrets.VERCEL_PROJECT_ID_DEV }}" ]]; then
+            echo "::error::VERCEL_PROJECT_ID_DEV is required for develop branch"
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
