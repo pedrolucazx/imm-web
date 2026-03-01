@@ -50,7 +50,7 @@ export default function LoginPage() {
   return (
     <Box
       minH="100vh"
-      bg="hsl(60, 20%, 95%)"
+      bg="canvas"
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -61,26 +61,19 @@ export default function LoginPage() {
         <Link href="/">
           <Heading size="xl" fontWeight="bold" mb={10}>
             <Flex align="center" gap={2}>
-              <BrainIcon size={28} weight="fill" color="hsl(var(--primary))" />
+              <BrainIcon size={28} weight="fill" color="var(--chakra-colors-primary)" />
               {tc("appName")}
             </Flex>
           </Heading>
         </Link>
 
-        <Box
-          p={8}
-          bg="white"
-          borderWidth="3px"
-          borderColor="black"
-          borderRadius="0"
-          boxShadow="4px 4px 0px 0px black"
-        >
+        <Box p={8} bg="white" layerStyle="cardBrutal">
           <Stack gap={8}>
             <Box>
               <Heading size="2xl" fontWeight="bold" mb={2}>
                 {t("title")}
               </Heading>
-              <Text fontSize="md" color="hsl(0, 0%, 30%)" fontWeight="medium">
+              <Text fontSize="md" color="mutedFg" fontWeight="medium">
                 {t("subtitle")}
               </Text>
             </Box>
@@ -121,13 +114,7 @@ export default function LoginPage() {
               </Stack>
             </form>
 
-            <Text
-              textAlign="center"
-              fontSize="sm"
-              color="hsl(0, 0%, 30%)"
-              fontWeight="medium"
-              mt={6}
-            >
+            <Text textAlign="center" fontSize="sm" color="mutedFg" fontWeight="medium" mt={6}>
               {t("noAccount")}{" "}
               <Link
                 href="/register"
