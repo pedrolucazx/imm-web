@@ -26,7 +26,7 @@ export const Toaster = () => {
             borderWidth="3px"
             borderColor="black"
             borderRadius="0"
-            boxShadow="4px 4px 0px 0px black"
+            boxShadow="brutal"
             p={4}
           >
             {toast.type === "loading" ? (
@@ -35,12 +35,12 @@ export const Toaster = () => {
               <Toast.Indicator
                 bg={
                   toast.type === "success"
-                    ? "hsl(152, 100%, 40%)"
+                    ? "secondary"
                     : toast.type === "error"
-                      ? "hsl(0, 84%, 60%)"
+                      ? "error"
                       : toast.type === "info"
-                        ? "hsl(200, 100%, 50%)"
-                        : "hsl(54, 100%, 45%)"
+                        ? "info"
+                        : "primary"
                 }
                 borderWidth="2px"
                 borderColor="black"
@@ -53,14 +53,14 @@ export const Toaster = () => {
                 </Toast.Title>
               )}
               {toast.description && (
-                <Toast.Description fontWeight="medium" fontSize="sm" color="hsl(0, 0%, 30%)">
+                <Toast.Description fontWeight="medium" fontSize="sm" color="mutedFg">
                   {toast.description}
                 </Toast.Description>
               )}
             </Stack>
             {toast.action && (
               <Toast.ActionTrigger
-                bg="hsl(54, 100%, 45%)"
+                bg="primary"
                 color="black"
                 fontWeight="bold"
                 fontSize="sm"
@@ -88,7 +88,7 @@ export const Toaster = () => {
                 fontWeight="bold"
                 fontSize="lg"
                 _hover={{
-                  bg: "hsl(60, 10%, 90%)",
+                  bg: "muted",
                 }}
               />
             )}
