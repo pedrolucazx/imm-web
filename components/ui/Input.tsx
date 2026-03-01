@@ -1,4 +1,4 @@
-import { Input as ChakraInput, Field, Text } from "@chakra-ui/react";
+import { Input as ChakraInput, Field } from "@chakra-ui/react";
 import type { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           borderWidth="2px"
           borderColor={hasError ? "error" : "black"}
           borderRadius="0"
-          bg={hasError ? "hsl(0, 100%, 98%)" : "canvas"}
+          bg={hasError ? "errorBg" : "canvas"}
           fontWeight="medium"
           fontSize="base"
           _focus={{
@@ -46,9 +46,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         />
         {helperText && !hasError && <Field.HelperText>{helperText}</Field.HelperText>}
         {hasError && (
-          <Text fontSize="xs" fontWeight="bold" letterSpacing="wide" color="error" mt={1}>
+          <Field.ErrorText
+            fontSize="xs"
+            fontWeight="bold"
+            letterSpacing="wide"
+            color="error"
+            mt={1}
+          >
             {error}
-          </Text>
+          </Field.ErrorText>
         )}
       </Field.Root>
     );

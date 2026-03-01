@@ -46,6 +46,8 @@ const config = defineConfig({
         accent: { value: "{colors.brand.coral}" },
         muted: { value: "{colors.brand.muted}" },
         error: { value: "hsl(0, 84%, 60%)" },
+        errorBg: { value: "hsl(0, 100%, 98%)" },
+        info: { value: "hsl(200, 100%, 50%)" },
         canvas: { value: "{colors.brand.background}" },
         mutedFg: { value: "hsl(0, 0%, 30%)" },
       },

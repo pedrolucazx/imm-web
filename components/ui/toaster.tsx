@@ -39,7 +39,7 @@ export const Toaster = () => {
                     : toast.type === "error"
                       ? "error"
                       : toast.type === "info"
-                        ? "hsl(200, 100%, 50%)"
+                        ? "info"
                         : "primary"
                 }
                 borderWidth="2px"
