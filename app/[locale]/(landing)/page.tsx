@@ -134,7 +134,7 @@ export default function Home() {
       {/* 66-Day Rule */}
       <Box as="section" {...s.sectionCard}>
         <Box {...s.container}>
-          <Text as="h3" {...s.phasesTitle}>
+          <Text as="h2" {...s.phasesTitle}>
             {t("phases.title")}
           </Text>
           <Text {...s.phasesSubtitle}>{t("phases.subtitle")}</Text>
@@ -160,7 +160,7 @@ export default function Home() {
       {/* Ultralearning */}
       <Box as="section" {...s.sectionBase}>
         <Box {...s.container}>
-          <Text as="h3" {...s.ultralearningTitle}>
+          <Text as="h2" {...s.ultralearningTitle}>
             {t("ultralearning.title")}
           </Text>
           <Text {...s.ultralearningSubtitle}>{t("ultralearning.subtitle")}</Text>
@@ -181,7 +181,7 @@ export default function Home() {
       {/* 3 AI Agents */}
       <Box as="section" {...s.sectionCard}>
         <Box {...s.container}>
-          <Text as="h3" {...s.agentsTitle}>
+          <Text as="h2" {...s.agentsTitle}>
             {t("agents.title")}
           </Text>
           <Grid {...s.grid3}>
@@ -204,7 +204,7 @@ export default function Home() {
       {/* Features Grid */}
       <Box as="section" {...s.sectionBase}>
         <Box {...s.container}>
-          <Text as="h3" {...s.featuresTitle}>
+          <Text as="h2" {...s.featuresTitle}>
             {t("features.title")}
           </Text>
           <Grid {...s.gridFeatures}>
@@ -224,7 +224,7 @@ export default function Home() {
       {/* Open Source */}
       <Box as="section" {...s.opensourceSection}>
         <Box {...s.centeredContent}>
-          <Text as="h3" {...s.opensourceTitle}>
+          <Text as="h2" {...s.opensourceTitle}>
             {t("opensource.title")}
           </Text>
           <Text {...s.opensourceSubtitle}>{t("opensource.subtitle")}</Text>
@@ -242,7 +242,7 @@ export default function Home() {
       {/* Final CTA */}
       <Box as="section" {...s.ctaSection}>
         <Box {...s.centeredContent}>
-          <Text as="h3" {...s.ctaTitle}>
+          <Text as="h2" {...s.ctaTitle}>
             {t("cta.title")}
           </Text>
           <Text {...s.ctaSubtitle}>{t("cta.subtitle")}</Text>
