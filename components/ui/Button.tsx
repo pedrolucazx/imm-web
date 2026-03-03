@@ -12,20 +12,13 @@ const variantMap: Record<ButtonVariant, { bg: string; color: string }> = {
 
 export interface ButtonProps extends Omit<ChakraButtonProps, "variant"> {
   variant?: ButtonVariant;
-  isLoading?: boolean;
 }
 
-export function Button({
-  variant = "primary",
-  isLoading = false,
-  children,
-  ...props
-}: ButtonProps) {
+export function Button({ variant = "primary", children, ...props }: ButtonProps) {
   const { bg, color } = variantMap[variant];
 
   return (
     <ChakraButton
-      loading={isLoading}
       bg={bg}
       color={color}
       h="auto"

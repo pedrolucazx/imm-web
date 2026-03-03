@@ -24,10 +24,10 @@ export interface StrengthLevel {
 }
 
 const DEFAULT_LEVELS: StrengthLevel[] = [
-  { label: "Very weak", color: "hsl(0, 84%, 60%)" },
-  { label: "Weak", color: "hsl(30, 100%, 55%)" },
-  { label: "Good", color: "hsl(54, 100%, 45%)" },
-  { label: "Strong", color: "hsl(152, 100%, 40%)" },
+  { label: "Very weak", color: "var(--chakra-colors-error)" },
+  { label: "Weak", color: "var(--chakra-colors-habit-english)" },
+  { label: "Good", color: "var(--chakra-colors-brand-yellow)" },
+  { label: "Strong", color: "var(--chakra-colors-brand-mint)" },
 ];
 
 interface PasswordStrengthMeterProps extends BoxProps {
@@ -39,7 +39,8 @@ interface PasswordStrengthMeterProps extends BoxProps {
 export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordStrengthMeterProps>(
   function PasswordStrengthMeter(props, ref) {
     const { max = 4, value, levels = DEFAULT_LEVELS, ...rest } = props;
-    const clampedValue = Math.max(0, Math.min(value, max));
+    const normalizedValue = Number.isFinite(value) ? Math.floor(value) : 0;
+    const clampedValue = Math.max(0, Math.min(normalizedValue, max));
     const levelIndex = clampedValue > 0 ? Math.min(clampedValue, levels.length) - 1 : -1;
     const level = levelIndex >= 0 ? levels[levelIndex] : null;
 

@@ -157,14 +157,15 @@ export default function RegisterPage() {
                   >
                     {t("languageLabel")}
                   </Text>
-                  <Box {...s.langGrid}>
+                  <Box role="radiogroup" aria-label={t("languageLabel")} {...s.langGrid}>
                     {LANGUAGES.map((lang) => (
                       <chakra.button
                         key={lang.value}
                         type="button"
+                        role="radio"
                         {...s.langBtn}
                         bg={selectedLang === lang.value ? "primary" : "card"}
-                        aria-pressed={selectedLang === lang.value}
+                        aria-checked={selectedLang === lang.value}
                         onClick={() => setValue("uiLanguage", lang.value)}
                       >
                         <Text {...s.langFlag}>{lang.flag}</Text>
