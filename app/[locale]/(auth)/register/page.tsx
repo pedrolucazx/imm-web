@@ -1,30 +1,71 @@
 "use client";
 
-import { Button, Input, toaster } from "@/components/ui";
+import {
+  Button,
+  Input,
+  PasswordInput,
+  toaster,
+  type StrengthLevel,
+} from "../../../../components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
-import { Box, Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
-import { BrainIcon } from "@phosphor-icons/react";
+import { Box, Heading, Text, chakra } from "@chakra-ui/react";
+import { passwordStrength } from "check-password-strength";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { s, brandLinkStyle, footerLinkStyle } from "./register.styles";
+
+const LANGUAGES = [
+  { value: "pt-BR", label: "Português", flag: "🇧🇷" },
+  { value: "en-US", label: "English", flag: "🇺🇸" },
+  { value: "es-ES", label: "Español", flag: "🇪🇸" },
+] as const;
+
+type UILanguage = (typeof LANGUAGES)[number]["value"];
 
 interface RegisterForm {
   name: string;
   email: string;
   password: string;
+  uiLanguage: UILanguage;
 }
 
 export default function RegisterPage() {
   const t = useTranslations("auth.register");
   const tc = useTranslations("common");
+  const locale = useLocale();
   const router = useRouter();
   const { mutate: register, isPending } = useRegister();
+
+  const defaultUiLanguage: UILanguage = LANGUAGES.some((l) => l.value === locale)
+    ? (locale as UILanguage)
+    : "en-US";
 
   const {
     register: registerField,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<RegisterForm>();
+  } = useForm<RegisterForm>({ defaultValues: { uiLanguage: defaultUiLanguage } });
+
+  const selectedLang = watch("uiLanguage");
+  const passwordValue = watch("password") ?? "";
+  const passwordStrengthLevel = useMemo(() => {
+    if (!passwordValue) return 0;
+    return passwordStrength(passwordValue).id;
+  }, [passwordValue]);
+
+  const strengthLevels: StrengthLevel[] = useMemo(
+    () => [
+      { label: t("strengthVeryWeak"), color: "hsl(0, 84%, 60%)" },
+      { label: t("strengthWeak"), color: "hsl(30, 100%, 55%)" },
+      { label: t("strengthGood"), color: "hsl(54, 100%, 45%)" },
+      { label: t("strengthStrong"), color: "hsl(152, 100%, 40%)" },
+    ],
+    [t]
+  );
 
   const onSubmit = (data: RegisterForm) => {
     register(data, {
@@ -49,45 +90,25 @@ export default function RegisterPage() {
   };
 
   return (
-    <Box
-      minH="100vh"
-      bg="hsl(60, 20%, 95%)"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      px={6}
-      py={6}
-    >
-      <Box w="100%" maxW="md">
-        <Link href="/">
-          <Heading size="xl" fontWeight="bold" mb={10}>
-            <Flex align="center" gap={2}>
-              <BrainIcon size={28} weight="fill" color="hsl(var(--primary))" />
-              {tc("appName")}
-            </Flex>
-          </Heading>
-        </Link>
+    <Box {...s.pageWrapper}>
+      <Box {...s.inner}>
+        <Box {...s.brandWrapper}>
+          <Link href="/" style={brandLinkStyle}>
+            <Heading {...s.brandHeading}>
+              <Box {...s.brandFlex}>🧠 {tc("appName")}</Box>
+            </Heading>
+          </Link>
+        </Box>
 
-        <Box
-          p={8}
-          bg="white"
-          borderWidth="3px"
-          borderColor="black"
-          borderRadius="0"
-          boxShadow="4px 4px 0px 0px black"
-        >
-          <Stack gap={8}>
+        <Box {...s.card}>
+          <Box {...s.cardStack}>
             <Box>
-              <Heading size="2xl" fontWeight="bold" mb={2}>
-                {t("title")}
-              </Heading>
-              <Text fontSize="md" color="hsl(0, 0%, 30%)" fontWeight="medium">
-                {t("subtitle")}
-              </Text>
+              <Heading {...s.cardTitle}>{t("title")}</Heading>
+              <Text {...s.cardSubtitle}>{t("subtitle")}</Text>
             </Box>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Stack gap={5}>
+            <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+              <Box {...s.formStack}>
                 <Input
                   label={t("nameLabel")}
                   type="text"
@@ -95,10 +116,7 @@ export default function RegisterPage() {
                   error={errors.name?.message}
                   {...registerField("name", {
                     required: t("nameRequired"),
-                    minLength: {
-                      value: 2,
-                      message: t("nameMinLength"),
-                    },
+                    minLength: { value: 2, message: t("nameMinLength") },
                   })}
                 />
 
@@ -116,47 +134,59 @@ export default function RegisterPage() {
                   })}
                 />
 
-                <Input
+                <PasswordInput
                   label={t("passwordLabel")}
-                  type="password"
                   placeholder={t("passwordPlaceholder")}
                   error={errors.password?.message}
+                  strengthValue={passwordStrengthLevel + 1}
+                  strengthLevels={strengthLevels}
+                  showStrength={passwordValue.length > 0 && !errors.password}
                   {...registerField("password", {
                     required: t("passwordRequired"),
-                    minLength: {
-                      value: 6,
-                      message: t("passwordMinLength"),
-                    },
+                    minLength: { value: 6, message: t("passwordMinLength") },
                   })}
                 />
 
-                <Button type="submit" isLoading={isPending} width="100%">
+                <Box>
+                  <Text
+                    fontSize="sm"
+                    fontWeight="700"
+                    textTransform="uppercase"
+                    letterSpacing="wider"
+                    mb={2}
+                  >
+                    {t("languageLabel")}
+                  </Text>
+                  <Box {...s.langGrid}>
+                    {LANGUAGES.map((lang) => (
+                      <chakra.button
+                        key={lang.value}
+                        type="button"
+                        {...s.langBtn}
+                        bg={selectedLang === lang.value ? "primary" : "card"}
+                        aria-pressed={selectedLang === lang.value}
+                        onClick={() => setValue("uiLanguage", lang.value)}
+                      >
+                        <Text {...s.langFlag}>{lang.flag}</Text>
+                        {lang.label}
+                      </chakra.button>
+                    ))}
+                  </Box>
+                </Box>
+
+                <Button type="submit" loading={isPending} {...s.submitBtn}>
                   {t("submit")}
                 </Button>
-              </Stack>
-            </form>
+              </Box>
+            </Box>
 
-            <Text
-              textAlign="center"
-              fontSize="sm"
-              color="hsl(0, 0%, 30%)"
-              fontWeight="medium"
-              mt={6}
-            >
+            <Text {...s.footerText}>
               {t("hasAccount")}{" "}
-              <Link
-                href="/login"
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "4px",
-                }}
-              >
+              <Link href="/login" style={footerLinkStyle}>
                 {t("loginLink")}
               </Link>
             </Text>
-          </Stack>
+          </Box>
         </Box>
       </Box>
     </Box>

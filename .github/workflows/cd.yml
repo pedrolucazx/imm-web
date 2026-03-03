@@ -1,62 +1,54 @@
-name: "CD — Deploy (Vercel)"
+name: CD — Deploy (Vercel)
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI — imm-web"]
+    types:
+      - completed
     branches:
-      - main     # → Produção Vercel
-      - develop  # → Preview Vercel
+      - main
+      - develop
+  workflow_dispatch:
 
 concurrency:
-  group: deploy-web-${{ github.ref_name }}
+  group: deploy-web-${{ github.event.workflow_run.head_branch || github.ref_name }}
   cancel-in-progress: false
 
 jobs:
   deploy:
-    name: "Deploy to Vercel (${{ github.ref_name }})"
+    name: "Deploy to Vercel (${{ github.ref_name || github.event.workflow_run.head_branch }})"
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     environment:
-      name: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
-      url: ${{ github.ref_name == 'main' && 'https://inside-my-mind.vercel.app' || 'https://inside-my-mind-dev.vercel.app' }}
+      name: ${{ (github.ref_name || github.event.workflow_run.head_branch) == 'main' && 'production' || 'homolog' }}
 
     steps:
+      - name: Validate secrets
+        run: |
+          BRANCH="${{ github.event.workflow_run.head_branch || github.ref_name }}"
+          if [[ "$BRANCH" == "main" && -z "${{ secrets.VERCEL_PROJECT_ID }}" ]]; then
+            echo "::error::VERCEL_PROJECT_ID is required for main branch"
+            exit 1
+          elif [[ "$BRANCH" == "develop" && -z "${{ secrets.VERCEL_PROJECT_ID_DEV }}" ]]; then
+            echo "::error::VERCEL_PROJECT_ID_DEV is required for develop branch"
+            exit 1
+          elif [[ "$BRANCH" != "main" && "$BRANCH" != "develop" ]]; then
+            echo "::error::Unsupported branch for CD: $BRANCH (allowed: main, develop)"
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel environment info
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          else
-            vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          fi
-
-      - name: Build project via Vercel
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-          else
-            vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          fi
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Deploy to Vercel
-        id: deploy
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            DEPLOY_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
-          else
-            DEPLOY_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
-          fi
-          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "✅ Deploy concluído: $DEPLOY_URL"
-
-      - name: Print deployment URL
-        run: echo "🌐 Frontend disponível em: ${{ steps.deploy.outputs.url }}"
+        uses: amondnet/vercel-action@v41.1.4
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: >-
+            ${{ (github.event.workflow_run.head_branch || github.ref_name) == 'main' && secrets.VERCEL_PROJECT_ID
+              || (github.event.workflow_run.head_branch || github.ref_name) == 'develop' && secrets.VERCEL_PROJECT_ID_DEV
+              || '' }}
+          vercel-args: "--prod"

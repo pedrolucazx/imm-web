@@ -1,213 +1,271 @@
 "use client";
 
-import { Button } from "@/components/ui";
 import { Link } from "@/lib/navigation";
-import { Box, Flex, Grid, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Grid, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { BrainIcon, RobotIcon, LightningIcon, FireIcon } from "@phosphor-icons/react";
-import React from "react";
+import { s } from "./landing.styles";
+
+const ChakraLink = chakra(Link);
+
+const phases = [
+  {
+    num: 1,
+    daysKey: "phases.phase1.days" as const,
+    titleKey: "phases.phase1.title" as const,
+    descKey: "phases.phase1.desc" as const,
+    bg: "surface.mint",
+  },
+  {
+    num: 2,
+    daysKey: "phases.phase2.days" as const,
+    titleKey: "phases.phase2.title" as const,
+    descKey: "phases.phase2.desc" as const,
+    bg: "surface.yellow",
+  },
+  {
+    num: 3,
+    daysKey: "phases.phase3.days" as const,
+    titleKey: "phases.phase3.title" as const,
+    descKey: "phases.phase3.desc" as const,
+    bg: "surface.coral",
+  },
+];
+
+const agents = [
+  {
+    icon: "🧠",
+    titleKey: "agents.habitPlanner.title" as const,
+    descKey: "agents.habitPlanner.desc" as const,
+    badgeKey: "agents.habitPlanner.badge" as const,
+    bg: "surface.sky",
+  },
+  {
+    icon: "📝",
+    titleKey: "agents.languageTeacher.title" as const,
+    descKey: "agents.languageTeacher.desc" as const,
+    badgeKey: "agents.languageTeacher.badge" as const,
+    bg: "surface.mint",
+  },
+  {
+    icon: "🎯",
+    titleKey: "agents.behavioralCoach.title" as const,
+    descKey: "agents.behavioralCoach.desc" as const,
+    badgeKey: "agents.behavioralCoach.badge" as const,
+    bg: "surface.lavender",
+  },
+];
 
 const features = [
   {
-    bg: "hsl(var(--surface-mint))",
-    icon: RobotIcon,
-    iconColor: "hsl(260 80% 40%)",
-    titleKey: "features.ai.title" as const,
-    descKey: "features.ai.description" as const,
+    icon: "📅",
+    titleKey: "features.cycles.title" as const,
+    descKey: "features.cycles.desc" as const,
   },
   {
-    bg: "hsl(var(--surface-yellow))",
-    icon: LightningIcon,
-    iconColor: "hsl(25 100% 40%)",
-    titleKey: "features.ultralearning.title" as const,
-    descKey: "features.ultralearning.description" as const,
+    icon: "📊",
+    titleKey: "features.analytics.title" as const,
+    descKey: "features.analytics.desc" as const,
   },
   {
-    bg: "hsl(var(--surface-coral))",
-    icon: FireIcon,
-    iconColor: "hsl(0 80% 35%)",
-    titleKey: "features.consistency.title" as const,
-    descKey: "features.consistency.description" as const,
+    icon: "✍️",
+    titleKey: "features.journaling.title" as const,
+    descKey: "features.journaling.desc" as const,
+  },
+  {
+    icon: "🎙️",
+    titleKey: "features.voice.title" as const,
+    descKey: "features.voice.desc" as const,
+  },
+  {
+    icon: "🌍",
+    titleKey: "features.multilanguage.title" as const,
+    descKey: "features.multilanguage.desc" as const,
+  },
+  {
+    icon: "⚡",
+    titleKey: "features.freeAI.title" as const,
+    descKey: "features.freeAI.desc" as const,
   },
 ];
+
+const ultralearningSteps = ["1️⃣", "2️⃣", "3️⃣"] as const;
 
 export default function Home() {
   const t = useTranslations("landing");
 
   return (
-    <Box minH="100vh" display="flex" flexDirection="column">
-      <Box
-        as="header"
-        bg="hsl(var(--card))"
-        borderBottom="var(--brutal-border)"
-        position="sticky"
-        top={0}
-        zIndex={10}
-      >
-        <Box maxW="6xl" mx="auto" px={6}>
-          <Flex h="16" align="center" justify="space-between">
-            <Heading as="span" fontSize="2xl" fontWeight="900">
-              <Flex align="center" gap={2}>
-                <BrainIcon size={28} weight="fill" color="hsl(var(--primary))" />
-                Inside My Mind
-              </Flex>
-            </Heading>
-            <Flex gap={3}>
-              <Link href="/login">
-                <Button variant="muted" px={6}>
-                  {t("nav.login")}
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="primary" px={6}>
-                  {t("nav.signup")}
-                </Button>
-              </Link>
-            </Flex>
-          </Flex>
-        </Box>
-      </Box>
-
-      <Box as="section" bg="hsl(var(--background))">
-        <Box maxW="6xl" mx="auto" px={6} py={{ base: 20, md: 32 }}>
-          <Box maxW="3xl">
-            <Heading
-              as="h2"
-              fontSize={{ base: "5xl", md: "7xl" }}
-              fontWeight="900"
-              lineHeight="1.1"
-              mb={6}
-            >
-              {t("hero.titleLine1")}
-              <br />
-              <Box as="span" bg="hsl(var(--primary))" px={2} display="inline-block" mt={2}>
-                {t("hero.titleLine2")}
-              </Box>
-            </Heading>
-            <Text
-              fontSize={{ base: "xl", md: "2xl" }}
-              fontWeight="500"
-              color="hsl(var(--muted-foreground))"
-              mb={10}
-              maxW="xl"
-            >
-              {t("hero.subtitle")}
-            </Text>
-            <Link href="/register">
-              <Box
-                as="button"
-                px={10}
-                py={6}
-                bg="hsl(var(--primary))"
-                color="hsl(var(--primary-foreground))"
-                fontWeight="900"
-                fontSize="xl"
-                textTransform="uppercase"
-                letterSpacing="wider"
-                border="var(--brutal-border)"
-                boxShadow="var(--brutal-shadow)"
-                borderRadius={0}
-                _hover={{
-                  transform: "translate(-2px, -2px)",
-                  boxShadow: "var(--brutal-shadow-lg)",
-                }}
-                transition="all 0.1s"
-              >
-                {t("hero.cta")}
-              </Box>
-            </Link>
+    <Box {...s.pageWrapper}>
+      {/* Nav */}
+      <Box as="header" {...s.header}>
+        <Box {...s.navContainer}>
+          <Box {...s.navInner}>
+            <Text {...s.navBrand}>🧠 Inside My Mind</Text>
+            <Box {...s.navButtons}>
+              <ChakraLink href="/login" {...s.navLoginBtn}>
+                {t("nav.login")}
+              </ChakraLink>
+              <ChakraLink href="/register" {...s.navSignupBtn}>
+                {t("nav.signup")}
+              </ChakraLink>
+            </Box>
           </Box>
         </Box>
       </Box>
 
-      {/* Features */}
-      <Box as="section" bg="hsl(var(--card))">
-        <Box maxW="6xl" mx="auto" px={6} pb={20}>
-          <VStack gap={8} align="start">
-            <Heading
-              as="h3"
-              fontSize="3xl"
-              fontWeight="900"
-              mb={8}
-              textTransform="uppercase"
-              letterSpacing="wider"
-            >
-              {t("features.title")}
-            </Heading>
-            <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} w="full">
-              {features.map(({ bg, icon, iconColor, titleKey, descKey }) => (
-                <Box
-                  key={titleKey}
-                  bg={bg}
-                  border="var(--brutal-border)"
-                  boxShadow="var(--brutal-shadow)"
-                  borderRadius={0}
-                  p={8}
-                >
-                  <Box mb={4} display="flex">
-                    {React.createElement(icon, { size: 48, weight: "fill", color: iconColor })}
-                  </Box>
-                  <Heading as="h4" fontSize="2xl" fontWeight="900" mb={3}>
-                    {t(titleKey)}
-                  </Heading>
-                  <Text fontSize="base" fontWeight="500">
-                    {t(descKey)}
-                  </Text>
-                </Box>
-              ))}
-            </Grid>
-          </VStack>
+      {/* Hero */}
+      <Box as="section" {...s.heroSection}>
+        <Box {...s.container}>
+          <Box {...s.heroBox}>
+            <Text as="h1" {...s.heroTitle}>
+              {t("hero.titleLine1")}
+              <br />
+              <Box as="span" {...s.heroHighlight}>
+                {t("hero.titleLine2")}
+              </Box>
+            </Text>
+            <Text {...s.heroSubtitle}>{t("hero.subtitle")}</Text>
+            <ChakraLink href="/register" {...s.heroCtaBtn}>
+              {t("hero.cta")}
+            </ChakraLink>
+          </Box>
         </Box>
       </Box>
 
-      {/* CTA */}
-      <Box
-        as="section"
-        borderTop="var(--brutal-border)"
-        bg="hsl(var(--foreground))"
-        color="hsl(var(--card))"
-      >
-        <Box maxW="6xl" mx="auto" px={6} py={16} textAlign="center">
-          <VStack gap={8}>
-            <Heading as="h3" fontSize="4xl" fontWeight="900" mb={4}>
-              {t("cta.title")}
-            </Heading>
-            <Text fontSize="lg" fontWeight="500" mb={8} opacity={0.8}>
-              {t("cta.subtitle")}
-            </Text>
-            <Link href="/register">
-              <Box
-                as="button"
-                px={10}
-                py={5}
-                bg="hsl(var(--primary))"
-                color="hsl(var(--primary-foreground))"
-                fontWeight="900"
-                fontSize="lg"
-                textTransform="uppercase"
-                letterSpacing="wider"
-                border="var(--brutal-border)"
-                boxShadow="var(--brutal-shadow)"
-                borderRadius={0}
-                _hover={{
-                  transform: "translate(-2px, -2px)",
-                  boxShadow: "var(--brutal-shadow-lg)",
-                }}
-                transition="all 0.1s"
-              >
-                {t("cta.button")}
+      {/* 66-Day Rule */}
+      <Box as="section" {...s.sectionCard}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.phasesTitle}>
+            {t("phases.title")}
+          </Text>
+          <Text {...s.phasesSubtitle}>{t("phases.subtitle")}</Text>
+          <Grid {...s.grid3}>
+            {phases.map((p) => (
+              <Box key={p.num} bg={p.bg} {...s.phaseCard}>
+                <Text as="span" {...s.phaseNumber}>
+                  {p.num}
+                </Text>
+                <Text {...s.phaseLabel}>
+                  {t("phases.phaseLabel", { num: p.num, days: t(p.daysKey) })}
+                </Text>
+                <Text as="h4" {...s.phaseTitle}>
+                  {t(p.titleKey)}
+                </Text>
+                <Text {...s.phaseDesc}>{t(p.descKey)}</Text>
               </Box>
-            </Link>
-          </VStack>
+            ))}
+          </Grid>
+        </Box>
+      </Box>
+
+      {/* Ultralearning */}
+      <Box as="section" {...s.sectionBase}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.ultralearningTitle}>
+            {t("ultralearning.title")}
+          </Text>
+          <Text {...s.ultralearningSubtitle}>{t("ultralearning.subtitle")}</Text>
+          <Box {...s.ultraCard}>
+            <Text {...s.ultraCardHeading}>{t("ultralearning.howItWorks")}</Text>
+            <Box {...s.ultraStepList}>
+              {(["1", "2", "3"] as const).map((n, i) => (
+                <Box key={n} {...s.ultraStepRow}>
+                  <Text {...s.ultraStepEmoji}>{ultralearningSteps[i]}</Text>
+                  <Text {...s.ultraStep}>{t(`ultralearning.steps.${n}`)}</Text>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* 3 AI Agents */}
+      <Box as="section" {...s.sectionCard}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.agentsTitle}>
+            {t("agents.title")}
+          </Text>
+          <Grid {...s.grid3}>
+            {agents.map((a) => (
+              <Box key={a.titleKey} bg={a.bg} {...s.agentCard}>
+                <Text {...s.agentIcon}>{a.icon}</Text>
+                <Text as="h4" {...s.agentTitle}>
+                  {t(a.titleKey)}
+                </Text>
+                <Text {...s.agentDesc}>{t(a.descKey)}</Text>
+                <Box as="span" {...s.agentBadge}>
+                  {t(a.badgeKey)}
+                </Box>
+              </Box>
+            ))}
+          </Grid>
+        </Box>
+      </Box>
+
+      {/* Features Grid */}
+      <Box as="section" {...s.sectionBase}>
+        <Box {...s.container}>
+          <Text as="h2" {...s.featuresTitle}>
+            {t("features.title")}
+          </Text>
+          <Grid {...s.gridFeatures}>
+            {features.map((f) => (
+              <Box key={f.titleKey} {...s.featureCard}>
+                <Text {...s.featureIcon}>{f.icon}</Text>
+                <Text as="h4" {...s.featureTitle}>
+                  {t(f.titleKey)}
+                </Text>
+                <Text {...s.featureDesc}>{t(f.descKey)}</Text>
+              </Box>
+            ))}
+          </Grid>
+        </Box>
+      </Box>
+
+      {/* Open Source */}
+      <Box as="section" {...s.opensourceSection}>
+        <Box {...s.centeredContent}>
+          <Text as="h2" {...s.opensourceTitle}>
+            {t("opensource.title")}
+          </Text>
+          <Text {...s.opensourceSubtitle}>{t("opensource.subtitle")}</Text>
+          <chakra.a
+            href="https://github.com/pedrolucazx/imm-web"
+            target="_blank"
+            rel="noopener noreferrer"
+            {...s.githubBtn}
+          >
+            {t("opensource.cta")}
+          </chakra.a>
+        </Box>
+      </Box>
+
+      {/* Final CTA */}
+      <Box as="section" {...s.ctaSection}>
+        <Box {...s.centeredContent}>
+          <Text as="h2" {...s.ctaTitle}>
+            {t("cta.title")}
+          </Text>
+          <Text {...s.ctaSubtitle}>{t("cta.subtitle")}</Text>
+          <ChakraLink href="/register" {...s.ctaBtn}>
+            {t("cta.button")}
+          </ChakraLink>
         </Box>
       </Box>
 
       {/* Footer */}
-      <Box as="footer" bg="hsl(var(--card))" borderTop="var(--brutal-border)" py={6}>
-        <Box maxW="6xl" mx="auto" px={6} textAlign="center">
-          <Text fontSize="sm" fontWeight="900" color="hsl(var(--muted-foreground))">
-            {t("footer.copy")}
-          </Text>
+      <Box as="footer" {...s.footer}>
+        <Box {...s.container}>
+          <Box {...s.footerInner}>
+            <Text {...s.footerText}>{t("footer.copy")}</Text>
+            <chakra.a
+              href="https://github.com/pedrolucazx/imm-web"
+              target="_blank"
+              rel="noopener noreferrer"
+              {...s.footerLink}
+            >
+              {t("footer.github")}
+            </chakra.a>
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,md}\"",
+    "format": "prettier --write \"{app,components,lib,providers,styles,i18n,tests,types}/**/*.{ts,tsx,json,md}\" \"*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"{app,components,lib,providers,styles,i18n,tests,types}/**/*.{ts,tsx,json,md}\" \"*.{ts,tsx,json,md}\"",
     "test": "jest",
     "test:unit": "jest tests/unit",
     "test:integration": "jest tests/integration",
@@ -18,21 +18,21 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "prepare": "husky install",
-    "commit": "cz commit"
+    "commit": "cz"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.33.0",
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@phosphor-icons/react": "^2.1.10",
     "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.5",
-    "framer-motion": "^12.34.3",
+    "check-password-strength": "^3.0.0",
     "next": "^15.0.0",
     "next-intl": "^4.8.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.71.2"
+    "react-hook-form": "^7.71.2",
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.0.0",
@@ -58,6 +58,7 @@
     "msw": "^2.12.10",
     "prettier": "^3.0.0",
     "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
 }
