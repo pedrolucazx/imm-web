@@ -70,7 +70,7 @@ All server communication goes through **TanStack Query** hooks — components ne
 | Icons                  | Phosphor Icons (`@phosphor-icons/react`) |
 | HTTP / State           | TanStack Query v5 + Axios                |
 | Forms                  | React Hook Form v7                       |
-| Animations             | N/A (sem biblioteca dedicada no momento) |
+| Animations             | N/A (no dedicated library at the moment) |
 | Internationalization   | next-intl v4                             |
 | Unit/Integration Tests | Jest + React Testing Library + MSW       |
 | E2E Tests              | Playwright (Chromium)                    |

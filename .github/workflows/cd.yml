@@ -18,7 +18,7 @@ jobs:
   deploy:
     name: "Deploy to Vercel (${{ github.ref_name || github.event.workflow_run.head_branch }})"
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success')
     environment:
       name: ${{ (github.event.workflow_run.head_branch || github.ref_name) == 'main' && 'production' || 'homolog' }}
 

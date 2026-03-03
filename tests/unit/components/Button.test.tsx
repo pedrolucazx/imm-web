@@ -34,6 +34,8 @@ describe("Button", () => {
     renderWithProviders(<Button loading>Submit</Button>);
     const btn = screen.getByRole("button");
     expect(btn).toBeInTheDocument();
+    expect(btn).toHaveAttribute("data-loading");
+    expect(btn).toBeDisabled();
   });
 
   it("is not in loading state by default", () => {
