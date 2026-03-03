@@ -1,9 +1,9 @@
 "use client";
 
-import { Button, Input, PasswordInput, toaster } from "@/components/ui";
+import { Button, Input, PasswordInput, toaster } from "../../../../components/ui";
 import { useLogin } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
-import { Box, Field, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { s, brandLinkStyle, footerLinkStyle } from "./login.styles";
@@ -67,40 +67,29 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
               <Box {...s.formStack}>
-                <Field.Root invalid={!!errors.email}>
-                  <Field.Label>{t("emailLabel")}</Field.Label>
-                  <Input
-                    type="email"
-                    placeholder={t("emailPlaceholder")}
-                    {...register("email", {
-                      required: t("emailRequired"),
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: t("emailInvalid"),
-                      },
-                    })}
-                  />
-                  <Box h="1.25rem" mt={1}>
-                    <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
-                  </Box>
-                </Field.Root>
+                <Input
+                  label={t("emailLabel")}
+                  type="email"
+                  placeholder={t("emailPlaceholder")}
+                  error={errors.email?.message}
+                  {...register("email", {
+                    required: t("emailRequired"),
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: t("emailInvalid"),
+                    },
+                  })}
+                />
 
-                <Field.Root invalid={!!errors.password}>
-                  <Field.Label>{t("passwordLabel")}</Field.Label>
-                  <PasswordInput
-                    placeholder={t("passwordPlaceholder")}
-                    {...register("password", {
-                      required: t("passwordRequired"),
-                      minLength: {
-                        value: 6,
-                        message: t("passwordMinLength"),
-                      },
-                    })}
-                  />
-                  <Box h="1.25rem" mt={1}>
-                    <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
-                  </Box>
-                </Field.Root>
+                <PasswordInput
+                  label={t("passwordLabel")}
+                  placeholder={t("passwordPlaceholder")}
+                  error={errors.password?.message}
+                  {...register("password", {
+                    required: t("passwordRequired"),
+                    minLength: { value: 6, message: t("passwordMinLength") },
+                  })}
+                />
 
                 <Button type="submit" loading={isPending} {...s.submitBtn}>
                   {t("submit")}

@@ -4,13 +4,12 @@ import {
   Button,
   Input,
   PasswordInput,
-  PasswordStrengthMeter,
   toaster,
   type StrengthLevel,
 } from "../../../../components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
-import { Box, Field, Heading, Text, chakra } from "@chakra-ui/react";
+import { Box, Heading, Text, chakra } from "@chakra-ui/react";
 import { passwordStrength } from "check-password-strength";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -110,67 +109,43 @@ export default function RegisterPage() {
 
             <Box as="form" onSubmit={handleSubmit(onSubmit)}>
               <Box {...s.formStack}>
-                <Field.Root invalid={!!errors.name}>
-                  <Field.Label>{t("nameLabel")}</Field.Label>
-                  <Input
-                    type="text"
-                    placeholder={t("namePlaceholder")}
-                    {...registerField("name", {
-                      required: t("nameRequired"),
-                      minLength: {
-                        value: 2,
-                        message: t("nameMinLength"),
-                      },
-                    })}
-                  />
-                  <Box h="1.25rem" mt={1}>
-                    <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
-                  </Box>
-                </Field.Root>
+                <Input
+                  label={t("nameLabel")}
+                  type="text"
+                  placeholder={t("namePlaceholder")}
+                  error={errors.name?.message}
+                  {...registerField("name", {
+                    required: t("nameRequired"),
+                    minLength: { value: 2, message: t("nameMinLength") },
+                  })}
+                />
 
-                <Field.Root invalid={!!errors.email}>
-                  <Field.Label>{t("emailLabel")}</Field.Label>
-                  <Input
-                    type="email"
-                    placeholder={t("emailPlaceholder")}
-                    {...registerField("email", {
-                      required: t("emailRequired"),
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: t("emailInvalid"),
-                      },
-                    })}
-                  />
-                  <Box h="1.25rem" mt={1}>
-                    <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
-                  </Box>
-                </Field.Root>
+                <Input
+                  label={t("emailLabel")}
+                  type="email"
+                  placeholder={t("emailPlaceholder")}
+                  error={errors.email?.message}
+                  {...registerField("email", {
+                    required: t("emailRequired"),
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: t("emailInvalid"),
+                    },
+                  })}
+                />
 
-                <Field.Root invalid={!!errors.password}>
-                  <Field.Label>{t("passwordLabel")}</Field.Label>
-                  <PasswordInput
-                    placeholder={t("passwordPlaceholder")}
-                    {...registerField("password", {
-                      required: t("passwordRequired"),
-                      minLength: {
-                        value: 6,
-                        message: t("passwordMinLength"),
-                      },
-                    })}
-                  />
-                  <Box mt={1} position="relative" w="full">
-                    <PasswordStrengthMeter
-                      value={passwordStrengthLevel + 1}
-                      max={4}
-                      levels={strengthLevels}
-                      w="full"
-                      opacity={passwordValue.length > 0 && !errors.password ? 1 : 0}
-                    />
-                    <Field.ErrorText position="absolute" top={0} left={0} lineHeight="1.25rem">
-                      {errors.password?.message}
-                    </Field.ErrorText>
-                  </Box>
-                </Field.Root>
+                <PasswordInput
+                  label={t("passwordLabel")}
+                  placeholder={t("passwordPlaceholder")}
+                  error={errors.password?.message}
+                  strengthValue={passwordStrengthLevel + 1}
+                  strengthLevels={strengthLevels}
+                  showStrength={passwordValue.length > 0 && !errors.password}
+                  {...registerField("password", {
+                    required: t("passwordRequired"),
+                    minLength: { value: 6, message: t("passwordMinLength") },
+                  })}
+                />
 
                 <Box>
                   <Text

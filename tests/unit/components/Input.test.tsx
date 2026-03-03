@@ -9,6 +9,16 @@ describe("Input", () => {
     expect(screen.getByPlaceholderText("Enter text")).toBeInTheDocument();
   });
 
+  it("renders a label when the label prop is provided", () => {
+    renderWithProviders(<Input label="Email" />);
+    expect(screen.getByText("Email")).toBeInTheDocument();
+  });
+
+  it("renders the error message when error prop is provided", () => {
+    renderWithProviders(<Input label="Email" error="This field is required" />);
+    expect(screen.getByText("This field is required")).toBeInTheDocument();
+  });
+
   it("forwards ref to the underlying input element", () => {
     const ref = React.createRef<HTMLInputElement>();
     renderWithProviders(<Input ref={ref} placeholder="ref-input" />);

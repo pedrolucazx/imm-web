@@ -1,8 +1,9 @@
 "use client";
 
-import type { BoxProps, ButtonProps, GroupProps, InputProps } from "@chakra-ui/react";
+import type { BoxProps, ButtonProps, GroupProps } from "@chakra-ui/react";
 import {
   Box,
+  Field,
   HStack,
   IconButton,
   InputGroup,
@@ -13,6 +14,7 @@ import {
 import * as React from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { Input } from "./Input";
+import type { InputProps } from "./Input";
 
 // ─── Strength Meter ──────────────────────────────────────────────────────────
 
@@ -37,7 +39,9 @@ interface PasswordStrengthMeterProps extends BoxProps {
 export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordStrengthMeterProps>(
   function PasswordStrengthMeter(props, ref) {
     const { max = 4, value, levels = DEFAULT_LEVELS, ...rest } = props;
-    const level = value > 0 ? levels[Math.min(value, max) - 1] : null;
+    const clampedValue = Math.max(0, Math.min(value, max));
+    const levelIndex = clampedValue > 0 ? Math.min(clampedValue, levels.length) - 1 : -1;
+    const level = levelIndex >= 0 ? levels[levelIndex] : null;
 
     return (
       <Box ref={ref} {...rest}>
@@ -50,7 +54,7 @@ export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordSt
               borderRadius="0"
               border="2px solid black"
               style={{
-                backgroundColor: level && index < value ? level.color : "transparent",
+                backgroundColor: level && index < clampedValue ? level.color : "transparent",
                 transition: "background-color 0.2s ease",
               }}
             />
@@ -77,10 +81,14 @@ export interface PasswordVisibilityProps {
   visible?: boolean;
   onVisibleChange?: (_visible: boolean) => void;
   visibilityIcon?: { on: React.ReactNode; off: React.ReactNode };
+  visibilityLabel?: { show: string; hide: string };
 }
 
 export interface PasswordInputProps extends InputProps, PasswordVisibilityProps {
   rootProps?: GroupProps;
+  strengthValue?: number;
+  strengthLevels?: StrengthLevel[];
+  showStrength?: boolean;
 }
 
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
@@ -91,6 +99,12 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       visible: visibleProp,
       onVisibleChange,
       visibilityIcon = { on: <LuEye />, off: <LuEyeOff /> },
+      visibilityLabel = { show: "Show password", hide: "Hide password" },
+      label,
+      error,
+      strengthValue,
+      strengthLevels,
+      showStrength,
       ...rest
     } = props;
 
@@ -102,11 +116,12 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
 
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    return (
+    const inputGroup = (
       <InputGroup
         endElement={
           <VisibilityTrigger
             disabled={rest.disabled}
+            aria-label={visible ? visibilityLabel.hide : visibilityLabel.show}
             aria-pressed={visible}
             onPointerDown={(e) => e.preventDefault()}
             onClick={() => {
@@ -122,6 +137,33 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
         <Input {...rest} ref={mergeRefs(ref, inputRef)} type={visible ? "text" : "password"} />
       </InputGroup>
     );
+
+    if (!label && !error && strengthValue === undefined) return inputGroup;
+
+    return (
+      <Field.Root invalid={!!error}>
+        {label && <Field.Label>{label}</Field.Label>}
+        {inputGroup}
+        {strengthValue !== undefined ? (
+          <Box mt={1} position="relative" w="full">
+            <PasswordStrengthMeter
+              value={strengthValue}
+              max={4}
+              levels={strengthLevels}
+              w="full"
+              opacity={showStrength ? 1 : 0}
+            />
+            <Field.ErrorText position="absolute" top={0} left={0} lineHeight="1.25rem">
+              {error}
+            </Field.ErrorText>
+          </Box>
+        ) : (
+          <Box h="1.25rem" mt={1}>
+            <Field.ErrorText>{error}</Field.ErrorText>
+          </Box>
+        )}
+      </Field.Root>
+    );
   }
 );
 
@@ -135,7 +177,6 @@ const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
         size="sm"
         variant="ghost"
         height="calc(100% - var(--chakra-spacing-2))"
-        aria-label="Toggle password visibility"
         {...props}
       />
     );
