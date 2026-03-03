@@ -7,12 +7,12 @@ import {
   PasswordStrengthMeter,
   toaster,
   type StrengthLevel,
-} from "@/components/ui";
+} from "../../../../components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
 import { Box, Field, Heading, Text, chakra } from "@chakra-ui/react";
 import { passwordStrength } from "check-password-strength";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { s, brandLinkStyle, footerLinkStyle } from "./register.styles";
@@ -35,8 +35,13 @@ interface RegisterForm {
 export default function RegisterPage() {
   const t = useTranslations("auth.register");
   const tc = useTranslations("common");
+  const locale = useLocale();
   const router = useRouter();
   const { mutate: register, isPending } = useRegister();
+
+  const defaultUiLanguage: UILanguage = LANGUAGES.some((l) => l.value === locale)
+    ? (locale as UILanguage)
+    : "en-US";
 
   const {
     register: registerField,
@@ -44,7 +49,7 @@ export default function RegisterPage() {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<RegisterForm>({ defaultValues: { uiLanguage: "pt-BR" } });
+  } = useForm<RegisterForm>({ defaultValues: { uiLanguage: defaultUiLanguage } });
 
   const selectedLang = watch("uiLanguage");
   const passwordValue = watch("password") ?? "";
