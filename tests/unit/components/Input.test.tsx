@@ -25,6 +25,6 @@ describe("Input", () => {
   it("applies invalid styles when data-invalid is set", () => {
     renderWithProviders(<Input data-testid="invalid-input" data-invalid />);
     const input = screen.getByTestId("invalid-input");
-    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute("data-invalid");
   });
 });

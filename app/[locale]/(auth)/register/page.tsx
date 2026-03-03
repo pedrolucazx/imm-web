@@ -3,7 +3,7 @@
 import { Button, Input, PasswordInput, PasswordStrengthMeter, toaster } from "@/components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
-import { Box, Field, Heading, Text } from "@chakra-ui/react";
+import { Box, Field, Heading, Text, chakra } from "@chakra-ui/react";
 import { passwordStrength } from "check-password-strength";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -161,21 +161,17 @@ export default function RegisterPage() {
                   </Text>
                   <Box {...s.langGrid}>
                     {LANGUAGES.map((lang) => (
-                      <Box
+                      <chakra.button
                         key={lang.value}
-                        role="button"
-                        tabIndex={0}
+                        type="button"
                         {...s.langBtn}
                         bg={selectedLang === lang.value ? "primary" : "card"}
+                        aria-pressed={selectedLang === lang.value}
                         onClick={() => setValue("uiLanguage", lang.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ")
-                            setValue("uiLanguage", lang.value);
-                        }}
                       >
                         <Text {...s.langFlag}>{lang.flag}</Text>
                         {lang.label}
-                      </Box>
+                      </chakra.button>
                     ))}
                   </Box>
                 </Box>

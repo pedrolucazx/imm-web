@@ -5,7 +5,6 @@ import {
   Box,
   HStack,
   IconButton,
-  Input,
   InputGroup,
   Text,
   mergeRefs,
@@ -13,10 +12,16 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
+import { Input } from "./Input";
 
 // ─── Strength Meter ──────────────────────────────────────────────────────────
 
-const STRENGTH_LEVELS = [
+export interface StrengthLevel {
+  label: string;
+  color: string;
+}
+
+const DEFAULT_LEVELS: StrengthLevel[] = [
   { label: "Muito fraca", color: "hsl(0, 84%, 60%)" },
   { label: "Fraca", color: "hsl(30, 100%, 55%)" },
   { label: "Boa", color: "hsl(54, 100%, 45%)" },
@@ -26,12 +31,13 @@ const STRENGTH_LEVELS = [
 interface PasswordStrengthMeterProps extends BoxProps {
   max?: number;
   value: number;
+  levels?: StrengthLevel[];
 }
 
 export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordStrengthMeterProps>(
   function PasswordStrengthMeter(props, ref) {
-    const { max = 4, value, ...rest } = props;
-    const level = value > 0 ? STRENGTH_LEVELS[Math.min(value, max) - 1] : null;
+    const { max = 4, value, levels = DEFAULT_LEVELS, ...rest } = props;
+    const level = value > 0 ? levels[Math.min(value, max) - 1] : null;
 
     return (
       <Box ref={ref} {...rest}>
@@ -113,30 +119,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
         }
         {...rootProps}
       >
-        <Input
-          {...rest}
-          ref={mergeRefs(ref, inputRef)}
-          type={visible ? "text" : "password"}
-          h="3.75rem"
-          p={4}
-          borderWidth="2px"
-          borderColor="black"
-          borderRadius="0"
-          boxShadow="2px 2px 0px 0px black"
-          bg="canvas"
-          fontWeight="medium"
-          fontSize="md"
-          lineHeight="1.5rem"
-          css={{
-            "--focus-color": "var(--chakra-colors-primary)",
-            "--error-color": "var(--chakra-colors-error)",
-          }}
-          _placeholder={{ color: "mutedFg" }}
-          _invalid={{
-            borderColor: "error",
-            bg: "errorBg",
-          }}
-        />
+        <Input {...rest} ref={mergeRefs(ref, inputRef)} type={visible ? "text" : "password"} />
       </InputGroup>
     );
   }
