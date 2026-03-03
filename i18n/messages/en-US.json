@@ -138,6 +138,7 @@
       "passwordPlaceholder": "Min. 6 characters",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
+      "languageLabel": "INTERFACE LANGUAGE",
       "submit": "Start 66-Day Journey →",
       "toastSuccessTitle": "Account created!",
       "toastSuccessDesc": "Welcome to your 66-day transformation journey.",

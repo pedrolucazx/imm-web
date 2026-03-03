@@ -138,6 +138,7 @@
       "passwordPlaceholder": "Mín. 6 caracteres",
       "passwordRequired": "Senha é obrigatória",
       "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
+      "languageLabel": "IDIOMA DA INTERFACE",
       "submit": "Começar Jornada de 66 Dias →",
       "toastSuccessTitle": "Conta criada!",
       "toastSuccessDesc": "Bem-vindo à sua jornada de transformação de 66 dias.",

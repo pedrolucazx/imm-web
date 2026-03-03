@@ -138,6 +138,7 @@
       "passwordPlaceholder": "Mín. 6 caracteres",
       "passwordRequired": "La contraseña es obligatoria",
       "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "languageLabel": "IDIOMA DE INTERFAZ",
       "submit": "Comenzar viaje de 66 días →",
       "toastSuccessTitle": "¡Cuenta creada!",
       "toastSuccessDesc": "Bienvenido a tu viaje de transformación de 66 días.",
