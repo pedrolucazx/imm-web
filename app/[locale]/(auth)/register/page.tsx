@@ -22,6 +22,15 @@ const LANGUAGES = [
   { value: "es-ES", label: "Español", flag: "🇪🇸" },
 ] as const;
 
+const LANG_KEY_INDEX: Record<string, (_i: number) => number> = {
+  ArrowRight: (i) => (i + 1) % LANGUAGES.length,
+  ArrowDown: (i) => (i + 1) % LANGUAGES.length,
+  ArrowLeft: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
+  ArrowUp: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
+  Home: (_i) => 0,
+  End: (_i) => LANGUAGES.length - 1,
+};
+
 type UILanguage = (typeof LANGUAGES)[number]["value"];
 
 interface RegisterForm {
@@ -56,21 +65,14 @@ export default function RegisterPage() {
 
   const handleLangKeyDown = useCallback(
     (e: React.KeyboardEvent, index: number) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        e.preventDefault();
-        const nextIndex = (index + 1) % LANGUAGES.length;
-        setValue("uiLanguage", LANGUAGES[nextIndex].value);
-        langGroupRef.current
-          ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
-          [nextIndex]?.focus();
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        e.preventDefault();
-        const prevIndex = (index - 1 + LANGUAGES.length) % LANGUAGES.length;
-        setValue("uiLanguage", LANGUAGES[prevIndex].value);
-        langGroupRef.current
-          ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
-          [prevIndex]?.focus();
-      }
+      const getIndex = LANG_KEY_INDEX[e.key];
+      if (!getIndex) return;
+      e.preventDefault();
+      const targetIndex = getIndex(index);
+      setValue("uiLanguage", LANGUAGES[targetIndex].value);
+      langGroupRef.current
+        ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
+        [targetIndex]?.focus();
     },
     [setValue]
   );
