@@ -28,8 +28,10 @@ export function Button({
       loading={isLoading}
       bg={bg}
       color={color}
+      h="auto"
       py={5}
       fontSize="lg"
+      lineHeight="1.75rem"
       fontWeight="bold"
       letterSpacing="wider"
       textTransform="uppercase"
