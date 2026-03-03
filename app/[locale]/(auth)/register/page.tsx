@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Input, PasswordInput, PasswordStrengthMeter, toaster } from "@/components/ui";
+import {
+  Button,
+  Input,
+  PasswordInput,
+  PasswordStrengthMeter,
+  toaster,
+  type StrengthLevel,
+} from "@/components/ui";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { Link, useRouter } from "@/lib/navigation";
 import { Box, Field, Heading, Text, chakra } from "@chakra-ui/react";
@@ -45,6 +52,16 @@ export default function RegisterPage() {
     if (!passwordValue) return 0;
     return passwordStrength(passwordValue).id;
   }, [passwordValue]);
+
+  const strengthLevels: StrengthLevel[] = useMemo(
+    () => [
+      { label: t("strengthVeryWeak"), color: "hsl(0, 84%, 60%)" },
+      { label: t("strengthWeak"), color: "hsl(30, 100%, 55%)" },
+      { label: t("strengthGood"), color: "hsl(54, 100%, 45%)" },
+      { label: t("strengthStrong"), color: "hsl(152, 100%, 40%)" },
+    ],
+    [t]
+  );
 
   const onSubmit = (data: RegisterForm) => {
     register(data, {
@@ -140,6 +157,7 @@ export default function RegisterPage() {
                     <PasswordStrengthMeter
                       value={passwordStrengthLevel + 1}
                       max={4}
+                      levels={strengthLevels}
                       w="full"
                       opacity={passwordValue.length > 0 && !errors.password ? 1 : 0}
                     />

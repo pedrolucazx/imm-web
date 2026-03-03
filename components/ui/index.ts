@@ -5,7 +5,7 @@ export { Input } from "./Input";
 export type { InputProps } from "./Input";
 
 export { PasswordInput, PasswordStrengthMeter } from "./password-input";
-export type { PasswordInputProps } from "./password-input";
+export type { PasswordInputProps, StrengthLevel } from "./password-input";
 
 export { Field } from "./field";
 

@@ -22,10 +22,10 @@ export interface StrengthLevel {
 }
 
 const DEFAULT_LEVELS: StrengthLevel[] = [
-  { label: "Muito fraca", color: "hsl(0, 84%, 60%)" },
-  { label: "Fraca", color: "hsl(30, 100%, 55%)" },
-  { label: "Boa", color: "hsl(54, 100%, 45%)" },
-  { label: "Forte", color: "hsl(152, 100%, 40%)" },
+  { label: "Very weak", color: "hsl(0, 84%, 60%)" },
+  { label: "Weak", color: "hsl(30, 100%, 55%)" },
+  { label: "Good", color: "hsl(54, 100%, 45%)" },
+  { label: "Strong", color: "hsl(152, 100%, 40%)" },
 ];
 
 interface PasswordStrengthMeterProps extends BoxProps {
@@ -107,10 +107,10 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
         endElement={
           <VisibilityTrigger
             disabled={rest.disabled}
-            onPointerDown={(e) => {
+            aria-pressed={visible}
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => {
               if (rest.disabled) return;
-              if (e.button !== 0) return;
-              e.preventDefault();
               setVisible(!visible);
             }}
           >
@@ -129,7 +129,6 @@ const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function VisibilityTrigger(props, ref) {
     return (
       <IconButton
-        tabIndex={-1}
         ref={ref}
         me="-2"
         aspectRatio="square"
