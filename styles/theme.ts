@@ -1,4 +1,27 @@
-import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
+import { createSystem, defaultConfig, defineConfig, defineSlotRecipe } from "@chakra-ui/react";
+import { fieldSlotRecipe } from "@chakra-ui/react/theme";
+
+const customFieldRecipe = defineSlotRecipe({
+  ...fieldSlotRecipe,
+  base: {
+    ...(fieldSlotRecipe.base ?? {}),
+    label: {
+      ...(fieldSlotRecipe.base?.label ?? {}),
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      letterSpacing: "wider",
+      mb: 2,
+    },
+    errorText: {
+      ...(fieldSlotRecipe.base?.errorText ?? {}),
+      fontSize: "sm",
+      lineHeight: "1.25rem",
+      fontWeight: "bold",
+      letterSpacing: "wide",
+      color: "error",
+    },
+  },
+});
 
 const config = defineConfig({
   globalCss: {
@@ -117,6 +140,9 @@ const config = defineConfig({
           },
         },
       },
+    },
+    slotRecipes: {
+      field: customFieldRecipe,
     },
     textStyles: {
       heroTitle: {
