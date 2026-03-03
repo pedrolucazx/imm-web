@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={spaceGrotesk.variable}>
+    <html lang="en" className={spaceGrotesk.variable}>
+      <body>
         <Providers>
           {children}
           <Toaster />

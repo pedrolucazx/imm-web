@@ -1,11 +1,6 @@
 import { SystemStyleObject } from "@chakra-ui/react";
 import type { CSSProperties } from "react";
 
-export const brutalCard: SystemStyleObject = {
-  border: "3px solid black",
-  boxShadow: "4px 4px 0px 0px black",
-};
-
 export const sharedAuthStyles = {
   pageWrapper: {
     minH: "100vh",
@@ -33,7 +28,7 @@ export const sharedAuthStyles = {
     gap: 2,
   },
   card: {
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     p: 8,
     bg: "card",
   },

@@ -1,15 +1,5 @@
 import { SystemStyleObject } from "@chakra-ui/react";
 
-const brutalCard: SystemStyleObject = {
-  border: "3px solid black",
-  boxShadow: "4px 4px 0px 0px black",
-};
-
-const brutalCardSm: SystemStyleObject = {
-  border: "2px solid black",
-  boxShadow: "2px 2px 0px 0px black",
-};
-
 const linkReset: SystemStyleObject = {
   display: "inline-block",
   textDecoration: "none",
@@ -89,7 +79,7 @@ export const s = {
   },
   navLoginBtn: {
     ...btnBase,
-    ...brutalCardSm,
+    layerStyle: "cardBrutalSm",
     ...brutalHover,
     px: 5,
     py: 3,
@@ -100,7 +90,7 @@ export const s = {
   },
   navSignupBtn: {
     ...btnBase,
-    ...brutalCardSm,
+    layerStyle: "cardBrutalSm",
     ...brutalHover,
     px: 5,
     py: 3,
@@ -141,7 +131,7 @@ export const s = {
   },
   heroCtaBtn: {
     ...btnBase,
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     ...brutalHover,
     px: 10,
     py: 6,
@@ -189,7 +179,7 @@ export const s = {
     gap: 4,
   },
   phaseCard: {
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     p: 8,
     position: "relative",
   },
@@ -219,7 +209,7 @@ export const s = {
     fontWeight: "500",
   },
   ultraCard: {
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     bg: "surface.yellow",
     p: 8,
     maxW: "2xl",
@@ -248,7 +238,7 @@ export const s = {
     fontWeight: "500",
   },
   agentCard: {
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     p: 8,
   },
   agentIcon: {
@@ -278,7 +268,7 @@ export const s = {
     textTransform: "uppercase",
   },
   featureCard: {
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     bg: "card",
     p: 6,
   },
@@ -312,7 +302,7 @@ export const s = {
   },
   githubBtn: {
     ...btnBase,
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     px: 8,
     py: 4,
     bg: "black",
@@ -351,7 +341,7 @@ export const s = {
   },
   ctaBtn: {
     ...btnBase,
-    ...brutalCard,
+    layerStyle: "cardBrutal",
     ...brutalHover,
     px: 10,
     py: 5,
@@ -370,6 +360,8 @@ export const s = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    flexDirection: { base: "column", md: "row" },
+    gap: { base: 2, md: 0 },
   },
   footerText: {
     fontSize: "sm",

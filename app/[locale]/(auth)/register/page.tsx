@@ -12,7 +12,7 @@ import { Link, useRouter } from "@/lib/navigation";
 import { Box, Heading, Text, chakra } from "@chakra-ui/react";
 import { passwordStrength } from "check-password-strength";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { s, brandLinkStyle, footerLinkStyle } from "./register.styles";
 
@@ -21,6 +21,15 @@ const LANGUAGES = [
   { value: "en-US", label: "English", flag: "🇺🇸" },
   { value: "es-ES", label: "Español", flag: "🇪🇸" },
 ] as const;
+
+const LANG_KEY_INDEX: Record<string, (_i: number) => number> = {
+  ArrowRight: (i) => (i + 1) % LANGUAGES.length,
+  ArrowDown: (i) => (i + 1) % LANGUAGES.length,
+  ArrowLeft: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
+  ArrowUp: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
+  Home: (_i) => 0,
+  End: (_i) => LANGUAGES.length - 1,
+};
 
 type UILanguage = (typeof LANGUAGES)[number]["value"];
 
@@ -52,6 +61,21 @@ export default function RegisterPage() {
 
   const selectedLang = watch("uiLanguage");
   const passwordValue = watch("password") ?? "";
+  const langGroupRef = useRef<HTMLDivElement>(null);
+
+  const handleLangKeyDown = useCallback(
+    (e: React.KeyboardEvent, index: number) => {
+      const getIndex = LANG_KEY_INDEX[e.key];
+      if (!getIndex) return;
+      e.preventDefault();
+      const targetIndex = getIndex(index);
+      setValue("uiLanguage", LANGUAGES[targetIndex].value);
+      langGroupRef.current
+        ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
+        [targetIndex]?.focus();
+    },
+    [setValue]
+  );
   const passwordStrengthLevel = useMemo(() => {
     if (!passwordValue) return 0;
     return passwordStrength(passwordValue).id;
@@ -157,15 +181,23 @@ export default function RegisterPage() {
                   >
                     {t("languageLabel")}
                   </Text>
-                  <Box {...s.langGrid}>
-                    {LANGUAGES.map((lang) => (
+                  <Box
+                    ref={langGroupRef}
+                    role="radiogroup"
+                    aria-label={t("languageLabel")}
+                    {...s.langGrid}
+                  >
+                    {LANGUAGES.map((lang, index) => (
                       <chakra.button
                         key={lang.value}
                         type="button"
+                        role="radio"
                         {...s.langBtn}
                         bg={selectedLang === lang.value ? "primary" : "card"}
-                        aria-pressed={selectedLang === lang.value}
+                        aria-checked={selectedLang === lang.value}
+                        tabIndex={selectedLang === lang.value ? 0 : -1}
                         onClick={() => setValue("uiLanguage", lang.value)}
+                        onKeyDown={(e) => handleLangKeyDown(e, index)}
                       >
                         <Text {...s.langFlag}>{lang.flag}</Text>
                         {lang.label}

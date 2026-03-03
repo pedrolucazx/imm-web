@@ -1,7 +1,10 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 # CodeRabbit Configuration — imm-web (Frontend)
 # Documentação: https://docs.coderabbit.ai/guides/configure-coderabbit
 
 language: "pt-BR"
+
+tone_instructions: "Frontend Next.js 15 + Chakra UI v3 (neo-brutalism). Revisar em pt-BR. Priorizar: a11y, Chakra v3 sem prefixo 'is' (open/disabled/invalid), VStack/HStack, colorPalette, react-hook-form, TanStack Query."
 
 reviews:
   profile: "assertive"
@@ -25,21 +28,6 @@ reviews:
     - "!**/playwright-report/**"
     - "!yarn.lock"
     - "!package-lock.json"
-
-  instructions: |
-    Este repositório é o frontend do projeto 'Inside My Mind', uma SaaS de habit tracking.
-    Stack: Next.js 15 + React 19 + TypeScript + Chakra UI v3 + TanStack Query + Axios.
-    O design segue o estilo neo-brutalism com Chakra UI v3.
-    IMPORTANTE (Chakra UI v3): imports de componentes base vêm de '@chakra-ui/react'. Componentes customizados (Toaster, Provider) vêm de 'components/ui' (imports relativos).
-    Props booleanas do Chakra v3 NÃO usam prefixo 'is': use open (não isOpen), disabled (não isDisabled), invalid (não isInvalid).
-    Use colorPalette (não colorScheme) e VStack/HStack (não Stack, que está depreciado).
-    Use compound components: Dialog.Root, Table.Root, Tabs.Root, Menu.Root, etc.
-    Ícones: use '@phosphor-icons/react'. Não usar '@chakra-ui/icons'.
-    Formulários devem usar react-hook-form.
-    Chamadas HTTP devem passar por hooks do TanStack Query — não faça fetch direto nos componentes.
-    Siga os padrões de commit convencional (feat, fix, chore, docs, test, refactor).
-    Sempre verifique se há testes para os componentes adicionados.
-    Aponte problemas de acessibilidade (a11y) nos componentes.
 
 chat:
   auto_reply: true

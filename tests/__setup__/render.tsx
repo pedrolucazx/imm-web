@@ -1,4 +1,5 @@
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { system } from "@/styles/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, type RenderOptions } from "@testing-library/react";
 import React from "react";
@@ -14,7 +15,7 @@ export function renderWithProviders(
   function Wrapper({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
+        <ChakraProvider value={system}>{children}</ChakraProvider>
       </QueryClientProvider>
     );
   }
