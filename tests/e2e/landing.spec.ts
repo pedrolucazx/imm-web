@@ -30,7 +30,7 @@ test.describe("Auth pages", () => {
   test("login page renders the form", async ({ page }) => {
     await page.goto("/pt-BR/login");
     await expect(page.getByRole("textbox", { name: /e-mail|email/i })).toBeVisible();
-    await expect(page.getByLabel(/senha|password/i)).toBeVisible();
+    await expect(page.getByRole("textbox", { name: /senha|password/i })).toBeVisible();
   });
 
   test("register page renders the form", async ({ page }) => {
