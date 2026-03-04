@@ -33,6 +33,31 @@ const LANG_KEY_INDEX: Record<string, (_i: number) => number> = {
 
 type UILanguage = (typeof LANGUAGES)[number]["value"];
 
+interface LanguageRadioProps {
+  lang: (typeof LANGUAGES)[number];
+  isSelected: boolean;
+  onSelect: () => void;
+  onKeyDown: (_e: React.KeyboardEvent) => void;
+}
+
+function LanguageRadio({ lang, isSelected, onSelect, onKeyDown }: LanguageRadioProps) {
+  return (
+    <chakra.button
+      type="button"
+      role="radio"
+      {...s.langBtn}
+      bg={isSelected ? "primary" : "card"}
+      aria-checked={isSelected}
+      tabIndex={isSelected ? 0 : -1}
+      onClick={onSelect}
+      onKeyDown={onKeyDown}
+    >
+      <Text {...s.langFlag}>{lang.flag}</Text>
+      {lang.label}
+    </chakra.button>
+  );
+}
+
 interface RegisterForm {
   name: string;
   email: string;
@@ -70,9 +95,8 @@ export default function RegisterPage() {
       e.preventDefault();
       const targetIndex = getIndex(index);
       setValue("uiLanguage", LANGUAGES[targetIndex].value);
-      langGroupRef.current
-        ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
-        [targetIndex]?.focus();
+      const radios = langGroupRef.current?.querySelectorAll<HTMLButtonElement>('[role="radio"]');
+      radios?.[targetIndex]?.focus();
     },
     [setValue]
   );
@@ -173,6 +197,7 @@ export default function RegisterPage() {
 
                 <Box>
                   <Text
+                    id="register-language-label"
                     fontSize="sm"
                     fontWeight="700"
                     textTransform="uppercase"
@@ -184,24 +209,17 @@ export default function RegisterPage() {
                   <Box
                     ref={langGroupRef}
                     role="radiogroup"
-                    aria-label={t("languageLabel")}
+                    aria-labelledby="register-language-label"
                     {...s.langGrid}
                   >
                     {LANGUAGES.map((lang, index) => (
-                      <chakra.button
+                      <LanguageRadio
                         key={lang.value}
-                        type="button"
-                        role="radio"
-                        {...s.langBtn}
-                        bg={selectedLang === lang.value ? "primary" : "card"}
-                        aria-checked={selectedLang === lang.value}
-                        tabIndex={selectedLang === lang.value ? 0 : -1}
-                        onClick={() => setValue("uiLanguage", lang.value)}
+                        lang={lang}
+                        isSelected={selectedLang === lang.value}
+                        onSelect={() => setValue("uiLanguage", lang.value)}
                         onKeyDown={(e) => handleLangKeyDown(e, index)}
-                      >
-                        <Text {...s.langFlag}>{lang.flag}</Text>
-                        {lang.label}
-                      </chakra.button>
+                      />
                     ))}
                   </Box>
                 </Box>
