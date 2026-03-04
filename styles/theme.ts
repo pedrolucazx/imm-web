@@ -48,6 +48,14 @@ const config = defineConfig({
         from: { height: "var(--radix-accordion-content-height)" },
         to: { height: "0" },
       },
+      spin: {
+        from: { transform: "rotate(0deg)" },
+        to: { transform: "rotate(360deg)" },
+      },
+      pulse: {
+        "0%, 100%": { opacity: "1" },
+        "50%": { opacity: "0.3" },
+      },
       "pulse-brutal": {
         "0%": { transform: "scale(1)" },
         "50%": { transform: "scale(1.05)" },
