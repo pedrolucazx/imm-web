@@ -24,10 +24,10 @@ export interface StrengthLevel {
 }
 
 const DEFAULT_LEVELS: StrengthLevel[] = [
-  { label: "Very weak", color: "var(--chakra-colors-error)" },
-  { label: "Weak", color: "var(--chakra-colors-habit-english)" },
-  { label: "Good", color: "var(--chakra-colors-brand-yellow)" },
-  { label: "Strong", color: "var(--chakra-colors-brand-mint)" },
+  { label: "Very weak", color: "hsl(0, 84%, 60%)" },
+  { label: "Weak", color: "hsl(30, 100%, 55%)" },
+  { label: "Good", color: "hsl(54, 100%, 45%)" },
+  { label: "Strong", color: "hsl(152, 100%, 40%)" },
 ];
 
 interface PasswordStrengthMeterProps extends BoxProps {

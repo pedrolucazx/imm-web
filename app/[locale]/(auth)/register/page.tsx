@@ -173,6 +173,7 @@ export default function RegisterPage() {
 
                 <Box>
                   <Text
+                    id="register-language-label"
                     fontSize="sm"
                     fontWeight="700"
                     textTransform="uppercase"
@@ -184,7 +185,7 @@ export default function RegisterPage() {
                   <Box
                     ref={langGroupRef}
                     role="radiogroup"
-                    aria-label={t("languageLabel")}
+                    aria-labelledby="register-language-label"
                     {...s.langGrid}
                   >
                     {LANGUAGES.map((lang, index) => (
