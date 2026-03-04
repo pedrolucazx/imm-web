@@ -48,6 +48,14 @@ const config = defineConfig({
         from: { height: "var(--radix-accordion-content-height)" },
         to: { height: "0" },
       },
+      spin: {
+        from: { transform: "rotate(0deg)" },
+        to: { transform: "rotate(360deg)" },
+      },
+      pulse: {
+        "0%, 100%": { opacity: "1" },
+        "50%": { opacity: "0.3" },
+      },
       "pulse-brutal": {
         "0%": { transform: "scale(1)" },
         "50%": { transform: "scale(1.05)" },
@@ -85,6 +93,8 @@ const config = defineConfig({
         "accordion-down": { value: "accordion-down 0.2s ease-out" },
         "accordion-up": { value: "accordion-up 0.2s ease-out" },
         "pulse-brutal": { value: "pulse-brutal 0.3s ease-in-out" },
+        spin: { value: "spin 1s linear infinite" },
+        pulse: { value: "pulse 2s ease-in-out infinite" },
       },
     },
     semanticTokens: {
