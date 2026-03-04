@@ -70,9 +70,8 @@ export default function RegisterPage() {
       e.preventDefault();
       const targetIndex = getIndex(index);
       setValue("uiLanguage", LANGUAGES[targetIndex].value);
-      langGroupRef.current
-        ?.querySelectorAll<HTMLButtonElement>('[role="radio"]')
-        [targetIndex]?.focus();
+      const radios = langGroupRef.current?.querySelectorAll<HTMLButtonElement>('[role="radio"]');
+      radios?.[targetIndex]?.focus();
     },
     [setValue]
   );
