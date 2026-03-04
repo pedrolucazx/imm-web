@@ -93,6 +93,8 @@ const config = defineConfig({
         "accordion-down": { value: "accordion-down 0.2s ease-out" },
         "accordion-up": { value: "accordion-up 0.2s ease-out" },
         "pulse-brutal": { value: "pulse-brutal 0.3s ease-in-out" },
+        spin: { value: "spin 1s linear infinite" },
+        pulse: { value: "pulse 2s ease-in-out infinite" },
       },
     },
     semanticTokens: {

@@ -1,14 +1,14 @@
 "use client";
 
 import { Link } from "@/lib/navigation";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, HStack, Text } from "@chakra-ui/react";
 import { s, gearAnimations } from "./app.styles";
 
 export default function AppPage() {
   return (
     <Box {...s.pageWrapper}>
       <Box {...s.card}>
-        <Box {...s.gearsRow}>
+        <HStack {...s.gearsRow} aria-hidden="true">
           <Box as="span" {...s.gearBase} style={gearAnimations.small}>
             ⚙️
           </Box>
@@ -18,7 +18,7 @@ export default function AppPage() {
           <Box as="span" {...s.gearBase} style={gearAnimations.medium}>
             ⚙️
           </Box>
-        </Box>
+        </HStack>
 
         <Box {...s.badge}>Em construção</Box>
 
@@ -35,14 +35,14 @@ export default function AppPage() {
 
         <Box {...s.divider} />
 
-        <Box {...s.statusRow}>
+        <HStack {...s.statusRow} role="status">
           <Box {...s.statusDot} style={gearAnimations.pulse} />
           <Text {...s.statusText}>Desenvolvimento ativo</Text>
-        </Box>
+        </HStack>
 
-        <Link href="/" style={{ textDecoration: "none" }}>
-          <Box {...s.backLink}>← Voltar para o início</Box>
-        </Link>
+        <Box asChild {...s.backLink}>
+          <Link href="/">← Voltar para o início</Link>
+        </Box>
       </Box>
     </Box>
   );
