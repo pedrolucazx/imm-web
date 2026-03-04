@@ -12,7 +12,7 @@ import { Link, useRouter } from "@/lib/navigation";
 import { Box, Heading, Text, chakra } from "@chakra-ui/react";
 import { passwordStrength } from "check-password-strength";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { s, brandLinkStyle, footerLinkStyle } from "./register.styles";
 
@@ -22,7 +22,41 @@ const LANGUAGES = [
   { value: "es-ES", label: "Español", flag: "🇪🇸" },
 ] as const;
 
+const LANG_KEY_INDEX: Record<string, (_i: number) => number> = {
+  ArrowRight: (i) => (i + 1) % LANGUAGES.length,
+  ArrowDown: (i) => (i + 1) % LANGUAGES.length,
+  ArrowLeft: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
+  ArrowUp: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
+  Home: (_i) => 0,
+  End: (_i) => LANGUAGES.length - 1,
+};
+
 type UILanguage = (typeof LANGUAGES)[number]["value"];
+
+interface LanguageRadioProps {
+  lang: (typeof LANGUAGES)[number];
+  isSelected: boolean;
+  onSelect: () => void;
+  onKeyDown: (_e: React.KeyboardEvent) => void;
+}
+
+function LanguageRadio({ lang, isSelected, onSelect, onKeyDown }: LanguageRadioProps) {
+  return (
+    <chakra.button
+      type="button"
+      role="radio"
+      {...s.langBtn}
+      bg={isSelected ? "primary" : "card"}
+      aria-checked={isSelected}
+      tabIndex={isSelected ? 0 : -1}
+      onClick={onSelect}
+      onKeyDown={onKeyDown}
+    >
+      <Text {...s.langFlag}>{lang.flag}</Text>
+      {lang.label}
+    </chakra.button>
+  );
+}
 
 interface RegisterForm {
   name: string;
@@ -52,6 +86,20 @@ export default function RegisterPage() {
 
   const selectedLang = watch("uiLanguage");
   const passwordValue = watch("password") ?? "";
+  const langGroupRef = useRef<HTMLDivElement>(null);
+
+  const handleLangKeyDown = useCallback(
+    (e: React.KeyboardEvent, index: number) => {
+      const getIndex = LANG_KEY_INDEX[e.key];
+      if (!getIndex) return;
+      e.preventDefault();
+      const targetIndex = getIndex(index);
+      setValue("uiLanguage", LANGUAGES[targetIndex].value);
+      const radios = langGroupRef.current?.querySelectorAll<HTMLButtonElement>('[role="radio"]');
+      radios?.[targetIndex]?.focus();
+    },
+    [setValue]
+  );
   const passwordStrengthLevel = useMemo(() => {
     if (!passwordValue) return 0;
     return passwordStrength(passwordValue).id;
@@ -149,6 +197,7 @@ export default function RegisterPage() {
 
                 <Box>
                   <Text
+                    id="register-language-label"
                     fontSize="sm"
                     fontWeight="700"
                     textTransform="uppercase"
@@ -157,19 +206,20 @@ export default function RegisterPage() {
                   >
                     {t("languageLabel")}
                   </Text>
-                  <Box {...s.langGrid}>
-                    {LANGUAGES.map((lang) => (
-                      <chakra.button
+                  <Box
+                    ref={langGroupRef}
+                    role="radiogroup"
+                    aria-labelledby="register-language-label"
+                    {...s.langGrid}
+                  >
+                    {LANGUAGES.map((lang, index) => (
+                      <LanguageRadio
                         key={lang.value}
-                        type="button"
-                        {...s.langBtn}
-                        bg={selectedLang === lang.value ? "primary" : "card"}
-                        aria-pressed={selectedLang === lang.value}
-                        onClick={() => setValue("uiLanguage", lang.value)}
-                      >
-                        <Text {...s.langFlag}>{lang.flag}</Text>
-                        {lang.label}
-                      </chakra.button>
+                        lang={lang}
+                        isSelected={selectedLang === lang.value}
+                        onSelect={() => setValue("uiLanguage", lang.value)}
+                        onKeyDown={(e) => handleLangKeyDown(e, index)}
+                      />
                     ))}
                   </Box>
                 </Box>

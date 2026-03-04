@@ -39,7 +39,8 @@ interface PasswordStrengthMeterProps extends BoxProps {
 export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordStrengthMeterProps>(
   function PasswordStrengthMeter(props, ref) {
     const { max = 4, value, levels = DEFAULT_LEVELS, ...rest } = props;
-    const clampedValue = Math.max(0, Math.min(value, max));
+    const normalizedValue = Number.isFinite(value) ? Math.floor(value) : 0;
+    const clampedValue = Math.max(0, Math.min(normalizedValue, max));
     const levelIndex = clampedValue > 0 ? Math.min(clampedValue, levels.length) - 1 : -1;
     const level = levelIndex >= 0 ? levels[levelIndex] : null;
 

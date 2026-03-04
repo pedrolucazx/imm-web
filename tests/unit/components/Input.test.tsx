@@ -32,7 +32,7 @@ describe("Input", () => {
     expect(input).toHaveAttribute("type", "password");
   });
 
-  it("applies invalid styles when data-invalid is set", () => {
+  it("forwards data-invalid attribute to the input", () => {
     renderWithProviders(<Input data-testid="invalid-input" data-invalid />);
     const input = screen.getByTestId("invalid-input");
     expect(input).toHaveAttribute("data-invalid");

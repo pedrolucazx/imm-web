@@ -30,10 +30,12 @@ describe("Button", () => {
     expect(screen.getByRole("button", { name: "Muted" })).toBeInTheDocument();
   });
 
-  it("shows loading state when isLoading is true", () => {
-    renderWithProviders(<Button isLoading>Submit</Button>);
+  it("shows loading state when loading is true", () => {
+    renderWithProviders(<Button loading>Submit</Button>);
     const btn = screen.getByRole("button");
     expect(btn).toBeInTheDocument();
+    expect(btn).toHaveAttribute("data-loading");
+    expect(btn).toBeDisabled();
   });
 
   it("is not in loading state by default", () => {

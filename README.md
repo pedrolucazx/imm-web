@@ -42,7 +42,7 @@
 
 ## Architecture
 
-```
+```text
 imm-web (Next.js App Router)
 ├── app/[locale]/                  # i18n routing via next-intl
 │   ├── (auth)/                    # Unauthenticated pages (login, register)
@@ -70,7 +70,7 @@ All server communication goes through **TanStack Query** hooks — components ne
 | Icons                  | Phosphor Icons (`@phosphor-icons/react`) |
 | HTTP / State           | TanStack Query v5 + Axios                |
 | Forms                  | React Hook Form v7                       |
-| Animations             | Framer Motion                            |
+| Animations             | N/A (no dedicated library at the moment) |
 | Internationalization   | next-intl v4                             |
 | Unit/Integration Tests | Jest + React Testing Library + MSW       |
 | E2E Tests              | Playwright (Chromium)                    |
@@ -80,7 +80,7 @@ All server communication goes through **TanStack Query** hooks — components ne
 
 ## Project Structure
 
-```
+```text
 imm-web/
 ├── app/
 │   └── [locale]/                  # Locale-aware App Router root
@@ -237,7 +237,7 @@ Configuration: [`playwright.config.ts`](playwright.config.ts)
 
 Every push and pull request to `develop` or `main` triggers the pipeline defined in `.github/workflows/ci.yml`:
 
-```
+```text
 code_quality ──► tests ──► ai_review ──► quality_gate
      │              │           │              │
   ESLint         unit        CodeRabbit     required
@@ -275,7 +275,7 @@ Vercel is configured via the GitHub Action — no manual deployment needed. Only
 
 ## Branch Strategy
 
-```
+```text
 feature/* ──► develop (homolog) ──► main (production)
                    │                       │
              auto-deploys to         admin-only merge
@@ -294,14 +294,18 @@ feature/* ──► develop (homolog) ──► main (production)
 2. Implement your changes, following the component and hook patterns in `components/ui/` and `lib/`
 3. Write tests — unit for components/hooks, integration for API calls
 4. Verify everything passes locally:
+
    ```bash
    yarn lint && yarn format:check && yarn test
    ```
+
 5. Commit with [Conventional Commits](https://www.conventionalcommits.org/):
+
    ```bash
    yarn commit
    # or manually: git commit -m "feat(auth): add remember me checkbox"
    ```
+
 6. Open a pull request targeting `develop`
 
 **Accepted commit types:** `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `perf`, `ci`

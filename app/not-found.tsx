@@ -3,24 +3,8 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <Box
-      minH="100vh"
-      bg="hsl(60, 20%, 95%)"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      p={6}
-    >
-      <Box
-        bg="white"
-        border="3px solid black"
-        borderRadius="0"
-        boxShadow="4px 4px 0px 0px black"
-        p={8}
-        textAlign="center"
-        maxW="400px"
-        w="100%"
-      >
+    <Box minH="100vh" bg="canvas" display="flex" alignItems="center" justifyContent="center" p={6}>
+      <Box layerStyle="cardBrutal" bg="card" p={8} textAlign="center" maxW="400px" w="100%">
         <Heading fontSize="6xl" fontWeight="black" mb={2}>
           404
         </Heading>

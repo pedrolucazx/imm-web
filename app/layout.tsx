@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import { Providers } from "@/providers/ChakraProvider";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -13,10 +14,11 @@ export const metadata: Metadata = {
   description: "A habit tracking and AI-powered journaling SaaS",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   return (
-    <html lang="en">
-      <body className={spaceGrotesk.variable}>
+    <html lang={locale} className={spaceGrotesk.variable}>
+      <body>
         <Providers>
           {children}
           <Toaster />
