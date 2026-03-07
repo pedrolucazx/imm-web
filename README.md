@@ -26,7 +26,7 @@
 - [Variáveis de Ambiente](#variáveis-de-ambiente)
 - [Scripts Disponíveis](#scripts-disponíveis)
 - [Testes](#testes)
-- [Pipeline CI/CD](#pipelineCICD)
+- [Pipeline CI/CD](#pipeline-cicd)
 - [Deployment](#deployment)
 - [Estratégia de Branches](#estratégia-de-branches)
 - [Contribuindo](#contribuindo)
@@ -391,4 +391,4 @@ Este frontend mostra práticas de desenvolvimento React e Next.js moderno que im
 
 ## Licença
 
-Este projeto é público e aberto para fins de aprendizado.
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
