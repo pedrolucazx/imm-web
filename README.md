@@ -1,6 +1,6 @@
 # imm-web
 
-> Aplicação frontend para **Inside My Mind** — Rastreamento de hábitos e journaling potencializado por inteligência artificial com três agentes inteligentes.
+> Frontend do **Inside My Mind** — rastreamento de hábitos com feedback de IA.
 
 [![CI](https://github.com/pedrolucazx/imm-web/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/pedrolucazx/imm-web/actions/workflows/ci.yml)
 
@@ -17,7 +17,7 @@
 ## Índice
 
 - [O que é Inside My Mind?](#o-que-é-inside-my-mind)
-- [Funcionalidades Principais](#funcionalidades-principais)
+- [Funcionalidades](#funcionalidades)
 - [Arquitetura](#arquitetura)
 - [Stack de Tecnologias](#stack-de-tecnologias)
 - [Estrutura do Projeto](#estrutura-do-projeto)
@@ -35,51 +35,25 @@
 
 ## O que é Inside My Mind?
 
-**Inside My Mind** é uma aplicação gratuita e de código aberto que ajuda você a construir hábitos consistentes ao longo de 66 dias — o tempo médio que a ciência mostra ser necessário para transformar um comportamento em uma rotina automática.
+**Inside My Mind** é uma aplicação de rastreamento de hábitos que usa IA para gerar feedback personalizado. Você registra seu progresso diário, escreve sobre sua experiência e recebe análise de um dos três agentes especializados: um planejador de hábitos, um professor de idiomas ou um coach comportamental.
 
-O diferencial é que o app conta com três agentes de IA que trabalham para você **sem custo nenhum**: um que monta seu plano personalizado, um que corrige sua escrita em outros idiomas e um que analisa seu humor e padrões comportamentais ao longo do tempo. Tudo rodando dentro de cotas gratuitas de IA sem monetização.
-
-É um projeto de portfólio e aprendizado que qualquer pessoa pode usar, estudar e contribuir.
+É um projeto de código aberto, feito para aprendizado e portfólio.
 
 ---
 
-## Funcionalidades Principais
+## Funcionalidades
 
-### Daily Lab — Seu Dashboard de Hábitos
+**Daily Lab** — painel principal para registrar hábitos concluídos, escrever entradas e receber feedback de IA no dia.
 
-A interface principal onde você rastreia todos os hábitos ativos com indicadores visuais de progresso. Cada dia você:
+**Agentes de IA**
 
-1. **Marca hábitos concluídos** — Cards interativos mostrando seu streak atual e progresso diário
-2. **Registra sua experiência** — Escreva livremente ou em um idioma-alvo com feedback alimentado por IA
-3. **Receba insights personalizados** — Obtenha análise de um dos três agentes de IA especializados
+- **Habit Planner**: gera um plano de 66 dias com fases progressivas ao criar um novo hábito
+- **Language Teacher**: avalia gramática, vocabulário e fluência nas entradas de hábitos de idiomas
+- **Behavioral Coach**: identifica padrões de humor e sugere ajustes de rotina para hábitos comportamentais
 
-### Feedback Inteligente de IA
+**Internacionalização** — interface disponível em Português, Inglês e Espanhol. O idioma da interface é independente do idioma de estudo — você pode usar o app em pt-br enquanto aprende inglês.
 
-Dependendo do tipo de hábito, receba feedback especializado:
-
-- **Aprendizado de Idiomas**: Scores de gramática, vocabulário e fluência com correções de erros detalhadas
-- **Rastreamento Comportamental**: Padrões de humor, níveis de energia e micro-hábitos acionáveis para amanhã
-- **Planos Personalizados**: Roadmaps de 66 dias com três fases progressivas (Fundação, Produção, Consolidação)
-
-### Internacionalização Completa (i18n)
-
-- Suporte para Português, Inglês e Espanhol
-- **Distinção crítica**: Idioma da interface ≠ Idioma de aprendizado do hábito
-- Exemplo: Use o app em português enquanto estuda inglês — o Language Teacher analisa seu inglês e explica erros em português
-
-### Analytics & Insights
-
-- **Calendário de Streak**: Heatmap estilo GitHub mostrando sua consistência diária
-- **Rastreamento de Progresso**: Taxas de conclusão, tendências de contagem de palavras e gráficos de correlação de humor
-- **Reconhecimento de Padrões**: Analytics visuais para entender seus padrões comportamentais
-
----
-
-## Visão Geral
-
-`imm-web` é o frontend da plataforma **Inside My Mind**. Consome a API REST [`imm-api`](https://github.com/pedrolucazx/imm-api) através de hooks HTTP tipados — sem acesso direto ao banco de dados. A UI segue um sistema de design neo-brutalism construído em cima do Chakra UI v3, com suporte completo de internacionalização e server-side rendering via Next.js App Router.
-
-> Decisões de arquitetura, fluxo de dados e roadmap de sprints estão documentados em [docs/architecture.pdf](./docs/architecture.pdf).
+**Analytics** — heatmap de streak, taxas de conclusão e histórico de progresso por hábito.
 
 ---
 
@@ -90,15 +64,15 @@ imm-web (Next.js App Router)
 ├── app/[locale]/                  # Roteamento i18n via next-intl
 │   ├── (auth)/                    # Páginas não-autenticadas (login, register)
 │   └── (landing)/                 # Página de landing pública
-├── components/ui/                 # Chakra UI wrapped design system
+├── components/ui/                 # Design system customizado sobre Chakra UI
 ├── lib/                           # API client, hooks, serviços
-│   ├── hooks/useAuth.ts           # Hook de autenticação e gerenciamento de tokens
+│   ├── hooks/useAuth.ts           # Autenticação e gerenciamento de tokens
 │   ├── auth.service.ts            # Chamadas de API de autenticação
-│   └── endpoints.ts               # Mapa typado de endpoints da API
-└── providers/                     # Provedores de contexto React
+│   └── endpoints.ts               # Mapa tipado de endpoints da API
+└── providers/                     # Provedores de contexto (QueryClient, Chakra, etc.)
 ```
 
-Toda comunicação com servidor passa por hooks **TanStack Query** — componentes nunca chamam a API diretamente. Estado de autenticação é centralizado em `useAuth`.
+`imm-web` consome a API REST [`imm-api`](https://github.com/pedrolucazx/imm-api) através de hooks HTTP tipados — sem acesso direto ao banco de dados. Toda comunicação com o servidor passa por hooks TanStack Query. Estado de autenticação é centralizado em `useAuth`.
 
 ---
 
@@ -113,7 +87,6 @@ Toda comunicação com servidor passa por hooks **TanStack Query** — component
 | Ícones                  | Phosphor Icons (`@phosphor-icons/react`) |
 | HTTP / Estado           | TanStack Query v5 + Axios                |
 | Formulários             | React Hook Form v7                       |
-| Animações               | Nenhuma biblioteca dedicada no momento   |
 | Internacionalização     | next-intl v4                             |
 | Testes Unit/Integration | Jest + React Testing Library + MSW       |
 | Testes E2E              | Playwright (Chromium)                    |
@@ -217,23 +190,23 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Scripts Disponíveis
 
-| Script                  | Descrição                                        |
-| ----------------------- | ------------------------------------------------ |
-| `yarn dev`              | Inicie dev server do Next.js                     |
-| `yarn build`            | Compile a aplicação para produção                |
-| `yarn start`            | Inicie o build de produção                       |
-| `yarn lint`             | Execute ESLint                                   |
-| `yarn lint:fix`         | Execute ESLint com auto-fix                      |
-| `yarn format`           | Formate todos os arquivos com Prettier           |
-| `yarn format:check`     | Verifique formatação sem escrever                |
-| `yarn test`             | Execute testes unitários e de integração (Jest)  |
-| `yarn test:unit`        | Execute apenas testes unitários                  |
-| `yarn test:integration` | Execute apenas testes de integração              |
-| `yarn test:e2e`         | Execute testes E2E com Playwright (requer build) |
-| `yarn test:e2e:ui`      | Execute Playwright com UI interativa             |
-| `yarn test:watch`       | Execute Jest em watch mode                       |
-| `yarn test:coverage`    | Execute Jest e gere relatório de coverage        |
-| `yarn commit`           | Conventional commit interativo via Commitizen    |
+| Script                  | Descrição                                             |
+| ----------------------- | ----------------------------------------------------- |
+| `yarn dev`              | Inicia o servidor de desenvolvimento do Next.js       |
+| `yarn build`            | Compila a aplicação para produção                     |
+| `yarn start`            | Inicia a versão de produção já compilada              |
+| `yarn lint`             | Executa ESLint                                        |
+| `yarn lint:fix`         | Executa ESLint com correção automática                |
+| `yarn format`           | Formata todos os arquivos com Prettier                |
+| `yarn format:check`     | Verifica formatação sem escrever                      |
+| `yarn test`             | Executa testes unitários e de integração (Jest)       |
+| `yarn test:unit`        | Executa apenas testes unitários                       |
+| `yarn test:integration` | Executa apenas testes de integração                   |
+| `yarn test:e2e`         | Executa testes E2E com Playwright (requer compilação) |
+| `yarn test:e2e:ui`      | Executa Playwright com interface interativa           |
+| `yarn test:watch`       | Executa Jest em modo de observação                    |
+| `yarn test:coverage`    | Executa Jest e gera relatório de cobertura            |
+| `yarn commit`           | Conventional commit interativo via Commitizen         |
 
 ---
 
@@ -257,13 +230,13 @@ yarn test:coverage
 
 ### Playwright — E2E
 
-Testes completos de browser executando contra Chromium. Testes vivem em `tests/e2e/` e rodam contra o servidor real de Next.js.
+Testes completos de navegador executando contra Chromium. Os testes ficam em `tests/e2e/` e rodam contra o servidor Next.js compilado.
 
 ```bash
-# Execute testes E2E (build de produção obrigatório em CI)
+# Build obrigatório antes de rodar em CI
 yarn build && yarn test:e2e
 
-# UI Interativa (desenvolvimento local)
+# UI interativa para desenvolvimento local
 yarn test:e2e:ui
 ```
 
@@ -334,7 +307,7 @@ feature/* ──► develop (homolog) ──► main (production)
 ## Contribuindo
 
 1. Crie uma branch a partir de `develop`: `git checkout -b feat/sua-feature develop`
-2. Implemente suas mudanças, seguindo os padrões de componentes e hooks em `components/ui/` e `lib/`
+2. Implemente suas mudanças seguindo os padrões de componentes e hooks em `components/ui/` e `lib/`
 3. Escreva testes — unitários para componentes/hooks, integração para chamadas de API
 4. Verifique se tudo passa localmente:
 
@@ -353,7 +326,7 @@ feature/* ──► develop (homolog) ──► main (production)
 
 **Tipos de commit aceitos:** `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `perf`, `ci`
 
-**Convenções do Chakra UI v3 enforçadas por CodeRabbit:**
+**Convenções do Chakra UI v3:**
 
 - Imports: componentes base de `@chakra-ui/react`, custom wrappers de `components/ui/`
 - Props: `open` (não `isOpen`), `disabled` (não `isDisabled`), `invalid` (não `isInvalid`)
@@ -362,30 +335,6 @@ feature/* ──► develop (homolog) ──► main (production)
 - Ícones: `@phosphor-icons/react` apenas — nunca `@chakra-ui/icons`
 
 Pre-commit hooks (Husky + lint-staged) executam checagens de lint e format automaticamente antes de cada commit.
-
----
-
----
-
-## Por Que Este Projeto Importa para Seu Portfólio
-
-Este frontend mostra práticas de desenvolvimento React e Next.js moderno que impactam diretamente em decisões de hiring:
-
-- **Advanced State Management**: TanStack Query para estado de servidor, React Hook Form para formulários complexos, context para auth — sem bloat de Redux.
-- **Type Safety**: TypeScript end-to-end com strict mode garante correção em compile-time em componentes e chamadas de API.
-- **Internacionalização em Escala**: next-intl com roteamento consciente de locale e middleware, suportando 3+ idiomas perfeitamente.
-- **Domain de Design System**: Chakra UI v3 com componentes customizados e wrapped, design responsivo e estética neo-brutalism coesa.
-- **Testes Abrangentes**: Jest, React Testing Library, MSW (API mockada) e Playwright E2E — qualidade pronta para produção.
-- **Performance**: Server components, code splitting, otimização de imagens e meta tags de SEO via best practices Next.js.
-- **Acessibilidade**: ARIA labels, navegação por teclado, conformidade de contraste de cores e HTML semântico.
-- **Automação de Deployment**: Pipeline CI/CD do GitHub Actions com linting, testes e deploys automáticos para Vercel.
-
-**O que Recrutadores Veem:**
-
-- Você entende React moderno full-stack (App Router, Server Components, Streaming)
-- Você se importa com qualidade de código (linting, formatação, pre-commit hooks, branch protection)
-- Você consegue estruturar um projeto escalável (componentes modulares, hooks, services)
-- Você lançou features production-grade (internacionalização, analytics, integração real de API)
 
 ---
 
