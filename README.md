@@ -190,23 +190,23 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Scripts Disponíveis
 
-| Script                  | Descrição                                        |
-| ----------------------- | ------------------------------------------------ |
-| `yarn dev`              | Inicia dev server do Next.js                     |
-| `yarn build`            | Compila a aplicação para produção                |
-| `yarn start`            | Inicia o build de produção                       |
-| `yarn lint`             | Executa ESLint                                   |
-| `yarn lint:fix`         | Executa ESLint com auto-fix                      |
-| `yarn format`           | Formata todos os arquivos com Prettier           |
-| `yarn format:check`     | Verifica formatação sem escrever                 |
-| `yarn test`             | Executa testes unitários e de integração (Jest)  |
-| `yarn test:unit`        | Executa apenas testes unitários                  |
-| `yarn test:integration` | Executa apenas testes de integração              |
-| `yarn test:e2e`         | Executa testes E2E com Playwright (requer build) |
-| `yarn test:e2e:ui`      | Executa Playwright com UI interativa             |
-| `yarn test:watch`       | Executa Jest em watch mode                       |
-| `yarn test:coverage`    | Executa Jest e gera relatório de coverage        |
-| `yarn commit`           | Conventional commit interativo via Commitizen    |
+| Script                  | Descrição                                             |
+| ----------------------- | ----------------------------------------------------- |
+| `yarn dev`              | Inicia o servidor de desenvolvimento do Next.js       |
+| `yarn build`            | Compila a aplicação para produção                     |
+| `yarn start`            | Inicia a versão de produção já compilada              |
+| `yarn lint`             | Executa ESLint                                        |
+| `yarn lint:fix`         | Executa ESLint com correção automática                |
+| `yarn format`           | Formata todos os arquivos com Prettier                |
+| `yarn format:check`     | Verifica formatação sem escrever                      |
+| `yarn test`             | Executa testes unitários e de integração (Jest)       |
+| `yarn test:unit`        | Executa apenas testes unitários                       |
+| `yarn test:integration` | Executa apenas testes de integração                   |
+| `yarn test:e2e`         | Executa testes E2E com Playwright (requer compilação) |
+| `yarn test:e2e:ui`      | Executa Playwright com interface interativa           |
+| `yarn test:watch`       | Executa Jest em modo de observação                    |
+| `yarn test:coverage`    | Executa Jest e gera relatório de cobertura            |
+| `yarn commit`           | Conventional commit interativo via Commitizen         |
 
 ---
 
@@ -230,7 +230,7 @@ yarn test:coverage
 
 ### Playwright — E2E
 
-Testes completos de browser executando contra Chromium. Os testes ficam em `tests/e2e/` e rodam contra o servidor Next.js compilado.
+Testes completos de navegador executando contra Chromium. Os testes ficam em `tests/e2e/` e rodam contra o servidor Next.js compilado.
 
 ```bash
 # Build obrigatório antes de rodar em CI
