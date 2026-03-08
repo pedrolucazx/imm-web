@@ -78,12 +78,16 @@ export function useLogin(
 }
 
 // Logout
-export function useLogout(): () => void {
+export function useLogout(): UseMutationResult<void, Error, void> {
   const queryClient = useQueryClient();
 
-  return (): void => {
-    authService.removeToken();
-    queryClient.setQueryData(["user"], null);
-    queryClient.clear();
-  };
+  return useMutation({
+    mutationFn: async (): Promise<void> => {
+      authService.removeToken();
+    },
+    onSuccess: (): void => {
+      queryClient.setQueryData(["user"], null);
+      queryClient.clear();
+    },
+  });
 }

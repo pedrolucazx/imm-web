@@ -153,7 +153,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       <Field.Root invalid={!!error}>
         {label && <Field.Label>{label}</Field.Label>}
         {inputGroup}
-        {strengthValue !== undefined ? (
+        {passwordValue !== undefined ? (
           <Box mt={1} position="relative" w="full">
             <PasswordStrengthMeter
               value={strengthValue}

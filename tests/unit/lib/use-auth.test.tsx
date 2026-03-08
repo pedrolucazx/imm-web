@@ -146,26 +146,26 @@ describe("useLogin", () => {
 });
 
 describe("useLogout", () => {
-  it("calls authService.removeToken when invoked", () => {
+  it("calls authService.removeToken when invoked", async () => {
     const { wrapper } = makeWrapper();
 
     const { result } = renderHook(() => useLogout(), { wrapper });
 
-    act(() => {
-      result.current();
+    await act(async () => {
+      result.current.mutate();
     });
 
     expect(mockAuthService.removeToken).toHaveBeenCalled();
   });
 
-  it("clears the query client data when invoked", () => {
+  it("clears the query client data when invoked", async () => {
     const { wrapper, queryClient } = makeWrapper();
     queryClient.setQueryData(["user"], { id: "1", name: "John" });
 
     const { result } = renderHook(() => useLogout(), { wrapper });
 
-    act(() => {
-      result.current();
+    await act(async () => {
+      result.current.mutate();
     });
 
     expect(queryClient.getQueryData(["user"])).toBeUndefined();
