@@ -1,48 +1,59 @@
 "use client";
 
-import { Button, Input, PasswordInput } from "../../../../components/ui";
 import { AuthCard } from "@/components/AuthCard";
-import { LanguageSelector, LANGUAGES, type UILanguage } from "@/components/LanguageSelector";
+import { LANGUAGES, LanguageSelector, type UILanguage } from "@/components/LanguageSelector";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { Box } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button, Input, PasswordInput } from "../../../../components/ui";
 import { s } from "./register.styles";
-
-interface RegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  uiLanguage: UILanguage;
-}
 
 export default function RegisterPage(): React.JSX.Element {
   const t = useTranslations("auth.register");
   const locale = useLocale();
   const router = useRouter();
-  const { mutate: register, isPending } = useRegister({
-    onSuccess: () => router.push(ROUTES.APP),
+  const { mutate: registerMutation, isPending } = useRegister({
+    onSuccess: () => router.push(ROUTES.APP_DAILY_LAB),
   });
+
+  const registerSchema = z.object({
+    name: z.string().min(2, t("nameMinLength")),
+    email: z.email(t("emailInvalid")),
+    password: z.string().min(6, t("passwordMinLength")),
+    uiLanguage: z.enum(["pt-BR", "en-US", "es-ES"]),
+  });
+
+  type RegisterForm = z.infer<typeof registerSchema>;
 
   const defaultUiLanguage: UILanguage = LANGUAGES.some((l) => l.value === locale)
     ? (locale as UILanguage)
     : "en-US";
 
   const {
-    register: registerField,
+    register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<RegisterForm>({ defaultValues: { uiLanguage: defaultUiLanguage } });
+  } = useForm<RegisterForm>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { uiLanguage: defaultUiLanguage },
+  });
 
   const selectedLang = watch("uiLanguage");
   const passwordValue = watch("password") ?? "";
 
   const onSubmit = (data: RegisterForm): void => {
-    register(data);
+    registerMutation({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (
@@ -60,10 +71,7 @@ export default function RegisterPage(): React.JSX.Element {
             type="text"
             placeholder={t("namePlaceholder")}
             error={errors.name?.message}
-            {...registerField("name", {
-              required: t("nameRequired"),
-              minLength: { value: 2, message: t("nameMinLength") },
-            })}
+            {...register("name")}
           />
 
           <Input
@@ -71,13 +79,7 @@ export default function RegisterPage(): React.JSX.Element {
             type="email"
             placeholder={t("emailPlaceholder")}
             error={errors.email?.message}
-            {...registerField("email", {
-              required: t("emailRequired"),
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: t("emailInvalid"),
-              },
-            })}
+            {...register("email")}
           />
 
           <PasswordInput
@@ -85,10 +87,7 @@ export default function RegisterPage(): React.JSX.Element {
             placeholder={t("passwordPlaceholder")}
             error={errors.password?.message}
             passwordValue={passwordValue}
-            {...registerField("password", {
-              required: t("passwordRequired"),
-              minLength: { value: 6, message: t("passwordMinLength") },
-            })}
+            {...register("password")}
           />
 
           <LanguageSelector
