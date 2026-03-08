@@ -9,7 +9,6 @@ export interface AuthMutationOptions {
   onError?: (_error: Error) => void;
 }
 
-// Register mutation
 export function useRegister(
   options?: AuthMutationOptions
 ): UseMutationResult<AuthResponse, Error, RegisterInput> {
@@ -41,7 +40,6 @@ export function useRegister(
   });
 }
 
-// Login mutation
 export function useLogin(
   options?: AuthMutationOptions
 ): UseMutationResult<AuthResponse, Error, LoginInput> {
@@ -73,7 +71,6 @@ export function useLogin(
   });
 }
 
-// Logout
 export function useLogout(): UseMutationResult<void, Error, void> {
   const { logout } = useAuthContext();
   const queryClient = useQueryClient();

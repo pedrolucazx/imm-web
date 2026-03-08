@@ -26,12 +26,12 @@ const config: Config = {
   ],
 };
 
-// Override transformIgnorePatterns after next/jest merges its own /node_modules/ pattern.
-// Jest ignores a file if ANY pattern matches, so we must replace — not append.
-export default async () => {
+const configAsync = async () => {
   const resolved = await (createJestConfig(config) as () => Promise<Config>)();
   return {
     ...resolved,
     transformIgnorePatterns: ["/node_modules/(?!(msw|@mswjs|until-async)/)"],
   };
 };
+
+export default configAsync;
