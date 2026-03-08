@@ -61,6 +61,8 @@ export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordSt
           fontWeight="700"
           textTransform="uppercase"
           letterSpacing="wider"
+          aria-live="polite"
+          role="status"
           style={{ color: level ? level.color : "transparent" }}
         >
           {level ? level.label : "\u00A0"}
@@ -161,6 +163,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
               levels={strengthLevels}
               w="full"
               opacity={showStrength ? 1 : 0}
+              visibility={showStrength ? "visible" : "hidden"}
             />
             <Field.ErrorText position="absolute" top={0} left={0} lineHeight="1.25rem">
               {error}
