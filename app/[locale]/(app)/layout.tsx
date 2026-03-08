@@ -1,14 +1,14 @@
-import { Box } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { SIDEBAR_WIDTH } from "@/components/Sidebar/sidebar.styles";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Box display="flex" minH="100vh">
+    <HStack minH="100vh" gap={0} align="stretch">
       <Sidebar />
       <Box as="main" flex="1" ml={SIDEBAR_WIDTH} minH="100vh">
         {children}
       </Box>
-    </Box>
+    </HStack>
   );
 }

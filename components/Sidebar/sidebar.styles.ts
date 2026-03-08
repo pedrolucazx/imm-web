@@ -2,6 +2,22 @@ import type { SystemStyleObject } from "@chakra-ui/react";
 
 export const SIDEBAR_WIDTH = "16rem";
 
+const navItemBase = {
+  display: "flex",
+  alignItems: "center",
+  gap: 3,
+  px: 4,
+  py: 3,
+  fontWeight: "700",
+  fontSize: "sm",
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.05em",
+  textDecoration: "none",
+  border: "3px solid black",
+  boxShadow: "brutal-sm",
+  cursor: "pointer",
+};
+
 export const s = {
   aside: {
     position: "fixed" as const,
@@ -49,21 +65,9 @@ export const s = {
   },
 
   navItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: 3,
-    px: 4,
-    py: 3,
-    fontWeight: "700",
-    fontSize: "sm",
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.05em",
-    textDecoration: "none",
+    ...navItemBase,
     color: "sidebar.fg",
     bg: "card",
-    border: "3px solid black",
-    boxShadow: "brutal-sm",
-    cursor: "pointer",
     transition: "transform 0.1s ease, box-shadow 0.1s ease",
     _hover: {
       transform: "translate(-1px, -1px)",
@@ -76,21 +80,9 @@ export const s = {
   },
 
   navItemActive: {
-    display: "flex",
-    alignItems: "center",
-    gap: 3,
-    px: 4,
-    py: 3,
-    fontWeight: "700",
-    fontSize: "sm",
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.05em",
-    textDecoration: "none",
+    ...navItemBase,
     color: "sidebar.primaryFg",
     bg: "sidebar.primary",
-    border: "3px solid black",
-    boxShadow: "brutal-sm",
-    cursor: "pointer",
   },
 
   navIcon: {

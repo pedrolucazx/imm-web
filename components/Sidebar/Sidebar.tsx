@@ -20,9 +20,14 @@ const NAV_ITEMS: NavItem[] = [
     href: ROUTES.APP_DAILY_LAB,
     ownedRoute: ROUTES.APP_DAILY_LAB,
   },
-  { icon: "🎯", labelKey: "habits", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/habits" },
-  { icon: "📅", labelKey: "history", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/history" },
-  { icon: "📊", labelKey: "analytics", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/analytics" },
+  { icon: "🎯", labelKey: "habits", href: ROUTES.APP_DAILY_LAB, ownedRoute: ROUTES.APP_HABITS },
+  { icon: "📅", labelKey: "history", href: ROUTES.APP_DAILY_LAB, ownedRoute: ROUTES.APP_HISTORY },
+  {
+    icon: "📊",
+    labelKey: "analytics",
+    href: ROUTES.APP_DAILY_LAB,
+    ownedRoute: ROUTES.APP_ANALYTICS,
+  },
   { icon: "⚙️", labelKey: "settings", href: ROUTES.SETTINGS, ownedRoute: ROUTES.SETTINGS },
 ];
 
