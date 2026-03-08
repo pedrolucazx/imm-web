@@ -3,4 +3,5 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   APP_DAILY_LAB: "/daily-lab",
+  SETTINGS: "/settings",
 } as const;
