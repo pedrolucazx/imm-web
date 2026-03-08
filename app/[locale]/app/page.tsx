@@ -3,6 +3,7 @@
 import { Link } from "@/lib/navigation";
 import { Box, Heading, HStack, Text } from "@chakra-ui/react";
 import { s, gearAnimations } from "./app.styles";
+import { ROUTES } from "@/lib/routes";
 
 export default function AppPage() {
   return (
@@ -41,7 +42,7 @@ export default function AppPage() {
         </HStack>
 
         <Box asChild {...s.backLink}>
-          <Link href="/">← Voltar para o início</Link>
+          <Link href={ROUTES.HOME}>← Voltar para o início</Link>
         </Box>
       </Box>
     </Box>

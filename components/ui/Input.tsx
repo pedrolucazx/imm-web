@@ -38,7 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ label, error, .
 
   return (
     <Field.Root invalid={!!error}>
-      {label && <Field.Label>{label}</Field.Label>}
+      {label && <Field.Label mb={0}>{label}</Field.Label>}
       {input}
       <Box h="1.25rem" mt={1}>
         <Field.ErrorText>{error}</Field.ErrorText>

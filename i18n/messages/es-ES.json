@@ -1,6 +1,12 @@
 {
   "common": {
-    "appName": "Inside My Mind"
+    "appName": "Inside My Mind",
+    "passwordStrength": {
+      "veryWeak": "Muy débil",
+      "weak": "Débil",
+      "good": "Buena",
+      "strong": "Fuerte"
+    }
   },
   "landing": {
     "nav": {
@@ -139,10 +145,6 @@
       "passwordRequired": "La contraseña es obligatoria",
       "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
       "languageLabel": "IDIOMA DE INTERFAZ",
-      "strengthVeryWeak": "Muy débil",
-      "strengthWeak": "Débil",
-      "strengthGood": "Buena",
-      "strengthStrong": "Fuerte",
       "submit": "Comenzar Viaje →",
       "toastSuccessTitle": "¡Cuenta creada!",
       "toastSuccessDesc": "Bienvenido a tu viaje de transformación de 66 días.",

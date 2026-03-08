@@ -14,6 +14,16 @@ jest.mock("@/lib/auth.service", () => ({
   },
 }));
 
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
+jest.mock("@/components/ui", () => ({
+  toaster: {
+    create: jest.fn(),
+  },
+}));
+
 const mockAuthService = authService as jest.Mocked<typeof authService>;
 
 const mockAuthResponse: AuthResponse = {
@@ -77,6 +87,24 @@ describe("useRegister", () => {
     });
 
     expect(mockAuthService.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
+  });
+
+  it("calls options.onSuccess callback after successful registration", async () => {
+    mockAuthService.register.mockResolvedValue(mockAuthResponse);
+    const { wrapper } = makeWrapper();
+    const onSuccess = jest.fn();
+
+    const { result } = renderHook(() => useRegister({ onSuccess }), { wrapper });
+
+    await act(async () => {
+      await result.current.mutateAsync({
+        email: "user@example.com",
+        password: "pass123",
+        name: "Test User",
+      });
+    });
+
+    expect(onSuccess).toHaveBeenCalledWith(mockAuthResponse);
   });
 });
 

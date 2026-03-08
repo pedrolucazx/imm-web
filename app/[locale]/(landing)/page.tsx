@@ -1,6 +1,8 @@
 "use client";
 
+import { AgentCard, FeatureCard, PhaseCard } from "@/components/landing";
 import { Link } from "@/lib/navigation";
+import { ROUTES } from "@/lib/routes";
 import { Box, Grid, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { s } from "./landing.styles";
@@ -101,10 +103,10 @@ export default function Home() {
           <Box {...s.navInner}>
             <Text {...s.navBrand}>🧠 Inside My Mind</Text>
             <Box {...s.navButtons}>
-              <ChakraLink href="/login" {...s.navLoginBtn}>
+              <ChakraLink href={ROUTES.LOGIN} {...s.navLoginBtn}>
                 {t("nav.login")}
               </ChakraLink>
-              <ChakraLink href="/register" {...s.navSignupBtn}>
+              <ChakraLink href={ROUTES.REGISTER} {...s.navSignupBtn}>
                 {t("nav.signup")}
               </ChakraLink>
             </Box>
@@ -124,7 +126,7 @@ export default function Home() {
               </Box>
             </Text>
             <Text {...s.heroSubtitle}>{t("hero.subtitle")}</Text>
-            <ChakraLink href="/register" {...s.heroCtaBtn}>
+            <ChakraLink href={ROUTES.REGISTER} {...s.heroCtaBtn}>
               {t("hero.cta")}
             </ChakraLink>
           </Box>
@@ -140,18 +142,14 @@ export default function Home() {
           <Text {...s.phasesSubtitle}>{t("phases.subtitle")}</Text>
           <Grid {...s.grid3}>
             {phases.map((p) => (
-              <Box key={p.num} bg={p.bg} {...s.phaseCard}>
-                <Text as="span" {...s.phaseNumber}>
-                  {p.num}
-                </Text>
-                <Text {...s.phaseLabel}>
-                  {t("phases.phaseLabel", { num: p.num, days: t(p.daysKey) })}
-                </Text>
-                <Text as="h4" {...s.phaseTitle}>
-                  {t(p.titleKey)}
-                </Text>
-                <Text {...s.phaseDesc}>{t(p.descKey)}</Text>
-              </Box>
+              <PhaseCard
+                key={p.num}
+                num={p.num}
+                bg={p.bg}
+                label={t("phases.phaseLabel", { num: p.num, days: t(p.daysKey) })}
+                title={t(p.titleKey)}
+                desc={t(p.descKey)}
+              />
             ))}
           </Grid>
         </Box>
@@ -186,16 +184,14 @@ export default function Home() {
           </Text>
           <Grid {...s.grid3}>
             {agents.map((a) => (
-              <Box key={a.titleKey} bg={a.bg} {...s.agentCard}>
-                <Text {...s.agentIcon}>{a.icon}</Text>
-                <Text as="h4" {...s.agentTitle}>
-                  {t(a.titleKey)}
-                </Text>
-                <Text {...s.agentDesc}>{t(a.descKey)}</Text>
-                <Box as="span" {...s.agentBadge}>
-                  {t(a.badgeKey)}
-                </Box>
-              </Box>
+              <AgentCard
+                key={a.titleKey}
+                icon={a.icon}
+                bg={a.bg}
+                title={t(a.titleKey)}
+                desc={t(a.descKey)}
+                badge={t(a.badgeKey)}
+              />
             ))}
           </Grid>
         </Box>
@@ -209,13 +205,12 @@ export default function Home() {
           </Text>
           <Grid {...s.gridFeatures}>
             {features.map((f) => (
-              <Box key={f.titleKey} {...s.featureCard}>
-                <Text {...s.featureIcon}>{f.icon}</Text>
-                <Text as="h4" {...s.featureTitle}>
-                  {t(f.titleKey)}
-                </Text>
-                <Text {...s.featureDesc}>{t(f.descKey)}</Text>
-              </Box>
+              <FeatureCard
+                key={f.titleKey}
+                icon={f.icon}
+                title={t(f.titleKey)}
+                desc={t(f.descKey)}
+              />
             ))}
           </Grid>
         </Box>
@@ -246,7 +241,7 @@ export default function Home() {
             {t("cta.title")}
           </Text>
           <Text {...s.ctaSubtitle}>{t("cta.subtitle")}</Text>
-          <ChakraLink href="/register" {...s.ctaBtn}>
+          <ChakraLink href={ROUTES.REGISTER} {...s.ctaBtn}>
             {t("cta.button")}
           </ChakraLink>
         </Box>

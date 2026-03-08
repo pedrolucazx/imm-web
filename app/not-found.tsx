@@ -1,5 +1,6 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import { ROUTES } from "@/lib/routes";
 
 export default function NotFound() {
   return (
@@ -11,7 +12,7 @@ export default function NotFound() {
         <Text fontWeight="bold" mb={6}>
           Page not found.
         </Text>
-        <Link href="/" style={{ fontWeight: "bold", textDecoration: "underline" }}>
+        <Link href={ROUTES.HOME} style={{ fontWeight: "bold", textDecoration: "underline" }}>
           Go home
         </Link>
       </Box>
