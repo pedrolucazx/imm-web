@@ -21,12 +21,12 @@ const NAV_ITEMS: NavItem[] = [
     href: ROUTES.APP_DAILY_LAB,
     ownedRoute: ROUTES.APP_DAILY_LAB,
   },
-  { icon: "🎯", labelKey: "habits", href: ROUTES.APP_DAILY_LAB, ownedRoute: ROUTES.APP_HABITS },
-  { icon: "📅", labelKey: "history", href: ROUTES.APP_DAILY_LAB, ownedRoute: ROUTES.APP_HISTORY },
+  { icon: "🎯", labelKey: "habits", href: ROUTES.APP_HABITS, ownedRoute: ROUTES.APP_HABITS },
+  { icon: "📅", labelKey: "history", href: ROUTES.APP_HISTORY, ownedRoute: ROUTES.APP_HISTORY },
   {
     icon: "📊",
     labelKey: "analytics",
-    href: ROUTES.APP_DAILY_LAB,
+    href: ROUTES.APP_ANALYTICS,
     ownedRoute: ROUTES.APP_ANALYTICS,
   },
   { icon: "⚙️", labelKey: "settings", href: ROUTES.SETTINGS, ownedRoute: ROUTES.SETTINGS },
@@ -46,8 +46,11 @@ export function Sidebar() {
         <Box
           {...s.hamburgerButton}
           display={{ base: "flex", md: "none" }}
+          role="button"
+          tabIndex={0}
           onClick={() => setIsOpen(true)}
-          aria-label="Abrir menu"
+          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setIsOpen(true)}
+          aria-label={t("openMenu")}
         >
           ☰
         </Box>
@@ -70,8 +73,11 @@ export function Sidebar() {
         <Box
           {...s.closeButton}
           display={{ base: "flex", md: "none" }}
+          role="button"
+          tabIndex={0}
           onClick={() => setIsOpen(false)}
-          aria-label="Fechar menu"
+          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setIsOpen(false)}
+          aria-label={t("closeMenu")}
         >
           ✕
         </Box>
