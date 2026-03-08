@@ -1,6 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 import { routing } from "@/lib/navigation";
+import { ROUTES } from "@/lib/routes";
 
 const handleI18n = createMiddleware({
   locales: routing.locales,
@@ -10,7 +11,7 @@ const handleI18n = createMiddleware({
 
 const REFRESH_TOKEN_COOKIE = "refresh_token";
 
-const PROTECTED_SEGMENTS = ["daily-lab"];
+const PROTECTED_SEGMENTS = [ROUTES.APP_DAILY_LAB.slice(1)];
 
 function resolveLocale(pathname: string): (typeof routing.locales)[number] {
   return (

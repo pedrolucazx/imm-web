@@ -97,6 +97,8 @@ class ApiClient {
         reject(error);
       } else if (token !== null) {
         resolve(token);
+      } else {
+        reject(new Error("Token refresh failed without error details"));
       }
     });
     this.failedQueue = [];
