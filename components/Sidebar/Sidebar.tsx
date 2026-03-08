@@ -49,8 +49,8 @@ export function Sidebar() {
 
           return (
             <Box key={labelKey} asChild {...styles}>
-              <Link href={href}>
-                <Box as="span" {...s.navIcon}>
+              <Link href={href} aria-current={isActive ? "page" : undefined}>
+                <Box as="span" aria-hidden="true" {...s.navIcon}>
                   {icon}
                 </Box>
                 {t(labelKey)}
@@ -64,7 +64,14 @@ export function Sidebar() {
         <Text {...s.progressLabel}>
           {t("progressDays", { day: CURRENT_DAY, total: TOTAL_DAYS })}
         </Text>
-        <Box {...s.progressBar}>
+        <Box
+          {...s.progressBar}
+          role="progressbar"
+          aria-valuenow={CURRENT_DAY}
+          aria-valuemin={0}
+          aria-valuemax={TOTAL_DAYS}
+          aria-label={t("progressDays", { day: CURRENT_DAY, total: TOTAL_DAYS })}
+        >
           <Box {...s.progressFill} style={{ width: `${(CURRENT_DAY / TOTAL_DAYS) * 100}%` }} />
         </Box>
       </Box>

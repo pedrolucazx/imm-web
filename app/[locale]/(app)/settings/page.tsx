@@ -7,7 +7,7 @@ import { s, gearAnimations } from "../app.styles";
 import { ROUTES } from "@/lib/routes";
 
 export default function SettingsPage() {
-  const t = useTranslations("dailyLab");
+  const t = useTranslations("settings");
 
   return (
     <Box {...s.pageWrapper}>
@@ -27,7 +27,7 @@ export default function SettingsPage() {
         <Box {...s.badge}>{t("badge")}</Box>
 
         <Heading {...s.title}>
-          Settings
+          {t("title")}
           <br />
           {t("comingSoon")}
         </Heading>

@@ -179,5 +179,13 @@
     "settings": "Settings",
     "progressLabel": "Progress",
     "progressDays": "Day {day} of {total}"
+  },
+  "settings": {
+    "badge": "Coming soon",
+    "title": "Settings",
+    "comingSoon": "coming soon",
+    "description": "Settings are being built. Soon you will be able to customize your experience here.",
+    "status": "Active development",
+    "backLink": "← Back to Daily Lab"
   }
 }

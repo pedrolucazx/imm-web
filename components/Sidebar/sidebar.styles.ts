@@ -1,12 +1,14 @@
 import type { SystemStyleObject } from "@chakra-ui/react";
 
+export const SIDEBAR_WIDTH = "16rem";
+
 export const s = {
   aside: {
     position: "fixed" as const,
     top: 0,
     left: 0,
     h: "100vh",
-    w: "16rem",
+    w: SIDEBAR_WIDTH,
     bg: "sidebar.bg",
     borderRight: "3px solid black",
     boxShadow: "4px 0px 0px 0px black",
