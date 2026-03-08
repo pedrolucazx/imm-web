@@ -167,5 +167,17 @@
     "habits": "Hábitos",
     "analytics": "Análises",
     "profile": "Perfil"
+  },
+  "sidebar": {
+    "appName": "Inside My Mind",
+    "tagline": "66 dias",
+    "menuLabel": "Menu",
+    "dailyLab": "Daily Lab",
+    "habits": "Hábitos",
+    "history": "Histórico",
+    "analytics": "Análises",
+    "settings": "Configurações",
+    "progressLabel": "Progresso",
+    "progressDays": "Dia {day} de {total}"
   }
 }
