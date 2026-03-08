@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
     config.infrastructureLogging = { level: "error" };
     return config;
   },
+  async rewrites() {
+    if (process.env.NODE_ENV !== "development") return [];
+    const apiUrl = process.env.API_URL ?? "http://localhost:3001";
+    return [{ source: "/api/:path*", destination: `${apiUrl}/:path*` }];
+  },
 };
 
 export default withNextIntl(nextConfig);
