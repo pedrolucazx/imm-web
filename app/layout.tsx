@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
-import { getLocale } from "next-intl/server";
-import { Providers } from "@/providers/ChakraProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { Providers } from "@/providers/Providers";
+import type { Metadata } from "next";
+import { getLocale } from "next-intl/server";
+import { Space_Grotesk } from "next/font/google";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
