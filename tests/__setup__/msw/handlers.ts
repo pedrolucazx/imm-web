@@ -40,4 +40,19 @@ export const handlers = [
       },
     });
   }),
+
+  http.post(`${API_URL}/auth/refresh`, () => {
+    return HttpResponse.json({
+      token: "new-mock-jwt-token",
+      user: {
+        id: "00000000-0000-0000-0000-000000000001",
+        email: "user@example.com",
+        name: "Test User",
+      },
+    });
+  }),
+
+  http.post(`${API_URL}/auth/logout`, () => {
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];

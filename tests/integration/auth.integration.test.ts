@@ -31,4 +31,15 @@ describe("authService — MSW integration", () => {
       authService.login({ email: "wrong@example.com", password: "bad" })
     ).rejects.toThrow("Invalid email or password");
   });
+
+  it("refreshes the session and returns a new token", async () => {
+    const result = await authService.refresh();
+
+    expect(result.token).toBe("new-mock-jwt-token");
+    expect(result.user).toBeDefined();
+  });
+
+  it("logs out successfully without throwing", async () => {
+    await expect(authService.logout()).resolves.not.toThrow();
+  });
 });

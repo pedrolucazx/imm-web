@@ -6,9 +6,6 @@ import type { AuthResponse } from "@/types/auth";
 jest.mock("@/lib/api-client", () => ({
   api: {
     post: jest.fn(),
-    setToken: jest.fn(),
-    getToken: jest.fn(),
-    removeToken: jest.fn(),
   },
 }));
 
@@ -52,34 +49,24 @@ describe("authService", () => {
     });
   });
 
-  describe("setToken", () => {
-    it("delegates to api.setToken", () => {
-      authService.setToken("my-token");
-      expect(mockApi.setToken).toHaveBeenCalledWith("my-token");
+  describe("refresh", () => {
+    it("calls api.post with the refresh endpoint", async () => {
+      mockApi.post.mockResolvedValue(mockResponse);
+
+      const result = await authService.refresh();
+
+      expect(mockApi.post).toHaveBeenCalledWith(ENDPOINTS.AUTH.REFRESH);
+      expect(result).toEqual(mockResponse);
     });
   });
 
-  describe("getToken", () => {
-    it("delegates to api.getToken and returns the token", () => {
-      mockApi.getToken.mockReturnValue("stored-token");
+  describe("logout", () => {
+    it("calls api.post with the logout endpoint", async () => {
+      mockApi.post.mockResolvedValue(undefined);
 
-      const token = authService.getToken();
+      await authService.logout();
 
-      expect(mockApi.getToken).toHaveBeenCalled();
-      expect(token).toBe("stored-token");
-    });
-
-    it("returns null when no token is stored", () => {
-      mockApi.getToken.mockReturnValue(null);
-
-      expect(authService.getToken()).toBeNull();
-    });
-  });
-
-  describe("removeToken", () => {
-    it("delegates to api.removeToken", () => {
-      authService.removeToken();
-      expect(mockApi.removeToken).toHaveBeenCalled();
+      expect(mockApi.post).toHaveBeenCalledWith(ENDPOINTS.AUTH.LOGOUT);
     });
   });
 });

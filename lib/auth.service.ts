@@ -11,15 +11,11 @@ export const authService = {
     return api.post<AuthResponse>(ENDPOINTS.AUTH.LOGIN, data);
   },
 
-  setToken(token: string) {
-    api.setToken(token);
+  async refresh(): Promise<AuthResponse> {
+    return api.post<AuthResponse>(ENDPOINTS.AUTH.REFRESH);
   },
 
-  getToken(): string | null {
-    return api.getToken();
-  },
-
-  removeToken() {
-    api.removeToken();
+  async logout(): Promise<void> {
+    return api.post<void>(ENDPOINTS.AUTH.LOGOUT);
   },
 };
