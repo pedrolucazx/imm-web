@@ -14,6 +14,16 @@ jest.mock("@/lib/auth.service", () => ({
   },
 }));
 
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
+jest.mock("@/components/ui", () => ({
+  toaster: {
+    create: jest.fn(),
+  },
+}));
+
 const mockAuthService = authService as jest.Mocked<typeof authService>;
 
 const mockAuthResponse: AuthResponse = {
@@ -78,6 +88,24 @@ describe("useRegister", () => {
 
     expect(mockAuthService.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
   });
+
+  it("calls options.onSuccess callback after successful registration", async () => {
+    mockAuthService.register.mockResolvedValue(mockAuthResponse);
+    const { wrapper } = makeWrapper();
+    const onSuccess = jest.fn();
+
+    const { result } = renderHook(() => useRegister({ onSuccess }), { wrapper });
+
+    await act(async () => {
+      await result.current.mutateAsync({
+        email: "user@example.com",
+        password: "pass123",
+        name: "Test User",
+      });
+    });
+
+    expect(onSuccess).toHaveBeenCalledWith(mockAuthResponse);
+  });
 });
 
 describe("useLogin", () => {
@@ -118,26 +146,26 @@ describe("useLogin", () => {
 });
 
 describe("useLogout", () => {
-  it("calls authService.removeToken when invoked", () => {
+  it("calls authService.removeToken when invoked", async () => {
     const { wrapper } = makeWrapper();
 
     const { result } = renderHook(() => useLogout(), { wrapper });
 
-    act(() => {
-      result.current();
+    await act(async () => {
+      result.current.mutate();
     });
 
     expect(mockAuthService.removeToken).toHaveBeenCalled();
   });
 
-  it("clears the query client data when invoked", () => {
+  it("clears the query client data when invoked", async () => {
     const { wrapper, queryClient } = makeWrapper();
     queryClient.setQueryData(["user"], { id: "1", name: "John" });
 
     const { result } = renderHook(() => useLogout(), { wrapper });
 
-    act(() => {
-      result.current();
+    await act(async () => {
+      result.current.mutate();
     });
 
     expect(queryClient.getQueryData(["user"])).toBeUndefined();

@@ -11,10 +11,12 @@ import {
   mergeRefs,
   useControllableState,
 } from "@chakra-ui/react";
+import { passwordStrength } from "check-password-strength";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
-import { Input } from "./Input";
-import type { InputProps } from "./Input";
+import { Input } from "./input";
+import type { InputProps } from "./input";
 
 // ─── Strength Meter ──────────────────────────────────────────────────────────
 
@@ -23,22 +25,15 @@ export interface StrengthLevel {
   color: string;
 }
 
-const DEFAULT_LEVELS: StrengthLevel[] = [
-  { label: "Very weak", color: "hsl(0, 84%, 60%)" },
-  { label: "Weak", color: "hsl(30, 100%, 55%)" },
-  { label: "Good", color: "hsl(54, 100%, 45%)" },
-  { label: "Strong", color: "hsl(152, 100%, 40%)" },
-];
-
 interface PasswordStrengthMeterProps extends BoxProps {
   max?: number;
   value: number;
-  levels?: StrengthLevel[];
+  levels: StrengthLevel[];
 }
 
 export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordStrengthMeterProps>(
   function PasswordStrengthMeter(props, ref) {
-    const { max = 4, value, levels = DEFAULT_LEVELS, ...rest } = props;
+    const { max = 4, value, levels, ...rest } = props;
     const normalizedValue = Number.isFinite(value) ? Math.floor(value) : 0;
     const clampedValue = Math.max(0, Math.min(normalizedValue, max));
     const levelIndex = clampedValue > 0 ? Math.min(clampedValue, levels.length) - 1 : -1;
@@ -66,6 +61,8 @@ export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordSt
           fontWeight="700"
           textTransform="uppercase"
           letterSpacing="wider"
+          aria-live="polite"
+          role="status"
           style={{ color: level ? level.color : "transparent" }}
         >
           {level ? level.label : "\u00A0"}
@@ -74,8 +71,6 @@ export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordSt
     );
   }
 );
-
-// ─── Password Input ───────────────────────────────────────────────────────────
 
 export interface PasswordVisibilityProps {
   defaultVisible?: boolean;
@@ -87,9 +82,7 @@ export interface PasswordVisibilityProps {
 
 export interface PasswordInputProps extends InputProps, PasswordVisibilityProps {
   rootProps?: GroupProps;
-  strengthValue?: number;
-  strengthLevels?: StrengthLevel[];
-  showStrength?: boolean;
+  passwordValue?: string;
 }
 
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
@@ -103,11 +96,28 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       visibilityLabel = { show: "Show password", hide: "Hide password" },
       label,
       error,
-      strengthValue,
-      strengthLevels,
-      showStrength,
+      passwordValue,
       ...rest
     } = props;
+
+    const tStrength = useTranslations("common.passwordStrength");
+
+    const strengthLevels: StrengthLevel[] = React.useMemo(
+      () => [
+        { label: tStrength("veryWeak"), color: "hsl(0, 84%, 60%)" },
+        { label: tStrength("weak"), color: "hsl(30, 100%, 55%)" },
+        { label: tStrength("good"), color: "hsl(54, 100%, 45%)" },
+        { label: tStrength("strong"), color: "hsl(152, 100%, 40%)" },
+      ],
+      [tStrength]
+    );
+
+    const strengthValue = React.useMemo(() => {
+      if (!passwordValue) return 0;
+      return passwordStrength(passwordValue).id + 1;
+    }, [passwordValue]);
+
+    const showStrength = (passwordValue?.length ?? 0) > 0 && !error;
 
     const [visible, setVisible] = useControllableState({
       value: visibleProp,
@@ -139,13 +149,13 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       </InputGroup>
     );
 
-    if (!label && !error && strengthValue === undefined) return inputGroup;
+    if (!label && !error && passwordValue === undefined) return inputGroup;
 
     return (
       <Field.Root invalid={!!error}>
         {label && <Field.Label>{label}</Field.Label>}
         {inputGroup}
-        {strengthValue !== undefined ? (
+        {passwordValue !== undefined ? (
           <Box mt={1} position="relative" w="full">
             <PasswordStrengthMeter
               value={strengthValue}
@@ -153,6 +163,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
               levels={strengthLevels}
               w="full"
               opacity={showStrength ? 1 : 0}
+              visibility={showStrength ? "visible" : "hidden"}
             />
             <Field.ErrorText position="absolute" top={0} left={0} lineHeight="1.25rem">
               {error}
