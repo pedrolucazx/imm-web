@@ -18,8 +18,6 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import { Input } from "./input";
 import type { InputProps } from "./input";
 
-// ─── Strength Meter ──────────────────────────────────────────────────────────
-
 export interface StrengthLevel {
   label: string;
   color: string;
