@@ -2,10 +2,10 @@
 
 import { Link } from "@/lib/navigation";
 import { Box, Heading, HStack, Text } from "@chakra-ui/react";
-import { s, gearAnimations } from "./app.styles";
+import { s, gearAnimations } from "../app.styles";
 import { ROUTES } from "@/lib/routes";
 
-export default function AppPage() {
+export default function DailyLabPage() {
   return (
     <Box {...s.pageWrapper}>
       <Box {...s.card}>
@@ -24,14 +24,14 @@ export default function AppPage() {
         <Box {...s.badge}>Em construção</Box>
 
         <Heading {...s.title}>
-          Ainda estamos
+          Daily Lab
           <br />
-          construindo isso
+          em breve
         </Heading>
 
         <Text {...s.subtitle}>
-          O app está sendo desenvolvido com muito café e linhas de código. Em breve você vai poder
-          acompanhar seus hábitos por aqui.
+          O Daily Lab está sendo desenvolvido. Em breve você poderá acompanhar seus hábitos e
+          registrar seu progresso diário aqui.
         </Text>
 
         <Box {...s.divider} />

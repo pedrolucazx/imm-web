@@ -1,7 +1,6 @@
-// Centralized application routes
 export const ROUTES = {
   HOME: "/",
   LOGIN: "/login",
   REGISTER: "/register",
-  APP: "/app",
+  APP_DAILY_LAB: "/daily-lab",
 } as const;

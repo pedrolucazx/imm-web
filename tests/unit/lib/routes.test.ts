@@ -13,7 +13,7 @@ describe("ROUTES", () => {
     expect(ROUTES.REGISTER).toBe("/register");
   });
 
-  it("has the correct APP route", () => {
-    expect(ROUTES.APP).toBe("/app");
+  it("has the correct APP_DAILY_LAB route", () => {
+    expect(ROUTES.APP_DAILY_LAB).toBe("/daily-lab");
   });
 });
