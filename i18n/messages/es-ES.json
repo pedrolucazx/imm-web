@@ -154,6 +154,14 @@
       "loginLink": "Iniciar sesión"
     }
   },
+  "dailyLab": {
+    "badge": "En construcción",
+    "title": "Daily Lab",
+    "comingSoon": "próximamente",
+    "description": "Daily Lab está siendo desarrollado. Pronto podrás hacer un seguimiento de tus hábitos y registrar tu progreso diario aquí.",
+    "status": "Desarrollo activo",
+    "backLink": "← Volver al inicio"
+  },
   "nav": {
     "dailyLab": "Daily Lab",
     "habits": "Hábitos",

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, type UseMutationResult } from "@tanstack/react-query";
-import { authService } from "@/lib/auth.service";
+import { useAuthContext } from "@/lib/auth-context";
 import { toaster } from "@/components/ui/toaster";
 import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
 import { useTranslations } from "next-intl";
@@ -13,15 +13,13 @@ export interface AuthMutationOptions {
 export function useRegister(
   options?: AuthMutationOptions
 ): UseMutationResult<AuthResponse, Error, RegisterInput> {
+  const { register } = useAuthContext();
   const queryClient = useQueryClient();
   const t = useTranslations("auth.register");
 
   return useMutation({
-    mutationFn: async (data: RegisterInput): Promise<AuthResponse> => {
-      return authService.register(data);
-    },
+    mutationFn: (data: RegisterInput): Promise<AuthResponse> => register(data),
     onSuccess: (data: AuthResponse): void => {
-      authService.setToken(data.token);
       queryClient.setQueryData(["user"], data.user);
       toaster.create({
         title: t("toastSuccessTitle"),
@@ -47,15 +45,13 @@ export function useRegister(
 export function useLogin(
   options?: AuthMutationOptions
 ): UseMutationResult<AuthResponse, Error, LoginInput> {
+  const { login } = useAuthContext();
   const queryClient = useQueryClient();
   const t = useTranslations("auth.login");
 
   return useMutation({
-    mutationFn: async (data: LoginInput): Promise<AuthResponse> => {
-      return authService.login(data);
-    },
+    mutationFn: (data: LoginInput): Promise<AuthResponse> => login(data),
     onSuccess: (data: AuthResponse): void => {
-      authService.setToken(data.token);
       queryClient.setQueryData(["user"], data.user);
       toaster.create({
         title: t("toastSuccessTitle"),
@@ -79,14 +75,12 @@ export function useLogin(
 
 // Logout
 export function useLogout(): UseMutationResult<void, Error, void> {
+  const { logout } = useAuthContext();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (): Promise<void> => {
-      authService.removeToken();
-    },
+    mutationFn: logout,
     onSuccess: (): void => {
-      queryClient.setQueryData(["user"], null);
       queryClient.clear();
     },
   });

@@ -63,9 +63,10 @@ export interface LanguageSelectorProps {
   label: string;
   value: UILanguage;
   onChange: (_value: UILanguage) => void;
+  error?: string;
 }
 
-export function LanguageSelector({ label, value, onChange }: LanguageSelectorProps) {
+export function LanguageSelector({ label, value, onChange, error }: LanguageSelectorProps) {
   const langGroupRef = useRef<HTMLDivElement>(null);
   const labelId = useId();
 
@@ -112,6 +113,11 @@ export function LanguageSelector({ label, value, onChange }: LanguageSelectorPro
           />
         ))}
       </Box>
+      {error && (
+        <Text fontSize="sm" color="red.500" mt={1}>
+          {error}
+        </Text>
+      )}
     </Box>
   );
 }
