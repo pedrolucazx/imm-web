@@ -13,8 +13,11 @@ const nextConfig: NextConfig = {
     // same-origin (set on Vercel domain in prod, localhost in dev).
     // Without this, the cookie belongs to the backend domain and the
     // Next.js middleware cannot read it from the browser request.
-    const apiUrl =
-      process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+    const apiUrl = (
+      process.env.API_URL ??
+      process.env.NEXT_PUBLIC_API_URL ??
+      "http://localhost:3001"
+    ).replace(/\/$/, "");
     return [{ source: "/api/:path*", destination: `${apiUrl}/:path*` }];
   },
 };
