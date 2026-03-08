@@ -15,12 +15,12 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   {
-    icon: "🧪",
+    icon: "⚡",
     labelKey: "dailyLab",
     href: ROUTES.APP_DAILY_LAB,
     ownedRoute: ROUTES.APP_DAILY_LAB,
   },
-  { icon: "⚡", labelKey: "habits", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/habits" },
+  { icon: "🎯", labelKey: "habits", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/habits" },
   { icon: "📅", labelKey: "history", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/history" },
   { icon: "📊", labelKey: "analytics", href: ROUTES.APP_DAILY_LAB, ownedRoute: "/analytics" },
   { icon: "⚙️", labelKey: "settings", href: ROUTES.SETTINGS, ownedRoute: ROUTES.SETTINGS },
@@ -36,12 +36,13 @@ export function Sidebar() {
   return (
     <Box as="aside" {...s.aside}>
       <Box {...s.logoSection}>
+        <Box as="span" {...s.logoEmoji}>
+          🧠
+        </Box>
         <Text {...s.logoText}>{t("appName")}</Text>
-        <Text {...s.logoSubtext}>{t("tagline")}</Text>
       </Box>
 
       <Box as="nav" {...s.nav}>
-        <Text {...s.navLabel}>{t("menuLabel")}</Text>
         {NAV_ITEMS.map(({ icon, labelKey, href, ownedRoute }) => {
           const isActive = pathname === ownedRoute;
           const styles = isActive ? s.navItemActive : s.navItem;
@@ -60,13 +61,12 @@ export function Sidebar() {
       </Box>
 
       <Box {...s.footer}>
-        <Text {...s.footerLabel}>{t("progressLabel")}</Text>
+        <Text {...s.progressLabel}>
+          {t("progressDays", { day: CURRENT_DAY, total: TOTAL_DAYS })}
+        </Text>
         <Box {...s.progressBar}>
           <Box {...s.progressFill} style={{ width: `${(CURRENT_DAY / TOTAL_DAYS) * 100}%` }} />
         </Box>
-        <Text {...s.progressText}>
-          {t("progressDays", { day: CURRENT_DAY, total: TOTAL_DAYS })}
-        </Text>
       </Box>
     </Box>
   );

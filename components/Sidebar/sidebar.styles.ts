@@ -17,28 +17,24 @@ export const s = {
   },
 
   logoSection: {
-    px: 6,
+    px: 5,
     py: 6,
     borderBottom: "3px solid black",
   },
 
-  logoText: {
-    fontSize: "lg",
-    fontWeight: "900",
-    textTransform: "uppercase" as const,
-    letterSpacing: "-0.03em",
-    color: "sidebar.fg",
+  logoEmoji: {
+    fontSize: "2rem",
     lineHeight: 1,
+    mb: 2,
+    display: "block",
   },
 
-  logoSubtext: {
-    fontSize: "xs",
-    fontWeight: "700",
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.1em",
+  logoText: {
+    fontSize: "xl",
+    fontWeight: "900",
+    letterSpacing: "-0.03em",
     color: "sidebar.fg",
-    opacity: 0.6,
-    mt: 1,
+    lineHeight: 1.1,
   },
 
   nav: {
@@ -47,40 +43,33 @@ export const s = {
     py: 4,
     display: "flex",
     flexDirection: "column" as const,
-    gap: 1,
-  },
-
-  navLabel: {
-    px: 3,
-    py: 2,
-    fontSize: "xs",
-    fontWeight: "800",
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.15em",
-    color: "sidebar.fg",
-    opacity: 0.5,
+    gap: 2,
   },
 
   navItem: {
     display: "flex",
     alignItems: "center",
     gap: 3,
-    px: 3,
-    py: 2,
+    px: 4,
+    py: 3,
     fontWeight: "700",
     fontSize: "sm",
     textTransform: "uppercase" as const,
     letterSpacing: "0.05em",
     textDecoration: "none",
     color: "sidebar.fg",
-    border: "2px solid transparent",
+    bg: "card",
+    border: "3px solid black",
+    boxShadow: "brutal-sm",
     cursor: "pointer",
-    transition: "all 0.1s ease",
+    transition: "transform 0.1s ease, box-shadow 0.1s ease",
     _hover: {
-      bg: "sidebar.accent",
-      border: "2px solid black",
-      boxShadow: "brutal-sm",
       transform: "translate(-1px, -1px)",
+      boxShadow: "brutal",
+    },
+    _active: {
+      transform: "translate(1px, 1px)",
+      boxShadow: "none",
     },
   },
 
@@ -88,8 +77,8 @@ export const s = {
     display: "flex",
     alignItems: "center",
     gap: 3,
-    px: 3,
-    py: 2,
+    px: 4,
+    py: 3,
     fontWeight: "700",
     fontSize: "sm",
     textTransform: "uppercase" as const,
@@ -97,13 +86,13 @@ export const s = {
     textDecoration: "none",
     color: "sidebar.primaryFg",
     bg: "sidebar.primary",
-    border: "2px solid black",
+    border: "3px solid black",
     boxShadow: "brutal-sm",
     cursor: "pointer",
   },
 
   navIcon: {
-    fontSize: "1rem",
+    fontSize: "1.1rem",
     flexShrink: 0,
   },
 
@@ -113,21 +102,20 @@ export const s = {
     borderTop: "3px solid black",
   },
 
-  footerLabel: {
-    fontSize: "xs",
+  progressLabel: {
+    fontSize: "sm",
     fontWeight: "800",
     textTransform: "uppercase" as const,
-    letterSpacing: "0.12em",
+    letterSpacing: "0.08em",
     color: "sidebar.fg",
-    opacity: 0.6,
     mb: 2,
   },
 
   progressBar: {
-    h: "8px",
+    h: "10px",
     w: "100%",
-    bg: "sidebar.accent",
-    border: "2px solid black",
+    bg: "card",
+    border: "3px solid black",
     overflow: "hidden" as const,
   },
 
@@ -135,12 +123,5 @@ export const s = {
     h: "100%",
     bg: "sidebar.primary",
     transition: "width 0.3s ease",
-  },
-
-  progressText: {
-    fontSize: "xs",
-    fontWeight: "700",
-    color: "sidebar.fg",
-    mt: 2,
   },
 } satisfies Record<string, SystemStyleObject>;
