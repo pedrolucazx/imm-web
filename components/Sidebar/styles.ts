@@ -60,6 +60,19 @@ export const s = {
     zIndex: 49,
   },
 
+  drawerContent: {
+    bg: "primary",
+    borderRight: "2px solid black",
+    boxShadow: "brutal-sm",
+    display: "flex",
+    flexDirection: "column" as const,
+    w: "100vw",
+    maxW: "100%",
+    h: "100dvh",
+    overflowY: "auto" as const,
+    position: "relative" as const,
+  },
+
   closeButton: {
     position: "absolute" as const,
     top: 4,
