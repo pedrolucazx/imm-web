@@ -32,13 +32,16 @@ const NAV_ITEMS: NavItem[] = [
   { icon: "⚙️", labelKey: "settings", href: ROUTES.SETTINGS, ownedRoute: ROUTES.SETTINGS },
 ];
 
-const CURRENT_DAY = 0;
-const TOTAL_DAYS = 66;
+interface SidebarProps {
+  currentDay?: number;
+  totalDays?: number;
+}
 
-export function Sidebar() {
+export function Sidebar({ currentDay, totalDays }: SidebarProps = {}) {
   const t = useTranslations("sidebar");
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const hasProgress = currentDay !== undefined && totalDays !== undefined;
 
   return (
     <>
@@ -111,21 +114,23 @@ export function Sidebar() {
           })}
         </Box>
 
-        <Box {...s.footer}>
-          <Text {...s.progressLabel}>
-            {t("progressDays", { day: CURRENT_DAY, total: TOTAL_DAYS })}
-          </Text>
-          <Box
-            {...s.progressBar}
-            role="progressbar"
-            aria-valuenow={CURRENT_DAY}
-            aria-valuemin={0}
-            aria-valuemax={TOTAL_DAYS}
-            aria-label={t("progressDays", { day: CURRENT_DAY, total: TOTAL_DAYS })}
-          >
-            <Box {...s.progressFill} style={{ width: `${(CURRENT_DAY / TOTAL_DAYS) * 100}%` }} />
+        {hasProgress && (
+          <Box {...s.footer}>
+            <Text {...s.progressLabel}>
+              {t("progressDays", { day: currentDay, total: totalDays })}
+            </Text>
+            <Box
+              {...s.progressBar}
+              role="progressbar"
+              aria-valuenow={currentDay}
+              aria-valuemin={0}
+              aria-valuemax={totalDays}
+              aria-label={t("progressDays", { day: currentDay, total: totalDays })}
+            >
+              <Box {...s.progressFill} style={{ width: `${(currentDay! / totalDays!) * 100}%` }} />
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </>
   );
