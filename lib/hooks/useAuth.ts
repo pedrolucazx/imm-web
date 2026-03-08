@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient, type UseMutationResult } from "@tanstack/react-query";
 import { authService } from "@/lib/auth.service";
-import { toaster } from "@/components/ui";
+import { toaster } from "@/components/ui/toaster";
 import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
 import { useTranslations } from "next-intl";
 
 export interface AuthMutationOptions {
   onSuccess?: (_data: AuthResponse) => void;
+  onError?: (_error: Error) => void;
 }
 
 // Register mutation
@@ -37,6 +38,7 @@ export function useRegister(
         type: "error",
         meta: { closable: true },
       });
+      options?.onError?.(error);
     },
   });
 }
@@ -70,6 +72,7 @@ export function useLogin(
         type: "error",
         meta: { closable: true },
       });
+      options?.onError?.(error);
     },
   });
 }

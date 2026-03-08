@@ -4,7 +4,7 @@ import {
   Toaster as ChakraToaster,
   Portal,
   Spinner,
-  Stack,
+  VStack,
   Toast,
   createToaster,
 } from "@chakra-ui/react";
@@ -44,7 +44,7 @@ export const Toaster = () => {
             ) : (
               <Toast.Indicator bg={getToastBg(toast.type)} borderWidth="2px" borderColor="black" />
             )}
-            <Stack gap="1" flex="1" maxWidth="100%">
+            <VStack gap="1" flex="1" maxWidth="100%" align="stretch">
               {toast.title && (
                 <Toast.Title fontWeight="bold" fontSize="md" color="black" letterSpacing="tight">
                   {toast.title}
@@ -55,7 +55,7 @@ export const Toaster = () => {
                   {toast.description}
                 </Toast.Description>
               )}
-            </Stack>
+            </VStack>
             {toast.action && (
               <Toast.ActionTrigger
                 bg="primary"

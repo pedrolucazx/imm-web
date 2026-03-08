@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Text, chakra } from "@chakra-ui/react";
-import { useCallback, useRef } from "react";
+import { useCallback, useId, useRef } from "react";
 
 export const LANGUAGES = [
   { value: "pt-BR", label: "Português", flag: "🇧🇷" },
@@ -67,6 +67,7 @@ export interface LanguageSelectorProps {
 
 export function LanguageSelector({ label, value, onChange }: LanguageSelectorProps) {
   const langGroupRef = useRef<HTMLDivElement>(null);
+  const labelId = useId();
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent, index: number): void => {
@@ -84,7 +85,7 @@ export function LanguageSelector({ label, value, onChange }: LanguageSelectorPro
   return (
     <Box>
       <Text
-        id="language-selector-label"
+        id={labelId}
         fontSize="sm"
         fontWeight="700"
         textTransform="uppercase"
@@ -96,7 +97,7 @@ export function LanguageSelector({ label, value, onChange }: LanguageSelectorPro
       <Box
         ref={langGroupRef}
         role="radiogroup"
-        aria-labelledby="language-selector-label"
+        aria-labelledby={labelId}
         display="grid"
         gridTemplateColumns="repeat(3, 1fr)"
         gap={2}

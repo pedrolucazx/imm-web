@@ -15,8 +15,8 @@ import { passwordStrength } from "check-password-strength";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
-import { Input } from "./Input";
-import type { InputProps } from "./Input";
+import { Input } from "./input";
+import type { InputProps } from "./input";
 
 // ─── Strength Meter ──────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 
 export default function NotFound() {
