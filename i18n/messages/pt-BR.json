@@ -178,7 +178,9 @@
     "analytics": "Análises",
     "settings": "Configurações",
     "progressLabel": "Progresso",
-    "progressDays": "Dia {day} de {total}"
+    "progressDays": "Dia {day} de {total}",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
   },
   "settings": {
     "badge": "Em construção",
