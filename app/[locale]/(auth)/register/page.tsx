@@ -56,6 +56,9 @@ export default function RegisterPage(): React.JSX.Element {
   const passwordValue = watch("password") ?? "";
 
   const onSubmit = (data: RegisterForm): void => {
+    // uiLanguage is collected here for future use (e.g., persisting user preference
+    // server-side). Currently, the locale is managed by the URL path, so it is
+    // intentionally omitted from the RegisterInput payload sent to the API.
     registerMutation({
       name: data.name,
       email: data.email,

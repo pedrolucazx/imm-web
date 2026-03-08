@@ -4,6 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 import { ENDPOINTS } from "@/lib/endpoints";
+import type { AuthResponse, User } from "@/types/auth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
@@ -18,7 +19,7 @@ class ApiClient {
   private accessToken: string | null = null;
   private isRefreshing = false;
   private failedQueue: FailedRequest[] = [];
-  private onTokenRefreshedCallback?: (_token: string) => void;
+  private onTokenRefreshedCallback?: (_token: string, _user: User) => void;
 
   constructor(baseUrl: string) {
     this.client = axios.create({
@@ -64,11 +65,11 @@ class ApiClient {
           this.isRefreshing = true;
 
           try {
-            const response = await this.client.post<{ token: string }>(ENDPOINTS.AUTH.REFRESH);
-            const newToken = response.data.token;
+            const response = await this.client.post<AuthResponse>(ENDPOINTS.AUTH.REFRESH);
+            const { token: newToken, user } = response.data;
 
             this.accessToken = newToken;
-            this.onTokenRefreshedCallback?.(newToken);
+            this.onTokenRefreshedCallback?.(newToken, user);
             this.processQueue(null, newToken);
 
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
@@ -101,7 +102,7 @@ class ApiClient {
     this.failedQueue = [];
   }
 
-  setOnTokenRefreshed(fn: (_token: string) => void): void {
+  setOnTokenRefreshed(fn: (_token: string, _user: User) => void): void {
     this.onTokenRefreshedCallback = fn;
   }
 

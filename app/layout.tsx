@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "../components/ui/toaster";
 import { Providers } from "@/providers/Providers";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";

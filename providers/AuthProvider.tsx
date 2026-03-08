@@ -12,8 +12,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.setOnTokenRefreshed((newToken) => {
+    api.setOnTokenRefreshed((newToken, newUser) => {
       setAccessToken(newToken);
+      setUser(newUser);
     });
   }, []);
 
