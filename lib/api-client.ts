@@ -6,13 +6,13 @@ import axios, {
 import { ENDPOINTS } from "@/lib/endpoints";
 import type { AuthResponse, User } from "@/types/auth";
 
-// Dev: use Next.js rewrite proxy (/api → backend), cookie is same-origin (no cross-origin issues)
+// Dev/Prod: use Next.js rewrite proxy (/api → backend), cookie is same-origin
+//   so the refreshToken cookie is set on the Vercel domain and the middleware can read it.
 // Test: MSW intercepts direct calls to NEXT_PUBLIC_API_URL
-// Prod: direct cross-origin call with SameSite=None + Secure cookie
 const API_URL =
-  process.env.NODE_ENV === "development"
-    ? "/api"
-    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+  process.env.NODE_ENV === "test"
+    ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"
+    : "/api";
 
 interface FailedRequest {
   resolve: (_token: string) => void;
