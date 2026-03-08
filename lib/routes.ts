@@ -3,5 +3,8 @@ export const ROUTES = {
   LOGIN: "/login",
   REGISTER: "/register",
   APP_DAILY_LAB: "/daily-lab",
+  APP_HABITS: "/habits",
+  APP_HISTORY: "/history",
+  APP_ANALYTICS: "/analytics",
   SETTINGS: "/settings",
 } as const;

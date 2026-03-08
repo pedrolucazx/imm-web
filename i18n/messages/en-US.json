@@ -167,5 +167,25 @@
     "habits": "Habits",
     "analytics": "Analytics",
     "profile": "Profile"
+  },
+  "sidebar": {
+    "appName": "Inside My Mind",
+    "tagline": "66 days",
+    "menuLabel": "Menu",
+    "dailyLab": "Daily Lab",
+    "habits": "Habits",
+    "history": "History",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "progressLabel": "Progress",
+    "progressDays": "Day {day} of {total}"
+  },
+  "settings": {
+    "badge": "Coming soon",
+    "title": "Settings",
+    "comingSoon": "coming soon",
+    "description": "Settings are being built. Soon you will be able to customize your experience here.",
+    "status": "Active development",
+    "backLink": "← Back to Daily Lab"
   }
 }
