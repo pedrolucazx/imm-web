@@ -28,7 +28,7 @@ export default function RegisterPage(): React.JSX.Element {
     () =>
       z.object({
         name: z.string().min(2, t("nameMinLength")),
-        email: z.string().email(t("emailInvalid")),
+        email: z.email(t("emailInvalid")),
         password: z.string().min(6, t("passwordMinLength")),
         uiLanguage: z.enum(LANGUAGE_VALUES),
       }),
@@ -101,6 +101,7 @@ export default function RegisterPage(): React.JSX.Element {
             label={t("languageLabel")}
             value={selectedLang}
             onChange={(lang) => setValue("uiLanguage", lang)}
+            error={errors.uiLanguage?.message}
           />
 
           <Button type="submit" loading={isPending} {...s.submitBtn}>

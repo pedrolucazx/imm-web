@@ -10,10 +10,6 @@ const handleI18n = createMiddleware({
 
 const REFRESH_TOKEN_COOKIE = "refresh_token";
 
-/**
- * Top-level path segments that live inside the (app) route group.
- * Add a new entry here whenever a new route is created inside (app)/.
- */
 const PROTECTED_SEGMENTS = ["daily-lab"];
 
 function resolveLocale(pathname: string): (typeof routing.locales)[number] {
