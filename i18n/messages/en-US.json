@@ -144,10 +144,6 @@
       "passwordPlaceholder": "Min. 6 characters",
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
-      "confirmPasswordLabel": "CONFIRM PASSWORD",
-      "confirmPasswordPlaceholder": "Repeat your password",
-      "confirmPasswordRequired": "Password confirmation is required",
-      "passwordsDoNotMatch": "Passwords do not match",
       "languageLabel": "INTERFACE LANGUAGE",
       "submit": "Start Journey →",
       "toastSuccessTitle": "Account created!",
@@ -157,6 +153,14 @@
       "hasAccount": "Already have an account?",
       "loginLink": "Log In"
     }
+  },
+  "dailyLab": {
+    "badge": "Under Construction",
+    "title": "Daily Lab",
+    "comingSoon": "coming soon",
+    "description": "Daily Lab is being built. Soon you'll be able to track your habits and record your daily progress here.",
+    "status": "Active development",
+    "backLink": "← Back to home"
   },
   "nav": {
     "dailyLab": "Daily Lab",

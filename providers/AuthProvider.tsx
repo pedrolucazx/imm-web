@@ -25,7 +25,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setAccessToken(data.token);
         setUser(data.user);
       })
-      .catch(() => {})
+      .catch((error) => {
+        // No valid refresh token — user is considered logged out
+        if (process.env.NODE_ENV === "development") {
+          // eslint-disable-next-line no-console
+          console.debug("[AuthProvider] Session rehydration failed:", error);
+        }
+      })
       .finally(() => {
         setIsLoading(false);
       });

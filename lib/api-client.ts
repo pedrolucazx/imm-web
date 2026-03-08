@@ -94,8 +94,8 @@ class ApiClient {
     this.failedQueue.forEach(({ resolve, reject }) => {
       if (error) {
         reject(error);
-      } else {
-        resolve(token!);
+      } else if (token !== null) {
+        resolve(token);
       }
     });
     this.failedQueue = [];

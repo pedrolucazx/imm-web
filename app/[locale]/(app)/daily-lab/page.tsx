@@ -2,10 +2,13 @@
 
 import { Link } from "@/lib/navigation";
 import { Box, Heading, HStack, Text } from "@chakra-ui/react";
+import { useTranslations } from "next-intl";
 import { s, gearAnimations } from "../app.styles";
 import { ROUTES } from "@/lib/routes";
 
 export default function DailyLabPage() {
+  const t = useTranslations("dailyLab");
+
   return (
     <Box {...s.pageWrapper}>
       <Box {...s.card}>
@@ -21,28 +24,25 @@ export default function DailyLabPage() {
           </Box>
         </HStack>
 
-        <Box {...s.badge}>Em construção</Box>
+        <Box {...s.badge}>{t("badge")}</Box>
 
         <Heading {...s.title}>
-          Daily Lab
+          {t("title")}
           <br />
-          em breve
+          {t("comingSoon")}
         </Heading>
 
-        <Text {...s.subtitle}>
-          O Daily Lab está sendo desenvolvido. Em breve você poderá acompanhar seus hábitos e
-          registrar seu progresso diário aqui.
-        </Text>
+        <Text {...s.subtitle}>{t("description")}</Text>
 
         <Box {...s.divider} />
 
         <HStack {...s.statusRow} role="status">
           <Box {...s.statusDot} style={gearAnimations.pulse} />
-          <Text {...s.statusText}>Desenvolvimento ativo</Text>
+          <Text {...s.statusText}>{t("status")}</Text>
         </HStack>
 
         <Box asChild {...s.backLink}>
-          <Link href={ROUTES.HOME}>← Voltar para o início</Link>
+          <Link href={ROUTES.HOME}>{t("backLink")}</Link>
         </Box>
       </Box>
     </Box>

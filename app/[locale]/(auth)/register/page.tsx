@@ -5,13 +5,16 @@ import { LANGUAGES, LanguageSelector, type UILanguage } from "@/components/Langu
 import { useRegister } from "@/lib/hooks/useAuth";
 import { useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
-import { Box } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button, Input, PasswordInput } from "../../../../components/ui";
 import { s } from "./register.styles";
+
+const LANGUAGE_VALUES = LANGUAGES.map((l) => l.value) as [UILanguage, ...UILanguage[]];
 
 export default function RegisterPage(): React.JSX.Element {
   const t = useTranslations("auth.register");
@@ -21,12 +24,16 @@ export default function RegisterPage(): React.JSX.Element {
     onSuccess: () => router.push(ROUTES.APP_DAILY_LAB),
   });
 
-  const registerSchema = z.object({
-    name: z.string().min(2, t("nameMinLength")),
-    email: z.email(t("emailInvalid")),
-    password: z.string().min(6, t("passwordMinLength")),
-    uiLanguage: z.enum(["pt-BR", "en-US", "es-ES"]),
-  });
+  const registerSchema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, t("nameMinLength")),
+        email: z.string().email(t("emailInvalid")),
+        password: z.string().min(6, t("passwordMinLength")),
+        uiLanguage: z.enum(LANGUAGE_VALUES),
+      }),
+    [t]
+  );
 
   type RegisterForm = z.infer<typeof registerSchema>;
 
@@ -65,7 +72,7 @@ export default function RegisterPage(): React.JSX.Element {
       footerLinkHref={ROUTES.LOGIN}
     >
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Box {...s.formStack}>
+        <VStack {...s.formStack}>
           <Input
             label={t("nameLabel")}
             type="text"
@@ -99,7 +106,7 @@ export default function RegisterPage(): React.JSX.Element {
           <Button type="submit" loading={isPending} {...s.submitBtn}>
             {t("submit")}
           </Button>
-        </Box>
+        </VStack>
       </Box>
     </AuthCard>
   );

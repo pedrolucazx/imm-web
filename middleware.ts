@@ -10,32 +10,51 @@ const handleI18n = createMiddleware({
 
 const REFRESH_TOKEN_COOKIE = "refresh_token";
 
+/**
+ * Top-level path segments that live inside the (app) route group.
+ * Add a new entry here whenever a new route is created inside (app)/.
+ */
 const PROTECTED_SEGMENTS = ["daily-lab"];
+
+function resolveLocale(pathname: string): (typeof routing.locales)[number] {
+  return (
+    routing.locales.find(
+      (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
+    ) ?? routing.defaultLocale
+  );
+}
 
 function isProtectedRoute(pathname: string): boolean {
   return routing.locales.some((locale) =>
-    PROTECTED_SEGMENTS.some((segment) => pathname.startsWith(`/${locale}/${segment}`))
+    PROTECTED_SEGMENTS.some(
+      (segment) =>
+        pathname === `/${locale}/${segment}` || pathname.startsWith(`/${locale}/${segment}/`)
+    )
   );
 }
 
 function isAuthRoute(pathname: string): boolean {
   return routing.locales.some(
     (locale) =>
-      pathname.startsWith(`/${locale}/login`) || pathname.startsWith(`/${locale}/register`)
+      pathname === `/${locale}/login` ||
+      pathname.startsWith(`/${locale}/login/`) ||
+      pathname === `/${locale}/register` ||
+      pathname.startsWith(`/${locale}/register/`)
   );
 }
 
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hasRefreshToken = request.cookies.has(REFRESH_TOKEN_COOKIE);
+  const locale = resolveLocale(pathname);
 
   if (isProtectedRoute(pathname) && !hasRefreshToken) {
-    const loginUrl = new URL(`/${routing.defaultLocale}/login`, request.url);
+    const loginUrl = new URL(`/${locale}/login`, request.url);
     return NextResponse.redirect(loginUrl);
   }
 
   if (isAuthRoute(pathname) && hasRefreshToken) {
-    const appUrl = new URL(`/${routing.defaultLocale}/daily-lab`, request.url);
+    const appUrl = new URL(`/${locale}/daily-lab`, request.url);
     return NextResponse.redirect(appUrl);
   }
 

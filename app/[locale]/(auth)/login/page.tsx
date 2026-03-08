@@ -6,8 +6,9 @@ import { useLogin } from "@/lib/hooks/useAuth";
 import { useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { s } from "./login.styles";
@@ -19,10 +20,14 @@ export default function LoginPage() {
     onSuccess: () => router.push(ROUTES.APP_DAILY_LAB),
   });
 
-  const loginSchema = z.object({
-    email: z.email(t("emailInvalid")),
-    password: z.string().min(6, t("passwordMinLength")),
-  });
+  const loginSchema = useMemo(
+    () =>
+      z.object({
+        email: z.email(t("emailInvalid")),
+        password: z.string().min(6, t("passwordMinLength")),
+      }),
+    [t]
+  );
 
   type LoginForm = z.infer<typeof loginSchema>;
 
@@ -47,7 +52,7 @@ export default function LoginPage() {
       footerLinkHref={ROUTES.REGISTER}
     >
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
-        <Box {...s.formStack}>
+        <VStack {...s.formStack}>
           <Input
             label={t("emailLabel")}
             type="email"
@@ -66,7 +71,7 @@ export default function LoginPage() {
           <Button type="submit" loading={isPending} {...s.submitBtn}>
             {t("submit")}
           </Button>
-        </Box>
+        </VStack>
       </Box>
     </AuthCard>
   );
