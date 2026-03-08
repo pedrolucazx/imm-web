@@ -9,9 +9,9 @@ const handleI18n = createMiddleware({
   localePrefix: "always",
 });
 
-const REFRESH_TOKEN_COOKIE = "refresh_token";
+const REFRESH_TOKEN_COOKIE = "refreshToken";
 
-const PROTECTED_SEGMENTS = [ROUTES.APP_DAILY_LAB.slice(1)];
+const PROTECTED_SEGMENTS = [ROUTES.APP_DAILY_LAB.slice(1), ROUTES.SETTINGS.slice(1)];
 
 function resolveLocale(pathname: string): (typeof routing.locales)[number] {
   return (

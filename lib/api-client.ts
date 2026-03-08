@@ -6,7 +6,13 @@ import axios, {
 import { ENDPOINTS } from "@/lib/endpoints";
 import type { AuthResponse, User } from "@/types/auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+// Dev: use Next.js rewrite proxy (/api → backend), cookie is same-origin (no cross-origin issues)
+// Test: MSW intercepts direct calls to NEXT_PUBLIC_API_URL
+// Prod: direct cross-origin call with SameSite=None + Secure cookie
+const API_URL =
+  process.env.NODE_ENV === "development"
+    ? "/api"
+    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 interface FailedRequest {
   resolve: (_token: string) => void;
