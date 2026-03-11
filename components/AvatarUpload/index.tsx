@@ -15,9 +15,8 @@ export interface AvatarUploadProps {
   name?: string;
   label?: string;
   changeLabel?: string;
-  errorSizeMsg?: string;
-  errorTypeMsg?: string;
   onFileChange: (_file: File) => void;
+  onValidationError?: (_reason: "size" | "type", _file?: File) => void;
   size?: "xl" | "2xl";
 }
 
@@ -27,9 +26,8 @@ export function AvatarUpload({
   name,
   label,
   changeLabel,
-  errorSizeMsg = "Imagem muito grande. Máximo 2 MB.",
-  errorTypeMsg = "Formato não suportado. Use JPG, PNG ou WebP.",
   onFileChange,
+  onValidationError,
   size = "2xl",
 }: AvatarUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,11 +37,11 @@ export function AvatarUpload({
     if (!file) return;
 
     if (file.size > MAX_BYTES) {
-      alert(errorSizeMsg);
+      onValidationError?.("size", file);
       return;
     }
     if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      alert(errorTypeMsg);
+      onValidationError?.("type", file);
       return;
     }
 
@@ -65,8 +63,8 @@ export function AvatarUpload({
         cursor="pointer"
         borderRadius="0"
         _hover={{ opacity: 0.85 }}
-        title={changeLabel}
-        aria-label={changeLabel}
+        title={changeLabel || "Change avatar"}
+        aria-label={changeLabel || "Change avatar"}
         background="none"
         border="none"
         padding="0"

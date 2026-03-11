@@ -5,7 +5,7 @@ import { useUploadAvatar } from "@/lib/hooks/useUploadAvatar";
 
 export function useAvatarUpload(
   currentUrl?: string | null,
-  options?: { onUploadError?: () => void }
+  options?: { onUploadError?: (_error: Error) => void }
 ) {
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -29,8 +29,18 @@ export function useAvatarUpload(
 
   function handleFileChange(file: File) {
     setPendingFile(file);
-    setPreviewUrl(URL.createObjectURL(file));
+    setPreviewUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return URL.createObjectURL(file);
+    });
   }
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function uploadIfPending(): Promise<string | undefined> {
     if (!pendingFile) return undefined;
