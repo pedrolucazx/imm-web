@@ -109,9 +109,8 @@ export default function SettingsPage(): React.JSX.Element {
       if (dirtyFields.ui_language) {
         router.replace(pathname, { locale: data.ui_language });
       }
-    } catch (error) {
+    } catch {
       // each mutation handles its own error toast via onError
-      console.error("Settings update failed:", error);
     }
   };
 
