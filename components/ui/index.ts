@@ -29,3 +29,6 @@ export type { SelectProps } from "./select";
 
 export { Textarea } from "./textarea";
 export type { TextareaProps } from "./textarea";
+
+export { ChakraLink } from "./chakra-link";
+export { ChakraAnchor } from "./chakra-anchor";

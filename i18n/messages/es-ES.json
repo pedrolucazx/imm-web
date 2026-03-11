@@ -9,15 +9,21 @@
     }
   },
   "landing": {
+    "seo": {
+      "title": "Inside My Mind — Rastreador de Hábitos con IA | 66 Días",
+      "description": "Rastreador de hábitos de código abierto con 3 agentes de IA especializados. Recorrido de 66 días, diario personal y retroalimentación lingüística y conductual. 100% gratuito, sin tarjeta de crédito."
+    },
     "nav": {
       "login": "Iniciar sesión",
-      "signup": "Empezar Gratis"
+      "signup": "Crear Cuenta Gratis"
     },
     "hero": {
       "titleLine1": "Domina Tu Mente.",
       "titleLine2": "Construye Tus Hábitos.",
       "subtitle": "Deja de abandonar tus hábitos en la semana 2. Tres agentes de IA gratuitos te guían por los 66 días basados en ciencia — de la intención al automatismo.",
-      "cta": "Comenzar — 100% Gratis →"
+      "badge": "100% Código Abierto · Construido en Público",
+      "cta": "Crear Mi Plan de 66 Días →",
+      "githubCta": "Ver en GitHub →"
     },
     "phases": {
       "title": "La Regla de los 66 Días",
@@ -50,7 +56,7 @@
       }
     },
     "agents": {
-      "title": "3 Agentes de IA, Costo Cero",
+      "title": "IA que Analiza, Corrige y Te Desafía — Costo Cero",
       "habitPlanner": {
         "title": "Habit Planner",
         "desc": "Obtén un plan personalizado de 66 días con tareas diarias, fases y técnicas probadas — generado en segundos.",
@@ -97,16 +103,21 @@
     "opensource": {
       "title": "100% Gratis & Código Abierto",
       "subtitle": "Inside My Mind está construido en público como un proyecto de aprendizaje para arquitectura SaaS. Sin tiers pagos, sin monetización. Contribuye, haz fork o aprende del código.",
-      "cta": "⭐ Ver en GitHub"
+      "buildInPublic": "Construido en Público: errores y aprendizajes documentados con transparencia.",
+      "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
+      "cta": "⭐ Ver imm-web en GitHub",
+      "ctaApi": "⭐ Ver imm-api en GitHub"
     },
     "cta": {
       "title": "Deja de planear. Empieza hoy.",
       "subtitle": "66 días. 3 agentes de IA. Cero excusas. 100% gratis.",
-      "button": "Comenzar — 100% Gratis →"
+      "button": "Crear Mi Plan de 66 Días →"
     },
     "footer": {
       "copy": "© 2026 Inside My Mind. Hecho con 🧠 y disciplina.",
-      "github": "GitHub →"
+      "github": "GitHub →",
+      "login": "Iniciar sesión",
+      "register": "Registrarse"
     }
   },
   "auth": {

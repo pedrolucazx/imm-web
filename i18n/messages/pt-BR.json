@@ -9,15 +9,21 @@
     }
   },
   "landing": {
+    "seo": {
+      "title": "Inside My Mind — Rastreador de Hábitos com IA | 66 Dias",
+      "description": "Rastreador de hábitos de código aberto com 3 agentes de IA especializados. Jornada de 66 dias, registro diário e feedback linguístico e comportamental. 100% gratuito, sem cartão de crédito."
+    },
     "nav": {
       "login": "Entrar",
-      "signup": "Começar Grátis"
+      "signup": "Criar Conta Grátis"
     },
     "hero": {
       "titleLine1": "Domine Sua Mente.",
       "titleLine2": "Construa Seus Hábitos.",
       "subtitle": "Pare de abandonar seus hábitos na semana 2. Três agentes de IA gratuitos te guiam pelos 66 dias baseados em ciência — da intenção ao automatismo.",
-      "cta": "Começar — 100% Grátis →"
+      "badge": "100% Código Aberto · Feito em Público",
+      "cta": "Criar Meu Plano de 66 Dias →",
+      "githubCta": "Ver no GitHub →"
     },
     "phases": {
       "title": "A Regra dos 66 Dias",
@@ -50,7 +56,7 @@
       }
     },
     "agents": {
-      "title": "3 Agentes de IA, Custo Zero",
+      "title": "IA que Analisa, Corrige e Te Desafia — Custo Zero",
       "habitPlanner": {
         "title": "Habit Planner",
         "desc": "Receba um plano personalizado de 66 dias com tarefas diárias, fases e técnicas comprovadas — gerado em segundos.",
@@ -97,16 +103,21 @@
     "opensource": {
       "title": "100% Grátis & Código Aberto",
       "subtitle": "Inside My Mind é construído em público como um projeto de aprendizado para arquitetura SaaS. Sem níveis pagos, sem monetização. Contribua, faça fork ou aprenda com o código.",
-      "cta": "⭐ Ver no GitHub"
+      "buildInPublic": "Feito em Público: erros e aprendizados documentados com transparência.",
+      "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
+      "cta": "⭐ Ver imm-web no GitHub",
+      "ctaApi": "⭐ Ver imm-api no GitHub"
     },
     "cta": {
       "title": "Pare de planejar. Comece hoje.",
       "subtitle": "66 dias. 3 agentes de IA. Zero desculpas. 100% grátis.",
-      "button": "Começar — 100% Grátis →"
+      "button": "Criar Meu Plano de 66 Dias →"
     },
     "footer": {
       "copy": "© 2026 Inside My Mind. Feito com 🧠 e disciplina.",
-      "github": "GitHub →"
+      "github": "GitHub →",
+      "login": "Entrar",
+      "register": "Cadastrar"
     }
   },
   "auth": {
