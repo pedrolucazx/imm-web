@@ -188,6 +188,18 @@
     "comingSoon": "próximamente",
     "description": "La configuración está siendo desarrollada. Pronto podrás personalizar tu experiencia aquí.",
     "status": "Desarrollo activo",
-    "backLink": "← Volver a Daily Lab"
+    "backLink": "← Volver a Daily Lab",
+    "timezone": {
+      "america_sao_paulo": "América/São Paulo (UTC-3)",
+      "america_new_york": "América/Nueva York (UTC-5/-4)",
+      "america_chicago": "América/Chicago (UTC-6/-5)",
+      "america_los_angeles": "América/Los Ángeles (UTC-8/-7)",
+      "america_buenos_aires": "América/Buenos Aires (UTC-3)",
+      "america_mexico_city": "América/Ciudad de México (UTC-6/-5)",
+      "europe_london": "Europa/Londres (UTC+0/+1)",
+      "europe_paris": "Europa/París (UTC+1/+2)",
+      "europe_madrid": "Europa/Madrid (UTC+1/+2)",
+      "asia_tokyo": "Asia/Tokio (UTC+9)"
+    }
   }
 }
