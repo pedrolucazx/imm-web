@@ -9,15 +9,21 @@
     }
   },
   "landing": {
+    "seo": {
+      "title": "Inside My Mind — AI-Powered Habit Tracker | 66-Day Journey",
+      "description": "Open source habit tracker with 3 specialized AI agents. 66-day journey, daily journaling, linguistic and behavioral feedback. 100% free, no credit card required."
+    },
     "nav": {
       "login": "Log In",
-      "signup": "Start Free"
+      "signup": "Create Free Account"
     },
     "hero": {
       "titleLine1": "Master Your Mind.",
       "titleLine2": "Build Your Habits.",
       "subtitle": "Stop abandoning habits by week 2. Three free AI agents guide you through a science-backed 66-day journey — from intention to automaticity.",
-      "cta": "Get Started — 100% Free →"
+      "badge": "100% Open Source · Build in Public",
+      "cta": "Create My 66-Day Plan →",
+      "githubCta": "View on GitHub →"
     },
     "phases": {
       "title": "The 66-Day Rule",
@@ -50,7 +56,7 @@
       }
     },
     "agents": {
-      "title": "3 AI Agents, Zero Cost",
+      "title": "AI That Analyzes, Corrects, and Challenges You — Zero Cost",
       "habitPlanner": {
         "title": "Habit Planner",
         "desc": "Get a personalized 66-day plan with daily tasks, phases, and proven techniques — built in seconds.",
@@ -97,16 +103,21 @@
     "opensource": {
       "title": "100% Free & Open Source",
       "subtitle": "Inside My Mind is built in public as a learning project for SaaS architecture. No paid tiers, no monetization. Contribute, fork, or learn from the code.",
-      "cta": "⭐ View on GitHub"
+      "buildInPublic": "Build in Public: mistakes and learnings documented with transparency.",
+      "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
+      "cta": "⭐ View imm-web on GitHub",
+      "ctaApi": "⭐ View imm-api on GitHub"
     },
     "cta": {
       "title": "Stop planning. Start today.",
       "subtitle": "66 days. 3 AI agents. Zero excuses. 100% free.",
-      "button": "Get Started — 100% Free →"
+      "button": "Create My 66-Day Plan →"
     },
     "footer": {
       "copy": "© 2026 Inside My Mind. Built with 🧠 and discipline.",
-      "github": "GitHub →"
+      "github": "GitHub →",
+      "login": "Log In",
+      "register": "Sign Up"
     }
   },
   "auth": {
