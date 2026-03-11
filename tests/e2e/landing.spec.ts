@@ -19,7 +19,7 @@ test.describe("Landing page", () => {
   test("navigate to register page from CTA", async ({ page }) => {
     await page.goto("/pt-BR/");
     await page
-      .getByRole("link", { name: /começar.*grátis|get started.*free|start free/i })
+      .getByRole("link", { name: /criar.*plano|create.*plan|crear.*plan/i })
       .first()
       .click();
     await expect(page).toHaveURL(/\/register/);
