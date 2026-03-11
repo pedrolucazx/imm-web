@@ -5,6 +5,7 @@ import { Link } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { Box, Grid, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
+import { SiFastify, SiNextdotjs, SiPostgresql } from "react-icons/si";
 import { s } from "./landing.styles";
 
 const ChakraLink = chakra(Link);
@@ -284,6 +285,35 @@ export function LandingClient() {
                 {t("footer.github")}
               </chakra.a>
             </Box>
+          </Box>
+          <Box {...s.footerStack}>
+            <chakra.a
+              href="https://nextjs.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Next.js"
+              {...s.stackIconLink}
+            >
+              <SiNextdotjs />
+            </chakra.a>
+            <chakra.a
+              href="https://fastify.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Fastify"
+              {...s.stackIconLink}
+            >
+              <SiFastify />
+            </chakra.a>
+            <chakra.a
+              href="https://www.postgresql.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="PostgreSQL"
+              {...s.stackIconLink}
+            >
+              <SiPostgresql />
+            </chakra.a>
           </Box>
         </Box>
       </Box>

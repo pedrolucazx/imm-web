@@ -21,7 +21,7 @@
       "titleLine1": "Domine Sua Mente.",
       "titleLine2": "Construa Seus Hábitos.",
       "subtitle": "Pare de abandonar seus hábitos na semana 2. Três agentes de IA gratuitos te guiam pelos 66 dias baseados em ciência — da intenção ao automatismo.",
-      "badge": "100% Open Source · Build in Public",
+      "badge": "100% Código Aberto · Feito em Público",
       "cta": "Criar Meu Plano de 66 Dias →",
       "githubCta": "Ver no GitHub →"
     },
@@ -103,7 +103,7 @@
     "opensource": {
       "title": "100% Grátis & Código Aberto",
       "subtitle": "Inside My Mind é construído em público como um projeto de aprendizado para arquitetura SaaS. Sem níveis pagos, sem monetização. Contribua, faça fork ou aprenda com o código.",
-      "buildInPublic": "Build in Public: erros e aprendizados documentados com transparência.",
+      "buildInPublic": "Feito em Público: erros e aprendizados documentados com transparência.",
       "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
       "cta": "⭐ Ver imm-web no GitHub",
       "ctaApi": "⭐ Ver imm-api no GitHub"

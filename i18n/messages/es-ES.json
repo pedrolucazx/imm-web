@@ -11,7 +11,7 @@
   "landing": {
     "seo": {
       "title": "Inside My Mind — Rastreador de Hábitos con IA | 66 Días",
-      "description": "Rastreador de hábitos open source con 3 agentes de IA especializados. Recorrido de 66 días, diario diario, feedback lingüístico y conductual. 100% gratuito, sin tarjeta de crédito."
+      "description": "Rastreador de hábitos open source con 3 agentes de IA especializados. Recorrido de 66 días, diario personal, feedback lingüístico y conductual. 100% gratuito, sin tarjeta de crédito."
     },
     "nav": {
       "login": "Iniciar sesión",
@@ -21,7 +21,7 @@
       "titleLine1": "Domina Tu Mente.",
       "titleLine2": "Construye Tus Hábitos.",
       "subtitle": "Deja de abandonar tus hábitos en la semana 2. Tres agentes de IA gratuitos te guían por los 66 días basados en ciencia — de la intención al automatismo.",
-      "badge": "100% Open Source · Build in Public",
+      "badge": "100% Código Abierto · Construido en Público",
       "cta": "Crear Mi Plan de 66 Días →",
       "githubCta": "Ver en GitHub →"
     },
@@ -103,7 +103,7 @@
     "opensource": {
       "title": "100% Gratis & Código Abierto",
       "subtitle": "Inside My Mind está construido en público como un proyecto de aprendizaje para arquitectura SaaS. Sin tiers pagos, sin monetización. Contribuye, haz fork o aprende del código.",
-      "buildInPublic": "Build in Public: errores y aprendizajes documentados con transparencia.",
+      "buildInPublic": "Construido en Público: errores y aprendizajes documentados con transparencia.",
       "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
       "cta": "⭐ Ver imm-web en GitHub",
       "ctaApi": "⭐ Ver imm-api en GitHub"
