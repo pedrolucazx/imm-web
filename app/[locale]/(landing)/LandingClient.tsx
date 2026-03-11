@@ -1,12 +1,10 @@
 import { AgentCard, FeatureCard, PhaseCard } from "@/components/landing";
-import { Link } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { Box, Grid, Text, chakra } from "@chakra-ui/react";
 import { getTranslations } from "next-intl/server";
 import { SiFastify, SiNextdotjs, SiPostgresql } from "react-icons/si";
+import { ChakraLink } from "./ChakraLink";
 import { s } from "./landing.styles";
-
-const ChakraLink = chakra(Link);
 
 const phases = [
   {
