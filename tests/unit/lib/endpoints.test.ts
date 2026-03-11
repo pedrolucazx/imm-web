@@ -20,8 +20,8 @@ describe("ENDPOINTS", () => {
       expect(ENDPOINTS.USER.UPDATE).toBe("/users/me");
     });
 
-    it("has the correct DELETE endpoint", () => {
-      expect(ENDPOINTS.USER.DELETE).toBe("/users/me");
+    it("has the correct AVATAR_UPLOAD_URL endpoint", () => {
+      expect(ENDPOINTS.USER.AVATAR_UPLOAD_URL).toBe("/users/me/avatar-upload-url");
     });
   });
 
