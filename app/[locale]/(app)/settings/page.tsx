@@ -180,7 +180,6 @@ export default function SettingsPage(): React.JSX.Element {
           <Input
             label={t("emailLabel")}
             value={profile?.email ?? ""}
-            readOnly
             disabled
             title={t("emailReadonly")}
           />
@@ -220,7 +219,17 @@ export default function SettingsPage(): React.JSX.Element {
               </Text>
               <Text {...s.usageReset}>{t("aiUsageReset")}</Text>
             </Box>
-            <Box {...s.usageBar}>
+            <Box
+              {...s.usageBar}
+              role="progressbar"
+              aria-valuenow={profile?.profile?.aiRequestsToday ?? 0}
+              aria-valuemin={0}
+              aria-valuemax={AI_LIMIT}
+              aria-label={t("aiUsageLabel", {
+                used: profile?.profile?.aiRequestsToday ?? 0,
+                limit: AI_LIMIT,
+              })}
+            >
               <Box {...s.usageFill} style={{ width: `${usagePercent}%` }} />
             </Box>
           </Box>
