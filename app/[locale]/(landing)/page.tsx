@@ -56,6 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function LandingPage() {
-  return <LandingClient />;
+export default async function LandingPage({ params }: PageProps) {
+  const { locale } = await params;
+  return <LandingClient locale={locale} />;
 }
