@@ -1,9 +1,9 @@
 import { AgentCard, FeatureCard, PhaseCard } from "@/components/landing";
+import { ChakraAnchor, ChakraLink } from "@/components/ui";
 import { ROUTES } from "@/lib/routes";
-import { Box, Grid, Text, chakra } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import { getTranslations } from "next-intl/server";
 import { SiFastify, SiNextdotjs, SiPostgresql } from "react-icons/si";
-import { ChakraLink } from "./ChakraLink";
 import { s } from "./landing.styles";
 
 const phases = [
@@ -133,14 +133,14 @@ export async function LandingClient({ locale }: LandingClientProps) {
                 <ChakraLink href={ROUTES.REGISTER} {...s.heroCtaBtn}>
                   {t("hero.cta")}
                 </ChakraLink>
-                <chakra.a
+                <ChakraAnchor
                   href="https://github.com/pedrolucazx/imm-web"
                   target="_blank"
                   rel="noopener noreferrer"
                   {...s.heroGithubBtn}
                 >
                   {t("hero.githubCta")}
-                </chakra.a>
+                </ChakraAnchor>
               </Box>
             </Box>
           </Box>
@@ -234,22 +234,22 @@ export async function LandingClient({ locale }: LandingClientProps) {
             <Text {...s.opensourceBuildInPublic}>{t("opensource.buildInPublic")}</Text>
             <Text {...s.opensourceStack}>{t("opensource.stack")}</Text>
             <Box {...s.opensourceButtons}>
-              <chakra.a
+              <ChakraAnchor
                 href="https://github.com/pedrolucazx/imm-web"
                 target="_blank"
                 rel="noopener noreferrer"
                 {...s.githubBtn}
               >
                 {t("opensource.cta")}
-              </chakra.a>
-              <chakra.a
+              </ChakraAnchor>
+              <ChakraAnchor
                 href="https://github.com/pedrolucazx/imm-api"
                 target="_blank"
                 rel="noopener noreferrer"
                 {...s.githubBtn}
               >
                 {t("opensource.ctaApi")}
-              </chakra.a>
+              </ChakraAnchor>
             </Box>
           </Box>
         </Box>
@@ -278,18 +278,18 @@ export async function LandingClient({ locale }: LandingClientProps) {
               <ChakraLink href={ROUTES.REGISTER} {...s.footerLink}>
                 {t("footer.register")}
               </ChakraLink>
-              <chakra.a
+              <ChakraAnchor
                 href="https://github.com/pedrolucazx/imm-web"
                 target="_blank"
                 rel="noopener noreferrer"
                 {...s.footerLink}
               >
                 {t("footer.github")}
-              </chakra.a>
+              </ChakraAnchor>
             </Box>
           </Box>
           <Box {...s.footerStack}>
-            <chakra.a
+            <ChakraAnchor
               href="https://nextjs.org"
               target="_blank"
               rel="noopener noreferrer"
@@ -297,8 +297,8 @@ export async function LandingClient({ locale }: LandingClientProps) {
               {...s.stackIconLink}
             >
               <SiNextdotjs />
-            </chakra.a>
-            <chakra.a
+            </ChakraAnchor>
+            <ChakraAnchor
               href="https://fastify.dev"
               target="_blank"
               rel="noopener noreferrer"
@@ -306,8 +306,8 @@ export async function LandingClient({ locale }: LandingClientProps) {
               {...s.stackIconLink}
             >
               <SiFastify />
-            </chakra.a>
-            <chakra.a
+            </ChakraAnchor>
+            <ChakraAnchor
               href="https://www.postgresql.org"
               target="_blank"
               rel="noopener noreferrer"
@@ -315,7 +315,7 @@ export async function LandingClient({ locale }: LandingClientProps) {
               {...s.stackIconLink}
             >
               <SiPostgresql />
-            </chakra.a>
+            </ChakraAnchor>
           </Box>
         </Box>
       </Box>
