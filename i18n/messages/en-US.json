@@ -163,12 +163,12 @@
     }
   },
   "dailyLab": {
-    "badge": "Under Construction",
-    "title": "Daily Lab",
-    "comingSoon": "coming soon",
-    "description": "Daily Lab is being built. Soon you'll be able to track your habits and record your daily progress here.",
-    "status": "Active development",
-    "backLink": "← Back to home"
+    "pageTitle": "Daily Lab",
+    "checklist": {
+      "sectionTitle": "Habits ({completed}/{total})",
+      "day": "Day {current}/66",
+      "todaysFocus": "Today's Focus · Phase {phase} — {theme}"
+    }
   },
   "nav": {
     "dailyLab": "Daily Lab",
