@@ -14,9 +14,9 @@ import { TrackingOptionsForm } from "./wizard/TrackingOptionsForm";
 import { PlanReviewPanel } from "./wizard/PlanReviewPanel";
 import {
   WIZARD_FORM_ID,
-  type Step1Data,
-  type Step2SkillData,
-  type Step2TrackingData,
+  type HabitSetupData,
+  type SkillPlanData,
+  type TrackingConfigData,
 } from "./wizard/types";
 
 const API_COLORS = [
@@ -41,21 +41,21 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const tStep3 = useTranslations("habitWizard.step3");
 
   const [step, setStep] = useState(1);
-  const [step1Data, setStep1Data] = useState<Step1Data | null>(null);
-  const [step2Data, setStep2Data] = useState<Step2SkillData | Step2TrackingData | null>(null);
+  const [habitSetup, setHabitSetup] = useState<HabitSetupData | null>(null);
+  const [planConfig, setPlanConfig] = useState<SkillPlanData | TrackingConfigData | null>(null);
   const [previewedPlan, setPreviewedPlan] = useState<HabitPlan | null>(null);
   const [stepError, setStepError] = useState<"generic" | "rate-limit" | null>(null);
 
   const previewMutation = usePreviewHabitPlan();
   const createMutation = useCreateHabit();
 
-  const mode = step1Data ? deriveHabitMode(step1Data.targetSkill as TargetSkill) : null;
-  const wantPlan = (step2Data as Step2TrackingData)?.wantPlan ?? false;
+  const mode = habitSetup ? deriveHabitMode(habitSetup.targetSkill as TargetSkill) : null;
+  const wantPlan = (planConfig as TrackingConfigData)?.wantPlan ?? false;
   const needsPlan = mode === "skill-building" || wantPlan;
   const randomColor = () => API_COLORS[Math.floor(Math.random() * API_COLORS.length)];
 
-  const buildPainPoints = (data: Step2SkillData | Step2TrackingData): string[] => {
-    const raw = (data as Step2TrackingData).barrier || (data as Step2SkillData).struggles;
+  const buildPainPoints = (data: SkillPlanData | TrackingConfigData): string[] => {
+    const raw = (data as TrackingConfigData).barrier || (data as SkillPlanData).struggles;
     const parts = raw
       .split(/[.,;]+/)
       .map((s: string) => s.trim())
@@ -63,22 +63,22 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
     return parts.length > 0 ? parts : [raw];
   };
 
-  const handleStep1Next = (data: Step1Data) => {
-    setStep1Data(data);
+  const handleStep1Next = (data: HabitSetupData) => {
+    setHabitSetup(data);
     setStep(2);
   };
 
-  const handleStep2Next = async (data: Step2SkillData | Step2TrackingData) => {
-    setStep2Data(data);
+  const handleStep2Next = async (data: SkillPlanData | TrackingConfigData) => {
+    setPlanConfig(data);
     setStepError(null);
     setStep(3);
 
-    const localNeedsPlan = mode === "skill-building" || (data as Step2TrackingData).wantPlan;
-    if (!localNeedsPlan || !step1Data) return;
+    const localNeedsPlan = mode === "skill-building" || (data as TrackingConfigData).wantPlan;
+    if (!localNeedsPlan || !habitSetup) return;
 
     const previewInput: PreviewPlanInput = {
-      name: step1Data.name,
-      targetSkill: step1Data.targetSkill,
+      name: habitSetup.name,
+      targetSkill: habitSetup.targetSkill,
       painPoints: buildPainPoints(data),
       availableMinutes: data.availableMinutes,
       level: data.level,
@@ -93,15 +93,15 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   };
 
   const handleRegenerate = async () => {
-    if (!step1Data || !step2Data) return;
+    if (!habitSetup || !planConfig) return;
     setStepError(null);
 
     const previewInput: PreviewPlanInput = {
-      name: step1Data.name,
-      targetSkill: step1Data.targetSkill,
-      painPoints: buildPainPoints(step2Data),
-      availableMinutes: step2Data.availableMinutes,
-      level: step2Data.level,
+      name: habitSetup.name,
+      targetSkill: habitSetup.targetSkill,
+      painPoints: buildPainPoints(planConfig),
+      availableMinutes: planConfig.availableMinutes,
+      level: planConfig.level,
     };
 
     try {
@@ -113,12 +113,12 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   };
 
   const handleConfirm = async () => {
-    if (!step1Data) return;
+    if (!habitSetup) return;
     await createMutation.mutateAsync({
-      name: step1Data.name,
-      icon: SKILL_ICONS[step1Data.targetSkill as TargetSkill],
+      name: habitSetup.name,
+      icon: SKILL_ICONS[habitSetup.targetSkill as TargetSkill],
       color: randomColor(),
-      targetSkill: step1Data.targetSkill,
+      targetSkill: habitSetup.targetSkill,
       frequency: "daily",
       ...(previewedPlan ? { habitPlan: previewedPlan } : {}),
     });
@@ -128,8 +128,8 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
 
   const handleClose = () => {
     setStep(1);
-    setStep1Data(null);
-    setStep2Data(null);
+    setHabitSetup(null);
+    setPlanConfig(null);
     setPreviewedPlan(null);
     setStepError(null);
     previewMutation.reset();
@@ -242,28 +242,28 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       </HStack>
 
       {step === 1 && (
-        <HabitSetupForm defaultValues={step1Data ?? undefined} onNext={handleStep1Next} />
+        <HabitSetupForm defaultValues={habitSetup ?? undefined} onNext={handleStep1Next} />
       )}
 
       {step === 2 && mode === "skill-building" && (
         <SkillPlanForm
-          defaultValues={(step2Data as Step2SkillData) ?? undefined}
+          defaultValues={(planConfig as SkillPlanData) ?? undefined}
           onNext={handleStep2Next}
         />
       )}
 
       {step === 2 && mode === "tracking-coached" && (
         <TrackingOptionsForm
-          defaultValues={(step2Data as Step2TrackingData) ?? undefined}
+          defaultValues={(planConfig as TrackingConfigData) ?? undefined}
           onNext={handleStep2Next}
         />
       )}
 
-      {step === 3 && step1Data && (
+      {step === 3 && habitSetup && (
         <PlanReviewPanel
-          habitName={step1Data.name}
-          habitIcon={SKILL_ICONS[step1Data.targetSkill as TargetSkill]}
-          habitTargetSkill={step1Data.targetSkill as TargetSkill}
+          habitName={habitSetup.name}
+          habitIcon={SKILL_ICONS[habitSetup.targetSkill as TargetSkill]}
+          habitTargetSkill={habitSetup.targetSkill as TargetSkill}
           wantPlan={wantPlan}
           previewedPlan={previewedPlan}
           isLoading={isPreviewLoading}

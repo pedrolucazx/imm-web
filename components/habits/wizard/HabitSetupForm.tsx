@@ -11,19 +11,19 @@ import {
   deriveHabitMode,
 } from "@/types/habits";
 import { SkillCard } from "./SkillCard";
-import { s } from "../HabitCreationWizard.styles";
-import { step1Schema, type Step1Data, WIZARD_FORM_ID } from "./types";
+import { s } from "../styles";
+import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
 
-interface Step1FormProps {
-  defaultValues?: Partial<Step1Data>;
-  onNext: (_data: Step1Data) => void;
+interface HabitSetupFormProps {
+  defaultValues?: Partial<HabitSetupData>;
+  onNext: (_data: HabitSetupData) => void;
 }
 
-export function HabitSetupForm({ defaultValues, onNext }: Step1FormProps) {
+export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
   const t = useTranslations("habitWizard.step1");
 
-  const { control, handleSubmit, watch } = useForm<Step1Data>({
-    resolver: zodResolver(step1Schema),
+  const { control, handleSubmit, watch } = useForm<HabitSetupData>({
+    resolver: zodResolver(habitSetupSchema),
     defaultValues: { name: "", targetSkill: "", ...defaultValues },
   });
 
@@ -41,7 +41,12 @@ export function HabitSetupForm({ defaultValues, onNext }: Step1FormProps) {
             name="name"
             control={control}
             render={({ field }) => (
-              <Input {...field} placeholder={t("habitNamePlaceholder")} {...s.input} />
+              <Input
+                {...field}
+                placeholder={t("habitNamePlaceholder")}
+                maxLength={80}
+                {...s.input}
+              />
             )}
           />
         </Box>
@@ -55,7 +60,6 @@ export function HabitSetupForm({ defaultValues, onNext }: Step1FormProps) {
             control={control}
             render={({ field }) => (
               <VStack gap={6} align="stretch">
-                {/* Language Skills Section */}
                 <Box>
                   <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
                   <Text fontSize="xs" color="text.muted" mb={3}>
@@ -73,7 +77,6 @@ export function HabitSetupForm({ defaultValues, onNext }: Step1FormProps) {
                   </Grid>
                 </Box>
 
-                {/* Behavioral Skills Section */}
                 <Box>
                   <Text {...s.sectionLabel}>{t("behaviorLabel")}</Text>
                   <Text fontSize="xs" color="text.muted" mb={3}>

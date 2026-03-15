@@ -317,7 +317,7 @@
       "strugglesLabel": "Describe your struggles and goals",
       "strugglesPh": "e.g., I freeze when speaking English. My vocabulary is limited for professional topics.",
       "timeLabel": "Time per day (minutes)",
-      "levelLabel": "Experience Level",
+      "levelLabel": "Experience level",
       "levels": {
         "beginner": "Beginner",
         "intermediate": "Intermediate",
@@ -334,7 +334,7 @@
       "strugglesLabel": "Describe your struggles and goals",
       "strugglesPh": "e.g., I have trouble staying consistent.",
       "timeLabel": "Time per day (minutes)",
-      "levelLabel": "Experience Level",
+      "levelLabel": "Experience level",
       "levels": {
         "beginner": "Beginner",
         "intermediate": "Intermediate",

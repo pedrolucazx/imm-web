@@ -2,22 +2,22 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Input, Text, Textarea, Grid } from "@chakra-ui/react";
+import { Box, Input, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { s } from "../HabitCreationWizard.styles";
-import { step2SkillSchema, type Step2SkillData, LEVELS, WIZARD_FORM_ID } from "./types";
+import { s } from "../styles";
+import { skillPlanSchema, type SkillPlanData, LEVELS, WIZARD_FORM_ID } from "./types";
 
-interface Step2SkillProps {
-  defaultValues?: Partial<Step2SkillData>;
-  onNext: (_data: Step2SkillData) => void;
+interface SkillPlanFormProps {
+  defaultValues?: Partial<SkillPlanData>;
+  onNext: (_data: SkillPlanData) => void;
 }
 
-export function SkillPlanForm({ defaultValues, onNext }: Step2SkillProps) {
+export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
   const t = useTranslations("habitWizard.step2Skill");
 
-  const { control, handleSubmit } = useForm<Step2SkillData>({
-    resolver: zodResolver(step2SkillSchema),
+  const { control, handleSubmit } = useForm<SkillPlanData>({
+    resolver: zodResolver(skillPlanSchema),
     defaultValues: { struggles: "", availableMinutes: 30, level: "beginner", ...defaultValues },
   });
 
@@ -73,24 +73,19 @@ export function SkillPlanForm({ defaultValues, onNext }: Step2SkillProps) {
             name="level"
             control={control}
             render={({ field }) => (
-              <Grid templateColumns="repeat(3, 1fr)" gap={2}>
+              <Box {...s.levelGroup}>
                 {LEVELS.map((l) => (
                   <Button
                     key={l}
                     type="button"
                     variant={field.value === l ? "primary" : "muted"}
                     onClick={() => field.onChange(l)}
-                    fontSize="sm"
-                    letterSpacing="normal"
-                    whiteSpace="normal"
-                    textAlign="center"
-                    px={2}
-                    py={3}
+                    {...s.levelBtn}
                   >
                     {t(`levels.${l}`)}
                   </Button>
                 ))}
-              </Grid>
+              </Box>
             )}
           />
         </Box>

@@ -10,7 +10,7 @@ import {
   SKILL_ICONS,
   deriveHabitMode,
 } from "@/types/habits";
-import { s } from "../HabitCreationWizard.styles";
+import { s } from "../styles";
 
 interface Step3ConfirmProps {
   habitName: string;

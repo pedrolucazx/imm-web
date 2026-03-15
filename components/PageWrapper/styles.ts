@@ -22,7 +22,6 @@ export const s = {
   title: {
     fontSize: { base: "3xl", md: "4xl" },
     fontWeight: "800",
-    textTransform: "uppercase",
     letterSpacing: "-0.02em",
     lineHeight: 1.1,
   },

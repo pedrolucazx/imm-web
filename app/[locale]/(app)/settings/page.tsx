@@ -117,7 +117,7 @@ export default function SettingsPage(): React.JSX.Element {
     : 0;
 
   return (
-    <PageWrapper title={t("pageTitle")} isLoading={isLoading || !isAvatarReady}>
+    <PageWrapper title={`⚙️ ${t("pageTitle")}`} isLoading={isLoading || !isAvatarReady}>
       <Box {...s.languageCard}>
         <Text {...s.languageCardTitle}>{t("languageCardTitle")}</Text>
         <Text {...s.languageBanner}>{t("languageBanner")}</Text>

@@ -5,7 +5,7 @@ export const s = {
     p: 4,
     mb: 6,
     display: "flex",
-    alignItems: "start",
+    alignItems: "center",
     justifyContent: "space-between",
     gap: 4,
   },
@@ -38,16 +38,9 @@ export const s = {
   },
 
   habitHeader: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 4,
-    flexWrap: "wrap",
-  },
-
-  habitInfo: {
-    display: "flex",
-    alignItems: "center",
+    display: "grid",
+    gridTemplateColumns: "auto 1fr auto",
+    alignItems: "start",
     gap: 4,
   },
 
