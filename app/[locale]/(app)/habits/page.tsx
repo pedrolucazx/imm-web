@@ -51,7 +51,7 @@ export default function HabitsPage(): React.JSX.Element {
   return (
     <PageWrapper
       title={`🎯 ${t("pageTitle")}`}
-      isLoading={isLoading}
+      loading={isLoading}
       actions={
         <Tooltip content={t("tooltipLimit", { max: MAX_ACTIVE_HABITS })} disabled={!isAtLimit}>
           <Button

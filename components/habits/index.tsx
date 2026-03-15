@@ -55,7 +55,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const randomColor = () => API_COLORS[Math.floor(Math.random() * API_COLORS.length)];
 
   const buildPainPoints = (data: SkillPlanData | TrackingConfigData): string[] => {
-    const raw = (data as TrackingConfigData).barrier || (data as SkillPlanData).struggles;
+    const raw = "barrier" in data ? data.barrier : data.struggles;
     const parts = raw
       .split(/[.,;]+/)
       .map((s: string) => s.trim())
@@ -247,14 +247,14 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
 
       {step === 2 && mode === "skill-building" && (
         <SkillPlanForm
-          defaultValues={(planConfig as SkillPlanData) ?? undefined}
+          defaultValues={planConfig ? (planConfig as SkillPlanData) : undefined}
           onNext={handleStep2Next}
         />
       )}
 
       {step === 2 && mode === "tracking-coached" && (
         <TrackingOptionsForm
-          defaultValues={(planConfig as TrackingConfigData) ?? undefined}
+          defaultValues={planConfig ? (planConfig as TrackingConfigData) : undefined}
           onNext={handleStep2Next}
         />
       )}
