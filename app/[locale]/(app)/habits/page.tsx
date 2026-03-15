@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
 import { PageWrapper } from "@/components/PageWrapper";
-import { HabitCreationWizard } from "@/components/habits/HabitCreationWizard";
+import { HabitCreationWizard } from "@/components/habits";
 import { useHabits } from "@/lib/hooks/useHabits";
 import {
   type Habit,
@@ -51,7 +51,7 @@ export default function HabitsPage(): React.JSX.Element {
   return (
     <PageWrapper
       title={`🎯 ${t("pageTitle")}`}
-      isLoading={isLoading}
+      loading={isLoading}
       actions={
         <Tooltip content={t("tooltipLimit", { max: MAX_ACTIVE_HABITS })} disabled={!isAtLimit}>
           <Button
@@ -103,19 +103,17 @@ export default function HabitsPage(): React.JSX.Element {
               boxShadow="brutal"
             >
               <Box {...s.habitHeader}>
-                <Box {...s.habitInfo}>
-                  <Text {...s.habitIcon}>{habit.icon}</Text>
-                  <Box>
-                    <Heading {...s.habitTitle}>{habit.name}</Heading>
-                    <HStack {...s.habitTags}>
-                      <Box {...s.habitTag}>
-                        {SKILL_ICONS[habit.target_skill]} {t(`skills.${habit.target_skill}.name`)}
-                      </Box>
-                      <Box {...s.habitTag} bg={STATUS_BG[habit.plan_status]}>
-                        {t(`status.${habit.plan_status}`)}
-                      </Box>
-                    </HStack>
-                  </Box>
+                <Text {...s.habitIcon}>{habit.icon}</Text>
+                <Box>
+                  <Heading {...s.habitTitle}>{habit.name}</Heading>
+                  <HStack {...s.habitTags}>
+                    <Box {...s.habitTag}>
+                      {SKILL_ICONS[habit.target_skill]} {t(`skills.${habit.target_skill}.name`)}
+                    </Box>
+                    <Box {...s.habitTag} bg={STATUS_BG[habit.plan_status]}>
+                      {t(`status.${habit.plan_status}`)}
+                    </Box>
+                  </HStack>
                 </Box>
                 <Box {...s.habitStreak}>
                   <Text {...s.streakNumber}>{habit.streak}🔥</Text>

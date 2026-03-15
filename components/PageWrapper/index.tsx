@@ -5,11 +5,11 @@ import { s } from "./styles";
 interface PageWrapperProps {
   title: string;
   actions?: React.ReactNode;
-  isLoading?: boolean;
+  loading?: boolean;
   children?: React.ReactNode;
 }
 
-export function PageWrapper({ title, actions, isLoading, children }: PageWrapperProps) {
+export function PageWrapper({ title, actions, loading, children }: PageWrapperProps) {
   return (
     <Box {...s.page}>
       <Box {...s.header}>
@@ -19,7 +19,7 @@ export function PageWrapper({ title, actions, isLoading, children }: PageWrapper
         {actions}
       </Box>
 
-      {isLoading ? (
+      {loading ? (
         <Box {...s.spinner} pl={{ base: 0, md: SIDEBAR_WIDTH }}>
           <Spinner size="xl" borderWidth="4px" color="primary" />
         </Box>
