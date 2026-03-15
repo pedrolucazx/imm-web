@@ -32,3 +32,20 @@ export type { TextareaProps } from "./textarea";
 
 export { ChakraLink } from "./chakra-link";
 export { ChakraAnchor } from "./chakra-anchor";
+
+export {
+  DialogRoot,
+  DialogContent,
+  DialogCloseTrigger,
+  DialogFooter,
+  DialogHeader,
+  DialogBody,
+  DialogBackdrop,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+  DialogActionTrigger,
+} from "./dialog";
+
+export { Modal } from "./modal";
+export type { ModalProps } from "./modal";
