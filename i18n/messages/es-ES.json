@@ -403,5 +403,21 @@
         "long": "Úsalo para prácticas de atención plena: meditación, ejercicios de respiración, diario de gratitud o escaneo corporal. La IA se enfoca en tu estado emocional, nivel de estrés y calidad de presencia."
       }
     }
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Página no encontrada.",
+    "backHome": "← Volver al inicio"
+  },
+  "comingSoon": {
+    "badge": "En construcción",
+    "message": "Esta funcionalidad está siendo desarrollada. Pronto estará disponible.",
+    "backLink": "← Volver al Daily Lab",
+    "history": {
+      "pageTitle": "📅 Historial"
+    },
+    "analytics": {
+      "pageTitle": "📊 Análisis"
+    }
   }
 }

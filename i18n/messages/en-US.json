@@ -403,5 +403,21 @@
         "long": "Use for mindfulness practices: meditation, breathing exercises, gratitude journaling, or body scan. The AI focuses on your emotional state, stress level, and quality of presence."
       }
     }
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Page not found.",
+    "backHome": "← Back to home"
+  },
+  "comingSoon": {
+    "badge": "Coming soon",
+    "message": "This feature is under development. It will be available soon.",
+    "backLink": "← Back to Daily Lab",
+    "history": {
+      "pageTitle": "📅 History"
+    },
+    "analytics": {
+      "pageTitle": "📊 Analytics"
+    }
   }
 }
