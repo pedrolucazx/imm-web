@@ -1,33 +1,6 @@
 import type { SystemStyleObject } from "@chakra-ui/react";
 
 export const s = {
-  page: {
-    p: { base: 4, md: 8 },
-    maxW: "800px",
-    overflowX: "visible",
-  },
-
-  header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    mb: 8,
-    flexWrap: "wrap",
-    gap: 4,
-    overflow: "visible",
-  },
-
-  pageTitle: {
-    fontSize: { base: "3xl", md: "4xl" },
-    fontWeight: "800",
-    letterSpacing: "-0.02em",
-    lineHeight: 1.1,
-  },
-
-  newHabitBtn: {
-    position: "relative" as const,
-  },
-
   banner: {
     p: 4,
     mb: 6,

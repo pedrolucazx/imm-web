@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
+import { PageWrapper } from "@/components/PageWrapper";
 import { HabitCreationWizard } from "@/components/habits/HabitCreationWizard";
 import { useHabits } from "@/lib/hooks/useHabits";
 import {
@@ -48,9 +49,10 @@ export default function HabitsPage(): React.JSX.Element {
   };
 
   return (
-    <Box {...s.page}>
-      <Box {...s.header}>
-        <Heading {...s.pageTitle}>🎯 {t("pageTitle")}</Heading>
+    <PageWrapper
+      title={`🎯 ${t("pageTitle")}`}
+      isLoading={isLoading}
+      actions={
         <Tooltip content={t("tooltipLimit", { max: MAX_ACTIVE_HABITS })} disabled={!isAtLimit}>
           <Button
             onClick={() => !isAtLimit && setShowWizard(true)}
@@ -63,8 +65,8 @@ export default function HabitsPage(): React.JSX.Element {
             {t("newHabit")}
           </Button>
         </Tooltip>
-      </Box>
-
+      }
+    >
       {showWarning && (!bannerDismissed || isAtLimit) && (
         <Box
           {...s.banner}
@@ -85,12 +87,6 @@ export default function HabitsPage(): React.JSX.Element {
               {t("dismiss")}
             </Button>
           )}
-        </Box>
-      )}
-
-      {isLoading && (
-        <Box p={8} textAlign="center">
-          <Text fontWeight="bold">⏳</Text>
         </Box>
       )}
 
@@ -226,6 +222,6 @@ export default function HabitsPage(): React.JSX.Element {
         onClose={() => setShowWizard(false)}
         onCreated={handleCreated}
       />
-    </Box>
+    </PageWrapper>
   );
 }
