@@ -6,7 +6,8 @@ import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
-import { HabitCreationWizard } from "@/components/habits/HabitCreationWizard";
+import { PageWrapper } from "@/components/PageWrapper";
+import { HabitCreationWizard } from "@/components/habits";
 import { useHabits } from "@/lib/hooks/useHabits";
 import {
   type Habit,
@@ -48,9 +49,10 @@ export default function HabitsPage(): React.JSX.Element {
   };
 
   return (
-    <Box {...s.page}>
-      <Box {...s.header}>
-        <Heading {...s.pageTitle}>🎯 {t("pageTitle")}</Heading>
+    <PageWrapper
+      title={`🎯 ${t("pageTitle")}`}
+      loading={isLoading}
+      actions={
         <Tooltip content={t("tooltipLimit", { max: MAX_ACTIVE_HABITS })} disabled={!isAtLimit}>
           <Button
             onClick={() => !isAtLimit && setShowWizard(true)}
@@ -63,8 +65,8 @@ export default function HabitsPage(): React.JSX.Element {
             {t("newHabit")}
           </Button>
         </Tooltip>
-      </Box>
-
+      }
+    >
       {showWarning && (!bannerDismissed || isAtLimit) && (
         <Box
           {...s.banner}
@@ -88,12 +90,6 @@ export default function HabitsPage(): React.JSX.Element {
         </Box>
       )}
 
-      {isLoading && (
-        <Box p={8} textAlign="center">
-          <Text fontWeight="bold">⏳</Text>
-        </Box>
-      )}
-
       <Box {...s.habitList}>
         {habits.map((habit: Habit) => {
           const isExpanded = expandedPlan === habit.id;
@@ -107,19 +103,17 @@ export default function HabitsPage(): React.JSX.Element {
               boxShadow="brutal"
             >
               <Box {...s.habitHeader}>
-                <Box {...s.habitInfo}>
-                  <Text {...s.habitIcon}>{habit.icon}</Text>
-                  <Box>
-                    <Heading {...s.habitTitle}>{habit.name}</Heading>
-                    <HStack {...s.habitTags}>
-                      <Box {...s.habitTag}>
-                        {SKILL_ICONS[habit.target_skill]} {t(`skills.${habit.target_skill}.name`)}
-                      </Box>
-                      <Box {...s.habitTag} bg={STATUS_BG[habit.plan_status]}>
-                        {t(`status.${habit.plan_status}`)}
-                      </Box>
-                    </HStack>
-                  </Box>
+                <Text {...s.habitIcon}>{habit.icon}</Text>
+                <Box>
+                  <Heading {...s.habitTitle}>{habit.name}</Heading>
+                  <HStack {...s.habitTags}>
+                    <Box {...s.habitTag}>
+                      {SKILL_ICONS[habit.target_skill]} {t(`skills.${habit.target_skill}.name`)}
+                    </Box>
+                    <Box {...s.habitTag} bg={STATUS_BG[habit.plan_status]}>
+                      {t(`status.${habit.plan_status}`)}
+                    </Box>
+                  </HStack>
                 </Box>
                 <Box {...s.habitStreak}>
                   <Text {...s.streakNumber}>{habit.streak}🔥</Text>
@@ -226,6 +220,6 @@ export default function HabitsPage(): React.JSX.Element {
         onClose={() => setShowWizard(false)}
         onCreated={handleCreated}
       />
-    </Box>
+    </PageWrapper>
   );
 }

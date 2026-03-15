@@ -5,14 +5,14 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { Box, Heading, Text, Spinner } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { Input, Textarea, Select, Button } from "@/components/ui";
 import { AvatarUpload, useAvatarUpload } from "@/components/AvatarUpload";
 import { LanguageSelector, type UILanguage } from "@/components/LanguageSelector";
 import { useGetProfile, useUpdateProfile } from "@/lib/hooks/useProfile";
 import { useRouter, usePathname } from "@/lib/navigation";
 import { toaster } from "@/components/ui/toaster";
-import { SIDEBAR_WIDTH } from "@/components/Sidebar/styles";
+import { PageWrapper } from "@/components/PageWrapper";
 import { s } from "./settings.styles";
 
 const TIMEZONES = [
@@ -116,32 +116,8 @@ export default function SettingsPage(): React.JSX.Element {
     ? Math.min((profile.profile.aiRequestsToday / AI_LIMIT) * 100, 100)
     : 0;
 
-  if (isLoading || !isAvatarReady) {
-    return (
-      <Box {...s.page}>
-        <Heading as="h1" {...s.pageTitle}>
-          {t("pageTitle")}
-        </Heading>
-        <Box
-          position="fixed"
-          inset="0"
-          pl={{ base: 0, md: SIDEBAR_WIDTH }}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Spinner size="xl" borderWidth="4px" color="primary" />
-        </Box>
-      </Box>
-    );
-  }
-
   return (
-    <Box {...s.page}>
-      <Heading as="h1" {...s.pageTitle}>
-        {t("pageTitle")}
-      </Heading>
-
+    <PageWrapper title={`⚙️ ${t("pageTitle")}`} loading={isLoading || !isAvatarReady}>
       <Box {...s.languageCard}>
         <Text {...s.languageCardTitle}>{t("languageCardTitle")}</Text>
         <Text {...s.languageBanner}>{t("languageBanner")}</Text>
@@ -237,6 +213,6 @@ export default function SettingsPage(): React.JSX.Element {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </PageWrapper>
   );
 }
