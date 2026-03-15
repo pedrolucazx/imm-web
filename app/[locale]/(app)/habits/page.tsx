@@ -44,7 +44,6 @@ export default function HabitsPage(): React.JSX.Element {
   };
 
   const handleRetryPlan = (habitId: string) => {
-    // TODO: chamar endpoint REGENERATE_PLAN quando o hook estiver disponível
     queryClient.invalidateQueries({ queryKey: ["habits", habitId] });
   };
 

@@ -6,7 +6,6 @@ test.describe("Landing page", () => {
     await expect(page).toHaveTitle(/Inside My Mind/i);
   });
 
-  // Explicitly navigating to /pt-BR/ to avoid dependency on the default locale
   test("navigate to login page from header", async ({ page }) => {
     await page.goto("/pt-BR/");
     await page

@@ -1,4 +1,3 @@
-// target_skill uses architecture codes directly — matches imm-api values
 export type TargetSkill = "en-US" | "es-ES" | "pt-BR" | "general" | "fitness" | "mindfulness";
 
 export type HabitMode = "skill-building" | "tracking-coached";
@@ -43,10 +42,7 @@ export interface Habit {
   habit_plan: HabitPlan | null;
 }
 
-// Language skills → Language Teacher agent (skill-building)
 export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "pt-BR"];
-
-// Behavioral skills → Behavioral Coach agent (tracking-coached)
 export const BEHAVIORAL_SKILLS: TargetSkill[] = ["general", "fitness", "mindfulness"];
 
 export const SKILL_ICONS: Record<TargetSkill, string> = {
@@ -58,14 +54,13 @@ export const SKILL_ICONS: Record<TargetSkill, string> = {
   mindfulness: "🧘",
 };
 
-// Skill metadata for UI display
 export type SkillMetadata = {
-  label: string; // Translation key
+  label: string;
   icon: string;
-  shortDescription: string; // Translation key: short 1-line description
-  longDescription?: string; // Translation key: longer explanation for tooltip/modal
+  shortDescription: string;
+  longDescription?: string;
   category: "language" | "behavioral";
-  hasDailyPlan: boolean; // skill-building has detailed daily tasks
+  hasDailyPlan: boolean;
 };
 
 export const SKILL_METADATA: Record<TargetSkill, SkillMetadata> = {
