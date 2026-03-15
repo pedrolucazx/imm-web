@@ -46,8 +46,8 @@ describe("ENDPOINTS", () => {
       expect(ENDPOINTS.HABITS.DELETE("abc123")).toBe("/habits/abc123");
     });
 
-    it("generates the correct COMPLETE url", () => {
-      expect(ENDPOINTS.HABITS.COMPLETE("abc123")).toBe("/habits/abc123/complete");
+    it("generates the correct LOG url", () => {
+      expect(ENDPOINTS.HABITS.LOG("abc123")).toBe("/habits/abc123/log");
     });
   });
 

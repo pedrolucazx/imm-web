@@ -13,10 +13,13 @@ export const ENDPOINTS = {
   HABITS: {
     LIST: "/habits",
     CREATE: "/habits",
+    CREATE_WITH_PLAN: "/habits/create-with-plan",
+    PREVIEW_PLAN: "/habits/preview-plan",
     GET: (id: string) => `/habits/${id}`,
     UPDATE: (id: string) => `/habits/${id}`,
     DELETE: (id: string) => `/habits/${id}`,
-    COMPLETE: (id: string) => `/habits/${id}/complete`,
+    LOG: (id: string) => `/habits/${id}/log`,
+    REGENERATE_PLAN: (id: string) => `/habits/${id}/regenerate-plan`,
   },
   JOURNAL: {
     LIST: "/journal",
