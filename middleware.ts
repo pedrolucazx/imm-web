@@ -11,7 +11,13 @@ const handleI18n = createMiddleware({
 
 const REFRESH_TOKEN_COOKIE = "refreshToken";
 
-const PROTECTED_SEGMENTS = [ROUTES.APP_DAILY_LAB.slice(1), ROUTES.SETTINGS.slice(1)];
+const PROTECTED_SEGMENTS = [
+  ROUTES.APP_DAILY_LAB.slice(1),
+  ROUTES.APP_HABITS.slice(1),
+  ROUTES.APP_HISTORY.slice(1),
+  ROUTES.APP_ANALYTICS.slice(1),
+  ROUTES.SETTINGS.slice(1),
+];
 
 function resolveLocale(pathname: string): (typeof routing.locales)[number] {
   return (
