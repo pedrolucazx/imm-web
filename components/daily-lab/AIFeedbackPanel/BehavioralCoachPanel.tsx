@@ -12,6 +12,7 @@ interface BehavioralCoachPanelProps {
 export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
   const t = useTranslations("dailyLab.ai.behavioralCoach");
 
+  const alignmentScore = Math.min(100, Math.max(0, feedback.habitAlignmentScore));
   const moodLabel = t(`mood.${feedback.behavioral.moodDetected}`);
   const energyLabel = t(`energy.${feedback.behavioral.energyLevel}`);
 
@@ -34,11 +35,11 @@ export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
         <Box {...s.scoreLabel}>
           <Text as="span">{t("alignmentScore")}</Text>
           <Text as="span" {...s.scoreValue}>
-            {feedback.habitAlignmentScore}/100
+            {alignmentScore}/100
           </Text>
         </Box>
         <Box {...s.progressTrack}>
-          <Box {...s.progressFill} w={`${feedback.habitAlignmentScore}%`} />
+          <Box {...s.progressFill} w={`${alignmentScore}%`} />
         </Box>
       </Box>
 

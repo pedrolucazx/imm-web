@@ -15,16 +15,17 @@ interface ScoreBarProps {
 }
 
 function ScoreBar({ label, value }: ScoreBarProps) {
+  const clamped = Math.min(100, Math.max(0, value));
   return (
     <Box {...s.scoreRow}>
       <Box {...s.scoreLabel}>
         <Text as="span">{label}</Text>
         <Text as="span" {...s.scoreValue}>
-          {value}/100
+          {clamped}/100
         </Text>
       </Box>
       <Box {...s.progressTrack}>
-        <Box {...s.progressFill} w={`${value}%`} />
+        <Box {...s.progressFill} w={`${clamped}%`} />
       </Box>
     </Box>
   );

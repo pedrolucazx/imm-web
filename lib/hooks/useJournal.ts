@@ -36,6 +36,7 @@ export function useAnalyzeJournal() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["journal"] });
       queryClient.invalidateQueries({ queryKey: ["habits"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 }

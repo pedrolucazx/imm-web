@@ -41,7 +41,6 @@ export interface JournalEntry {
   moodScore: number | null;
   energyScore: number | null;
   aiFeedback: AiFeedback | null;
-  aiAgentType: string | null;
   createdAt: string;
   updatedAt: string;
 }
