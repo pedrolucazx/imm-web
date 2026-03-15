@@ -37,7 +37,6 @@ function wrapper({ children }: { children: React.ReactNode }) {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  // Default: refresh fails (no existing session)
   mockAuthService.refresh.mockRejectedValue(new Error("No session"));
 });
 
@@ -158,13 +157,11 @@ describe("AuthProvider", () => {
       const { result } = renderHook(() => useAuthContext(), { wrapper });
       await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-      // First log in
       await act(async () => {
         await result.current.login({ email: "user@example.com", password: "pass123" });
       });
       expect(result.current.isAuthenticated).toBe(true);
 
-      // Then log out
       await act(async () => {
         await result.current.logout();
       });
@@ -187,7 +184,6 @@ describe("AuthProvider", () => {
         await result.current.login({ email: "user@example.com", password: "pass123" });
       });
 
-      // Logout should clear state even on API failure
       await act(async () => {
         await result.current.logout().catch(() => {});
       });

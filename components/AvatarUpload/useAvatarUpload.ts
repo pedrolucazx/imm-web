@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUploadAvatar } from "@/lib/hooks/useUploadAvatar";
 
 export function useAvatarUpload(
@@ -10,6 +10,7 @@ export function useAvatarUpload(
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isAvatarReady, setIsAvatarReady] = useState(false);
+  const previewUrlRef = useRef(previewUrl);
 
   const { mutateAsync: upload, isPending: isUploading } = useUploadAvatar({
     onError: options?.onUploadError,
@@ -31,15 +32,15 @@ export function useAvatarUpload(
     setPendingFile(file);
     setPreviewUrl((prev) => {
       if (prev) URL.revokeObjectURL(prev);
-      return URL.createObjectURL(file);
+      previewUrlRef.current = URL.createObjectURL(file);
+      return previewUrlRef.current;
     });
   }
 
   useEffect(() => {
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function uploadIfPending(): Promise<string | undefined> {

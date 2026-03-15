@@ -74,7 +74,6 @@ function toPlanStatus(apiStatus: string, habitPlan: Record<string, unknown>): Pl
 }
 
 function toChakraColor(apiColor: string): string {
-  // "bg-surface-mint" → "surface.mint"
   return apiColor.replace(/^bg-/, "").replace(/-([^-]+)$/, ".$1");
 }
 
