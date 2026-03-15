@@ -2,9 +2,13 @@
 
 import { Link } from "@/lib/navigation";
 import { Box, Heading, HStack, Text } from "@chakra-ui/react";
-import { s, gearAnimations } from "./app.styles";
+import { useTranslations } from "next-intl";
+import { s, gearAnimations } from "../app.styles";
+import { ROUTES } from "@/lib/routes";
 
-export default function AppPage() {
+export default function DailyLabPage() {
+  const t = useTranslations("dailyLab");
+
   return (
     <Box {...s.pageWrapper}>
       <Box {...s.card}>
@@ -20,28 +24,25 @@ export default function AppPage() {
           </Box>
         </HStack>
 
-        <Box {...s.badge}>Em construção</Box>
+        <Box {...s.badge}>{t("badge")}</Box>
 
         <Heading {...s.title}>
-          Ainda estamos
+          {t("title")}
           <br />
-          construindo isso
+          {t("comingSoon")}
         </Heading>
 
-        <Text {...s.subtitle}>
-          O app está sendo desenvolvido com muito café e linhas de código. Em breve você vai poder
-          acompanhar seus hábitos por aqui.
-        </Text>
+        <Text {...s.subtitle}>{t("description")}</Text>
 
         <Box {...s.divider} />
 
         <HStack {...s.statusRow} role="status">
           <Box {...s.statusDot} style={gearAnimations.pulse} />
-          <Text {...s.statusText}>Desenvolvimento ativo</Text>
+          <Text {...s.statusText}>{t("status")}</Text>
         </HStack>
 
         <Box asChild {...s.backLink}>
-          <Link href="/">← Voltar para o início</Link>
+          <Link href={ROUTES.HOME}>{t("backLink")}</Link>
         </Box>
       </Box>
     </Box>

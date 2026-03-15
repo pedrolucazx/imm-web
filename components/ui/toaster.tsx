@@ -4,7 +4,7 @@ import {
   Toaster as ChakraToaster,
   Portal,
   Spinner,
-  Stack,
+  VStack,
   Toast,
   createToaster,
 } from "@chakra-ui/react";
@@ -14,6 +14,16 @@ export const toaster = createToaster({
   pauseOnPageIdle: true,
   gap: 3,
 });
+
+const TOAST_BG_MAP: Record<string, string> = {
+  success: "secondary",
+  error: "error",
+  info: "info",
+};
+
+function getToastBg(type: string | undefined): string {
+  return (type && TOAST_BG_MAP[type]) ?? "primary";
+}
 
 export const Toaster = () => {
   return (
@@ -32,21 +42,9 @@ export const Toaster = () => {
             {toast.type === "loading" ? (
               <Spinner size="sm" color="black" borderWidth="2px" />
             ) : (
-              <Toast.Indicator
-                bg={
-                  toast.type === "success"
-                    ? "secondary"
-                    : toast.type === "error"
-                      ? "error"
-                      : toast.type === "info"
-                        ? "info"
-                        : "primary"
-                }
-                borderWidth="2px"
-                borderColor="black"
-              />
+              <Toast.Indicator bg={getToastBg(toast.type)} borderWidth="2px" borderColor="black" />
             )}
-            <Stack gap="1" flex="1" maxWidth="100%">
+            <VStack gap="1" flex="1" maxWidth="100%" align="stretch">
               {toast.title && (
                 <Toast.Title fontWeight="bold" fontSize="md" color="black" letterSpacing="tight">
                   {toast.title}
@@ -57,7 +55,7 @@ export const Toaster = () => {
                   {toast.description}
                 </Toast.Description>
               )}
-            </Stack>
+            </VStack>
             {toast.action && (
               <Toast.ActionTrigger
                 bg="primary"

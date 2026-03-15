@@ -1,6 +1,6 @@
 import React from "react";
 import { screen } from "@testing-library/react";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { renderWithProviders } from "../../__setup__/render";
 
 describe("Input", () => {

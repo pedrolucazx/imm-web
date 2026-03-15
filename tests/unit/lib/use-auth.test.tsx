@@ -2,19 +2,29 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, act } from "@testing-library/react";
 import React from "react";
 import { useLogin, useLogout, useRegister } from "@/lib/hooks/useAuth";
-import { authService } from "@/lib/auth.service";
 import type { AuthResponse } from "@/types/auth";
 
-jest.mock("@/lib/auth.service", () => ({
-  authService: {
-    register: jest.fn(),
-    login: jest.fn(),
-    setToken: jest.fn(),
-    removeToken: jest.fn(),
-  },
+const mockLogin = jest.fn();
+const mockRegister = jest.fn();
+const mockLogout = jest.fn();
+
+jest.mock("@/lib/auth-context", () => ({
+  useAuthContext: () => ({
+    login: mockLogin,
+    register: mockRegister,
+    logout: mockLogout,
+  }),
 }));
 
-const mockAuthService = authService as jest.Mocked<typeof authService>;
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
+jest.mock("@/components/ui/toaster", () => ({
+  toaster: {
+    create: jest.fn(),
+  },
+}));
 
 const mockAuthResponse: AuthResponse = {
   token: "test-jwt-token",
@@ -41,8 +51,8 @@ beforeEach(() => {
 });
 
 describe("useRegister", () => {
-  it("calls authService.register with the provided data", async () => {
-    mockAuthService.register.mockResolvedValue(mockAuthResponse);
+  it("calls authContext.register with the provided data", async () => {
+    mockRegister.mockResolvedValue(mockAuthResponse);
     const { wrapper } = makeWrapper();
 
     const { result } = renderHook(() => useRegister(), { wrapper });
@@ -55,18 +65,19 @@ describe("useRegister", () => {
       });
     });
 
-    expect(mockAuthService.register).toHaveBeenCalledWith({
+    expect(mockRegister).toHaveBeenCalledWith({
       email: "user@example.com",
       password: "pass123",
       name: "Test User",
     });
   });
 
-  it("stores the token via authService.setToken on success", async () => {
-    mockAuthService.register.mockResolvedValue(mockAuthResponse);
+  it("calls options.onSuccess callback after successful registration", async () => {
+    mockRegister.mockResolvedValue(mockAuthResponse);
     const { wrapper } = makeWrapper();
+    const onSuccess = jest.fn();
 
-    const { result } = renderHook(() => useRegister(), { wrapper });
+    const { result } = renderHook(() => useRegister({ onSuccess }), { wrapper });
 
     await act(async () => {
       await result.current.mutateAsync({
@@ -76,13 +87,36 @@ describe("useRegister", () => {
       });
     });
 
-    expect(mockAuthService.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
+    expect(onSuccess).toHaveBeenCalledWith(mockAuthResponse);
+  });
+
+  it("calls options.onError callback on failure", async () => {
+    const error = new Error("Registration failed");
+    mockRegister.mockRejectedValue(error);
+    const { wrapper } = makeWrapper();
+    const onError = jest.fn();
+
+    const { result } = renderHook(() => useRegister({ onError }), { wrapper });
+
+    await act(async () => {
+      result.current.mutate({
+        email: "user@example.com",
+        password: "pass123",
+        name: "Test User",
+      });
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
+    });
+
+    expect(onError).toHaveBeenCalledWith(error);
   });
 });
 
 describe("useLogin", () => {
-  it("calls authService.login with the provided credentials", async () => {
-    mockAuthService.login.mockResolvedValue(mockAuthResponse);
+  it("calls authContext.login with the provided credentials", async () => {
+    mockLogin.mockResolvedValue(mockAuthResponse);
     const { wrapper } = makeWrapper();
 
     const { result } = renderHook(() => useLogin(), { wrapper });
@@ -94,17 +128,18 @@ describe("useLogin", () => {
       });
     });
 
-    expect(mockAuthService.login).toHaveBeenCalledWith({
+    expect(mockLogin).toHaveBeenCalledWith({
       email: "user@example.com",
       password: "pass123",
     });
   });
 
-  it("stores the token via authService.setToken on success", async () => {
-    mockAuthService.login.mockResolvedValue(mockAuthResponse);
+  it("calls options.onSuccess callback after successful login", async () => {
+    mockLogin.mockResolvedValue(mockAuthResponse);
     const { wrapper } = makeWrapper();
+    const onSuccess = jest.fn();
 
-    const { result } = renderHook(() => useLogin(), { wrapper });
+    const { result } = renderHook(() => useLogin({ onSuccess }), { wrapper });
 
     await act(async () => {
       await result.current.mutateAsync({
@@ -113,31 +148,33 @@ describe("useLogin", () => {
       });
     });
 
-    expect(mockAuthService.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
+    expect(onSuccess).toHaveBeenCalledWith(mockAuthResponse);
   });
 });
 
 describe("useLogout", () => {
-  it("calls authService.removeToken when invoked", () => {
+  it("calls authContext.logout when invoked", async () => {
+    mockLogout.mockResolvedValue(undefined);
     const { wrapper } = makeWrapper();
 
     const { result } = renderHook(() => useLogout(), { wrapper });
 
-    act(() => {
-      result.current();
+    await act(async () => {
+      result.current.mutate();
     });
 
-    expect(mockAuthService.removeToken).toHaveBeenCalled();
+    expect(mockLogout).toHaveBeenCalled();
   });
 
-  it("clears the query client data when invoked", () => {
+  it("clears the query client data when invoked", async () => {
+    mockLogout.mockResolvedValue(undefined);
     const { wrapper, queryClient } = makeWrapper();
     queryClient.setQueryData(["user"], { id: "1", name: "John" });
 
     const { result } = renderHook(() => useLogout(), { wrapper });
 
-    act(() => {
-      result.current();
+    await act(async () => {
+      result.current.mutate();
     });
 
     expect(queryClient.getQueryData(["user"])).toBeUndefined();

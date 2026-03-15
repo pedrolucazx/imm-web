@@ -1,6 +1,6 @@
 # imm-web
 
-> Frontend application for **Inside My Mind** — a SaaS platform for habit tracking and AI-powered journaling.
+> Frontend do **Inside My Mind** — rastreamento de hábitos com feedback de IA.
 
 [![CI](https://github.com/pedrolucazx/imm-web/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/pedrolucazx/imm-web/actions/workflows/ci.yml)
 
@@ -14,104 +14,120 @@
 
 ---
 
-## Table of Contents
+## Índice
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [Available Scripts](#available-scripts)
-- [Testing](#testing)
-- [CI/CD Pipeline](#cicd-pipeline)
+- [O que é Inside My Mind?](#o-que-é-inside-my-mind)
+- [Funcionalidades](#funcionalidades)
+- [Arquitetura](#arquitetura)
+- [Stack de Tecnologias](#stack-de-tecnologias)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Pré-requisitos](#pré-requisitos)
+- [Como Começar](#como-começar)
+- [Variáveis de Ambiente](#variáveis-de-ambiente)
+- [Scripts Disponíveis](#scripts-disponíveis)
+- [Testes](#testes)
+- [Pipeline CI/CD](#pipeline-cicd)
 - [Deployment](#deployment)
-- [Branch Strategy](#branch-strategy)
-- [Contributing](#contributing)
+- [Estratégia de Branches](#estratégia-de-branches)
+- [Contribuindo](#contribuindo)
 
 ---
 
-## Overview
+## O que é Inside My Mind?
 
-`imm-web` is the frontend of the **Inside My Mind** platform. It consumes the [`imm-api`](https://github.com/pedrolucazx/imm-api) REST API through typed HTTP hooks — no direct database access. The UI follows a neo-brutalism design system built on top of Chakra UI v3, with full internationalization support and server-side rendering via the Next.js App Router.
+**Inside My Mind** é uma aplicação de rastreamento de hábitos que usa IA para gerar feedback personalizado. Você registra seu progresso diário, escreve sobre sua experiência e recebe análise de um dos três agentes especializados: um planejador de hábitos, um professor de idiomas ou um coach comportamental.
 
-> Architecture decisions, data flow, and sprint roadmap are documented in [docs/architecture.pdf](./docs/architecture.pdf).
+É um projeto de código aberto, feito para aprendizado e portfólio.
 
 ---
 
-## Architecture
+## Funcionalidades
+
+**Daily Lab** — painel principal para registrar hábitos concluídos, escrever entradas e receber feedback de IA no dia.
+
+**Agentes de IA**
+
+- **Habit Planner**: gera um plano de 66 dias com fases progressivas ao criar um novo hábito
+- **Language Teacher**: avalia gramática, vocabulário e fluência nas entradas de hábitos de idiomas
+- **Behavioral Coach**: identifica padrões de humor e sugere ajustes de rotina para hábitos comportamentais
+
+**Internacionalização** — interface disponível em Português, Inglês e Espanhol. O idioma da interface é independente do idioma de estudo — você pode usar o app em pt-br enquanto aprende inglês.
+
+**Analytics** — heatmap de streak, taxas de conclusão e histórico de progresso por hábito.
+
+---
+
+## Arquitetura
 
 ```text
 imm-web (Next.js App Router)
-├── app/[locale]/                  # i18n routing via next-intl
-│   ├── (auth)/                    # Unauthenticated pages (login, register)
-│   └── (landing)/                 # Public landing page
-├── components/ui/                 # Chakra UI wrapped design system
-├── lib/                           # API client, hooks, services
-│   ├── hooks/useAuth.ts           # Auth state & token management
-│   ├── auth.service.ts            # Auth API calls
-│   └── endpoints.ts               # Typed API endpoint map
-└── providers/                     # React context providers
+├── app/[locale]/                  # Roteamento i18n via next-intl
+│   ├── (auth)/                    # Páginas não-autenticadas (login, register)
+│   └── (landing)/                 # Página de landing pública
+├── components/ui/                 # Design system customizado sobre Chakra UI
+├── lib/                           # API client, hooks, serviços
+│   ├── hooks/useAuth.ts           # Autenticação e gerenciamento de tokens
+│   ├── auth.service.ts            # Chamadas de API de autenticação
+│   └── endpoints.ts               # Mapa tipado de endpoints da API
+└── providers/                     # Provedores de contexto (QueryClient, Chakra, etc.)
 ```
 
-All server communication goes through **TanStack Query** hooks — components never call the API directly. Authentication state is centralized in `useAuth`.
+`imm-web` consome a API REST [`imm-api`](https://github.com/pedrolucazx/imm-api) através de hooks HTTP tipados — sem acesso direto ao banco de dados. Toda comunicação com o servidor passa por hooks TanStack Query. Estado de autenticação é centralizado em `useAuth`.
 
 ---
 
-## Tech Stack
+## Stack de Tecnologias
 
-| Layer                  | Technology                               |
-| ---------------------- | ---------------------------------------- |
-| Framework              | Next.js 15 (App Router)                  |
-| Language               | TypeScript 5                             |
-| UI Library             | React 19                                 |
-| Design System          | Chakra UI v3 (neo-brutalism)             |
-| Icons                  | Phosphor Icons (`@phosphor-icons/react`) |
-| HTTP / State           | TanStack Query v5 + Axios                |
-| Forms                  | React Hook Form v7                       |
-| Animations             | N/A (no dedicated library at the moment) |
-| Internationalization   | next-intl v4                             |
-| Unit/Integration Tests | Jest + React Testing Library + MSW       |
-| E2E Tests              | Playwright (Chromium)                    |
-| Deployment             | Vercel                                   |
+| Camada                  | Tecnologia                               |
+| ----------------------- | ---------------------------------------- |
+| Framework               | Next.js 15 (App Router)                  |
+| Linguagem               | TypeScript 5                             |
+| Biblioteca de UI        | React 19                                 |
+| Design System           | Chakra UI v3 (neo-brutalism)             |
+| Ícones                  | Phosphor Icons (`@phosphor-icons/react`) |
+| HTTP / Estado           | TanStack Query v5 + Axios                |
+| Formulários             | React Hook Form v7                       |
+| Internacionalização     | next-intl v4                             |
+| Testes Unit/Integration | Jest + React Testing Library + MSW       |
+| Testes E2E              | Playwright (Chromium)                    |
+| Deployment              | Vercel                                   |
 
 ---
 
-## Project Structure
+## Estrutura do Projeto
 
 ```text
 imm-web/
 ├── app/
-│   └── [locale]/                  # Locale-aware App Router root
+│   └── [locale]/                  # Raiz do App Router consciente de locale
 │       ├── (auth)/
-│       │   ├── login/             # Login page
-│       │   └── register/          # Registration page
-│       └── (landing)/             # Public landing page
+│       │   ├── login/             # Página de login
+│       │   └── register/          # Página de registro
+│       └── (landing)/             # Página de landing pública
 ├── components/
-│   └── ui/                        # Custom wrapped Chakra UI components
+│   └── ui/                        # Componentes Chakra UI customizados e wrapped
 │       ├── Button.tsx
 │       ├── Input.tsx
 │       └── ...
 ├── lib/
 │   ├── hooks/
-│   │   └── useAuth.ts             # Authentication hook
-│   ├── auth.service.ts            # Auth API service layer
-│   └── endpoints.ts               # Typed API endpoint constants
-├── providers/                     # React context providers (QueryClient, Chakra, etc.)
-├── i18n/                          # next-intl config and locale request handler
-├── styles/                        # Global CSS
-├── types/                         # Shared TypeScript type definitions
-├── middleware.ts                  # Locale routing middleware
+│   │   └── useAuth.ts             # Hook de autenticação
+│   ├── auth.service.ts            # Camada de serviço de auth API
+│   └── endpoints.ts               # Constantes de endpoints API tipadas
+├── providers/                     # Provedores de contexto React (QueryClient, Chakra, etc.)
+├── i18n/                          # Configuração next-intl e request handler
+├── styles/                        # CSS global
+├── types/                         # Definições de tipos TypeScript compartilhadas
+├── middleware.ts                  # Middleware de roteamento de locale
 ├── tests/
-│   ├── __setup__/                 # Jest & MSW global setup
-│   ├── unit/                      # Component + hook unit tests
-│   ├── integration/               # API integration tests (MSW)
-│   └── e2e/                       # Playwright E2E tests
+│   ├── __setup__/                 # Setup global de Jest & MSW
+│   ├── unit/                      # Testes unitários de componentes + hooks
+│   ├── integration/               # Testes de integração de API (MSW)
+│   └── e2e/                       # Testes E2E com Playwright
 ├── .github/
 │   └── workflows/
-│       ├── ci.yml                 # Code quality + tests pipeline
-│       └── cd.yml                 # Deploy to Vercel on CI success
+│       ├── ci.yml                 # Pipeline de code quality + testes
+│       └── cd.yml                 # Deploy para Vercel após CI bem-sucedido
 ├── .env.example
 ├── jest.config.ts
 ├── next.config.ts
@@ -121,89 +137,89 @@ imm-web/
 
 ---
 
-## Prerequisites
+## Pré-requisitos
 
 - **Node.js** >= 20
 - **yarn** >= 1.22
-- A running instance of [`imm-api`](https://github.com/pedrolucazx/imm-api) (local or remote)
+- Uma instância rodando de [`imm-api`](https://github.com/pedrolucazx/imm-api) (local ou remota)
 - **Git**
 
 ---
 
-## Getting Started
+## Como Começar
 
 ```bash
-# 1. Clone the repository
+# 1. Clone o repositório
 git clone git@github.com:pedrolucazx/imm-web.git
 cd imm-web
 
-# 2. Install dependencies
+# 2. Instale as dependências
 yarn install
 
-# 3. Set up environment variables
+# 3. Configure as variáveis de ambiente
 cp .env.example .env.local
-# Fill in the API URL — see Environment Variables section
+# Preencha a URL da API — veja a seção Variáveis de Ambiente
 
-# 4. Start the development server
+# 4. Inicie o servidor de desenvolvimento
 yarn dev
 ```
 
-The app will be available at `http://localhost:3000`.
+O app estará disponível em `http://localhost:3000`.
 
-> Make sure `imm-api` is running on `http://localhost:3001` (or update `NEXT_PUBLIC_API_URL` accordingly).
+> Certifique-se que `imm-api` está rodando em `http://localhost:3001` (ou atualize `NEXT_PUBLIC_API_URL` conforme necessário).
 
 ---
 
-## Environment Variables
+## Variáveis de Ambiente
 
-Copy `.env.example` to `.env.local` and configure the values:
+Copie `.env.example` para `.env.local` e configure os valores:
 
 ```env
-# imm-api base URL
+# URL base da imm-api
 # Local: http://localhost:3001
 # Homolog: https://imm-homolog.onrender.com
 # Production: https://imm-production.onrender.com
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
-| Variable              | Required | Description                       |
-| --------------------- | -------- | --------------------------------- |
-| `NEXT_PUBLIC_API_URL` | Yes      | Base URL of the `imm-api` backend |
+| Variável              | Obrigatória | Descrição                     |
+| --------------------- | ----------- | ----------------------------- |
+| `NEXT_PUBLIC_API_URL` | Sim         | URL base do backend `imm-api` |
 
 ---
 
-## Available Scripts
+## Scripts Disponíveis
 
-| Script                  | Description                                    |
-| ----------------------- | ---------------------------------------------- |
-| `yarn dev`              | Start Next.js development server               |
-| `yarn build`            | Build the application for production           |
-| `yarn start`            | Start the production build                     |
-| `yarn lint`             | Run ESLint                                     |
-| `yarn lint:fix`         | Run ESLint with auto-fix                       |
-| `yarn format`           | Format all source files with Prettier          |
-| `yarn format:check`     | Check formatting without writing               |
-| `yarn test`             | Run unit and integration tests (Jest)          |
-| `yarn test:unit`        | Run unit tests only                            |
-| `yarn test:integration` | Run integration tests only                     |
-| `yarn test:e2e`         | Run Playwright E2E tests (requires build)      |
-| `yarn test:e2e:ui`      | Run Playwright with interactive UI             |
-| `yarn test:watch`       | Run Jest in watch mode                         |
-| `yarn test:coverage`    | Run Jest and generate coverage report          |
-| `yarn commit`           | Interactive conventional commit via Commitizen |
+| Script                  | Descrição                                             |
+| ----------------------- | ----------------------------------------------------- |
+| `yarn dev`              | Inicia o servidor de desenvolvimento do Next.js       |
+| `yarn build`            | Compila a aplicação para produção                     |
+| `yarn start`            | Inicia a versão de produção já compilada              |
+| `yarn lint`             | Executa ESLint                                        |
+| `yarn lint:fix`         | Executa ESLint com correção automática                |
+| `yarn format`           | Formata todos os arquivos com Prettier                |
+| `yarn format:check`     | Verifica formatação sem escrever                      |
+| `yarn test`             | Executa testes unitários e de integração (Jest)       |
+| `yarn test:unit`        | Executa apenas testes unitários                       |
+| `yarn test:integration` | Executa apenas testes de integração                   |
+| `yarn test:e2e`         | Executa testes E2E com Playwright (requer compilação) |
+| `yarn test:e2e:ui`      | Executa Playwright com interface interativa           |
+| `yarn test:watch`       | Executa Jest em modo de observação                    |
+| `yarn test:coverage`    | Executa Jest e gera relatório de cobertura            |
+| `yarn commit`           | Conventional commit interativo via Commitizen         |
 
 ---
 
-## Testing
+## Testes
 
-The project uses two separate test runners with distinct responsibilities:
+O projeto usa dois test runners separados com responsabilidades distintas:
 
 ### Jest — Unit & Integration
 
-| Suite         | Location             | Description                                         |
-| ------------- | -------------------- | --------------------------------------------------- |
-| `unit`        | `tests/unit/`        | Component rendering, hook logic, isolated functions |
-| `integration` | `tests/integration/` | API calls mocked with MSW (no real network)         |
+| Suite         | Localização          | Descrição                                             |
+| ------------- | -------------------- | ----------------------------------------------------- |
+| `unit`        | `tests/unit/`        | Renderização de componentes, lógica de hooks, funções |
+| `integration` | `tests/integration/` | Chamadas de API mockadas com MSW (sem rede real)      |
 
 ```bash
 yarn test
@@ -214,28 +230,28 @@ yarn test:coverage
 
 ### Playwright — E2E
 
-Full browser tests running against Chromium. Tests live in `tests/e2e/` and run against the real Next.js server.
+Testes completos de navegador executando contra Chromium. Os testes ficam em `tests/e2e/` e rodam contra o servidor Next.js compilado.
 
 ```bash
-# Run E2E tests (production build required in CI)
+# Build obrigatório antes de rodar em CI
 yarn build && yarn test:e2e
 
-# Interactive UI (local development)
+# UI interativa para desenvolvimento local
 yarn test:e2e:ui
 ```
 
-Configuration: [`playwright.config.ts`](playwright.config.ts)
+Configuração: [`playwright.config.ts`](playwright.config.ts)
 
 - Retries: 1 (CI only)
-- Workers: 2 (CI), unlimited (local)
-- Trace: on first retry
-- Screenshots: on failure only
+- Workers: 2 (CI), ilimitados (local)
+- Trace: no primeiro retry
+- Screenshots: apenas em falha
 
 ---
 
-## CI/CD Pipeline
+## Pipeline CI/CD
 
-Every push and pull request to `develop` or `main` triggers the pipeline defined in `.github/workflows/ci.yml`:
+Todo push e pull request para `develop` ou `main` dispara o pipeline definido em `.github/workflows/ci.yml`:
 
 ```text
 code_quality ──► tests ──► ai_review ──► quality_gate
@@ -243,85 +259,85 @@ code_quality ──► tests ──► ai_review ──► quality_gate
   ESLint         unit        CodeRabbit     required
   Prettier    integration   (PRs only,     status check
   tsc           E2E         non-blocking)  for branch merge
-               (build
-              required)
+              (build
+             required)
 ```
 
-| Stage          | Blocks pipeline                | Trigger   |
-| -------------- | ------------------------------ | --------- |
-| `code_quality` | Yes                            | push + PR |
-| `tests`        | Yes                            | push + PR |
-| `ai_review`    | No (`continue-on-error: true`) | PR only   |
-| `quality_gate` | Yes                            | push + PR |
+| Estágio        | Bloqueia pipeline               | Trigger   |
+| -------------- | ------------------------------- | --------- |
+| `code_quality` | Sim                             | push + PR |
+| `tests`        | Sim                             | push + PR |
+| `ai_review`    | Não (`continue-on-error: true`) | PR only   |
+| `quality_gate` | Sim                             | push + PR |
 
-`quality_gate` is the required status check in branch protection. It depends only on `code_quality` and `tests` — the AI review never blocks a merge.
+`quality_gate` é o status check obrigatório na branch protection. Depende apenas de `code_quality` e `tests` — a review de IA nunca bloqueia um merge.
 
-> **Note:** E2E tests in CI run `yarn build` before `yarn start`. Do not run Playwright against the dev server in CI.
+> **Nota:** Testes E2E em CI executam `yarn build` antes de `yarn start`. Não execute Playwright contra o dev server em CI.
 
 ---
 
 ## Deployment
 
-Deployments are triggered by the CD pipeline (`.github/workflows/cd.yml`) after CI passes, using the `amondnet/vercel-action` GitHub Action.
+Deployments são disparados pelo pipeline CD (`.github/workflows/cd.yml`) após CI passar, usando a GitHub Action `amondnet/vercel-action`.
 
-| Environment  | Branch    | Target            |
-| ------------ | --------- | ----------------- |
-| Homologation | `develop` | Vercel Preview    |
-| Production   | `main`    | Vercel Production |
+| Ambiente    | Branch    | Alvo              |
+| ----------- | --------- | ----------------- |
+| Homologação | `develop` | Vercel Preview    |
+| Produção    | `main`    | Vercel Production |
 
-Vercel is configured via the GitHub Action — no manual deployment needed. Only the CI pipeline triggers deploys.
+Vercel é configurado via GitHub Action — nenhum deployment manual necessário. Apenas o pipeline de CI dispara deploys.
 
 ---
 
-## Branch Strategy
+## Estratégia de Branches
 
 ```text
 feature/* ──► develop (homolog) ──► main (production)
                    │                       │
-             auto-deploys to         admin-only merge
-             Vercel Preview          to Vercel Production
+              auto-deploys to         admin-only merge
+              Vercel Preview          to Vercel Production
 ```
 
-- All work goes to `develop` via pull requests
-- `main` is protected — only the admin can merge `develop → main`
-- Branch protection requires the **Quality Gate** check to pass before any merge
+- Todo trabalho vai para `develop` via pull requests
+- `main` é protegida — apenas o admin pode fazer merge `develop → main`
+- Branch protection exige que o check **Quality Gate** passe antes de qualquer merge
 
 ---
 
-## Contributing
+## Contribuindo
 
-1. Create a branch from `develop`: `git checkout -b feat/your-feature develop`
-2. Implement your changes, following the component and hook patterns in `components/ui/` and `lib/`
-3. Write tests — unit for components/hooks, integration for API calls
-4. Verify everything passes locally:
+1. Crie uma branch a partir de `develop`: `git checkout -b feat/sua-feature develop`
+2. Implemente suas mudanças seguindo os padrões de componentes e hooks em `components/ui/` e `lib/`
+3. Escreva testes — unitários para componentes/hooks, integração para chamadas de API
+4. Verifique se tudo passa localmente:
 
    ```bash
    yarn lint && yarn format:check && yarn test
    ```
 
-5. Commit with [Conventional Commits](https://www.conventionalcommits.org/):
+5. Faça commit com [Conventional Commits](https://www.conventionalcommits.org/):
 
    ```bash
    yarn commit
-   # or manually: git commit -m "feat(auth): add remember me checkbox"
+   # ou manualmente: git commit -m "feat(auth): adicionar checkbox de lembrar-me"
    ```
 
-6. Open a pull request targeting `develop`
+6. Abra um pull request direcionado para `develop`
 
-**Accepted commit types:** `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `perf`, `ci`
+**Tipos de commit aceitos:** `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `perf`, `ci`
 
-**Chakra UI v3 conventions enforced by CodeRabbit:**
+**Convenções do Chakra UI v3:**
 
-- Imports: base components from `@chakra-ui/react`, custom wrappers from `components/ui/`
-- Props: `open` (not `isOpen`), `disabled` (not `isDisabled`), `invalid` (not `isInvalid`)
-- Use `colorPalette` (not `colorScheme`), `VStack`/`HStack` (not `Stack`)
-- Compound components: `Dialog.Root`, `Table.Root`, `Tabs.Root`, `Menu.Root`
-- Icons: `@phosphor-icons/react` only — never `@chakra-ui/icons`
+- Imports: componentes base de `@chakra-ui/react`, custom wrappers de `components/ui/`
+- Props: `open` (não `isOpen`), `disabled` (não `isDisabled`), `invalid` (não `isInvalid`)
+- Use `colorPalette` (não `colorScheme`), `VStack`/`HStack` (não `Stack`)
+- Componentes compostos: `Dialog.Root`, `Table.Root`, `Tabs.Root`, `Menu.Root`
+- Ícones: `@phosphor-icons/react` apenas — nunca `@chakra-ui/icons`
 
-Pre-commit hooks (Husky + lint-staged) run lint and format checks automatically before each commit.
+Pre-commit hooks (Husky + lint-staged) executam checagens de lint e format automaticamente antes de cada commit.
 
 ---
 
-## License
+## Licença
 
-This project is public and open for learning purposes.
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.

@@ -20,8 +20,8 @@ describe("ENDPOINTS", () => {
       expect(ENDPOINTS.USER.UPDATE).toBe("/users/me");
     });
 
-    it("has the correct DELETE endpoint", () => {
-      expect(ENDPOINTS.USER.DELETE).toBe("/users/me");
+    it("has the correct AVATAR_UPLOAD_URL endpoint", () => {
+      expect(ENDPOINTS.USER.AVATAR_UPLOAD_URL).toBe("/users/me/avatar-upload-url");
     });
   });
 
@@ -46,8 +46,20 @@ describe("ENDPOINTS", () => {
       expect(ENDPOINTS.HABITS.DELETE("abc123")).toBe("/habits/abc123");
     });
 
-    it("generates the correct COMPLETE url", () => {
-      expect(ENDPOINTS.HABITS.COMPLETE("abc123")).toBe("/habits/abc123/complete");
+    it("has the correct CREATE_WITH_PLAN endpoint", () => {
+      expect(ENDPOINTS.HABITS.CREATE_WITH_PLAN).toBe("/habits/create-with-plan");
+    });
+
+    it("has the correct PREVIEW_PLAN endpoint", () => {
+      expect(ENDPOINTS.HABITS.PREVIEW_PLAN).toBe("/habits/preview-plan");
+    });
+
+    it("generates the correct LOG url", () => {
+      expect(ENDPOINTS.HABITS.LOG("abc123")).toBe("/habits/abc123/log");
+    });
+
+    it("generates the correct REGENERATE_PLAN url", () => {
+      expect(ENDPOINTS.HABITS.REGENERATE_PLAN("abc123")).toBe("/habits/abc123/regenerate-plan");
     });
   });
 

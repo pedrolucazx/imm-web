@@ -1,34 +1,43 @@
 {
   "common": {
-    "appName": "Inside My Mind"
+    "appName": "Inside My Mind",
+    "passwordStrength": {
+      "veryWeak": "Very weak",
+      "weak": "Weak",
+      "good": "Good",
+      "strong": "Strong"
+    }
   },
   "landing": {
+    "seo": {
+      "title": "Inside My Mind — AI-Powered Habit Tracker | 66-Day Journey",
+      "description": "Open source habit tracker with 3 specialized AI agents. 66-day journey, daily journaling, linguistic and behavioral feedback. 100% free, no credit card required."
+    },
     "nav": {
       "login": "Log In",
-      "signup": "Start Free"
+      "signup": "Create Free Account"
     },
     "hero": {
       "titleLine1": "Master Your Mind.",
       "titleLine2": "Build Your Habits.",
       "subtitle": "Stop abandoning habits by week 2. Three free AI agents guide you through a science-backed 66-day journey — from intention to automaticity.",
-      "cta": "Get Started — 100% Free →"
+      "badge": "100% Open Source · Build in Public",
+      "cta": "Create My 66-Day Plan →",
+      "githubCta": "View on GitHub →"
     },
     "phases": {
       "title": "The 66-Day Rule",
       "subtitle": "Research shows it takes 66 days to form an automatic habit. We break this into 3 phases — each with AI-powered guidance.",
       "phaseLabel": "Phase {num} · Days {days}",
       "phase1": {
-        "days": "1-14",
         "title": "Foundation",
         "desc": "Establish your routine. Create the trigger that makes it stick."
       },
       "phase2": {
-        "days": "15-44",
         "title": "Active Production",
         "desc": "Intentional growth. Every session harder than the last."
       },
       "phase3": {
-        "days": "45-66",
         "title": "Consolidation",
         "desc": "The habit runs itself. You become someone who just does this."
       }
@@ -44,7 +53,7 @@
       }
     },
     "agents": {
-      "title": "3 AI Agents, Zero Cost",
+      "title": "AI That Analyzes, Corrects, and Challenges You — Zero Cost",
       "habitPlanner": {
         "title": "Habit Planner",
         "desc": "Get a personalized 66-day plan with daily tasks, phases, and proven techniques — built in seconds.",
@@ -91,16 +100,21 @@
     "opensource": {
       "title": "100% Free & Open Source",
       "subtitle": "Inside My Mind is built in public as a learning project for SaaS architecture. No paid tiers, no monetization. Contribute, fork, or learn from the code.",
-      "cta": "⭐ View on GitHub"
+      "buildInPublic": "Build in Public: mistakes and learnings documented with transparency.",
+      "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
+      "cta": "⭐ View imm-web on GitHub",
+      "ctaApi": "⭐ View imm-api on GitHub"
     },
     "cta": {
       "title": "Stop planning. Start today.",
       "subtitle": "66 days. 3 AI agents. Zero excuses. 100% free.",
-      "button": "Get Started — 100% Free →"
+      "button": "Create My 66-Day Plan →"
     },
     "footer": {
       "copy": "© 2026 Inside My Mind. Built with 🧠 and discipline.",
-      "github": "GitHub →"
+      "github": "GitHub →",
+      "login": "Log In",
+      "register": "Sign Up"
     }
   },
   "auth": {
@@ -139,10 +153,6 @@
       "passwordRequired": "Password is required",
       "passwordMinLength": "Password must be at least 6 characters",
       "languageLabel": "INTERFACE LANGUAGE",
-      "strengthVeryWeak": "Very weak",
-      "strengthWeak": "Weak",
-      "strengthGood": "Good",
-      "strengthStrong": "Strong",
       "submit": "Start Journey →",
       "toastSuccessTitle": "Account created!",
       "toastSuccessDesc": "Welcome to your 66-day transformation journey.",
@@ -152,10 +162,246 @@
       "loginLink": "Log In"
     }
   },
+  "dailyLab": {
+    "badge": "Under Construction",
+    "title": "Daily Lab",
+    "comingSoon": "coming soon",
+    "description": "Daily Lab is being built. Soon you'll be able to track your habits and record your daily progress here.",
+    "status": "Active development",
+    "backLink": "← Back to home"
+  },
   "nav": {
     "dailyLab": "Daily Lab",
     "habits": "Habits",
     "analytics": "Analytics",
     "profile": "Profile"
+  },
+  "sidebar": {
+    "appName": "Inside My Mind",
+    "tagline": "66 days",
+    "menuLabel": "Menu",
+    "dailyLab": "Daily Lab",
+    "habits": "Habits",
+    "history": "History",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "progressLabel": "Progress",
+    "progressDays": "Day {day} of {total}",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "habits": {
+    "pageTitle": "Habits",
+    "newHabit": "+ New Habit",
+    "tooltipLimit": "You've reached the limit of {max} active habits. Complete a 66-day cycle or deactivate a habit to create another.",
+    "warningBanner": "⚠️ You have {count} active habits. Research shows focusing on fewer habits increases success. Consider completing a 66-day cycle before adding more.",
+    "warningBannerLimit": "⚠️ You have {count} active habits. Research shows focusing on fewer habits increases success. Complete a 66-day cycle or deactivate a habit to create another.",
+    "dismiss": "×",
+    "status": {
+      "ready": "Plan Ready",
+      "generating": "Generating...",
+      "pending": "Pending",
+      "failed": "Failed",
+      "skipped": "No Plan"
+    },
+    "mode": {
+      "skillBuilding": "📝 Skill-Building",
+      "tracking": "🎯 Tracking"
+    },
+    "streakDay": "DAY {current}/66",
+    "viewPlan": "▼ View 66-Day Plan",
+    "hidePlan": "▲ Hide Plan",
+    "strategy": "Strategy: {strategy}",
+    "minPerDay": "{minutes} min/day · {metrics}",
+    "phase": "Phase {phase} · Days {days}",
+    "generatingPlan": "⏳ Generating your 66-day plan...",
+    "planFailed": "❌ Plan generation failed",
+    "retry": "Retry",
+    "emptyTitle": "No habits yet",
+    "emptySubtitle": "Create your first habit to start your 66-day journey.",
+    "createFirst": "+ Create First Habit",
+    "skills": {
+      "en-US": {
+        "name": "English",
+        "short": "Develop oral fluency and listening comprehension",
+        "long": "Get a 66-day plan with structured daily tasks. The AI analyzes your writing and provides feedback on grammar, vocabulary, and pronunciation."
+      },
+      "es-ES": {
+        "name": "Spanish",
+        "short": "Master vocabulary and grammar structure",
+        "long": "Structured 3-phase plan with daily exercises. Real-time AI feedback on your linguistic progress."
+      },
+      "pt-BR": {
+        "name": "Portuguese",
+        "short": "Practice Portuguese writing and conversation",
+        "long": "For those learning Portuguese. 66 days with progressive tasks and contextualized feedback."
+      },
+      "general": {
+        "name": "General",
+        "short": "Reading, studying, productivity and varied habits",
+        "long": "Use for any habit that isn't physical or emotional wellness: reading, playing an instrument, personal organization. The AI tracks your consistency, triggers, and patterns — and suggests a micro-action for tomorrow."
+      },
+      "fitness": {
+        "name": "Fitness",
+        "short": "Gym, running, weightlifting and physical exercise",
+        "long": "Use for any physical practice. The AI tracks your energy, recovery, and training consistency — and suggests adjustments for your next session."
+      },
+      "mindfulness": {
+        "name": "Mindfulness",
+        "short": "Meditation, breathing and emotional well-being",
+        "long": "Use for mindfulness practices: meditation, breathing exercises, gratitude journaling, or body scan. The AI focuses on your emotional state, stress level, and quality of presence."
+      }
+    }
+  },
+  "settings": {
+    "badge": "Coming soon",
+    "title": "Settings",
+    "comingSoon": "coming soon",
+    "description": "Settings are being built. Soon you will be able to customize your experience here.",
+    "status": "Active development",
+    "backLink": "← Back to Daily Lab",
+    "pageTitle": "Settings",
+    "languageCardTitle": "Interface Language",
+    "languageBanner": "Change the language of the application interface.",
+    "profileCardTitle": "Profile",
+    "avatarLabel": "AVATAR",
+    "avatarUploadLabel": "Change avatar",
+    "avatarErrorSize": "File too large. Please upload an image up to 5MB.",
+    "avatarErrorType": "Invalid file type. Please upload a JPEG, PNG, or WebP image.",
+    "avatarErrorUpload": "Failed to upload avatar. Please try again.",
+    "nameLabel": "NAME",
+    "namePlaceholder": "Your name",
+    "nameMinLength": "Name must be at least 2 characters",
+    "emailLabel": "EMAIL",
+    "emailReadonly": "Email cannot be changed",
+    "bioLabel": "BIO",
+    "bioPlaceholder": "Tell us a little about yourself...",
+    "timezoneLabel": "TIMEZONE",
+    "aiUsageTitle": "AI Usage Today",
+    "aiUsageLabel": "{used} of {limit} requests used",
+    "aiUsageReset": "Resets daily at midnight UTC",
+    "save": "Save Changes",
+    "toastSuccessTitle": "Profile updated",
+    "toastSuccessDesc": "Your changes have been saved successfully.",
+    "toastErrorTitle": "Save failed",
+    "toastErrorDesc": "Could not save changes. Please try again.",
+    "timezone": {
+      "america_sao_paulo": "America/São Paulo (UTC-3)",
+      "america_new_york": "America/New York (UTC-5/-4)",
+      "america_chicago": "America/Chicago (UTC-6/-5)",
+      "america_los_angeles": "America/Los Angeles (UTC-8/-7)",
+      "america_buenos_aires": "America/Buenos Aires (UTC-3)",
+      "america_mexico_city": "America/Mexico City (UTC-6/-5)",
+      "europe_london": "Europe/London (UTC+0/+1)",
+      "europe_paris": "Europe/Paris (UTC+1/+2)",
+      "europe_madrid": "Europe/Madrid (UTC+1/+2)",
+      "asia_tokyo": "Asia/Tokyo (UTC+9)"
+    }
+  },
+  "habitWizard": {
+    "title": "✨ New Habit",
+    "step1": {
+      "habitNameLabel": "Habit Name",
+      "habitNamePlaceholder": "e.g., Practice English 30m daily",
+      "targetSkillLabel": "Target Skill",
+      "langSkillsLabel": "🌍 Languages",
+      "langSkillsHint": "Get a 66-day plan with daily tasks. AI will analyze your writing and provide linguistic feedback.",
+      "behaviorLabel": "🎯 Behavioral",
+      "behaviorHint": "Track consistency with an optional plan. AI monitors patterns and offers weekly tips.",
+      "modeHintSkill": "📝 You'll receive a complete 66-day plan with structured daily tasks. AI will analyze your writing and provide linguistic feedback.",
+      "modeHintTracking": "🎯 The AI will track your mood, energy, and behavioral patterns.",
+      "next": "Next →"
+    },
+    "step2Skill": {
+      "planNote": "📝 AI will generate a full 66-day plan (Mandatory)",
+      "strugglesLabel": "Describe your struggles and goals",
+      "strugglesPh": "e.g., I freeze when speaking English. My vocabulary is limited for professional topics.",
+      "timeLabel": "Time per day (minutes)",
+      "levelLabel": "Experience Level",
+      "levels": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "back": "← Back",
+      "generate": "Generate My 66-Day Plan →"
+    },
+    "step2Tracking": {
+      "optionalNote": "🎯 AI plan is optional for behavioral habits.",
+      "wantPlanLabel": "Generate AI consistency strategy?",
+      "barrierLabel": "What's your biggest barrier?",
+      "barrierPh": "e.g., I skip the gym on tired days.",
+      "strugglesLabel": "Describe your struggles and goals",
+      "strugglesPh": "e.g., I have trouble staying consistent.",
+      "timeLabel": "Time per day (minutes)",
+      "levelLabel": "Experience Level",
+      "levels": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "manualNote": "Got it! You'll track this habit manually.",
+      "back": "← Back",
+      "nextWithPlan": "Generate Strategy →",
+      "next": "Next →"
+    },
+    "step3": {
+      "loadingTitle": "Generating your plan...",
+      "loadingSubtitle": "This usually takes a few seconds.",
+      "summaryTitle": "Habit Summary",
+      "planPreviewTitle": "AI-Generated Plan",
+      "strategyLabel": "Strategy",
+      "metricsLabel": "Success Metrics",
+      "timeLabel": "Time per day",
+      "nameLabel": "Name",
+      "skillLabel": "Skill",
+      "modeLabel": "Mode",
+      "planLabel": "Plan",
+      "modeSkillBuilding": "📝 Skill-Building",
+      "modeTracking": "🎯 Tracking-Coached",
+      "planReady": "✅ Generated",
+      "planPending": "⏳ Generating...",
+      "planSkipped": "⏭️ Skipped",
+      "regenerate": "🔄 Regenerate Plan",
+      "regenerateError": "Failed to regenerate plan. Please try again.",
+      "create": "✓ Confirm & Create",
+      "back": "← Back",
+      "errorTitle": "❌ Failed to generate plan",
+      "errorSubtitle": "Check your connection and try again.",
+      "rateLimitTitle": "⏳ AI is busy",
+      "rateLimitSubtitle": "Too many requests at once. Wait a few seconds and try again."
+    },
+    "skills": {
+      "en-US": {
+        "name": "English",
+        "short": "Develop oral fluency and listening comprehension",
+        "long": "Get a 66-day plan with structured daily tasks. The AI analyzes your writing and provides feedback on grammar, vocabulary, and pronunciation."
+      },
+      "es-ES": {
+        "name": "Spanish",
+        "short": "Master vocabulary and grammar structure",
+        "long": "Structured 3-phase plan with daily exercises. Real-time AI feedback on your linguistic progress."
+      },
+      "pt-BR": {
+        "name": "Portuguese",
+        "short": "Practice Portuguese writing and conversation",
+        "long": "For those learning Portuguese. 66 days with progressive tasks and contextualized feedback."
+      },
+      "general": {
+        "name": "General",
+        "short": "Reading, studying, productivity and varied habits",
+        "long": "Use for any habit that isn't physical or emotional wellness: reading, playing an instrument, personal organization. The AI tracks your consistency, triggers, and patterns — and suggests a micro-action for tomorrow."
+      },
+      "fitness": {
+        "name": "Fitness",
+        "short": "Gym, running, weightlifting and physical exercise",
+        "long": "Use for any physical practice. The AI tracks your energy, recovery, and training consistency — and suggests adjustments for your next session."
+      },
+      "mindfulness": {
+        "name": "Mindfulness",
+        "short": "Meditation, breathing and emotional well-being",
+        "long": "Use for mindfulness practices: meditation, breathing exercises, gratitude journaling, or body scan. The AI focuses on your emotional state, stress level, and quality of presence."
+      }
+    }
   }
 }

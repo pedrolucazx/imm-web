@@ -1,34 +1,43 @@
 {
   "common": {
-    "appName": "Inside My Mind"
+    "appName": "Inside My Mind",
+    "passwordStrength": {
+      "veryWeak": "Muito fraca",
+      "weak": "Fraca",
+      "good": "Boa",
+      "strong": "Forte"
+    }
   },
   "landing": {
+    "seo": {
+      "title": "Inside My Mind — Rastreador de Hábitos com IA | 66 Dias",
+      "description": "Rastreador de hábitos de código aberto com 3 agentes de IA especializados. Jornada de 66 dias, registro diário e feedback linguístico e comportamental. 100% gratuito, sem cartão de crédito."
+    },
     "nav": {
       "login": "Entrar",
-      "signup": "Começar Grátis"
+      "signup": "Criar Conta Grátis"
     },
     "hero": {
       "titleLine1": "Domine Sua Mente.",
       "titleLine2": "Construa Seus Hábitos.",
       "subtitle": "Pare de abandonar seus hábitos na semana 2. Três agentes de IA gratuitos te guiam pelos 66 dias baseados em ciência — da intenção ao automatismo.",
-      "cta": "Começar — 100% Grátis →"
+      "badge": "100% Código Aberto · Feito em Público",
+      "cta": "Criar Meu Plano de 66 Dias →",
+      "githubCta": "Ver no GitHub →"
     },
     "phases": {
       "title": "A Regra dos 66 Dias",
       "subtitle": "A pesquisa mostra que leva 66 dias para formar um hábito automático. Dividimos isso em 3 fases — cada uma com orientação de IA.",
       "phaseLabel": "Fase {num} · Dias {days}",
       "phase1": {
-        "days": "1-14",
         "title": "Fundação",
         "desc": "Estabeleça a rotina. Crie o gatilho que faz o hábito acontecer."
       },
       "phase2": {
-        "days": "15-44",
         "title": "Produção Ativa",
         "desc": "Crescimento intencional. Cada sessão mais difícil que a anterior."
       },
       "phase3": {
-        "days": "45-66",
         "title": "Consolidação",
         "desc": "O hábito vira piloto automático. Você vira quem simplesmente faz isso."
       }
@@ -44,7 +53,7 @@
       }
     },
     "agents": {
-      "title": "3 Agentes de IA, Custo Zero",
+      "title": "IA que Analisa, Corrige e Te Desafia — Custo Zero",
       "habitPlanner": {
         "title": "Habit Planner",
         "desc": "Receba um plano personalizado de 66 dias com tarefas diárias, fases e técnicas comprovadas — gerado em segundos.",
@@ -91,16 +100,21 @@
     "opensource": {
       "title": "100% Grátis & Código Aberto",
       "subtitle": "Inside My Mind é construído em público como um projeto de aprendizado para arquitetura SaaS. Sem níveis pagos, sem monetização. Contribua, faça fork ou aprenda com o código.",
-      "cta": "⭐ Ver no GitHub"
+      "buildInPublic": "Feito em Público: erros e aprendizados documentados com transparência.",
+      "stack": "Next.js 15 · Fastify · PostgreSQL · Gemini 2.5 Flash",
+      "cta": "⭐ Ver imm-web no GitHub",
+      "ctaApi": "⭐ Ver imm-api no GitHub"
     },
     "cta": {
       "title": "Pare de planejar. Comece hoje.",
       "subtitle": "66 dias. 3 agentes de IA. Zero desculpas. 100% grátis.",
-      "button": "Começar — 100% Grátis →"
+      "button": "Criar Meu Plano de 66 Dias →"
     },
     "footer": {
       "copy": "© 2026 Inside My Mind. Feito com 🧠 e disciplina.",
-      "github": "GitHub →"
+      "github": "GitHub →",
+      "login": "Entrar",
+      "register": "Cadastrar"
     }
   },
   "auth": {
@@ -139,10 +153,6 @@
       "passwordRequired": "Senha é obrigatória",
       "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
       "languageLabel": "IDIOMA DA INTERFACE",
-      "strengthVeryWeak": "Muito fraca",
-      "strengthWeak": "Fraca",
-      "strengthGood": "Boa",
-      "strengthStrong": "Forte",
       "submit": "Começar Jornada →",
       "toastSuccessTitle": "Conta criada!",
       "toastSuccessDesc": "Bem-vindo à sua jornada de transformação de 66 dias.",
@@ -152,10 +162,246 @@
       "loginLink": "Entrar"
     }
   },
+  "dailyLab": {
+    "badge": "Em construção",
+    "title": "Daily Lab",
+    "comingSoon": "em breve",
+    "description": "O Daily Lab está sendo desenvolvido. Em breve você poderá acompanhar seus hábitos e registrar seu progresso diário aqui.",
+    "status": "Desenvolvimento ativo",
+    "backLink": "← Voltar para o início"
+  },
   "nav": {
     "dailyLab": "Daily Lab",
     "habits": "Hábitos",
     "analytics": "Análises",
     "profile": "Perfil"
+  },
+  "sidebar": {
+    "appName": "Inside My Mind",
+    "tagline": "66 dias",
+    "menuLabel": "Menu",
+    "dailyLab": "Daily Lab",
+    "habits": "Hábitos",
+    "history": "Histórico",
+    "analytics": "Análises",
+    "settings": "Configurações",
+    "progressLabel": "Progresso",
+    "progressDays": "Dia {day} de {total}",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "habits": {
+    "pageTitle": "Hábitos",
+    "newHabit": "+ Novo Hábito",
+    "tooltipLimit": "Você atingiu o limite de {max} hábitos ativos. Complete um ciclo de 66 dias ou desative um hábito para criar outro.",
+    "warningBanner": "⚠️ Você tem {count} hábitos ativos. Pesquisas mostram que focar em menos hábitos aumenta o sucesso. Considere completar um ciclo de 66 dias antes de adicionar mais.",
+    "warningBannerLimit": "⚠️ Você tem {count} hábitos ativos. Pesquisas mostram que focar em menos hábitos aumenta o sucesso. Complete um ciclo de 66 dias ou desative um hábito para criar outro.",
+    "dismiss": "×",
+    "status": {
+      "ready": "Plano Pronto",
+      "generating": "Gerando...",
+      "pending": "Pendente",
+      "failed": "Falhou",
+      "skipped": "Sem Plano"
+    },
+    "mode": {
+      "skillBuilding": "📝 Desenvolvimento",
+      "tracking": "🎯 Rastreamento"
+    },
+    "streakDay": "DIA {current}/66",
+    "viewPlan": "▼ Ver Plano de 66 Dias",
+    "hidePlan": "▲ Ocultar Plano",
+    "strategy": "Estratégia: {strategy}",
+    "minPerDay": "{minutes} min/dia · {metrics}",
+    "phase": "Fase {phase} · Dias {days}",
+    "generatingPlan": "⏳ Gerando seu plano de 66 dias...",
+    "planFailed": "❌ Falha ao gerar o plano",
+    "retry": "Tentar novamente",
+    "emptyTitle": "Nenhum hábito ainda",
+    "emptySubtitle": "Crie seu primeiro hábito para começar sua jornada de 66 dias.",
+    "createFirst": "+ Criar Primeiro Hábito",
+    "skills": {
+      "en-US": {
+        "name": "Inglês",
+        "short": "Desenvolva fluência oral e compreensão auditiva",
+        "long": "Receba um plano de 66 dias com tarefas diárias estruturadas. A IA analisa sua escrita e dá feedback sobre gramática, vocabulário e pronúncia."
+      },
+      "es-ES": {
+        "name": "Espanhol",
+        "short": "Domine vocabulário e estrutura gramatical",
+        "long": "Plano estruturado de 3 fases com exercícios diários. Feedback de IA em tempo real sobre seus avanços linguísticos."
+      },
+      "pt-BR": {
+        "name": "Português",
+        "short": "Pratique escrita e conversação em português",
+        "long": "Para quem está aprendendo português. 66 dias com tarefas progressivas e feedback contextualizado."
+      },
+      "general": {
+        "name": "Geral",
+        "short": "Leitura, estudo, produtividade e hábitos variados",
+        "long": "Use para qualquer hábito que não é físico nem de bem-estar emocional: leitura, tocar instrumento, organização pessoal. A IA rastreia sua consistência, gatilhos e padrões — e sugere uma micro-ação para amanhã."
+      },
+      "fitness": {
+        "name": "Fitness",
+        "short": "Academia, corrida, musculação e exercícios físicos",
+        "long": "Use para qualquer prática física. A IA rastreia sua energia, recuperação e consistência de treino — e sugere ajustes para sua próxima sessão."
+      },
+      "mindfulness": {
+        "name": "Mindfulness",
+        "short": "Meditação, respiração consciente e bem-estar emocional",
+        "long": "Use para práticas de atenção plena: meditação, exercícios de respiração, diário de gratidão ou escaneamento corporal. A IA foca no seu estado emocional, nível de estresse e qualidade da presença."
+      }
+    }
+  },
+  "settings": {
+    "badge": "Em construção",
+    "title": "Configurações",
+    "comingSoon": "em breve",
+    "description": "As configurações estão sendo desenvolvidas. Em breve você poderá personalizar sua experiência aqui.",
+    "status": "Desenvolvimento ativo",
+    "backLink": "← Voltar ao Daily Lab",
+    "pageTitle": "Configurações",
+    "languageCardTitle": "Idioma da Interface",
+    "languageBanner": "Altere o idioma da interface do aplicativo.",
+    "profileCardTitle": "Perfil",
+    "avatarLabel": "AVATAR",
+    "avatarUploadLabel": "Alterar avatar",
+    "avatarErrorSize": "Arquivo muito grande. Envie uma imagem de até 5MB.",
+    "avatarErrorType": "Tipo de arquivo inválido. Envie uma imagem JPEG, PNG ou WebP.",
+    "avatarErrorUpload": "Falha ao enviar o avatar. Tente novamente.",
+    "nameLabel": "NOME",
+    "namePlaceholder": "Seu nome",
+    "nameMinLength": "O nome deve ter pelo menos 2 caracteres",
+    "emailLabel": "E-MAIL",
+    "emailReadonly": "O e-mail não pode ser alterado",
+    "bioLabel": "BIO",
+    "bioPlaceholder": "Conte um pouco sobre você...",
+    "timezoneLabel": "FUSO HORÁRIO",
+    "aiUsageTitle": "Uso de IA Hoje",
+    "aiUsageLabel": "{used} de {limit} requisições usadas",
+    "aiUsageReset": "Reinicia diariamente à meia-noite UTC",
+    "save": "Salvar Alterações",
+    "toastSuccessTitle": "Perfil atualizado",
+    "toastSuccessDesc": "Suas alterações foram salvas com sucesso.",
+    "toastErrorTitle": "Erro ao salvar",
+    "toastErrorDesc": "Não foi possível salvar as alterações. Tente novamente.",
+    "timezone": {
+      "america_sao_paulo": "América/São Paulo (UTC-3)",
+      "america_new_york": "América/Nova York (UTC-5/-4)",
+      "america_chicago": "América/Chicago (UTC-6/-5)",
+      "america_los_angeles": "América/Los Angeles (UTC-8/-7)",
+      "america_buenos_aires": "América/Buenos Aires (UTC-3)",
+      "america_mexico_city": "América/Cidade do México (UTC-6/-5)",
+      "europe_london": "Europa/Londres (UTC+0/+1)",
+      "europe_paris": "Europa/Paris (UTC+1/+2)",
+      "europe_madrid": "Europa/Madri (UTC+1/+2)",
+      "asia_tokyo": "Ásia/Tóquio (UTC+9)"
+    }
+  },
+  "habitWizard": {
+    "title": "✨ Novo Hábito",
+    "step1": {
+      "habitNameLabel": "Nome do Hábito",
+      "habitNamePlaceholder": "ex: Praticar Inglês 30min/dia",
+      "targetSkillLabel": "Habilidade Alvo",
+      "langSkillsLabel": "🌍 Idiomas",
+      "langSkillsHint": "Receba um plano de 66 dias com tarefas diárias. A IA analisará sua escrita e dará feedback linguístico.",
+      "behaviorLabel": "🎯 Comportamental",
+      "behaviorHint": "Rastreie consistência com um plano opcional. A IA acompanha padrões e oferece dicas semanais.",
+      "modeHintSkill": "📝 Você receberá um plano completo de 66 dias com tarefas diárias estruturadas. A IA analisará sua escrita e dará feedback linguístico.",
+      "modeHintTracking": "🎯 A IA vai rastrear seu humor, energia e padrões comportamentais.",
+      "next": "Próximo →"
+    },
+    "step2Skill": {
+      "planNote": "📝 A IA vai gerar um plano completo de 66 dias (Obrigatório)",
+      "strugglesLabel": "Descreva suas dificuldades e objetivos",
+      "strugglesPh": "ex: Trava ao falar inglês. Vocabulário limitado para tópicos profissionais.",
+      "timeLabel": "Tempo por dia (minutos)",
+      "levelLabel": "Nível de Experiência",
+      "levels": {
+        "beginner": "Iniciante",
+        "intermediate": "Intermediário",
+        "advanced": "Avançado"
+      },
+      "back": "← Voltar",
+      "generate": "Gerar Meu Plano de 66 Dias →"
+    },
+    "step2Tracking": {
+      "optionalNote": "🎯 Plano de IA é opcional para hábitos comportamentais.",
+      "wantPlanLabel": "Gerar estratégia de consistência com IA?",
+      "barrierLabel": "Qual é sua maior barreira?",
+      "barrierPh": "ex: Pulo a academia nos dias cansativos.",
+      "strugglesLabel": "Descreva suas dificuldades e objetivos",
+      "strugglesPh": "ex: Tenho dificuldade em manter a consistência.",
+      "timeLabel": "Tempo por dia (minutos)",
+      "levelLabel": "Nível de Experiência",
+      "levels": {
+        "beginner": "Iniciante",
+        "intermediate": "Intermediário",
+        "advanced": "Avançado"
+      },
+      "manualNote": "Entendido! Você vai rastrear este hábito manualmente.",
+      "back": "← Voltar",
+      "nextWithPlan": "Gerar Estratégia →",
+      "next": "Próximo →"
+    },
+    "step3": {
+      "loadingTitle": "Gerando seu plano...",
+      "loadingSubtitle": "Isso geralmente leva alguns segundos.",
+      "summaryTitle": "Resumo do Hábito",
+      "planPreviewTitle": "Plano Gerado pela IA",
+      "strategyLabel": "Estratégia",
+      "metricsLabel": "Métricas de Sucesso",
+      "timeLabel": "Tempo por dia",
+      "nameLabel": "Nome",
+      "skillLabel": "Habilidade",
+      "modeLabel": "Modo",
+      "planLabel": "Plano",
+      "modeSkillBuilding": "📝 Desenvolvimento de Habilidade",
+      "modeTracking": "🎯 Rastreamento com Coaching",
+      "planReady": "✅ Gerado",
+      "planPending": "⏳ Gerando...",
+      "planSkipped": "⏭️ Ignorado",
+      "regenerate": "🔄 Regenerar Plano",
+      "regenerateError": "Falha ao regenerar o plano. Tente novamente.",
+      "create": "✓ Confirmar e Criar",
+      "back": "← Voltar",
+      "errorTitle": "❌ Falha ao gerar o plano",
+      "errorSubtitle": "Verifique sua conexão e tente novamente.",
+      "rateLimitTitle": "⏳ IA sobrecarregada",
+      "rateLimitSubtitle": "Muitas requisições ao mesmo tempo. Aguarde alguns segundos e tente novamente."
+    },
+    "skills": {
+      "en-US": {
+        "name": "Inglês",
+        "short": "Desenvolva fluência oral e compreensão auditiva",
+        "long": "Receba um plano de 66 dias com tarefas diárias estruturadas. A IA analisa sua escrita e dá feedback sobre gramática, vocabulário e pronúncia."
+      },
+      "es-ES": {
+        "name": "Espanhol",
+        "short": "Domine vocabulário e estrutura gramatical",
+        "long": "Plano estruturado de 3 fases com exercícios diários. Feedback de IA em tempo real sobre seus avanços linguísticos."
+      },
+      "pt-BR": {
+        "name": "Português",
+        "short": "Pratique escrita e conversação em português",
+        "long": "Para quem está aprendendo português. 66 dias com tarefas progressivas e feedback contextualizado."
+      },
+      "general": {
+        "name": "Geral",
+        "short": "Leitura, estudo, produtividade e hábitos variados",
+        "long": "Use para qualquer hábito que não é físico nem de bem-estar emocional: leitura, tocar instrumento, organização pessoal. A IA rastreia sua consistência, gatilhos e padrões — e sugere uma micro-ação para amanhã."
+      },
+      "fitness": {
+        "name": "Fitness",
+        "short": "Academia, corrida, musculação e exercícios físicos",
+        "long": "Use para qualquer prática física. A IA rastreia sua energia, recuperação e consistência de treino — e sugere ajustes para sua próxima sessão."
+      },
+      "mindfulness": {
+        "name": "Mindfulness",
+        "short": "Meditação, respiração consciente e bem-estar emocional",
+        "long": "Use para práticas de atenção plena: meditação, exercícios de respiração, diário de gratidão ou escaneamento corporal. A IA foca no seu estado emocional, nível de estresse e qualidade da presença."
+      }
+    }
   }
 }

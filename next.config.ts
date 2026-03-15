@@ -8,6 +8,17 @@ const nextConfig: NextConfig = {
     config.infrastructureLogging = { level: "error" };
     return config;
   },
+  async rewrites() {
+    // Always proxy /api/* → backend so the refreshToken cookie is always
+    // same-origin (set on Vercel domain in prod, localhost in dev).
+    // Without this, the cookie belongs to the backend domain and the
+    // Next.js middleware cannot read it from the browser request.
+    const apiUrl = (process.env.NEXT_PUBLIC_API_URL?.trim() || "http://localhost:3001").replace(
+      /\/$/,
+      ""
+    );
+    return [{ source: "/api/:path*", destination: `${apiUrl}/:path*` }];
+  },
 };
 
 export default withNextIntl(nextConfig);
