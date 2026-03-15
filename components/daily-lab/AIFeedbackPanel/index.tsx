@@ -42,13 +42,13 @@ export function AIFeedbackPanel({ entry, isAnalyzing, aiRequestsToday }: AIFeedb
           </Box>
         )}
 
-        {!isAnalyzing && entry && !entry.aiFeedback && (
+        {!isAnalyzing && entry && !entry.aiFeedback?.agentType && (
           <Box {...s.placeholder}>
             <Text {...s.placeholderText}>{t("noFeedbackYet")}</Text>
           </Box>
         )}
 
-        {!isAnalyzing && entry && entry.aiFeedback && (
+        {!isAnalyzing && entry && entry.aiFeedback?.agentType && (
           <Box {...s.panel}>
             {entry.aiFeedback.agentType === "language-teacher" && (
               <LanguageTeacherPanel feedback={entry.aiFeedback} />
