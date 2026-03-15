@@ -12,6 +12,6 @@ export const journalService = {
   },
 
   async analyze(journalEntryId: string, habitId: string): Promise<void> {
-    await api.post(ENDPOINTS.AI.ANALYZE, { journalEntryId, habitId });
+    await api.post(ENDPOINTS.AI.ANALYZE, { journal_entry_id: journalEntryId, habit_id: habitId });
   },
 };
