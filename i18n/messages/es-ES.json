@@ -30,17 +30,14 @@
       "subtitle": "La investigación muestra que toma 66 días formar un hábito automático. Dividimos esto en 3 fases — cada una con guía de IA.",
       "phaseLabel": "Fase {num} · Días {days}",
       "phase1": {
-        "days": "1-14",
         "title": "Fundación",
         "desc": "Establece la rutina. Crea el disparador que hace que el hábito funcione."
       },
       "phase2": {
-        "days": "15-44",
         "title": "Producción Activa",
         "desc": "Crecimiento intencional. Cada sesión más difícil que la anterior."
       },
       "phase3": {
-        "days": "45-66",
         "title": "Consolidación",
         "desc": "El hábito funciona solo. Te conviertes en quien simplemente lo hace."
       }
@@ -193,6 +190,69 @@
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú"
   },
+  "habits": {
+    "pageTitle": "Hábitos",
+    "newHabit": "+ Nuevo Hábito",
+    "tooltipLimit": "Has alcanzado el límite de {max} hábitos activos. Completa un ciclo de 66 días o desactiva un hábito para crear otro.",
+    "warningBanner": "⚠️ Tienes {count} hábitos activos. Las investigaciones muestran que enfocarse en menos hábitos aumenta el éxito. Considera completar un ciclo de 66 días antes de agregar más.",
+    "warningBannerLimit": "⚠️ Tienes {count} hábitos activos. Las investigaciones muestran que enfocarse en menos hábitos aumenta el éxito. Completa un ciclo de 66 días o desactiva un hábito para crear otro.",
+    "dismiss": "×",
+    "status": {
+      "ready": "Plan Listo",
+      "generating": "Generando...",
+      "pending": "Pendiente",
+      "failed": "Fallido",
+      "skipped": "Sin Plan"
+    },
+    "mode": {
+      "skillBuilding": "📝 Desarrollo",
+      "tracking": "🎯 Seguimiento"
+    },
+    "streakDay": "DÍA {current}/66",
+    "viewPlan": "▼ Ver Plan de 66 Días",
+    "hidePlan": "▲ Ocultar Plan",
+    "strategy": "Estrategia: {strategy}",
+    "minPerDay": "{minutes} min/día · {metrics}",
+    "phase": "Fase {phase} · Días {days}",
+    "generatingPlan": "⏳ Generando tu plan de 66 días...",
+    "planFailed": "❌ Error al generar el plan",
+    "retry": "Reintentar",
+    "emptyTitle": "Aún no hay hábitos",
+    "emptySubtitle": "Crea tu primer hábito para comenzar tu viaje de 66 días.",
+    "createFirst": "+ Crear Primer Hábito",
+    "skills": {
+      "en-US": {
+        "name": "Inglés",
+        "short": "Desarrolla fluidez oral y comprensión auditiva",
+        "long": "Obtén un plan de 66 días con tareas diarias estructuradas. La IA analiza tu escritura y proporciona retroalimentación sobre gramática, vocabulario y pronunciación."
+      },
+      "es-ES": {
+        "name": "Español",
+        "short": "Domina el vocabulario y la estructura gramatical",
+        "long": "Plan estructurado de 3 fases con ejercicios diarios. Retroalimentación de IA en tiempo real sobre tu progreso lingüístico."
+      },
+      "pt-BR": {
+        "name": "Portugués",
+        "short": "Practica escritura y conversación en portugués",
+        "long": "Para quienes aprenden portugués. 66 días con tareas progresivas y retroalimentación contextualizada."
+      },
+      "general": {
+        "name": "General",
+        "short": "Lectura, estudio, productividad y hábitos variados",
+        "long": "Úsalo para cualquier hábito que no sea físico ni de bienestar emocional: lectura, tocar un instrumento, organización personal. La IA rastrea tu consistencia, gatillos y patrones — y sugiere una micro-acción para mañana."
+      },
+      "fitness": {
+        "name": "Fitness",
+        "short": "Gimnasio, running, musculación y ejercicio físico",
+        "long": "Úsalo para cualquier práctica física. La IA rastrea tu energía, recuperación y consistencia de entrenamiento — y sugiere ajustes para tu próxima sesión."
+      },
+      "mindfulness": {
+        "name": "Mindfulness",
+        "short": "Meditación, respiración y bienestar emocional",
+        "long": "Úsalo para prácticas de atención plena: meditación, ejercicios de respiración, diario de gratitud o escaneo corporal. La IA se enfoca en tu estado emocional, nivel de estrés y calidad de presencia."
+      }
+    }
+  },
   "settings": {
     "badge": "Próximamente",
     "title": "Configuración",
@@ -221,6 +281,10 @@
     "aiUsageLabel": "{used} de {limit} solicitudes usadas",
     "aiUsageReset": "Se reinicia diariamente a medianoche UTC",
     "save": "Guardar Cambios",
+    "toastSuccessTitle": "Perfil actualizado",
+    "toastSuccessDesc": "Tus cambios se guardaron correctamente.",
+    "toastErrorTitle": "Error al guardar",
+    "toastErrorDesc": "No se pudieron guardar los cambios. Inténtalo de nuevo.",
     "timezone": {
       "america_sao_paulo": "América/São Paulo (UTC-3)",
       "america_new_york": "América/Nueva York (UTC-5/-4)",
@@ -232,6 +296,112 @@
       "europe_paris": "Europa/París (UTC+1/+2)",
       "europe_madrid": "Europa/Madrid (UTC+1/+2)",
       "asia_tokyo": "Asia/Tokio (UTC+9)"
+    }
+  },
+  "habitWizard": {
+    "title": "✨ Nuevo Hábito",
+    "step1": {
+      "habitNameLabel": "Nombre del Hábito",
+      "habitNamePlaceholder": "ej: Practicar inglés 30min/día",
+      "targetSkillLabel": "Habilidad Objetivo",
+      "langSkillsLabel": "🌍 Idiomas",
+      "langSkillsHint": "Obtén un plan de 66 días con tareas diarias. La IA analizará tu escritura y proporcionará retroalimentación lingüística.",
+      "behaviorLabel": "🎯 Comportamental",
+      "behaviorHint": "Monitorea consistencia con un plan opcional. La IA rastrea patrones y ofrece consejos semanales.",
+      "modeHintSkill": "📝 Recibirás un plan completo de 66 días con tareas diarias estructuradas. La IA analizará tu escritura y proporcionará retroalimentación lingüística.",
+      "modeHintTracking": "🎯 La IA rastreará tu estado de ánimo, energía y patrones conductuales.",
+      "next": "Siguiente →"
+    },
+    "step2Skill": {
+      "planNote": "📝 La IA generará un plan completo de 66 días (Obligatorio)",
+      "strugglesLabel": "Describe tus dificultades y objetivos",
+      "strugglesPh": "ej: Me bloqueo al hablar inglés. Mi vocabulario es limitado para temas profesionales.",
+      "timeLabel": "Tiempo por día (minutos)",
+      "levelLabel": "Nivel de Experiencia",
+      "levels": {
+        "beginner": "Principiante",
+        "intermediate": "Intermedio",
+        "advanced": "Avanzado"
+      },
+      "back": "← Volver",
+      "generate": "Generar Mi Plan de 66 Días →"
+    },
+    "step2Tracking": {
+      "optionalNote": "🎯 El plan de IA es opcional para hábitos conductuales.",
+      "wantPlanLabel": "¿Generar estrategia de consistencia con IA?",
+      "barrierLabel": "¿Cuál es tu mayor barrera?",
+      "barrierPh": "ej: Me salto el gym en los días de cansancio.",
+      "strugglesLabel": "Describe tus dificultades y objetivos",
+      "strugglesPh": "ej: Tengo dificultades para mantener la consistencia.",
+      "timeLabel": "Tiempo por día (minutos)",
+      "levelLabel": "Nivel de Experiencia",
+      "levels": {
+        "beginner": "Principiante",
+        "intermediate": "Intermedio",
+        "advanced": "Avanzado"
+      },
+      "manualNote": "¡Entendido! Seguirás este hábito manualmente.",
+      "back": "← Volver",
+      "nextWithPlan": "Generar Estrategia →",
+      "next": "Siguiente →"
+    },
+    "step3": {
+      "loadingTitle": "Generando tu plan...",
+      "loadingSubtitle": "Esto suele tardar unos segundos.",
+      "summaryTitle": "Resumen del Hábito",
+      "planPreviewTitle": "Plan Generado por IA",
+      "strategyLabel": "Estrategia",
+      "metricsLabel": "Métricas de Éxito",
+      "timeLabel": "Tiempo por día",
+      "nameLabel": "Nombre",
+      "skillLabel": "Habilidad",
+      "modeLabel": "Modo",
+      "planLabel": "Plan",
+      "modeSkillBuilding": "📝 Desarrollo de Habilidad",
+      "modeTracking": "🎯 Seguimiento con Coaching",
+      "planReady": "✅ Generado",
+      "planPending": "⏳ Generando...",
+      "planSkipped": "⏭️ Omitido",
+      "regenerate": "🔄 Regenerar Plan",
+      "regenerateError": "Error al regenerar el plan. Inténtalo de nuevo.",
+      "create": "✓ Confirmar y Crear",
+      "back": "← Volver",
+      "errorTitle": "❌ Error al generar el plan",
+      "errorSubtitle": "Verifica tu conexión e inténtalo de nuevo.",
+      "rateLimitTitle": "⏳ IA ocupada",
+      "rateLimitSubtitle": "Demasiadas solicitudes a la vez. Espera unos segundos e inténtalo de nuevo."
+    },
+    "skills": {
+      "en-US": {
+        "name": "Inglés",
+        "short": "Desarrolla fluidez oral y comprensión auditiva",
+        "long": "Obtén un plan de 66 días con tareas diarias estructuradas. La IA analiza tu escritura y proporciona retroalimentación sobre gramática, vocabulario y pronunciación."
+      },
+      "es-ES": {
+        "name": "Español",
+        "short": "Domina el vocabulario y la estructura gramatical",
+        "long": "Plan estructurado de 3 fases con ejercicios diarios. Retroalimentación de IA en tiempo real sobre tu progreso lingüístico."
+      },
+      "pt-BR": {
+        "name": "Portugués",
+        "short": "Practica escritura y conversación en portugués",
+        "long": "Para quienes aprenden portugués. 66 días con tareas progresivas y retroalimentación contextualizada."
+      },
+      "general": {
+        "name": "General",
+        "short": "Lectura, estudio, productividad y hábitos variados",
+        "long": "Úsalo para cualquier hábito que no sea físico ni de bienestar emocional: lectura, tocar un instrumento, organización personal. La IA rastrea tu consistencia, gatillos y patrones — y sugiere una micro-acción para mañana."
+      },
+      "fitness": {
+        "name": "Fitness",
+        "short": "Gimnasio, running, musculación y ejercicio físico",
+        "long": "Úsalo para cualquier práctica física. La IA rastrea tu energía, recuperación y consistencia de entrenamiento — y sugiere ajustes para tu próxima sesión."
+      },
+      "mindfulness": {
+        "name": "Mindfulness",
+        "short": "Meditación, respiración y bienestar emocional",
+        "long": "Úsalo para prácticas de atención plena: meditación, ejercicios de respiración, diario de gratitud o escaneo corporal. La IA se enfoca en tu estado emocional, nivel de estrés y calidad de presencia."
+      }
     }
   }
 }
