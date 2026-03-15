@@ -7,8 +7,10 @@ import { PageWrapper } from "@/components/PageWrapper";
 import { HabitChecklist } from "@/components/daily-lab/HabitChecklist";
 import { HabitSelector } from "@/components/daily-lab/HabitSelector";
 import { JournalEditor } from "@/components/daily-lab/JournalEditor";
+import { AIFeedbackPanel } from "@/components/daily-lab/AIFeedbackPanel";
 import { useHabits } from "@/lib/hooks/useHabits";
-import { useJournalEntries } from "@/lib/hooks/useJournal";
+import { useJournalEntries, useAnalyzeJournal } from "@/lib/hooks/useJournal";
+import { useGetProfile } from "@/lib/hooks/useProfile";
 import type { Habit } from "@/types/habits";
 
 function getLocalDateString(): string {
@@ -19,6 +21,7 @@ export default function DailyLabPage() {
   const t = useTranslations("dailyLab");
   const locale = useLocale();
   const { data: habits = [], isLoading } = useHabits();
+  const { data: profile } = useGetProfile();
 
   const activeHabits = habits.filter((h: Habit) => h.is_active);
   const today = getLocalDateString();
@@ -28,6 +31,8 @@ export default function DailyLabPage() {
 
   const { data: journalEntries = [], isLoading: isLoadingEntry } = useJournalEntries(today);
   const journalEntry = journalEntries.find((e) => e.habitId === resolvedHabitId) ?? null;
+
+  const { mutate: analyzeJournal, isPending: isAnalyzing } = useAnalyzeJournal();
 
   const selectedHabit = activeHabits.find((h) => h.id === resolvedHabitId);
 
@@ -66,11 +71,22 @@ export default function DailyLabPage() {
             />
 
             {selectedHabit && (
-              <JournalEditor
-                habit={selectedHabit}
-                existingEntry={journalEntry}
-                isLoadingEntry={isLoadingEntry}
-              />
+              <>
+                <JournalEditor
+                  habit={selectedHabit}
+                  existingEntry={journalEntry}
+                  isLoadingEntry={isLoadingEntry}
+                  onAnalyze={(journalEntryId, habitId) =>
+                    analyzeJournal({ journalEntryId, habitId })
+                  }
+                />
+
+                <AIFeedbackPanel
+                  entry={journalEntry}
+                  isAnalyzing={isAnalyzing}
+                  aiRequestsToday={profile?.profile.aiRequestsToday ?? 0}
+                />
+              </>
             )}
           </Box>
         )}

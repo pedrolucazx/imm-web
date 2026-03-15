@@ -186,6 +186,44 @@
       "mood": "Ánimo",
       "energy": "Energía",
       "analyzing": "La IA está analizando tu registro..."
+    },
+    "ai": {
+      "sectionTitle": "Análisis IA",
+      "usageCounter": "{used} de {limit} análisis hoy",
+      "loading": "La IA está analizando tu registro...",
+      "placeholder": "Guarda tu registro para recibir análisis de IA.",
+      "noFeedbackYet": "Esperando análisis de IA...",
+      "languageTeacher": {
+        "title": "Profesor de Idiomas",
+        "linguistic": "Puntuaciones Lingüísticas",
+        "grammar": "Gramática",
+        "vocabulary": "Vocabulario",
+        "fluency": "Fluidez",
+        "errors": "Errores Encontrados",
+        "modelSentence": "Frase Modelo",
+        "nextChallenge": "Próximo Desafío"
+      },
+      "behavioralCoach": {
+        "title": "Coach Conductual",
+        "moodDetected": "Estado de Ánimo",
+        "energyLevel": "Energía",
+        "alignmentScore": "Alineación con el Hábito",
+        "insights": "Perspectivas",
+        "actionSuggestion": "Acción para Mañana",
+        "mood": {
+          "motivated": "Motivado",
+          "fatigued": "Cansado",
+          "neutral": "Neutro",
+          "stressed": "Estresado",
+          "relaxed": "Relajado",
+          "anxious": "Ansioso"
+        },
+        "energy": {
+          "high": "Alta",
+          "medium": "Media",
+          "low": "Baja"
+        }
+      }
     }
   },
   "nav": {

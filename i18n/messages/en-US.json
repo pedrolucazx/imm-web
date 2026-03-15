@@ -186,6 +186,44 @@
       "mood": "Mood",
       "energy": "Energy",
       "analyzing": "AI is analyzing your entry..."
+    },
+    "ai": {
+      "sectionTitle": "AI Analysis",
+      "usageCounter": "{used} of {limit} analyses today",
+      "loading": "AI is analyzing your entry...",
+      "placeholder": "Save your entry to receive AI analysis.",
+      "noFeedbackYet": "Awaiting AI analysis...",
+      "languageTeacher": {
+        "title": "Language Teacher",
+        "linguistic": "Linguistic Scores",
+        "grammar": "Grammar",
+        "vocabulary": "Vocabulary",
+        "fluency": "Fluency",
+        "errors": "Errors Found",
+        "modelSentence": "Model Sentence",
+        "nextChallenge": "Next Challenge"
+      },
+      "behavioralCoach": {
+        "title": "Behavioral Coach",
+        "moodDetected": "Mood",
+        "energyLevel": "Energy",
+        "alignmentScore": "Habit Alignment",
+        "insights": "Insights",
+        "actionSuggestion": "Action for Tomorrow",
+        "mood": {
+          "motivated": "Motivated",
+          "fatigued": "Fatigued",
+          "neutral": "Neutral",
+          "stressed": "Stressed",
+          "relaxed": "Relaxed",
+          "anxious": "Anxious"
+        },
+        "energy": {
+          "high": "High",
+          "medium": "Medium",
+          "low": "Low"
+        }
+      }
     }
   },
   "nav": {

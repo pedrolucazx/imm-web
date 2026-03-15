@@ -5,8 +5,7 @@ import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
-import { useSaveJournal, useAnalyzeJournal } from "@/lib/hooks/useJournal";
-import { logger } from "@/lib/logger";
+import { useSaveJournal } from "@/lib/hooks/useJournal";
 import { s } from "./styles";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
@@ -16,12 +15,17 @@ interface JournalEditorProps {
   habit: Habit;
   existingEntry: JournalEntry | null | undefined;
   isLoadingEntry: boolean;
+  onAnalyze: (_journalEntryId: string, _habitId: string) => void;
 }
 
-export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalEditorProps) {
+export function JournalEditor({
+  habit,
+  existingEntry,
+  isLoadingEntry,
+  onAnalyze,
+}: JournalEditorProps) {
   const t = useTranslations("dailyLab");
   const { mutate: saveJournal, isPending: isSaving } = useSaveJournal();
-  const { mutate: analyzeJournal, isPending: isAnalyzing } = useAnalyzeJournal();
 
   const [content, setContent] = useState("");
   const [moodScore, setMoodScore] = useState<number>(3);
@@ -43,10 +47,7 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
       {
         onSuccess: (entry) => {
           setContent("");
-          analyzeJournal(
-            { journalEntryId: entry.id, habitId: habit.id },
-            { onError: (err) => logger.error("[analyzeJournal]", err) }
-          );
+          onAnalyze(entry.id, habit.id);
         },
       }
     );
@@ -64,22 +65,14 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
 
   if (existingEntry) {
     return (
-      <Box>
-        <Box {...s.existingEntry}>
-          <Text {...s.existingEntryLabel}>{t("journal.yourEntry")}</Text>
-          <Text {...s.existingEntryContent}>{existingEntry.content}</Text>
-          <Text {...s.existingEntryMeta}>
-            {existingEntry.wordCount ?? 0} {t("journal.words")} · {t("journal.mood")}{" "}
-            {existingEntry.moodScore ?? "—"}/5 · {t("journal.energy")}{" "}
-            {existingEntry.energyScore ?? "—"}/5
-          </Text>
-        </Box>
-
-        {isAnalyzing && (
-          <Box {...s.analyzingBadge}>
-            <Text {...s.analyzingText}>⏳ {t("journal.analyzing")}</Text>
-          </Box>
-        )}
+      <Box {...s.existingEntry}>
+        <Text {...s.existingEntryLabel}>{t("journal.yourEntry")}</Text>
+        <Text {...s.existingEntryContent}>{existingEntry.content}</Text>
+        <Text {...s.existingEntryMeta}>
+          {existingEntry.wordCount ?? 0} {t("journal.words")} · {t("journal.mood")}{" "}
+          {existingEntry.moodScore ?? "—"}/5 · {t("journal.energy")}{" "}
+          {existingEntry.energyScore ?? "—"}/5
+        </Text>
       </Box>
     );
   }
