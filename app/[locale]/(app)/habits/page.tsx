@@ -5,6 +5,7 @@ import { Box, Heading, Text, HStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/components/ui/tooltip";
 import { HabitCreationWizard } from "@/components/habits/HabitCreationWizard";
 import { useHabits } from "@/lib/hooks/useHabits";
 import {
@@ -32,7 +33,6 @@ export default function HabitsPage(): React.JSX.Element {
   const { data: habits = [], isLoading } = useHabits();
   const [showWizard, setShowWizard] = useState(false);
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [bannerDismissed, setBannerDismissed] = useState(false);
 
   const activeCount = habits.filter((h: Habit) => h.is_active).length;
@@ -43,16 +43,16 @@ export default function HabitsPage(): React.JSX.Element {
     queryClient.invalidateQueries({ queryKey: ["habits"] });
   };
 
+  const handleRetryPlan = (habitId: string) => {
+    // TODO: chamar endpoint REGENERATE_PLAN quando o hook estiver disponível
+    queryClient.invalidateQueries({ queryKey: ["habits", habitId] });
+  };
+
   return (
     <Box {...s.page}>
       <Box {...s.header}>
         <Heading {...s.pageTitle}>🎯 {t("pageTitle")}</Heading>
-        <Box
-          position="relative"
-          overflow="visible"
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-        >
+        <Tooltip content={t("tooltipLimit", { max: MAX_ACTIVE_HABITS })} disabled={!isAtLimit}>
           <Button
             onClick={() => !isAtLimit && setShowWizard(true)}
             disabled={isAtLimit}
@@ -63,10 +63,7 @@ export default function HabitsPage(): React.JSX.Element {
           >
             {t("newHabit")}
           </Button>
-          {isAtLimit && showTooltip && (
-            <Box {...s.tooltip}>{t("tooltipLimit", { max: MAX_ACTIVE_HABITS })}</Box>
-          )}
-        </Box>
+        </Tooltip>
       </Box>
 
       {showWarning && (!bannerDismissed || isAtLimit) && (
@@ -81,9 +78,13 @@ export default function HabitsPage(): React.JSX.Element {
               : t("warningBanner", { count: activeCount })}
           </Text>
           {!isAtLimit && (
-            <Box {...s.bannerDismiss} as="button" onClick={() => setBannerDismissed(true)}>
+            <Button
+              {...s.bannerDismiss}
+              aria-label={t("dismiss")}
+              onClick={() => setBannerDismissed(true)}
+            >
               {t("dismiss")}
-            </Box>
+            </Button>
           )}
         </Box>
       )}
@@ -182,7 +183,7 @@ export default function HabitsPage(): React.JSX.Element {
               )}
 
               {habit.plan_status === "generating" && (
-                <Box {...s.generatingStatus} className="animate-pulse">
+                <Box {...s.generatingStatus}>
                   <Text fontSize="sm" fontWeight="bold">
                     {t("generatingPlan")}
                   </Text>
@@ -194,7 +195,7 @@ export default function HabitsPage(): React.JSX.Element {
                   <Text fontSize="sm" fontWeight="bold">
                     {t("planFailed")}
                   </Text>
-                  <Button variant="muted" fontSize="sm">
+                  <Button variant="muted" fontSize="sm" onClick={() => handleRetryPlan(habit.id)}>
                     {t("retry")}
                   </Button>
                 </Box>
@@ -209,7 +210,13 @@ export default function HabitsPage(): React.JSX.Element {
           <Text {...s.emptyIcon}>🎯</Text>
           <Heading {...s.emptyTitle}>{t("emptyTitle")}</Heading>
           <Text {...s.emptySubtitle}>{t("emptySubtitle")}</Text>
-          <Button onClick={() => setShowWizard(true)} variant="primary" px={8} py={6}>
+          <Button
+            onClick={() => !isAtLimit && setShowWizard(true)}
+            disabled={isAtLimit}
+            variant="primary"
+            px={8}
+            py={6}
+          >
             {t("createFirst")}
           </Button>
         </Box>

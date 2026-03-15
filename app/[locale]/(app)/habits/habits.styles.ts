@@ -28,20 +28,6 @@ export const s = {
     position: "relative" as const,
   },
 
-  tooltip: {
-    position: "absolute",
-    left: 0,
-    bottom: "100%",
-    mb: 2,
-    w: "280px",
-    p: 3,
-    bg: "surface.coral",
-    border: "2px solid black",
-    fontSize: "sm",
-    fontWeight: "bold",
-    zIndex: 50,
-  },
-
   banner: {
     p: 4,
     mb: 6,
@@ -218,6 +204,7 @@ export const s = {
     border: "2px solid black",
     bg: "surface.yellow",
     p: 4,
+    animation: "pulse 2s infinite",
   },
 
   failedStatus: {
