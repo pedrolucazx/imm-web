@@ -84,7 +84,7 @@ export function LanguageSelector({ label, value, onChange, error }: LanguageSele
   );
 
   return (
-    <Box>
+    <Box w="100%">
       <Text
         id={labelId}
         fontSize="sm"

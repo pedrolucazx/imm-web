@@ -9,21 +9,21 @@ import { s } from "./landing.styles";
 const phases = [
   {
     num: 1,
-    daysKey: "phases.phase1.days" as const,
+    days: "1-14",
     titleKey: "phases.phase1.title" as const,
     descKey: "phases.phase1.desc" as const,
     bg: "surface.mint",
   },
   {
     num: 2,
-    daysKey: "phases.phase2.days" as const,
+    days: "15-44",
     titleKey: "phases.phase2.title" as const,
     descKey: "phases.phase2.desc" as const,
     bg: "surface.yellow",
   },
   {
     num: 3,
-    daysKey: "phases.phase3.days" as const,
+    days: "45-66",
     titleKey: "phases.phase3.title" as const,
     descKey: "phases.phase3.desc" as const,
     bg: "surface.coral",
@@ -158,7 +158,7 @@ export async function LandingClient({ locale }: LandingClientProps) {
                   key={p.num}
                   num={p.num}
                   bg={p.bg}
-                  label={t("phases.phaseLabel", { num: p.num, days: t(p.daysKey) })}
+                  label={t("phases.phaseLabel", { num: p.num, days: p.days })}
                   title={t(p.titleKey)}
                   desc={t(p.descKey)}
                 />
