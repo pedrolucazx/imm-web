@@ -16,9 +16,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAccessToken(newToken);
       setUser(newUser);
     });
-    return () => {
-      api.setOnTokenRefreshed(() => {});
-    };
   }, []);
 
   useEffect(() => {
@@ -29,12 +26,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setAccessToken(data.token);
         setUser(data.user);
       })
-      .catch((error) => {
-        // No valid refresh token — user is considered logged out
-        if (process.env.NODE_ENV === "development") {
-          console.debug("[AuthProvider] Session rehydration failed:", error);
-        }
-      })
+      .catch((_error) => {})
       .finally(() => {
         setIsLoading(false);
       });
