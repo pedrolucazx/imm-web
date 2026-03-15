@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
 import { useSaveJournal, useAnalyzeJournal } from "@/lib/hooks/useJournal";
+import { logger } from "@/lib/logger";
 import { s } from "./styles";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
@@ -44,7 +45,7 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
           setContent("");
           analyzeJournal(
             { journalEntryId: entry.id, habitId: habit.id },
-            { onError: (err) => console.error("[analyzeJournal]", err) } // eslint-disable-line no-console
+            { onError: (err) => logger.error("[analyzeJournal]", err) }
           );
         },
       }
