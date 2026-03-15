@@ -3,13 +3,13 @@ import { useAuthContext } from "@/lib/auth-context";
 import { journalService } from "@/lib/journal.service";
 import type { CreateJournalEntryInput } from "@/types/journal";
 
-export function useJournalEntry(date: string, habitId: string | null) {
+export function useJournalEntries(date: string) {
   const { isLoading: isAuthLoading, accessToken } = useAuthContext();
 
   const query = useQuery({
-    queryKey: ["journal", date, habitId],
-    queryFn: () => journalService.getEntryByDate(date, habitId!),
-    enabled: !isAuthLoading && !!accessToken && !!habitId,
+    queryKey: ["journal", date],
+    queryFn: () => journalService.getEntriesByDate(date),
+    enabled: !isAuthLoading && !!accessToken,
   });
 
   return {
@@ -23,8 +23,7 @@ export function useSaveJournal() {
   return useMutation({
     mutationFn: (input: CreateJournalEntryInput) => journalService.createEntry(input),
     onSuccess: (entry) => {
-      queryClient.invalidateQueries({ queryKey: ["journal"] });
-      queryClient.setQueryData(["journal", entry.entryDate, entry.habitId], entry);
+      queryClient.invalidateQueries({ queryKey: ["journal", entry.entryDate] });
     },
   });
 }

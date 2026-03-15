@@ -7,14 +7,8 @@ export const journalService = {
     return api.post<JournalEntry>(ENDPOINTS.JOURNAL.CREATE, input);
   },
 
-  async getEntryByDate(date: string, habitId: string): Promise<JournalEntry | null> {
-    try {
-      return await api.get<JournalEntry>(ENDPOINTS.JOURNAL.GET_BY_DATE(date), {
-        params: { habit_id: habitId },
-      });
-    } catch {
-      return null;
-    }
+  async getEntriesByDate(date: string): Promise<JournalEntry[]> {
+    return api.get<JournalEntry[]>(ENDPOINTS.JOURNAL.LIST, { params: { date } });
   },
 
   async analyze(journalEntryId: string, habitId: string): Promise<void> {

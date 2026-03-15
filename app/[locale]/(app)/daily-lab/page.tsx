@@ -8,7 +8,7 @@ import { HabitChecklist } from "@/components/daily-lab/HabitChecklist";
 import { HabitSelector } from "@/components/daily-lab/HabitSelector";
 import { JournalEditor } from "@/components/daily-lab/JournalEditor";
 import { useHabits } from "@/lib/hooks/useHabits";
-import { useJournalEntry } from "@/lib/hooks/useJournal";
+import { useJournalEntries } from "@/lib/hooks/useJournal";
 import type { Habit } from "@/types/habits";
 
 function getLocalDateString(): string {
@@ -27,7 +27,8 @@ export default function DailyLabPage() {
   const [selectedHabitId, setSelectedHabitId] = useState<string>("");
   const resolvedHabitId = selectedHabitId || activeHabits[0]?.id || null;
 
-  const { data: journalEntry, isLoading: isLoadingEntry } = useJournalEntry(today, resolvedHabitId);
+  const { data: journalEntries = [], isLoading: isLoadingEntry } = useJournalEntries(today);
+  const journalEntry = journalEntries.find((e) => e.habitId === resolvedHabitId) ?? null;
 
   const selectedHabit = activeHabits.find((h) => h.id === resolvedHabitId);
 
