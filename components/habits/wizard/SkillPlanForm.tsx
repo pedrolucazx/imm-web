@@ -80,6 +80,12 @@ export function SkillPlanForm({ defaultValues, onNext }: Step2SkillProps) {
                     type="button"
                     variant={field.value === l ? "primary" : "muted"}
                     onClick={() => field.onChange(l)}
+                    fontSize="sm"
+                    letterSpacing="normal"
+                    whiteSpace="normal"
+                    textAlign="center"
+                    px={2}
+                    py={3}
                   >
                     {t(`levels.${l}`)}
                   </Button>
