@@ -40,8 +40,12 @@ export function useCreateHabit() {
 }
 
 export function useLogHabit() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, input }: { id: string; input: HabitLogInput }) =>
       habitService.log(id, input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["habits"] });
+    },
   });
 }

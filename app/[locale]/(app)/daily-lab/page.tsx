@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Text } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { PageWrapper } from "@/components/PageWrapper";
 import { HabitChecklist } from "@/components/daily-lab/HabitChecklist";
 import { useHabits } from "@/lib/hooks/useHabits";
@@ -9,11 +9,12 @@ import type { Habit } from "@/types/habits";
 
 export default function DailyLabPage() {
   const t = useTranslations("dailyLab");
+  const locale = useLocale();
   const { data: habits = [], isLoading } = useHabits();
 
   const activeHabits = habits.filter((h: Habit) => h.is_active);
 
-  const today = new Date().toLocaleDateString("en-US", {
+  const today = new Date().toLocaleDateString(locale, {
     weekday: "long",
     year: "numeric",
     month: "long",
