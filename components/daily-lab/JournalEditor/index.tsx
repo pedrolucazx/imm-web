@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
@@ -26,6 +26,12 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
   const [moodScore, setMoodScore] = useState<number>(3);
   const [energyScore, setEnergyScore] = useState<number>(3);
 
+  useEffect(() => {
+    setContent("");
+    setMoodScore(3);
+    setEnergyScore(3);
+  }, [habit.id]);
+
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
 
   const handleSave = () => {
@@ -36,7 +42,10 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
       {
         onSuccess: (entry) => {
           setContent("");
-          analyzeJournal({ journalEntryId: entry.id, habitId: habit.id }, { onError: () => {} });
+          analyzeJournal(
+            { journalEntryId: entry.id, habitId: habit.id },
+            { onError: (err) => console.error("[analyzeJournal]", err) } // eslint-disable-line no-console
+          );
         },
       }
     );
@@ -131,7 +140,6 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
                   onClick={() => setEnergyScore(val)}
                   {...s.scoreBtn}
                   {...(active ? s.scoreBtnActive : s.scoreBtnInactive)}
-                  bg={active ? "secondary" : "card"}
                 >
                   {emoji}
                 </chakra.button>

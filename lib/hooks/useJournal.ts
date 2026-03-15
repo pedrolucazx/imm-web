@@ -33,9 +33,9 @@ export function useAnalyzeJournal() {
   return useMutation({
     mutationFn: ({ journalEntryId, habitId }: { journalEntryId: string; habitId: string }) =>
       journalService.analyze(journalEntryId, habitId),
-    onSuccess: (_data, { habitId }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["journal"] });
-      queryClient.invalidateQueries({ queryKey: ["habits", habitId] });
+      queryClient.invalidateQueries({ queryKey: ["habits"] });
     },
   });
 }

@@ -12,8 +12,7 @@ import { useJournalEntries } from "@/lib/hooks/useJournal";
 import type { Habit } from "@/types/habits";
 
 function getLocalDateString(): string {
-  const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  return new Date().toLocaleDateString("sv-SE");
 }
 
 export default function DailyLabPage() {
