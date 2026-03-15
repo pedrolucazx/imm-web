@@ -168,6 +168,24 @@
       "sectionTitle": "Hábitos ({completed}/{total})",
       "day": "Día {current}/66",
       "todaysFocus": "Foco de Hoy · Fase {phase} — {theme}"
+    },
+    "journal": {
+      "sectionTitle": "Diario",
+      "modeSkillBuilding": "Desarrollo de Habilidad",
+      "modeTracking": "Seguimiento",
+      "skillBuildingBanner": "Escribe en {skill} para recibir retroalimentación lingüística de tu Tutor de Idiomas con IA.",
+      "placeholderSkill": "Escribe sobre tu sesión en el idioma objetivo...",
+      "placeholderTracking": "¿Cómo fue tu hábito hoy? ¿Cómo te sientes?",
+      "words": "palabras",
+      "moodLabel": "Estado de ánimo",
+      "energyLabel": "Energía",
+      "save": "Enviar a IA →",
+      "saving": "Guardando...",
+      "loading": "Cargando...",
+      "yourEntry": "Tu Registro",
+      "mood": "Ánimo",
+      "energy": "Energía",
+      "analyzing": "La IA está analizando tu registro..."
     }
   },
   "nav": {
