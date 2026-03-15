@@ -168,6 +168,24 @@
       "sectionTitle": "Habits ({completed}/{total})",
       "day": "Day {current}/66",
       "todaysFocus": "Today's Focus · Phase {phase} — {theme}"
+    },
+    "journal": {
+      "sectionTitle": "Journal",
+      "modeSkillBuilding": "Skill-Building",
+      "modeTracking": "Tracking",
+      "skillBuildingBanner": "Write in {skill} to receive linguistic feedback from your AI Language Teacher.",
+      "placeholderSkill": "Write about your session in the target language...",
+      "placeholderTracking": "How did your habit go today? How are you feeling?",
+      "words": "words",
+      "moodLabel": "Mood",
+      "energyLabel": "Energy",
+      "save": "Send to AI →",
+      "saving": "Saving...",
+      "loading": "Loading...",
+      "yourEntry": "Your Entry",
+      "mood": "Mood",
+      "energy": "Energy",
+      "analyzing": "AI is analyzing your entry..."
     }
   },
   "nav": {

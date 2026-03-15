@@ -22,10 +22,12 @@ export const ENDPOINTS = {
     REGENERATE_PLAN: (id: string) => `/habits/${id}/regenerate-plan`,
   },
   JOURNAL: {
-    LIST: "/journal",
-    CREATE: "/journal",
-    GET: (id: string) => `/journal/${id}`,
-    UPDATE: (id: string) => `/journal/${id}`,
-    DELETE: (id: string) => `/journal/${id}`,
+    LIST: "/journal/entries",
+    CREATE: "/journal/entry",
+    GET_BY_DATE: (date: string) => `/journal/entry/${date}`,
+    UPDATE: (id: string) => `/journal/entry/${id}`,
+  },
+  AI: {
+    ANALYZE: "/ai/analyze",
   },
 } as const;

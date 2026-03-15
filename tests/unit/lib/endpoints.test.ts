@@ -65,23 +65,25 @@ describe("ENDPOINTS", () => {
 
   describe("JOURNAL", () => {
     it("has the correct LIST endpoint", () => {
-      expect(ENDPOINTS.JOURNAL.LIST).toBe("/journal");
+      expect(ENDPOINTS.JOURNAL.LIST).toBe("/journal/entries");
     });
 
     it("has the correct CREATE endpoint", () => {
-      expect(ENDPOINTS.JOURNAL.CREATE).toBe("/journal");
+      expect(ENDPOINTS.JOURNAL.CREATE).toBe("/journal/entry");
     });
 
-    it("generates the correct GET url", () => {
-      expect(ENDPOINTS.JOURNAL.GET("entry1")).toBe("/journal/entry1");
+    it("generates the correct GET_BY_DATE url", () => {
+      expect(ENDPOINTS.JOURNAL.GET_BY_DATE("2026-03-15")).toBe("/journal/entry/2026-03-15");
     });
 
     it("generates the correct UPDATE url", () => {
-      expect(ENDPOINTS.JOURNAL.UPDATE("entry1")).toBe("/journal/entry1");
+      expect(ENDPOINTS.JOURNAL.UPDATE("entry1")).toBe("/journal/entry/entry1");
     });
+  });
 
-    it("generates the correct DELETE url", () => {
-      expect(ENDPOINTS.JOURNAL.DELETE("entry1")).toBe("/journal/entry1");
+  describe("AI", () => {
+    it("has the correct ANALYZE endpoint", () => {
+      expect(ENDPOINTS.AI.ANALYZE).toBe("/ai/analyze");
     });
   });
 });
