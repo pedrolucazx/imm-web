@@ -1,6 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext } from "@/lib/auth-context";
-import { habitService, type CreateHabitInput, type PreviewPlanInput } from "@/lib/habit.service";
+import {
+  habitService,
+  type CreateHabitInput,
+  type PreviewPlanInput,
+  type HabitLogInput,
+} from "@/lib/habit.service";
 import type { Habit } from "@/types/habits";
 
 export function useHabits() {
@@ -28,6 +33,17 @@ export function useCreateHabit() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateHabitInput) => habitService.create(input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["habits"] });
+    },
+  });
+}
+
+export function useLogHabit() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, input }: { id: string; input: HabitLogInput }) =>
+      habitService.log(id, input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["habits"] });
     },
