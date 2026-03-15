@@ -403,5 +403,21 @@
         "long": "Use para práticas de atenção plena: meditação, exercícios de respiração, diário de gratidão ou escaneamento corporal. A IA foca no seu estado emocional, nível de estresse e qualidade da presença."
       }
     }
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Página não encontrada.",
+    "backHome": "← Voltar para o início"
+  },
+  "comingSoon": {
+    "badge": "Em construção",
+    "message": "Esta funcionalidade está sendo desenvolvida. Em breve estará disponível.",
+    "backLink": "← Voltar para o Daily Lab",
+    "history": {
+      "pageTitle": "📅 Histórico"
+    },
+    "analytics": {
+      "pageTitle": "📊 Análises"
+    }
   }
 }
