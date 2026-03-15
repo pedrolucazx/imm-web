@@ -11,8 +11,6 @@ export const s = {
     display: "block",
     fontSize: "sm",
     fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: "wider",
     mb: 2,
   },
 
@@ -190,5 +188,21 @@ export const s = {
     fontSize: "sm",
     fontWeight: "500",
     color: "mutedFg",
+  },
+
+  levelGroup: {
+    display: "flex",
+    flexDirection: { base: "column", md: "row" },
+    gap: 2,
+  },
+
+  levelBtn: {
+    textTransform: "none",
+    fontSize: "md",
+    letterSpacing: "normal",
+    justifyContent: "center",
+    py: 4,
+    px: 5,
+    flex: { md: "1" },
   },
 } satisfies Record<string, SystemStyleObject>;

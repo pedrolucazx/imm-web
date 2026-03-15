@@ -2,23 +2,23 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Grid, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Input, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { s } from "../HabitCreationWizard.styles";
-import { step2TrackingSchema, type Step2TrackingData, LEVELS, WIZARD_FORM_ID } from "./types";
+import { s } from "../styles";
+import { trackingConfigSchema, type TrackingConfigData, LEVELS, WIZARD_FORM_ID } from "./types";
 
-interface Step2TrackingProps {
-  defaultValues?: Partial<Step2TrackingData>;
-  onNext: (_data: Step2TrackingData) => void;
+interface TrackingOptionsFormProps {
+  defaultValues?: Partial<TrackingConfigData>;
+  onNext: (_data: TrackingConfigData) => void;
 }
 
-export function TrackingOptionsForm({ defaultValues, onNext }: Step2TrackingProps) {
+export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFormProps) {
   const t = useTranslations("habitWizard.step2Tracking");
 
-  const { control, handleSubmit, watch } = useForm<Step2TrackingData>({
-    resolver: zodResolver(step2TrackingSchema),
+  const { control, handleSubmit, watch } = useForm<TrackingConfigData>({
+    resolver: zodResolver(trackingConfigSchema),
     defaultValues: {
       wantPlan: false,
       barrier: "",
@@ -95,18 +95,19 @@ export function TrackingOptionsForm({ defaultValues, onNext }: Step2TrackingProp
                 name="level"
                 control={control}
                 render={({ field }) => (
-                  <Grid templateColumns="repeat(3, 1fr)" gap={2}>
+                  <Box {...s.levelGroup}>
                     {LEVELS.map((l) => (
                       <Button
                         key={l}
                         type="button"
                         variant={field.value === l ? "primary" : "muted"}
                         onClick={() => field.onChange(l)}
+                        {...s.levelBtn}
                       >
                         {t(`levels.${l}`)}
                       </Button>
                     ))}
-                  </Grid>
+                  </Box>
                 )}
               />
             </Box>

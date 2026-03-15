@@ -1,23 +1,6 @@
 import type { SystemStyleObject } from "@chakra-ui/react";
 
 export const s = {
-  page: {
-    p: { base: 4, md: 8 },
-    display: "flex",
-    flexDirection: "column",
-    gap: 6,
-    maxW: "800px",
-  },
-
-  pageTitle: {
-    fontSize: { base: "3xl", md: "4xl" },
-    fontWeight: "800",
-    textTransform: "uppercase",
-    letterSpacing: "-0.02em",
-    lineHeight: 1.1,
-    mb: 2,
-  },
-
   languageCard: {
     bg: "surface.yellow",
     border: "3px solid black",
