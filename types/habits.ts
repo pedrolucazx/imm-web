@@ -40,6 +40,7 @@ export interface Habit {
   streak: number;
   plan_status: PlanStatus;
   habit_plan: HabitPlan | null;
+  completed_today: boolean;
 }
 
 export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "pt-BR"];
