@@ -1,15 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { AuthContext } from "@/lib/auth-context";
 import { api } from "@/lib/api-client";
 import { authService } from "@/lib/auth.service";
 import type { AuthResponse, LoginInput, RegisterInput, User } from "@/types/auth";
 
+const AUTH_ROUTES = ["/login", "/register"];
+
+function isAuthRoute(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return AUTH_ROUTES.some((route) => pathname.includes(route));
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!isAuthRoute(pathname));
 
   useEffect(() => {
     api.setOnTokenRefreshed((newToken, newUser) => {
@@ -19,6 +28,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (isAuthRoute(pathname)) return;
+
     authService
       .refresh()
       .then((data) => {
@@ -30,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .finally(() => {
         setIsLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
