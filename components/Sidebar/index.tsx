@@ -8,6 +8,7 @@ import { Link, usePathname, useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { useAuthContext } from "@/lib/auth-context";
 import { useHabits } from "@/lib/hooks/useHabits";
+import { logger } from "@/lib/logger";
 import { s, SIDEBAR_WIDTH } from "./styles";
 import type { Habit } from "@/types/habits";
 
@@ -120,8 +121,8 @@ export function Sidebar() {
   const handleLogout = async () => {
     try {
       await logout();
-    } catch {
-      // logout falhou no servidor — prosseguir com limpeza local
+    } catch (error) {
+      logger.error("Logout failed:", error);
     } finally {
       queryClient.clear();
       router.replace(ROUTES.LOGIN);
