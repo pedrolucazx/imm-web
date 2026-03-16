@@ -5,24 +5,20 @@ export const s = {
     mt: 6,
   },
 
-  sectionTitle: {
-    fontSize: "xl",
-    fontWeight: "800",
-    textTransform: "uppercase",
-    letterSpacing: "wider",
-    mb: 4,
+  counterRow: {
+    display: "flex",
+    justifyContent: "flex-end",
+    mb: 3,
   },
 
   usageCounter: {
     display: "inline-flex",
     alignItems: "center",
-    gap: 1,
     fontSize: "xs",
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: "wider",
     color: "mutedFg",
-    mb: 4,
   },
 
   placeholder: {
@@ -54,58 +50,40 @@ export const s = {
     border: "3px solid black",
     bg: "card",
     p: 5,
+    boxShadow: "brutal",
   },
 
-  agentBadge: {
-    display: "inline-flex",
-    alignItems: "center",
-    fontSize: "xs",
-    fontWeight: "800",
-    textTransform: "uppercase",
-    letterSpacing: "wider",
-    border: "2px solid black",
-    bg: "primary",
-    px: 2,
-    py: 1,
-    mb: 4,
-  },
-
-  scoreRow: {
-    mb: 4,
-  },
-
-  scoreLabel: {
+  panelHeader: {
     display: "flex",
+    alignItems: "flex-start",
     justifyContent: "space-between",
-    fontSize: "sm",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: "wider",
-    mb: 1,
+    flexWrap: "wrap",
+    gap: 3,
+    mb: 5,
   },
 
-  scoreValue: {
-    fontSize: "sm",
+  panelTitle: {
+    fontSize: "2xl",
     fontWeight: "800",
   },
 
-  progressTrack: {
-    h: "3",
-    w: "100%",
-    bg: "muted",
+  skillBadge: {
+    px: 3,
+    py: 1,
     border: "2px solid black",
-    overflow: "hidden",
+    bg: "card",
+    fontSize: "sm",
+    fontWeight: "800",
+    boxShadow: "brutal-sm",
+    maxW: "100%",
+    wordBreak: "break-word",
   },
 
-  progressFill: {
-    h: "100%",
-    bg: "primary",
-    transition: "width 0.3s ease",
-  },
-
-  divider: {
-    borderTop: "2px solid black",
-    my: 4,
+  scoreGrid: {
+    display: "grid",
+    gridTemplateColumns: { base: "1fr", md: "repeat(3, minmax(0, 1fr))" },
+    gap: 3,
+    mb: 5,
   },
 
   subTitle: {
@@ -116,9 +94,17 @@ export const s = {
     mb: 3,
   },
 
+  boxTitle: {
+    fontSize: "sm",
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: "wider",
+    mb: 1,
+  },
+
   errorItem: {
     border: "2px solid black",
-    bg: "surface.red",
+    bg: "surface.coral",
     p: 3,
     mb: 2,
   },
@@ -133,7 +119,6 @@ export const s = {
   errorCorrected: {
     fontSize: "sm",
     fontWeight: "800",
-    color: "fg",
     mt: 1,
   },
 
@@ -145,9 +130,9 @@ export const s = {
 
   highlightBox: {
     border: "2px solid black",
-    bg: "surface.green",
-    p: 3,
-    mb: 3,
+    bg: "surface.yellow",
+    p: 4,
+    mt: 4,
   },
 
   highlightText: {
@@ -156,46 +141,37 @@ export const s = {
     fontStyle: "italic",
   },
 
-  insightItem: {
-    display: "flex",
-    gap: 2,
-    alignItems: "flex-start",
-    mb: 2,
+  actionBox: {
+    border: "3px solid black",
+    bg: "primary",
+    p: 4,
+    mt: 4,
   },
 
-  insightBullet: {
+  actionText: {
     fontSize: "sm",
-    fontWeight: "800",
-    flexShrink: 0,
-    mt: "1px",
-  },
-
-  insightText: {
-    fontSize: "sm",
-    fontWeight: "500",
-  },
-
-  statGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 3,
-    mb: 4,
+    fontWeight: "600",
   },
 
   statCard: {
     border: "2px solid black",
-    bg: "muted",
+    bg: "card",
     p: 3,
     textAlign: "center",
+    boxShadow: "brutal-sm",
+  },
+
+  moodEmoji: {
+    fontSize: "3xl",
+    lineHeight: 1,
   },
 
   statLabel: {
     fontSize: "xs",
-    fontWeight: "bold",
+    fontWeight: "800",
     textTransform: "uppercase",
     letterSpacing: "wider",
-    color: "mutedFg",
-    mb: 1,
+    mt: 1,
   },
 
   statValue: {
@@ -203,23 +179,60 @@ export const s = {
     fontWeight: "800",
   },
 
-  actionBox: {
-    border: "3px solid black",
-    bg: "primary",
-    p: 4,
-    mt: 3,
+  insightCard: {
+    border: "2px solid black",
+    bg: "card",
+    p: 3,
+    mb: 2,
   },
 
-  actionLabel: {
+  insightText: {
+    fontSize: "sm",
+    fontWeight: "500",
+  },
+
+  poweredBy: {
+    fontSize: "xs",
+    fontWeight: "bold",
+    color: "mutedFg",
+    textAlign: "center",
+    mt: 5,
+  },
+
+  scoreBadgeContainer: {
+    border: "2px solid black",
+    bg: "card",
+    p: 3,
+    textAlign: "center",
+    boxShadow: "brutal-sm",
+  },
+
+  scoreBadgeValue: {
+    fontSize: "3xl",
+    fontWeight: "800",
+    lineHeight: 1,
+  },
+
+  scoreBadgeLabel: {
     fontSize: "xs",
     fontWeight: "800",
     textTransform: "uppercase",
     letterSpacing: "wider",
-    mb: 1,
+    mt: 1,
+    mb: 2,
   },
 
-  actionText: {
-    fontSize: "sm",
-    fontWeight: "600",
+  progressBar: {
+    h: "2",
+    w: "100%",
+    bg: "muted",
+    border: "2px solid black",
+    overflow: "hidden",
+  },
+
+  progressFill: {
+    h: "100%",
+    bg: "secondary",
+    transition: "width 0.3s ease",
   },
 } satisfies Record<string, SystemStyleObject>;
