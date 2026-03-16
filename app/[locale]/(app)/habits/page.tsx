@@ -68,12 +68,8 @@ export default function HabitsPage(): React.JSX.Element {
       }
     >
       {showWarning && (!bannerDismissed || isAtLimit) && (
-        <Box
-          {...s.banner}
-          bg={isAtLimit ? "surface.coral" : "surface.yellow"}
-          border="3px solid black"
-        >
-          <Text fontSize="sm" fontWeight="bold">
+        <Box {...s.banner} bg={isAtLimit ? "surface.coral" : "surface.yellow"}>
+          <Text {...s.statusText}>
             {isAtLimit
               ? t("warningBannerLimit", { count: activeCount })
               : t("warningBanner", { count: activeCount })}
@@ -95,13 +91,7 @@ export default function HabitsPage(): React.JSX.Element {
           const isExpanded = expandedPlan === habit.id;
 
           return (
-            <Box
-              key={habit.id}
-              {...s.habitCard}
-              bg={habit.color}
-              border="3px solid black"
-              boxShadow="brutal"
-            >
+            <Box key={habit.id} {...s.habitCard} bg={habit.color}>
               <Box {...s.habitHeader}>
                 <Text {...s.habitIcon}>{habit.icon}</Text>
                 <Box>
@@ -177,17 +167,13 @@ export default function HabitsPage(): React.JSX.Element {
 
               {habit.plan_status === "generating" && (
                 <Box {...s.generatingStatus}>
-                  <Text fontSize="sm" fontWeight="bold">
-                    {t("generatingPlan")}
-                  </Text>
+                  <Text {...s.statusText}>{t("generatingPlan")}</Text>
                 </Box>
               )}
 
               {habit.plan_status === "failed" && (
                 <Box {...s.failedStatus}>
-                  <Text fontSize="sm" fontWeight="bold">
-                    {t("planFailed")}
-                  </Text>
+                  <Text {...s.statusText}>{t("planFailed")}</Text>
                   <Button variant="muted" fontSize="sm" onClick={() => handleRetryPlan(habit.id)}>
                     {t("retry")}
                   </Button>
@@ -199,7 +185,7 @@ export default function HabitsPage(): React.JSX.Element {
       </Box>
 
       {!isLoading && habits.length === 0 && (
-        <Box {...s.emptyState} border="3px solid black" boxShadow="brutal">
+        <Box {...s.emptyState}>
           <Text {...s.emptyIcon}>🎯</Text>
           <Heading {...s.emptyTitle}>{t("emptyTitle")}</Heading>
           <Text {...s.emptySubtitle}>{t("emptySubtitle")}</Text>

@@ -117,4 +117,10 @@ export const s = {
     color: "mutedFg",
     mt: 1,
   },
+
+  checkboxIcon: {
+    color: "card",
+    fontWeight: "bold",
+    fontSize: "sm",
+  },
 } satisfies Record<string, SystemStyleObject>;
