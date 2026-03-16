@@ -8,6 +8,7 @@ export const s = {
     alignItems: "center",
     justifyContent: "space-between",
     gap: 4,
+    border: "3px solid black",
   },
 
   bannerDismiss: {
@@ -35,6 +36,8 @@ export const s = {
     display: "flex",
     flexDirection: "column",
     gap: 4,
+    border: "3px solid black",
+    boxShadow: "brutal",
   },
 
   habitHeader: {
@@ -187,6 +190,13 @@ export const s = {
     bg: "card",
     p: 10,
     textAlign: "center",
+    border: "3px solid black",
+    boxShadow: "brutal",
+  },
+
+  statusText: {
+    fontSize: "sm",
+    fontWeight: "bold",
   },
 
   emptyIcon: {

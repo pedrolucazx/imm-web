@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
 import { SKILL_ICONS } from "@/types/habits";
-import { useLogHabit } from "@/lib/hooks/useHabits";
 import { s } from "./styles";
 
 interface HabitChecklistProps {
   habits: Habit[];
+  selectedHabitId: string | null;
+  onSelect: (_id: string) => void;
 }
 
 function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhase | null {
@@ -22,81 +22,35 @@ function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhas
   );
 }
 
-function getLocalDateString(): string {
-  const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-}
-
-export function HabitChecklist({ habits }: HabitChecklistProps) {
+export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitChecklistProps) {
   const t = useTranslations("dailyLab");
   const tHabits = useTranslations("habits");
-  const { mutate: logHabit } = useLogHabit();
-
-  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
-  const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
-
-  const handleToggle = (habitId: string) => {
-    if (pendingIds.has(habitId)) return;
-
-    const wasCompleted = completedIds.has(habitId);
-    const willBeCompleted = !wasCompleted;
-    const today = getLocalDateString();
-
-    setPendingIds((prev) => new Set(prev).add(habitId));
-
-    setCompletedIds((prev) => {
-      const next = new Set(prev);
-      if (willBeCompleted) next.add(habitId);
-      else next.delete(habitId);
-      return next;
-    });
-
-    logHabit(
-      { id: habitId, input: { logDate: today, completed: willBeCompleted } },
-      {
-        onError: () => {
-          setCompletedIds((prev) => {
-            const next = new Set(prev);
-            if (wasCompleted) next.add(habitId);
-            else next.delete(habitId);
-            return next;
-          });
-        },
-        onSettled: () => {
-          setPendingIds((prev) => {
-            const next = new Set(prev);
-            next.delete(habitId);
-            return next;
-          });
-        },
-      }
-    );
-  };
 
   return (
     <Box {...s.section}>
       <Text {...s.sectionTitle}>
-        {t("checklist.sectionTitle", { completed: completedIds.size, total: habits.length })}
+        {t("checklist.sectionTitle", {
+          completed: habits.filter((h) => h.completed_today).length,
+          total: habits.length,
+        })}
       </Text>
 
       <Box {...s.habitList}>
         {habits.map((habit) => {
-          const completed = completedIds.has(habit.id);
-          const pending = pendingIds.has(habit.id);
+          const completed = habit.completed_today;
+          const selected = habit.id === selectedHabitId;
           const phase = getCurrentPhase(habit);
 
           return (
             <Box key={habit.id}>
               <chakra.button
                 type="button"
-                aria-pressed={completed}
-                disabled={pending}
-                onClick={() => handleToggle(habit.id)}
+                aria-pressed={selected}
+                onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
-                bg={completed ? habit.color : "card"}
-                boxShadow={completed ? "none" : "brutal"}
-                transform={completed ? "translate(4px, 4px)" : undefined}
-                opacity={pending ? 0.7 : 1}
+                bg={completed || selected ? habit.color : "card"}
+                boxShadow={completed || selected ? "none" : "brutal"}
+                transform={completed || selected ? "translate(4px, 4px)" : undefined}
               >
                 <Box {...s.habitRow}>
                   <Text {...s.habitIcon}>{habit.icon}</Text>
@@ -112,12 +66,9 @@ export function HabitChecklist({ habits }: HabitChecklistProps) {
                       </Text>
                     </Box>
                   </Box>
-                  <Box {...s.checkbox} bg={completed ? "black" : "card"}>
-                    {completed && (
-                      <Text color="card" fontWeight="bold" fontSize="sm">
-                        ✓
-                      </Text>
-                    )}
+                  <Box {...s.checkbox} bg={completed ? "black" : selected ? "black" : "card"}>
+                    {completed && <Text {...s.checkboxIcon}>✓</Text>}
+                    {!completed && selected && <Text {...s.checkboxIcon}>■</Text>}
                   </Box>
                 </Box>
               </chakra.button>
