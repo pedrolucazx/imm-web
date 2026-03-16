@@ -5,6 +5,12 @@ export const s = {
     mb: 8,
   },
 
+  loadingText: {
+    fontSize: "sm",
+    fontWeight: "bold",
+    color: "mutedFg",
+  },
+
   sectionTitle: {
     fontSize: "xl",
     fontWeight: "800",

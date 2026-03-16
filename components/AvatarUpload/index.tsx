@@ -5,9 +5,10 @@ export { useAvatarUpload } from "./useAvatarUpload";
 import { useRef } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui";
+import { s } from "./styles";
 
 const ACCEPTED = "image/jpeg,image/png,image/webp";
-const MAX_BYTES = 2 * 1024 * 1024; // 2 MB
+const MAX_BYTES = 2 * 1024 * 1024;
 
 export interface AvatarUploadProps {
   currentUrl?: string | null;
@@ -50,24 +51,14 @@ export function AvatarUpload({
   }
 
   return (
-    <Box display="flex" flexDirection="column" gap={2} alignItems="center">
-      {label && (
-        <Text fontSize="sm" fontWeight="700" textTransform="uppercase" letterSpacing="wider">
-          {label}
-        </Text>
-      )}
+    <Box {...s.container}>
+      {label && <Text {...s.label}>{label}</Text>}
       <chakra.button
         type="button"
         onClick={() => inputRef.current?.click()}
-        position="relative"
-        cursor="pointer"
-        borderRadius="0"
-        _hover={{ opacity: 0.85 }}
         title={changeLabel || "Change avatar"}
         aria-label={changeLabel || "Change avatar"}
-        background="none"
-        border="none"
-        padding="0"
+        {...s.avatarBtn}
       >
         <Avatar src={previewUrl ?? currentUrl ?? undefined} name={name} size={size} />
       </chakra.button>

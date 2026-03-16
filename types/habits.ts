@@ -38,6 +38,7 @@ export interface Habit {
   start_date: string;
   current_day: number;
   streak: number;
+  completed_today: boolean;
   plan_status: PlanStatus;
   habit_plan: HabitPlan | null;
 }

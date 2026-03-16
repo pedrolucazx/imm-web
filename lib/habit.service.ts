@@ -19,6 +19,7 @@ export interface ApiHabit {
   planStatus: string;
   streak: number;
   currentDay: number;
+  completedToday: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -96,6 +97,7 @@ export function mapApiHabitToHabit(apiHabit: ApiHabit): Habit {
     start_date: apiHabit.startDate ?? "",
     current_day: apiHabit.currentDay ?? 1,
     streak: apiHabit.streak ?? 0,
+    completed_today: apiHabit.completedToday ?? false,
     plan_status: toPlanStatus(apiHabit.planStatus, apiHabit.habitPlan),
     habit_plan: toHabitPlan(apiHabit.habitPlan),
   };
