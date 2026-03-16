@@ -7,7 +7,7 @@ import { Box, Text, chakra } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui";
 
 const ACCEPTED = "image/jpeg,image/png,image/webp";
-const MAX_BYTES = 2 * 1024 * 1024; // 2 MB
+const MAX_BYTES = 2 * 1024 * 1024;
 
 export interface AvatarUploadProps {
   currentUrl?: string | null;

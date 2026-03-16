@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
+import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
@@ -9,7 +10,7 @@ import { useSaveJournal } from "@/lib/hooks/useJournal";
 import { s } from "./styles";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
-const ENERGY_EMOJIS = ["🔋", "🪫", "⚡", "💪", "🔥"] as const;
+const ENERGY_EMOJIS = ["🐌", "🚶", "🏃", "💨", "🚀"] as const;
 
 interface JournalEditorProps {
   habit: Habit;
@@ -20,10 +21,6 @@ interface JournalEditorProps {
   onAnalyze: (_journalEntryId: string, _habitId: string) => void;
 }
 
-/**
- * Editor de diário com campos de conteúdo, humor e energia.
- * Gerencia estado local e delegação de análise de IA para o componente pai.
- */
 export function JournalEditor({
   habit,
   existingEntry,
@@ -64,9 +61,7 @@ export function JournalEditor({
   if (isLoadingEntry) {
     return (
       <Box py={8} textAlign="center">
-        <Text fontSize="sm" fontWeight="bold" color="mutedFg">
-          {t("journal.loading")}
-        </Text>
+        <Text {...s.loadingText}>{t("journal.loading")}</Text>
       </Box>
     );
   }
@@ -101,7 +96,7 @@ export function JournalEditor({
 
   return (
     <Box>
-      <chakra.textarea
+      <Textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={
