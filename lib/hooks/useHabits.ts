@@ -24,8 +24,12 @@ export function useHabits() {
 }
 
 export function usePreviewHabitPlan() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: PreviewPlanInput) => habitService.previewPlan(input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+    },
   });
 }
 

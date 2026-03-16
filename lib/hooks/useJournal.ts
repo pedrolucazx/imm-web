@@ -40,6 +40,7 @@ export function useAnalyzeJournal() {
           entry.id === variables.journalEntryId ? { ...entry, aiFeedback: data.aiFeedback } : entry
         );
       });
+      queryClient.invalidateQueries({ queryKey: ["journal"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
