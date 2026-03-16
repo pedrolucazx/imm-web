@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
+import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
@@ -11,6 +12,10 @@ import { s } from "./styles";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
 const ENERGY_EMOJIS = ["🐌", "🚶", "🏃", "💨", "🚀"] as const;
+
+const journalSchema = z.object({
+  content: z.string().min(1),
+});
 
 interface JournalEditorProps {
   habit: Habit;
@@ -43,9 +48,11 @@ export function JournalEditor({
   }, [habit.id]);
 
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
+  const isContentValid = journalSchema.safeParse({ content }).success;
 
   const handleSave = () => {
-    if (!content.trim() || isSaving) return;
+    const result = journalSchema.safeParse({ content });
+    if (!result.success || isSaving) return;
 
     saveJournal(
       { habitId: habit.id, content, entryDate: today, moodScore, energyScore },
@@ -163,9 +170,9 @@ export function JournalEditor({
       <chakra.button
         type="button"
         onClick={handleSave}
-        disabled={!content.trim() || isSaving}
+        disabled={!isContentValid || isSaving}
         {...s.saveBtn}
-        {...(!content.trim() || isSaving ? s.saveBtnDisabled : s.saveBtnEnabled)}
+        {...(!isContentValid || isSaving ? s.saveBtnDisabled : s.saveBtnEnabled)}
       >
         {isSaving ? t("journal.saving") : t("journal.save")}
       </chakra.button>
