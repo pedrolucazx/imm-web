@@ -154,6 +154,18 @@ export const s = {
     flexShrink: 0,
   },
 
+  logoutBtn: {
+    ...navItemBase,
+    mx: 3,
+    mb: 3,
+    bg: "card",
+    color: "sidebar.fg",
+    w: "calc(100% - 1.5rem)",
+    transition: "transform 0.1s ease, box-shadow 0.1s ease",
+    _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
+    _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+  },
+
   footer: {
     px: 5,
     py: 5,
