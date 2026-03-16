@@ -33,7 +33,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -65,7 +64,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
