@@ -3,15 +3,27 @@ import { useAuthContext } from "@/lib/auth-context";
 import { journalService } from "@/lib/journal.service";
 import type { CreateJournalEntryInput, JournalEntry } from "@/types/journal";
 
-/**
- * Hook para buscar entradas do diário por data.
- */
 export function useJournalEntries(date: string) {
   const { isLoading: isAuthLoading, accessToken } = useAuthContext();
 
   const query = useQuery({
     queryKey: ["journal", date],
     queryFn: () => journalService.getEntriesByDate(date),
+    enabled: !isAuthLoading && !!accessToken,
+  });
+
+  return {
+    ...query,
+    isLoading: isAuthLoading || query.isPending,
+  };
+}
+
+export function useJournalHistory() {
+  const { isLoading: isAuthLoading, accessToken } = useAuthContext();
+
+  const query = useQuery({
+    queryKey: ["journal-history"],
+    queryFn: () => journalService.listHistory(),
     enabled: !isAuthLoading && !!accessToken,
   });
 

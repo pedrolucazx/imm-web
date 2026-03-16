@@ -478,5 +478,18 @@
     "analytics": {
       "pageTitle": "📊 Analytics"
     }
+  },
+  "history": {
+    "pageTitle": "📅 History",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "noEntries": "No entries this month.",
+    "recentTitle": "Recent Entries",
+    "noRecentEntries": "No entries yet.",
+    "words": "words",
+    "mood": "Mood",
+    "energy": "Energy",
+    "noFeedback": "No AI feedback for this entry.",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   }
 }

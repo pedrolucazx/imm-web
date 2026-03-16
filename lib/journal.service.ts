@@ -29,6 +29,13 @@ export const journalService = {
   },
 
   /**
+   * Lista as últimas entradas do diário (sem filtro de data).
+   */
+  async listHistory(limit = 100): Promise<JournalEntry[]> {
+    return api.get<JournalEntry[]>(ENDPOINTS.JOURNAL.LIST, { params: { limit } });
+  },
+
+  /**
    * Analisa uma entrada de diário usando IA.
    * Retorna o feedback e o tipo de agente (language-teacher ou behavioral-coach).
    */

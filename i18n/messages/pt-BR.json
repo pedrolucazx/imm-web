@@ -478,5 +478,18 @@
     "analytics": {
       "pageTitle": "📊 Análises"
     }
+  },
+  "history": {
+    "pageTitle": "📅 Histórico",
+    "prevMonth": "Mês anterior",
+    "nextMonth": "Próximo mês",
+    "noEntries": "Nenhum registro neste mês.",
+    "recentTitle": "Entradas Recentes",
+    "noRecentEntries": "Nenhum registro ainda.",
+    "words": "palavras",
+    "mood": "Humor",
+    "energy": "Energia",
+    "noFeedback": "Sem feedback de IA para esta entrada.",
+    "weekdays": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
   }
 }
