@@ -1,11 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Drawer, Text } from "@chakra-ui/react";
+import { Box, Drawer, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import { Link, usePathname } from "@/lib/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link, usePathname, useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
+import { useAuthContext } from "@/lib/auth-context";
+import { useHabits } from "@/lib/hooks/useHabits";
 import { s, SIDEBAR_WIDTH } from "./styles";
+import type { Habit } from "@/types/habits";
+
+const TOTAL_DAYS = 66;
 
 interface NavItem {
   icon: string;
@@ -37,20 +43,12 @@ const MOBILE_PANEL_ID = "sidebar-mobile-panel";
 interface SidebarContentProps {
   t: ReturnType<typeof useTranslations>;
   pathname: string;
-  hasProgress: boolean;
-  currentDay?: number;
-  totalDays?: number;
+  currentDay: number | null;
   onNavClick?: () => void;
+  onLogout: () => void;
 }
 
-function SidebarContent({
-  t,
-  pathname,
-  hasProgress,
-  currentDay,
-  totalDays,
-  onNavClick,
-}: SidebarContentProps) {
+function SidebarContent({ t, pathname, currentDay, onNavClick, onLogout }: SidebarContentProps) {
   return (
     <>
       <Box {...s.logoSection}>
@@ -78,20 +76,27 @@ function SidebarContent({
         })}
       </Box>
 
-      {hasProgress && (
+      <chakra.button type="button" onClick={onLogout} {...s.logoutBtn}>
+        <Box as="span" aria-hidden="true" {...s.navIcon}>
+          🚪
+        </Box>
+        {t("logout")}
+      </chakra.button>
+
+      {currentDay !== null && (
         <Box {...s.footer}>
           <Text {...s.progressLabel}>
-            {t("progressDays", { day: currentDay!, total: totalDays! })}
+            {t("progressDays", { day: currentDay, total: TOTAL_DAYS })}
           </Text>
           <Box
             {...s.progressBar}
             role="progressbar"
             aria-valuenow={currentDay}
             aria-valuemin={0}
-            aria-valuemax={totalDays}
-            aria-label={t("progressDays", { day: currentDay!, total: totalDays! })}
+            aria-valuemax={TOTAL_DAYS}
+            aria-label={t("progressDays", { day: currentDay, total: TOTAL_DAYS })}
           >
-            <Box {...s.progressFill} style={{ width: `${(currentDay! / totalDays!) * 100}%` }} />
+            <Box {...s.progressFill} style={{ width: `${(currentDay / TOTAL_DAYS) * 100}%` }} />
           </Box>
         </Box>
       )}
@@ -99,18 +104,31 @@ function SidebarContent({
   );
 }
 
-interface SidebarProps {
-  currentDay?: number;
-  totalDays?: number;
-}
-
-export function Sidebar({ currentDay, totalDays }: SidebarProps = {}) {
+export function Sidebar() {
   const t = useTranslations("sidebar");
   const pathname = usePathname();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { logout } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
-  const hasProgress = currentDay !== undefined && totalDays !== undefined;
 
-  const contentProps: SidebarContentProps = { t, pathname, hasProgress, currentDay, totalDays };
+  const { data: habits = [] } = useHabits();
+  const activeHabits = habits.filter((h: Habit) => h.is_active);
+  const currentDay =
+    activeHabits.length > 0 ? Math.max(...activeHabits.map((h: Habit) => h.current_day)) : null;
+
+  const handleLogout = async () => {
+    await logout();
+    queryClient.clear();
+    router.replace(ROUTES.LOGIN);
+  };
+
+  const contentProps: SidebarContentProps = {
+    t,
+    pathname,
+    currentDay,
+    onLogout: handleLogout,
+  };
 
   return (
     <>

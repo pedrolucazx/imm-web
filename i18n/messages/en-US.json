@@ -246,7 +246,8 @@
     "progressLabel": "Progress",
     "progressDays": "Day {day} of {total}",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "logout": "Log out"
   },
   "habits": {
     "pageTitle": "Habits",
