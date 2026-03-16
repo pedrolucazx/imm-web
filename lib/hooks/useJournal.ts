@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext } from "@/lib/auth-context";
 import { journalService } from "@/lib/journal.service";
-import type { CreateJournalEntryInput } from "@/types/journal";
+import type { CreateJournalEntryInput, JournalEntry } from "@/types/journal";
 
 export function useJournalEntries(date: string) {
   const { isLoading: isAuthLoading, accessToken } = useAuthContext();
@@ -33,9 +33,15 @@ export function useAnalyzeJournal() {
   return useMutation({
     mutationFn: ({ journalEntryId, habitId }: { journalEntryId: string; habitId: string }) =>
       journalService.analyze(journalEntryId, habitId),
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      queryClient.setQueriesData({ queryKey: ["journal"] }, (old: JournalEntry[] | undefined) => {
+        if (!old) return old;
+        return old.map((entry) =>
+          entry.id === variables.journalEntryId ? { ...entry, aiFeedback: data.aiFeedback } : entry
+        );
+      });
       queryClient.invalidateQueries({ queryKey: ["journal"] });
-      queryClient.invalidateQueries({ queryKey: ["habits"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
 }

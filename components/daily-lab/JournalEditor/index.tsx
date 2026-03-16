@@ -5,8 +5,7 @@ import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
-import { useSaveJournal, useAnalyzeJournal } from "@/lib/hooks/useJournal";
-import { logger } from "@/lib/logger";
+import { useSaveJournal } from "@/lib/hooks/useJournal";
 import { s } from "./styles";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
@@ -16,12 +15,21 @@ interface JournalEditorProps {
   habit: Habit;
   existingEntry: JournalEntry | null | undefined;
   isLoadingEntry: boolean;
+  isAnalyzing?: boolean;
+  today: string;
+  onAnalyze: (_journalEntryId: string, _habitId: string) => void;
 }
 
-export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalEditorProps) {
+export function JournalEditor({
+  habit,
+  existingEntry,
+  isLoadingEntry,
+  isAnalyzing = false,
+  today,
+  onAnalyze,
+}: JournalEditorProps) {
   const t = useTranslations("dailyLab");
   const { mutate: saveJournal, isPending: isSaving } = useSaveJournal();
-  const { mutate: analyzeJournal, isPending: isAnalyzing } = useAnalyzeJournal();
 
   const [content, setContent] = useState("");
   const [moodScore, setMoodScore] = useState<number>(3);
@@ -39,14 +47,11 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
     if (!content.trim() || isSaving) return;
 
     saveJournal(
-      { habitId: habit.id, content, moodScore, energyScore },
+      { habitId: habit.id, content, entryDate: today, moodScore, energyScore },
       {
         onSuccess: (entry) => {
           setContent("");
-          analyzeJournal(
-            { journalEntryId: entry.id, habitId: habit.id },
-            { onError: (err) => logger.error("[analyzeJournal]", err) }
-          );
+          onAnalyze(entry.id, habit.id);
         },
       }
     );
@@ -63,6 +68,7 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
   }
 
   if (existingEntry) {
+    const needsAnalysis = !existingEntry.aiFeedback?.agentType;
     return (
       <Box>
         <Box {...s.existingEntry}>
@@ -74,11 +80,16 @@ export function JournalEditor({ habit, existingEntry, isLoadingEntry }: JournalE
             {existingEntry.energyScore ?? "—"}/5
           </Text>
         </Box>
-
-        {isAnalyzing && (
-          <Box {...s.analyzingBadge}>
-            <Text {...s.analyzingText}>⏳ {t("journal.analyzing")}</Text>
-          </Box>
+        {needsAnalysis && (
+          <chakra.button
+            type="button"
+            onClick={() => onAnalyze(existingEntry.id, habit.id)}
+            disabled={isAnalyzing}
+            {...s.saveBtn}
+            {...(isAnalyzing ? s.saveBtnDisabled : s.saveBtnEnabled)}
+          >
+            {isAnalyzing ? t("journal.analyzing") : t("journal.analyze")}
+          </chakra.button>
         )}
       </Box>
     );
