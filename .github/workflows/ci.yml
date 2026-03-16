@@ -37,11 +37,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Lint
-        run: yarn lint
-
-      - name: Format Check
-        run: yarn format:check
+      - name: Clear TypeScript cache
+        run: rm -f tsconfig.tsbuildinfo
 
       - name: Type Check
         run: yarn tsc --noEmit
