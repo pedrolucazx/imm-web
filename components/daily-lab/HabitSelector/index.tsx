@@ -8,8 +8,8 @@ import { s } from "./styles";
 
 interface HabitSelectorProps {
   habits: Habit[];
-  selectedHabitId: string;
-  onSelect: (_id: string) => void;
+  selectedHabitId: string | null;
+  onSelect: (_id: string | null) => void;
 }
 
 export function HabitSelector({ habits, selectedHabitId, onSelect }: HabitSelectorProps) {
@@ -29,7 +29,7 @@ export function HabitSelector({ habits, selectedHabitId, onSelect }: HabitSelect
               key={habit.id}
               type="button"
               aria-pressed={active}
-              onClick={() => onSelect(habit.id)}
+              onClick={() => onSelect(active ? null : habit.id)}
               {...s.tab}
               {...(active ? s.tabActive : s.tabInactive)}
             >

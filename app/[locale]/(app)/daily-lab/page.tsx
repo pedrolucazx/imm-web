@@ -33,7 +33,7 @@ export default function DailyLabPage() {
   const activeHabits = habits.filter((h: Habit) => h.is_active);
   const today = getLocalDateString();
 
-  const [selectedHabitId, setSelectedHabitId] = useState<string>("");
+  const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
   const resolvedHabitId = selectedHabitId || activeHabits[0]?.id || null;
 
   const { data: journalEntries = [], isLoading: isLoadingEntry } = useJournalEntries(today);
@@ -73,7 +73,7 @@ export default function DailyLabPage() {
 
             <HabitSelector
               habits={activeHabits}
-              selectedHabitId={resolvedHabitId ?? ""}
+              selectedHabitId={resolvedHabitId}
               onSelect={setSelectedHabitId}
             />
 
