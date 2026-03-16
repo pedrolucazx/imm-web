@@ -18,6 +18,7 @@ export const s = {
     bg: "white",
     border: "2px solid black",
     borderRadius: "0",
+    px: 3,
     _focus: { ring: "2px", ringColor: "ring" },
   },
 
@@ -25,6 +26,7 @@ export const s = {
     bg: "white",
     border: "2px solid black",
     borderRadius: "0",
+    px: 3,
     resize: "none",
     _focus: { ring: "2px", ringColor: "ring" },
   },
