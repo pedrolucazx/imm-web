@@ -3,66 +3,57 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { BehavioralCoachFeedback } from "@/types/journal";
+import { ScoreBadge } from "./ScoreBadge";
 import { s } from "./styles";
 
 interface BehavioralCoachPanelProps {
   feedback: BehavioralCoachFeedback;
 }
 
-/**
- * Painel de feedback do trainer comportamental.
- * Exibe humor, nível de energia, pontuação de alinhamento com hábitos,
- * insights e sugestão de ação.
- */
+const MOOD_EMOJIS: Record<BehavioralCoachFeedback["behavioral"]["moodDetected"], string> = {
+  motivated: "💪",
+  fatigued: "😴",
+  neutral: "😐",
+  stressed: "😤",
+  relaxed: "😌",
+  anxious: "😰",
+};
+
 export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
   const t = useTranslations("dailyLab.ai.behavioralCoach");
 
-  const alignmentScore = Math.min(100, Math.max(0, feedback.habitAlignmentScore));
-  const moodLabel = t(`mood.${feedback.behavioral.moodDetected}`);
-  const energyLabel = t(`energy.${feedback.behavioral.energyLevel}`);
-
   return (
     <>
-      <Text {...s.agentBadge}>🧠 {t("title")}</Text>
+      <Box {...s.panelHeader}>
+        <Text {...s.panelTitle}>🎯 {t("title")}</Text>
+        <Box {...s.skillBadge}>{feedback.targetSkill}</Box>
+      </Box>
 
-      <Box {...s.statGrid}>
+      <Box {...s.scoreGrid}>
         <Box {...s.statCard}>
-          <Text {...s.statLabel}>{t("moodDetected")}</Text>
-          <Text {...s.statValue}>{moodLabel}</Text>
+          <Text {...s.moodEmoji}>{MOOD_EMOJIS[feedback.behavioral.moodDetected]}</Text>
+          <Text {...s.statLabel}>{t(`mood.${feedback.behavioral.moodDetected}`)}</Text>
         </Box>
         <Box {...s.statCard}>
+          <Text {...s.statValue}>{t(`energy.${feedback.behavioral.energyLevel}`)}</Text>
           <Text {...s.statLabel}>{t("energyLevel")}</Text>
-          <Text {...s.statValue}>{energyLabel}</Text>
         </Box>
+        <ScoreBadge label={t("alignmentScore")} value={feedback.habitAlignmentScore} />
       </Box>
 
-      <Box {...s.scoreRow}>
-        <Box {...s.scoreLabel}>
-          <Text as="span">{t("alignmentScore")}</Text>
-          <Text as="span" {...s.scoreValue}>
-            {alignmentScore}/100
-          </Text>
-        </Box>
-        <Box {...s.progressTrack}>
-          <Box {...s.progressFill} w={`${alignmentScore}%`} />
-        </Box>
-      </Box>
-
-      <Box {...s.divider} />
       <Text {...s.subTitle}>{t("insights")}</Text>
       {feedback.insights.map((insight, i) => (
-        <Box key={i} {...s.insightItem}>
-          <Text {...s.insightBullet}>→</Text>
+        <Box key={i} {...s.insightCard}>
           <Text {...s.insightText}>{insight}</Text>
         </Box>
       ))}
 
-      <Box {...s.divider} />
-      <Text {...s.subTitle}>{t("actionSuggestion")}</Text>
       <Box {...s.actionBox}>
-        <Text {...s.actionLabel}>🎯 {t("actionSuggestion")}</Text>
+        <Text {...s.boxTitle}>⚡ {t("actionSuggestion")}</Text>
         <Text {...s.actionText}>{feedback.actionSuggestion}</Text>
       </Box>
+
+      <Text {...s.poweredBy}>⚡ Powered by Free AI Agent</Text>
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { JournalEntry } from "@/types/journal";
 import { LanguageTeacherPanel } from "./LanguageTeacherPanel";
@@ -13,26 +13,24 @@ interface AIFeedbackPanelProps {
   entry: JournalEntry | null;
   isAnalyzing: boolean;
   aiRequestsToday: number;
+  habitColor?: string;
 }
 
-/**
- * Painel de feedback de IA que exibe análise do diário.
- * Suporta Language Teacher e Behavioral Coach.
- * Mostra estados de loading, placeholder e resultado conforme a análise.
- */
-export function AIFeedbackPanel({ entry, isAnalyzing, aiRequestsToday }: AIFeedbackPanelProps) {
+export function AIFeedbackPanel({
+  entry,
+  isAnalyzing,
+  aiRequestsToday,
+  habitColor,
+}: AIFeedbackPanelProps) {
   const t = useTranslations("dailyLab.ai");
 
   return (
     <Box {...s.wrapper}>
-      <HStack justifyContent="space-between" mb={4}>
-        <Text {...s.sectionTitle} mb={0}>
-          {t("sectionTitle")}
-        </Text>
+      <Box {...s.counterRow}>
         <Text {...s.usageCounter}>
           ⚡ {t("usageCounter", { used: aiRequestsToday, limit: AI_DAILY_LIMIT })}
         </Text>
-      </HStack>
+      </Box>
 
       <Box aria-live="polite" aria-atomic="true">
         {isAnalyzing && (
@@ -54,7 +52,7 @@ export function AIFeedbackPanel({ entry, isAnalyzing, aiRequestsToday }: AIFeedb
         )}
 
         {!isAnalyzing && entry && entry.aiFeedback?.agentType && (
-          <Box {...s.panel}>
+          <Box {...s.panel} bg={habitColor ?? s.panel.bg}>
             {entry.aiFeedback.agentType === "language-teacher" && (
               <LanguageTeacherPanel feedback={entry.aiFeedback} />
             )}
