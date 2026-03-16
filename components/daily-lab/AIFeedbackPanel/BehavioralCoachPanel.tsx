@@ -33,7 +33,8 @@ export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
       <Box {...s.scoreGrid}>
         <Box {...s.statCard}>
           <Text {...s.moodEmoji}>{MOOD_EMOJIS[feedback.behavioral.moodDetected]}</Text>
-          <Text {...s.statLabel}>{t(`mood.${feedback.behavioral.moodDetected}`)}</Text>
+          <Text {...s.statValue}>{t(`mood.${feedback.behavioral.moodDetected}`)}</Text>
+          <Text {...s.statLabel}>{t("moodDetected")}</Text>
         </Box>
         <Box {...s.statCard}>
           <Text {...s.statValue}>{t(`energy.${feedback.behavioral.energyLevel}`)}</Text>
