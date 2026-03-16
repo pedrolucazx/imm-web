@@ -20,6 +20,10 @@ interface JournalEditorProps {
   onAnalyze: (_journalEntryId: string, _habitId: string) => void;
 }
 
+/**
+ * Editor de diário com campos de conteúdo, humor e energia.
+ * Gerencia estado local e delegação de análise de IA para o componente pai.
+ */
 export function JournalEditor({
   habit,
   existingEntry,

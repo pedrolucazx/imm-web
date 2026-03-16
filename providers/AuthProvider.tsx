@@ -14,6 +14,10 @@ function isAuthRoute(pathname: string | null): boolean {
   return AUTH_ROUTES.some((route) => pathname.includes(route));
 }
 
+/**
+ * Provedor de autenticação que gerencia estado global de usuário e token.
+ * Tenta refresh automático ao carregar e fornece funções de login/logout/register.
+ */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | null>(null);
