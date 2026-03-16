@@ -118,9 +118,14 @@ export function Sidebar() {
     activeHabits.length > 0 ? Math.max(...activeHabits.map((h: Habit) => h.current_day)) : null;
 
   const handleLogout = async () => {
-    await logout();
-    queryClient.clear();
-    router.replace(ROUTES.LOGIN);
+    try {
+      await logout();
+    } catch {
+      // logout falhou no servidor — prosseguir com limpeza local
+    } finally {
+      queryClient.clear();
+      router.replace(ROUTES.LOGIN);
+    }
   };
 
   const contentProps: SidebarContentProps = {
@@ -132,7 +137,6 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Hamburger – mobile only, announces panel state to screen readers */}
       <Box
         {...s.hamburgerButton}
         display={{ base: "flex", md: "none" }}
@@ -147,7 +151,6 @@ export function Sidebar() {
         ☰
       </Box>
 
-      {/* Mobile: Drawer with focus trap, Esc key and focus-return built-in */}
       <Drawer.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)} placement="start">
         <Drawer.Backdrop display={{ base: "block", md: "none" }} />
         <Drawer.Positioner display={{ base: "flex", md: "none" }}>
@@ -162,7 +165,6 @@ export function Sidebar() {
         </Drawer.Positioner>
       </Drawer.Root>
 
-      {/* Desktop: fixed aside always visible */}
       <Box as="aside" {...s.aside} display={{ base: "none", md: "flex" }} w={SIDEBAR_WIDTH}>
         <SidebarContent {...contentProps} />
       </Box>
