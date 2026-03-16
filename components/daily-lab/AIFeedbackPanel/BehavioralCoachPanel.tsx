@@ -9,6 +9,11 @@ interface BehavioralCoachPanelProps {
   feedback: BehavioralCoachFeedback;
 }
 
+/**
+ * Painel de feedback do trainer comportamental.
+ * Exibe humor, nível de energia, pontuação de alinhamento com hábitos,
+ * insights e sugestão de ação.
+ */
 export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
   const t = useTranslations("dailyLab.ai.behavioralCoach");
 

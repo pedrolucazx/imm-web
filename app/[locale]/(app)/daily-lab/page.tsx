@@ -13,10 +13,17 @@ import { useJournalEntries, useAnalyzeJournal } from "@/lib/hooks/useJournal";
 import { useGetProfile } from "@/lib/hooks/useProfile";
 import type { Habit } from "@/types/habits";
 
+/**
+ * Retorna a data local no formato YYYY-MM-DD (ISO sv-SE).
+ */
 function getLocalDateString(): string {
   return new Date().toLocaleDateString("sv-SE");
 }
 
+/**
+ * Página principal do Daily Lab.
+ * Gerencia seleção de hábito, entrada de diário e painel de feedback de IA.
+ */
 export default function DailyLabPage() {
   const t = useTranslations("dailyLab");
   const locale = useLocale();

@@ -15,6 +15,11 @@ interface AIFeedbackPanelProps {
   aiRequestsToday: number;
 }
 
+/**
+ * Painel de feedback de IA que exibe análise do diário.
+ * Suporta Language Teacher e Behavioral Coach.
+ * Mostra estados de loading, placeholder e resultado conforme a análise.
+ */
 export function AIFeedbackPanel({ entry, isAnalyzing, aiRequestsToday }: AIFeedbackPanelProps) {
   const t = useTranslations("dailyLab.ai");
 

@@ -31,6 +31,11 @@ function ScoreBar({ label, value }: ScoreBarProps) {
   );
 }
 
+/**
+ * Painel de feedback do professor de idiomas.
+ * Exibe pontuações de gramática, vocabulário e fluência, erros encontrados,
+ * frase modelo e próximo desafio.
+ */
 export function LanguageTeacherPanel({ feedback }: LanguageTeacherPanelProps) {
   const t = useTranslations("dailyLab.ai.languageTeacher");
 
