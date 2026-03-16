@@ -48,6 +48,7 @@ export interface JournalEntry {
 export interface CreateJournalEntryInput {
   habitId: string;
   content: string;
+  entryDate: string;
   moodScore?: number;
   energyScore?: number;
 }

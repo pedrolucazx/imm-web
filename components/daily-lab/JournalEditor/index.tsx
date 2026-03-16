@@ -15,6 +15,8 @@ interface JournalEditorProps {
   habit: Habit;
   existingEntry: JournalEntry | null | undefined;
   isLoadingEntry: boolean;
+  isAnalyzing?: boolean;
+  today: string;
   onAnalyze: (_journalEntryId: string, _habitId: string) => void;
 }
 
@@ -22,6 +24,8 @@ export function JournalEditor({
   habit,
   existingEntry,
   isLoadingEntry,
+  isAnalyzing = false,
+  today,
   onAnalyze,
 }: JournalEditorProps) {
   const t = useTranslations("dailyLab");
@@ -43,7 +47,7 @@ export function JournalEditor({
     if (!content.trim() || isSaving) return;
 
     saveJournal(
-      { habitId: habit.id, content, moodScore, energyScore },
+      { habitId: habit.id, content, entryDate: today, moodScore, energyScore },
       {
         onSuccess: (entry) => {
           setContent("");
@@ -64,15 +68,29 @@ export function JournalEditor({
   }
 
   if (existingEntry) {
+    const needsAnalysis = !existingEntry.aiFeedback?.agentType;
     return (
-      <Box {...s.existingEntry}>
-        <Text {...s.existingEntryLabel}>{t("journal.yourEntry")}</Text>
-        <Text {...s.existingEntryContent}>{existingEntry.content}</Text>
-        <Text {...s.existingEntryMeta}>
-          {existingEntry.wordCount ?? 0} {t("journal.words")} · {t("journal.mood")}{" "}
-          {existingEntry.moodScore ?? "—"}/5 · {t("journal.energy")}{" "}
-          {existingEntry.energyScore ?? "—"}/5
-        </Text>
+      <Box>
+        <Box {...s.existingEntry}>
+          <Text {...s.existingEntryLabel}>{t("journal.yourEntry")}</Text>
+          <Text {...s.existingEntryContent}>{existingEntry.content}</Text>
+          <Text {...s.existingEntryMeta}>
+            {existingEntry.wordCount ?? 0} {t("journal.words")} · {t("journal.mood")}{" "}
+            {existingEntry.moodScore ?? "—"}/5 · {t("journal.energy")}{" "}
+            {existingEntry.energyScore ?? "—"}/5
+          </Text>
+        </Box>
+        {needsAnalysis && (
+          <chakra.button
+            type="button"
+            onClick={() => onAnalyze(existingEntry.id, habit.id)}
+            disabled={isAnalyzing}
+            {...s.saveBtn}
+            {...(isAnalyzing ? s.saveBtnDisabled : s.saveBtnEnabled)}
+          >
+            {isAnalyzing ? t("journal.analyzing") : t("journal.analyze")}
+          </chakra.button>
+        )}
       </Box>
     );
   }

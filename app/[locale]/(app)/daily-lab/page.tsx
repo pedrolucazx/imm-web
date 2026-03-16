@@ -76,6 +76,8 @@ export default function DailyLabPage() {
                   habit={selectedHabit}
                   existingEntry={journalEntry}
                   isLoadingEntry={isLoadingEntry}
+                  isAnalyzing={isAnalyzing}
+                  today={today}
                   onAnalyze={(journalEntryId, habitId) =>
                     analyzeJournal({ journalEntryId, habitId })
                   }
