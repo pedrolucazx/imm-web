@@ -12,6 +12,7 @@ interface LanguageTeacherPanelProps {
 
 export function LanguageTeacherPanel({ feedback }: LanguageTeacherPanelProps) {
   const t = useTranslations("dailyLab.ai.languageTeacher");
+  const tAi = useTranslations("dailyLab.ai");
 
   return (
     <>
@@ -49,7 +50,7 @@ export function LanguageTeacherPanel({ feedback }: LanguageTeacherPanelProps) {
         <Text {...s.actionText}>{feedback.nextChallenge}</Text>
       </Box>
 
-      <Text {...s.poweredBy}>⚡ Powered by Free AI Agent</Text>
+      <Text {...s.poweredBy}>{tAi("poweredBy")}</Text>
     </>
   );
 }

@@ -21,6 +21,7 @@ const MOOD_EMOJIS: Record<BehavioralCoachFeedback["behavioral"]["moodDetected"],
 
 export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
   const t = useTranslations("dailyLab.ai.behavioralCoach");
+  const tAi = useTranslations("dailyLab.ai");
 
   return (
     <>
@@ -53,7 +54,7 @@ export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
         <Text {...s.actionText}>{feedback.actionSuggestion}</Text>
       </Box>
 
-      <Text {...s.poweredBy}>⚡ Powered by Free AI Agent</Text>
+      <Text {...s.poweredBy}>{tAi("poweredBy")}</Text>
     </>
   );
 }

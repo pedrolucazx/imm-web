@@ -55,8 +55,10 @@ export const s = {
 
   panelHeader: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 3,
     mb: 5,
   },
 
@@ -73,11 +75,13 @@ export const s = {
     fontSize: "sm",
     fontWeight: "800",
     boxShadow: "brutal-sm",
+    maxW: "100%",
+    wordBreak: "break-word",
   },
 
   scoreGrid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
+    gridTemplateColumns: { base: "1fr", md: "repeat(3, minmax(0, 1fr))" },
     gap: 3,
     mb: 5,
   },
