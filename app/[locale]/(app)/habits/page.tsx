@@ -69,7 +69,7 @@ export default function HabitsPage(): React.JSX.Element {
     >
       {showWarning && (!bannerDismissed || isAtLimit) && (
         <Box {...s.banner} bg={isAtLimit ? "surface.coral" : "surface.yellow"}>
-          <Text fontSize="sm" fontWeight="bold">
+          <Text {...s.statusText}>
             {isAtLimit
               ? t("warningBannerLimit", { count: activeCount })
               : t("warningBanner", { count: activeCount })}
