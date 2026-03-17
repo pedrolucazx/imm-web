@@ -20,7 +20,7 @@ export function LanguageTeacherPanel({ feedback }: LanguageTeacherPanelProps) {
     <>
       <Box {...s.panelHeader}>
         <Text {...s.panelTitle}>📝 {t("title")}</Text>
-        <Box {...s.skillBadge} bg="surface.sky">
+        <Box {...s.skillBadge}>
           {SKILL_ICONS[feedback.targetSkill as TargetSkill]}{" "}
           {tHabits(`skills.${feedback.targetSkill}.name`)}
         </Box>

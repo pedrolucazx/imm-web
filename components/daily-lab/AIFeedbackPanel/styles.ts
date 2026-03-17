@@ -71,7 +71,7 @@ export const s = {
     px: 3,
     py: 1,
     border: "2px solid black",
-    bg: "card",
+    bg: "surface.sky",
     fontSize: "sm",
     fontWeight: "800",
     boxShadow: "brutal-sm",
