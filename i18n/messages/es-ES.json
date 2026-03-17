@@ -167,6 +167,8 @@
     "checklist": {
       "sectionTitle": "Hábitos ({completed}/{total})",
       "day": "Día {current}/66",
+      "doneToday": "Hecho hoy",
+      "notYet": "Aún no",
       "todaysFocus": "Foco de Hoy · Fase {phase} — {theme}"
     },
     "journal": {

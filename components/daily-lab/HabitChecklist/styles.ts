@@ -50,6 +50,14 @@ export const s = {
     fontWeight: "800",
   },
 
+  statusText: {
+    fontSize: "sm",
+    fontWeight: "500",
+    color: "mutedFg",
+    mt: "1px",
+    mb: 1,
+  },
+
   habitMeta: {
     display: "flex",
     alignItems: "center",

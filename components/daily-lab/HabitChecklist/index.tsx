@@ -4,10 +4,12 @@ import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
 import { SKILL_ICONS } from "@/types/habits";
+import type { JournalEntry } from "@/types/journal";
 import { s } from "./styles";
 
 interface HabitChecklistProps {
   habits: Habit[];
+  journalEntries: JournalEntry[];
   selectedHabitId: string | null;
   onSelect: (_id: string) => void;
 }
@@ -22,7 +24,12 @@ function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhas
   );
 }
 
-export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitChecklistProps) {
+export function HabitChecklist({
+  habits,
+  journalEntries,
+  selectedHabitId,
+  onSelect,
+}: HabitChecklistProps) {
   const t = useTranslations("dailyLab");
   const tHabits = useTranslations("habits");
 
@@ -30,14 +37,19 @@ export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitCheck
     <Box {...s.section}>
       <Text {...s.sectionTitle}>
         {t("checklist.sectionTitle", {
-          completed: habits.filter((h) => h.completed_today).length,
+          completed: habits.filter(
+            (h) =>
+              h.completed_today ||
+              journalEntries.find((e) => e.habitId === h.id)?.aiFeedback != null
+          ).length,
           total: habits.length,
         })}
       </Text>
 
       <Box {...s.habitList}>
         {habits.map((habit) => {
-          const completed = habit.completed_today;
+          const entry = journalEntries.find((e) => e.habitId === habit.id);
+          const completed = habit.completed_today || entry?.aiFeedback != null;
           const selected = habit.id === selectedHabitId;
           const phase = getCurrentPhase(habit);
 
@@ -48,14 +60,19 @@ export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitCheck
                 aria-pressed={selected}
                 onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
-                bg={completed || selected ? habit.color : "card"}
-                boxShadow={completed || selected ? "none" : "brutal"}
-                transform={completed || selected ? "translate(4px, 4px)" : undefined}
+                bg={completed ? habit.color : "card"}
+                boxShadow={completed ? "none" : selected ? "brutal" : "brutal"}
+                transform={completed ? "translate(4px, 4px)" : undefined}
+                outline={selected && !completed ? "3px solid black" : undefined}
+                outlineOffset={selected && !completed ? "-3px" : undefined}
               >
                 <Box {...s.habitRow}>
                   <Text {...s.habitIcon}>{habit.icon}</Text>
                   <Box {...s.habitInfo}>
                     <Text {...s.habitName}>{habit.name}</Text>
+                    <Text {...s.statusText}>
+                      {completed ? `✓ ${t("checklist.doneToday")}` : t("checklist.notYet")}
+                    </Text>
                     <Box {...s.habitMeta}>
                       <Box {...s.skillBadge}>
                         {SKILL_ICONS[habit.target_skill]}{" "}
@@ -66,9 +83,8 @@ export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitCheck
                       </Text>
                     </Box>
                   </Box>
-                  <Box {...s.checkbox} bg={completed ? "black" : selected ? "black" : "card"}>
+                  <Box {...s.checkbox} bg={completed ? "black" : "card"}>
                     {completed && <Text {...s.checkboxIcon}>✓</Text>}
-                    {!completed && selected && <Text {...s.checkboxIcon}>■</Text>}
                   </Box>
                 </Box>
               </chakra.button>
