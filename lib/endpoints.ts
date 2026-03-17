@@ -23,9 +23,8 @@ export const ENDPOINTS = {
   },
   JOURNAL: {
     LIST: "/journal/entries",
+    HISTORY: "/journal/history",
     CREATE: "/journal/entry",
-    GET_BY_DATE: (date: string) => `/journal/entry/${date}`,
-    UPDATE: (id: string) => `/journal/entry/${id}`,
   },
   AI: {
     ANALYZE: "/ai/analyze",

@@ -72,12 +72,8 @@ describe("ENDPOINTS", () => {
       expect(ENDPOINTS.JOURNAL.CREATE).toBe("/journal/entry");
     });
 
-    it("generates the correct GET_BY_DATE url", () => {
-      expect(ENDPOINTS.JOURNAL.GET_BY_DATE("2026-03-15")).toBe("/journal/entry/2026-03-15");
-    });
-
-    it("generates the correct UPDATE url", () => {
-      expect(ENDPOINTS.JOURNAL.UPDATE("entry1")).toBe("/journal/entry/entry1");
+    it("has the correct HISTORY endpoint", () => {
+      expect(ENDPOINTS.JOURNAL.HISTORY).toBe("/journal/history");
     });
   });
 

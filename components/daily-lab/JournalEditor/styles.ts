@@ -71,7 +71,7 @@ export const s = {
 
   scoresGrid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: { base: "1fr", sm: "1fr 1fr" },
     gap: 4,
     mt: 4,
   },

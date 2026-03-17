@@ -3,6 +3,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { LanguageTeacherFeedback } from "@/types/journal";
+import { SKILL_ICONS, type TargetSkill } from "@/types/habits";
 import { ScoreBadge } from "./ScoreBadge";
 import { s } from "./styles";
 
@@ -13,12 +14,16 @@ interface LanguageTeacherPanelProps {
 export function LanguageTeacherPanel({ feedback }: LanguageTeacherPanelProps) {
   const t = useTranslations("dailyLab.ai.languageTeacher");
   const tAi = useTranslations("dailyLab.ai");
+  const tHabits = useTranslations("habits");
 
   return (
     <>
       <Box {...s.panelHeader}>
         <Text {...s.panelTitle}>📝 {t("title")}</Text>
-        <Box {...s.skillBadge}>{feedback.targetSkill}</Box>
+        <Box {...s.skillBadge}>
+          {SKILL_ICONS[feedback.targetSkill as TargetSkill]}{" "}
+          {tHabits(`skills.${feedback.targetSkill}.name`)}
+        </Box>
       </Box>
 
       <Box {...s.scoreGrid}>
