@@ -8,6 +8,7 @@ import {
   DialogBody,
   DialogFooter,
 } from "./dialog";
+import { s } from "./modal.styles";
 
 export interface ModalProps {
   open: boolean;
@@ -21,46 +22,10 @@ export interface ModalProps {
 export function Modal({ open, onClose, title, footer, maxW = "520px", children }: ModalProps) {
   return (
     <DialogRoot open={open} onOpenChange={(e) => !e.open && onClose()}>
-      <DialogContent
-        bg="card"
-        border="3px solid black"
-        boxShadow="brutal"
-        maxW={maxW}
-        w="100%"
-        maxH="90vh"
-        overflowY="auto"
-        p={6}
-      >
-        <DialogHeader
-          p={0}
-          mb={6}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="flex-start"
-        >
-          <DialogTitle fontSize="2xl" fontWeight="800" textTransform="uppercase" flex={1} pr={4}>
-            {title}
-          </DialogTitle>
-          <chakra.button
-            type="button"
-            onClick={onClose}
-            w={10}
-            h={10}
-            border="3px solid black"
-            bg="accent"
-            color="white"
-            fontWeight="900"
-            fontSize="lg"
-            cursor="pointer"
-            boxShadow="brutal-sm"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexShrink={0}
-            transition="transform 0.1s ease, box-shadow 0.1s ease"
-            _hover={{ transform: "translate(-1px, -1px)", boxShadow: "brutal" }}
-            _active={{ transform: "translate(1px, 1px)", boxShadow: "none" }}
-          >
+      <DialogContent {...s.content} maxW={maxW}>
+        <DialogHeader {...s.header}>
+          <DialogTitle {...s.title}>{title}</DialogTitle>
+          <chakra.button type="button" onClick={onClose} aria-label="Close" {...s.closeBtn}>
             ✕
           </chakra.button>
         </DialogHeader>
