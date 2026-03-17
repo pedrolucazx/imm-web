@@ -51,6 +51,7 @@ export default function DailyLabPage() {
       <Box maxW="3xl">
         <HabitChecklist
           habits={activeHabits}
+          journalEntries={journalEntries}
           selectedHabitId={resolvedHabitId}
           onSelect={setSelectedHabitId}
         />

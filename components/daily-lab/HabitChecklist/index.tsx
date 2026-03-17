@@ -4,14 +4,17 @@ import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
 import { SKILL_ICONS } from "@/types/habits";
+import type { JournalEntry } from "@/types/journal";
 import { s } from "./styles";
 
 interface HabitChecklistProps {
   habits: Habit[];
+  journalEntries: JournalEntry[];
   selectedHabitId: string | null;
   onSelect: (_id: string) => void;
 }
 
+/** Returns the active plan phase for the given habit based on its current day, or null if no plan is ready. */
 function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhase | null {
   if (!habit.habit_plan || habit.plan_status !== "ready") return null;
   return (
@@ -22,23 +25,32 @@ function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhas
   );
 }
 
-export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitChecklistProps) {
+export function HabitChecklist({
+  habits,
+  journalEntries,
+  selectedHabitId,
+  onSelect,
+}: HabitChecklistProps) {
   const t = useTranslations("dailyLab");
   const tHabits = useTranslations("habits");
+  const habitsWithFeedback = new Set(
+    journalEntries.filter((e) => e.aiFeedback != null).map((e) => e.habitId)
+  );
 
   return (
     <Box {...s.section}>
       <Text {...s.sectionTitle}>
         {t("checklist.sectionTitle", {
-          completed: habits.filter((h) => h.completed_today).length,
+          completed: habits.filter((h) => h.completed_today || habitsWithFeedback.has(h.id)).length,
           total: habits.length,
         })}
       </Text>
 
       <Box {...s.habitList}>
         {habits.map((habit) => {
-          const completed = habit.completed_today;
+          const completed = habit.completed_today || habitsWithFeedback.has(habit.id);
           const selected = habit.id === selectedHabitId;
+          const isActive = completed || selected;
           const phase = getCurrentPhase(habit);
 
           return (
@@ -48,14 +60,21 @@ export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitCheck
                 aria-pressed={selected}
                 onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
-                bg={completed || selected ? habit.color : "card"}
-                boxShadow={completed || selected ? "none" : "brutal"}
-                transform={completed || selected ? "translate(4px, 4px)" : undefined}
+                bg={isActive ? habit.color : "card"}
+                boxShadow={isActive ? "none" : "brutal"}
+                transform={isActive ? "translate(4px, 4px)" : undefined}
               >
                 <Box {...s.habitRow}>
                   <Text {...s.habitIcon}>{habit.icon}</Text>
                   <Box {...s.habitInfo}>
                     <Text {...s.habitName}>{habit.name}</Text>
+                    <Text {...s.statusText}>
+                      {completed
+                        ? t("checklist.doneToday")
+                        : selected
+                          ? t("checklist.inFocus")
+                          : t("checklist.notYet")}
+                    </Text>
                     <Box {...s.habitMeta}>
                       <Box {...s.skillBadge}>
                         {SKILL_ICONS[habit.target_skill]}{" "}
@@ -66,9 +85,8 @@ export function HabitChecklist({ habits, selectedHabitId, onSelect }: HabitCheck
                       </Text>
                     </Box>
                   </Box>
-                  <Box {...s.checkbox} bg={completed ? "black" : selected ? "black" : "card"}>
+                  <Box {...s.checkbox} bg={completed ? "black" : "card"}>
                     {completed && <Text {...s.checkboxIcon}>✓</Text>}
-                    {!completed && selected && <Text {...s.checkboxIcon}>■</Text>}
                   </Box>
                 </Box>
               </chakra.button>
