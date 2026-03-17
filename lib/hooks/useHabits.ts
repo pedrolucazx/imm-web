@@ -8,9 +8,6 @@ import {
 } from "@/lib/habit.service";
 import type { Habit } from "@/types/habits";
 
-/**
- * Hook para listar todos os hábitos do usuário.
- */
 export function useHabits() {
   const { isLoading: isAuthLoading, accessToken } = useAuthContext();
 
@@ -26,9 +23,6 @@ export function useHabits() {
   };
 }
 
-/**
- * Hook para visualizar plano de hábito antes de criar.
- */
 export function usePreviewHabitPlan() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -39,9 +33,6 @@ export function usePreviewHabitPlan() {
   });
 }
 
-/**
- * Hook para criar um novo hábito.
- */
 export function useCreateHabit() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -52,9 +43,6 @@ export function useCreateHabit() {
   });
 }
 
-/**
- * Hook para registrarlog de um hábito.
- */
 export function useLogHabit() {
   const queryClient = useQueryClient();
   return useMutation({

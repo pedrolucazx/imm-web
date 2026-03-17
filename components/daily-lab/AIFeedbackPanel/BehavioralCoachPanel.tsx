@@ -3,6 +3,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { BehavioralCoachFeedback } from "@/types/journal";
+import { SKILL_ICONS, type TargetSkill } from "@/types/habits";
 import { ScoreBadge } from "./ScoreBadge";
 import { s } from "./styles";
 
@@ -22,12 +23,16 @@ const MOOD_EMOJIS: Record<BehavioralCoachFeedback["behavioral"]["moodDetected"],
 export function BehavioralCoachPanel({ feedback }: BehavioralCoachPanelProps) {
   const t = useTranslations("dailyLab.ai.behavioralCoach");
   const tAi = useTranslations("dailyLab.ai");
+  const tHabits = useTranslations("habits");
 
   return (
     <>
       <Box {...s.panelHeader}>
         <Text {...s.panelTitle}>🎯 {t("title")}</Text>
-        <Box {...s.skillBadge}>{feedback.targetSkill}</Box>
+        <Box {...s.skillBadge} bg="surface.sky">
+          {SKILL_ICONS[feedback.targetSkill as TargetSkill]}{" "}
+          {tHabits(`skills.${feedback.targetSkill}.name`)}
+        </Box>
       </Box>
 
       <Box {...s.scoreGrid}>
