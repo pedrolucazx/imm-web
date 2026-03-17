@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, HStack, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Tooltip } from "@/components/ui/tooltip";
 import type { TargetSkill } from "@/types/habits";
@@ -35,8 +35,8 @@ export function SkillCard({ skill, isSelected, onClick }: SkillCardProps) {
     ) : null;
 
   return (
-    <Box
-      as="button"
+    <chakra.button
+      type="button"
       w="full"
       h="auto"
       p={3}
@@ -90,6 +90,6 @@ export function SkillCard({ skill, isSelected, onClick }: SkillCardProps) {
           </Tooltip>
         )}
       </HStack>
-    </Box>
+    </chakra.button>
   );
 }

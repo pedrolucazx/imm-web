@@ -21,7 +21,12 @@ export interface ModalProps {
 
 export function Modal({ open, onClose, title, footer, maxW = "520px", children }: ModalProps) {
   return (
-    <DialogRoot open={open} onOpenChange={(e) => !e.open && onClose()}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(e) => !e.open && onClose()}
+      scrollBehavior="inside"
+      placement="center"
+    >
       <DialogContent {...s.content} maxW={maxW}>
         <DialogHeader {...s.header}>
           <DialogTitle {...s.title}>{title}</DialogTitle>

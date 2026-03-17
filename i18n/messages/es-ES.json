@@ -370,7 +370,11 @@
       "behaviorHint": "Monitorea consistencia con un plan opcional. La IA rastrea patrones y ofrece consejos semanales.",
       "modeHintSkill": "📝 Recibirás un plan completo de 66 días con tareas diarias estructuradas. La IA analizará tu escritura y proporcionará retroalimentación lingüística.",
       "modeHintTracking": "🎯 La IA rastreará tu estado de ánimo, energía y patrones conductuales.",
-      "next": "Siguiente →"
+      "next": "Siguiente →",
+      "errors": {
+        "nameRequired": "El nombre del hábito es obligatorio",
+        "skillRequired": "Selecciona una habilidad para continuar"
+      }
     },
     "step2Skill": {
       "planNote": "📝 La IA generará un plan completo de 66 días (Obligatorio)",
@@ -384,7 +388,10 @@
         "advanced": "Avanzado"
       },
       "back": "← Volver",
-      "generate": "Generar Mi Plan de 66 Días →"
+      "generate": "Generar Mi Plan de 66 Días →",
+      "errors": {
+        "strugglesRequired": "Describe tus dificultades para continuar"
+      }
     },
     "step2Tracking": {
       "optionalNote": "🎯 El plan de IA es opcional para hábitos conductuales.",
@@ -403,7 +410,10 @@
       "manualNote": "¡Entendido! Seguirás este hábito manualmente.",
       "back": "← Volver",
       "nextWithPlan": "Generar Estrategia →",
-      "next": "Siguiente →"
+      "next": "Siguiente →",
+      "errors": {
+        "barrierRequired": "Describe tu mayor barrera para continuar"
+      }
     },
     "step3": {
       "loadingTitle": "Generando tu plan...",
@@ -424,6 +434,8 @@
       "planSkipped": "⏭️ Omitido",
       "regenerate": "🔄 Regenerar Plan",
       "regenerateError": "Error al regenerar el plan. Inténtalo de nuevo.",
+      "feedbackLabel": "¿Qué no te gustó del plan? (opcional)",
+      "feedbackPlaceholder": "Ej: las tareas diarias eran demasiado largas para mi nivel",
       "create": "✓ Confirmar y Crear",
       "back": "← Volver",
       "errorTitle": "❌ Error al generar el plan",

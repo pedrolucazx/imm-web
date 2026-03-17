@@ -15,12 +15,17 @@ export const skillPlanSchema = z.object({
   level: z.enum(["beginner", "intermediate", "advanced"]),
 });
 
-export const trackingConfigSchema = z.object({
-  wantPlan: z.boolean(),
-  barrier: z.string(),
-  availableMinutes: z.number().int().min(5).max(120),
-  level: z.enum(["beginner", "intermediate", "advanced"]),
-});
+export const trackingConfigSchema = z
+  .object({
+    wantPlan: z.boolean(),
+    barrier: z.string().trim(),
+    availableMinutes: z.number().int().min(5).max(120),
+    level: z.enum(["beginner", "intermediate", "advanced"]),
+  })
+  .refine((data) => !data.wantPlan || data.barrier.trim().length > 0, {
+    path: ["barrier"],
+    message: "required",
+  });
 
 export type HabitSetupData = z.infer<typeof habitSetupSchema>;
 export type SkillPlanData = z.infer<typeof skillPlanSchema>;

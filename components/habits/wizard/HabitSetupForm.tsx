@@ -2,7 +2,7 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Grid, Input, Text, VStack } from "@chakra-ui/react";
+import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import {
   type TargetSkill,
@@ -10,6 +10,8 @@ import {
   BEHAVIORAL_SKILLS,
   deriveHabitMode,
 } from "@/types/habits";
+import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
 import { SkillCard } from "./SkillCard";
 import { s } from "../styles";
 import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
@@ -22,7 +24,12 @@ interface HabitSetupFormProps {
 export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
   const t = useTranslations("habitWizard.step1");
 
-  const { control, handleSubmit, watch } = useForm<HabitSetupData>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<HabitSetupData>({
     resolver: zodResolver(habitSetupSchema),
     defaultValues: { name: "", targetSkill: "", ...defaultValues },
   });
@@ -33,70 +40,71 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
       <Box {...s.formStack}>
-        <Box>
-          <Text as="label" {...s.label}>
-            {t("habitNameLabel")}
-          </Text>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder={t("habitNamePlaceholder")}
-                maxLength={80}
-                {...s.input}
-              />
-            )}
-          />
-        </Box>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              label={t("habitNameLabel")}
+              placeholder={t("habitNamePlaceholder")}
+              maxLength={80}
+              error={errors.name ? t("errors.nameRequired") : undefined}
+            />
+          )}
+        />
 
-        <Box>
-          <Text as="label" {...s.label}>
-            {t("targetSkillLabel")}
-          </Text>
+        <Field.Root invalid={!!errors.targetSkill} w="full" gap={0}>
+          <Field.Label mb={2}>{t("targetSkillLabel")}</Field.Label>
           <Controller
             name="targetSkill"
             control={control}
             render={({ field }) => (
-              <VStack gap={6} align="stretch">
-                <Box>
-                  <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
-                  <Text fontSize="xs" color="text.muted" mb={3}>
-                    {t("langSkillsHint")}
-                  </Text>
-                  <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
-                    {LANGUAGE_SKILLS.map((skill) => (
-                      <SkillCard
-                        key={skill}
-                        skill={skill}
-                        isSelected={field.value === skill}
-                        onClick={() => field.onChange(skill)}
-                      />
-                    ))}
-                  </Grid>
-                </Box>
+              <Box position="relative" w="full">
+                <VStack w="full" gap={6} align="stretch">
+                  <Box>
+                    <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
+                    <Text fontSize="xs" color="text.muted" mb={3}>
+                      {t("langSkillsHint")}
+                    </Text>
+                    <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
+                      {LANGUAGE_SKILLS.map((skill) => (
+                        <SkillCard
+                          key={skill}
+                          skill={skill}
+                          isSelected={field.value === skill}
+                          onClick={() => field.onChange(skill)}
+                        />
+                      ))}
+                    </Grid>
+                  </Box>
 
-                <Box>
-                  <Text {...s.sectionLabel}>{t("behaviorLabel")}</Text>
-                  <Text fontSize="xs" color="text.muted" mb={3}>
-                    {t("behaviorHint")}
-                  </Text>
-                  <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
-                    {BEHAVIORAL_SKILLS.map((skill) => (
-                      <SkillCard
-                        key={skill}
-                        skill={skill}
-                        isSelected={field.value === skill}
-                        onClick={() => field.onChange(skill)}
-                      />
-                    ))}
-                  </Grid>
-                </Box>
-              </VStack>
+                  <Box>
+                    <Text {...s.sectionLabel}>{t("behaviorLabel")}</Text>
+                    <Text fontSize="xs" color="text.muted" mb={3}>
+                      {t("behaviorHint")}
+                    </Text>
+                    <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
+                      {BEHAVIORAL_SKILLS.map((skill) => (
+                        <SkillCard
+                          key={skill}
+                          skill={skill}
+                          isSelected={field.value === skill}
+                          onClick={() => field.onChange(skill)}
+                        />
+                      ))}
+                    </Grid>
+                  </Box>
+                </VStack>
+              </Box>
             )}
           />
-        </Box>
+          {errors.targetSkill && (
+            <Box pt="0.375rem">
+              <Field.ErrorText>{t("errors.skillRequired")}</Field.ErrorText>
+            </Box>
+          )}
+        </Field.Root>
 
         {targetSkill && mode && (
           <Box {...(mode === "skill-building" ? s.modeHintSkill : s.modeHintTracking)}>

@@ -7,7 +7,6 @@ export const s = {
     boxShadow: "brutal",
     w: "100%",
     maxH: "90vh",
-    overflowY: "auto" as const,
     p: 6,
   },
 

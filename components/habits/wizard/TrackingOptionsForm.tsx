@@ -2,9 +2,11 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { s } from "../styles";
 import { trackingConfigSchema, type TrackingConfigData, LEVELS, WIZARD_FORM_ID } from "./types";
@@ -17,7 +19,12 @@ interface TrackingOptionsFormProps {
 export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFormProps) {
   const t = useTranslations("habitWizard.step2Tracking");
 
-  const { control, handleSubmit, watch } = useForm<TrackingConfigData>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<TrackingConfigData>({
     resolver: zodResolver(trackingConfigSchema),
     defaultValues: {
       wantPlan: false,
@@ -50,42 +57,38 @@ export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFo
 
         {wantPlan && (
           <>
-            <Box>
-              <Text as="label" {...s.label}>
-                {t("barrierLabel")}
-              </Text>
-              <Controller
-                name="barrier"
-                control={control}
-                render={({ field }) => (
-                  <Textarea {...field} rows={3} placeholder={t("barrierPh")} {...s.textarea} />
-                )}
-              />
-            </Box>
+            <Controller
+              name="barrier"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  label={t("barrierLabel")}
+                  placeholder={t("barrierPh")}
+                  rows={3}
+                  error={errors.barrier ? t("errors.barrierRequired") : undefined}
+                />
+              )}
+            />
 
-            <Box>
-              <Text as="label" {...s.label}>
-                {t("timeLabel")}
-              </Text>
-              <Controller
-                name="availableMinutes"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    type="number"
-                    min={5}
-                    max={120}
-                    fontWeight="bold"
-                    value={field.value}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
-                    onBlur={field.onBlur}
-                    name={field.name}
-                    ref={field.ref}
-                    {...s.input}
-                  />
-                )}
-              />
-            </Box>
+            <Controller
+              name="availableMinutes"
+              control={control}
+              render={({ field, fieldState: { error } }) => (
+                <Input
+                  type="number"
+                  min={5}
+                  max={120}
+                  label={t("timeLabel")}
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                  error={error?.message}
+                />
+              )}
+            />
 
             <Box>
               <Text as="label" {...s.label}>

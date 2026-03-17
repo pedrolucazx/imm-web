@@ -120,6 +120,7 @@ export interface PreviewPlanInput {
   painPoints: string[];
   availableMinutes: number;
   level: "beginner" | "intermediate" | "advanced";
+  feedbackOnPlan?: string;
 }
 
 export interface CreateWithPlanInput extends CreateHabitInput {
