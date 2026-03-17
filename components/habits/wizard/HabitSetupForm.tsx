@@ -62,7 +62,16 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
             name="targetSkill"
             control={control}
             render={({ field }) => (
-              <VStack gap={6} align="stretch">
+              <VStack
+                gap={6}
+                align="stretch"
+                p={3}
+                bg={errors.targetSkill ? "errorBg" : "transparent"}
+                boxShadow={
+                  errors.targetSkill ? "inset 0 0 0 2px var(--chakra-colors-error)" : "none"
+                }
+                transition="all 0.15s"
+              >
                 <Box>
                   <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
                   <Text fontSize="xs" color="text.muted" mb={3}>
