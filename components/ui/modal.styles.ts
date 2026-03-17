@@ -6,8 +6,6 @@ export const s = {
     border: "3px solid black",
     boxShadow: "brutal",
     w: "100%",
-    maxH: "90vh",
-    overflowY: "auto" as const,
     p: 6,
   },
 

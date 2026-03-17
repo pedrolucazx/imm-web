@@ -54,59 +54,56 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
           )}
         />
 
-        <Field.Root invalid={!!errors.targetSkill}>
-          <Text as="label" {...s.label}>
-            {t("targetSkillLabel")}
-          </Text>
+        <Field.Root invalid={!!errors.targetSkill} w="full" gap={0}>
+          <Field.Label mb={2}>{t("targetSkillLabel")}</Field.Label>
           <Controller
             name="targetSkill"
             control={control}
             render={({ field }) => (
-              <VStack
-                gap={6}
-                align="stretch"
-                outline={errors.targetSkill ? "2px solid var(--chakra-colors-error)" : "none"}
-                transition="outline 0.15s"
-              >
-                <Box>
-                  <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
-                  <Text fontSize="xs" color="text.muted" mb={3}>
-                    {t("langSkillsHint")}
-                  </Text>
-                  <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
-                    {LANGUAGE_SKILLS.map((skill) => (
-                      <SkillCard
-                        key={skill}
-                        skill={skill}
-                        isSelected={field.value === skill}
-                        onClick={() => field.onChange(skill)}
-                      />
-                    ))}
-                  </Grid>
-                </Box>
+              <Box position="relative" w="full">
+                <VStack w="full" gap={6} align="stretch">
+                  <Box>
+                    <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
+                    <Text fontSize="xs" color="text.muted" mb={3}>
+                      {t("langSkillsHint")}
+                    </Text>
+                    <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
+                      {LANGUAGE_SKILLS.map((skill) => (
+                        <SkillCard
+                          key={skill}
+                          skill={skill}
+                          isSelected={field.value === skill}
+                          onClick={() => field.onChange(skill)}
+                        />
+                      ))}
+                    </Grid>
+                  </Box>
 
-                <Box>
-                  <Text {...s.sectionLabel}>{t("behaviorLabel")}</Text>
-                  <Text fontSize="xs" color="text.muted" mb={3}>
-                    {t("behaviorHint")}
-                  </Text>
-                  <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
-                    {BEHAVIORAL_SKILLS.map((skill) => (
-                      <SkillCard
-                        key={skill}
-                        skill={skill}
-                        isSelected={field.value === skill}
-                        onClick={() => field.onChange(skill)}
-                      />
-                    ))}
-                  </Grid>
-                </Box>
-              </VStack>
+                  <Box>
+                    <Text {...s.sectionLabel}>{t("behaviorLabel")}</Text>
+                    <Text fontSize="xs" color="text.muted" mb={3}>
+                      {t("behaviorHint")}
+                    </Text>
+                    <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
+                      {BEHAVIORAL_SKILLS.map((skill) => (
+                        <SkillCard
+                          key={skill}
+                          skill={skill}
+                          isSelected={field.value === skill}
+                          onClick={() => field.onChange(skill)}
+                        />
+                      ))}
+                    </Grid>
+                  </Box>
+                </VStack>
+              </Box>
             )}
           />
-          <Box h="1.25rem" mt={1}>
-            <Field.ErrorText>{t("errors.skillRequired")}</Field.ErrorText>
-          </Box>
+          {errors.targetSkill && (
+            <Box pt="0.375rem">
+              <Field.ErrorText>{t("errors.skillRequired")}</Field.ErrorText>
+            </Box>
+          )}
         </Field.Root>
 
         {targetSkill && mode && (
