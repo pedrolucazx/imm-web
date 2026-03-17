@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Box, HStack } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, HStack, Text, Textarea } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
@@ -45,6 +45,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const [planConfig, setPlanConfig] = useState<SkillPlanData | TrackingConfigData | null>(null);
   const [previewedPlan, setPreviewedPlan] = useState<HabitPlan | null>(null);
   const [stepError, setStepError] = useState<"generic" | "rate-limit" | null>(null);
+  const [regenerateFeedback, setRegenerateFeedback] = useState("");
 
   const previewMutation = usePreviewHabitPlan();
   const createMutation = useCreateHabit();
@@ -102,11 +103,13 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       painPoints: buildPainPoints(planConfig),
       availableMinutes: planConfig.availableMinutes,
       level: planConfig.level,
+      ...(regenerateFeedback.trim() ? { feedbackOnPlan: regenerateFeedback.trim() } : {}),
     };
 
     try {
       const plan = await previewMutation.mutateAsync(previewInput);
       setPreviewedPlan(plan);
+      setRegenerateFeedback("");
     } catch (err) {
       setStepError(err instanceof Error && err.message.includes("429") ? "rate-limit" : "generic");
     }
@@ -132,6 +135,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
     setPlanConfig(null);
     setPreviewedPlan(null);
     setStepError(null);
+    setRegenerateFeedback("");
     previewMutation.reset();
     createMutation.reset();
     onClose();
@@ -193,7 +197,27 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
     if (step === 3) {
       return (
         <Box display="flex" flexDirection="column" gap={2} w="100%">
-          <HStack gap={2}>
+          {needsPlan && previewedPlan && (
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Text fontSize="sm" fontWeight="600">
+                {tStep3("feedbackLabel")}
+              </Text>
+              <Textarea
+                value={regenerateFeedback}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setRegenerateFeedback(e.target.value)
+                }
+                placeholder={tStep3("feedbackPlaceholder")}
+                disabled={isDisabled}
+                rows={2}
+                resize="none"
+                border="2px solid black"
+                borderRadius={0}
+                fontSize="sm"
+              />
+            </Box>
+          )}
+          <Box display="flex" flexDirection={{ base: "column", sm: "row" }} gap={2}>
             <Button type="button" variant="muted" flex={1} onClick={goBack} disabled={isDisabled}>
               {tStep3("back")}
             </Button>
@@ -209,7 +233,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
                 {tStep3("regenerate")}
               </Button>
             )}
-          </HStack>
+          </Box>
           <Button
             type="button"
             variant="primary"

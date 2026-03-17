@@ -424,6 +424,8 @@
       "planSkipped": "⏭️ Ignorado",
       "regenerate": "🔄 Regenerar Plano",
       "regenerateError": "Falha ao regenerar o plano. Tente novamente.",
+      "feedbackLabel": "O que não gostou no plano? (opcional)",
+      "feedbackPlaceholder": "Ex: as tarefas diárias eram longas demais para meu nível",
       "create": "✓ Confirmar e Criar",
       "back": "← Voltar",
       "errorTitle": "❌ Falha ao gerar o plano",

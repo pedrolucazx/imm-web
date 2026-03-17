@@ -424,6 +424,8 @@
       "planSkipped": "⏭️ Skipped",
       "regenerate": "🔄 Regenerate Plan",
       "regenerateError": "Failed to regenerate plan. Please try again.",
+      "feedbackLabel": "What didn't you like about the plan? (optional)",
+      "feedbackPlaceholder": "E.g. the daily tasks were too long for my level",
       "create": "✓ Confirm & Create",
       "back": "← Back",
       "errorTitle": "❌ Failed to generate plan",
