@@ -65,12 +65,8 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
               <VStack
                 gap={6}
                 align="stretch"
-                p={3}
-                bg={errors.targetSkill ? "errorBg" : "transparent"}
-                boxShadow={
-                  errors.targetSkill ? "inset 0 0 0 2px var(--chakra-colors-error)" : "none"
-                }
-                transition="all 0.15s"
+                outline={errors.targetSkill ? "2px solid var(--chakra-colors-error)" : "none"}
+                transition="outline 0.15s"
               >
                 <Box>
                   <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
@@ -108,7 +104,9 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
               </VStack>
             )}
           />
-          <Field.ErrorText>{t("errors.skillRequired")}</Field.ErrorText>
+          <Box h="1.25rem" mt={1}>
+            <Field.ErrorText>{t("errors.skillRequired")}</Field.ErrorText>
+          </Box>
         </Field.Root>
 
         {targetSkill && mode && (
