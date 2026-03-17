@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Box, Text, Separator } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { PageWrapper } from "@/components/PageWrapper";
 import { Calendar } from "@/components/Calendar";
 import { RecentEntries } from "@/components/history/RecentEntries";
-import { Modal } from "@/components/ui/modal";
 import { LanguageTeacherPanel } from "@/components/daily-lab/AIFeedbackPanel/LanguageTeacherPanel";
 import { BehavioralCoachPanel } from "@/components/daily-lab/AIFeedbackPanel/BehavioralCoachPanel";
+import { Modal } from "@/components/ui/modal";
 import { useJournalHistory } from "@/lib/hooks/useJournal";
 import { useHabits } from "@/lib/hooks/useHabits";
 import type { JournalEntry } from "@/types/journal";
@@ -18,6 +18,7 @@ import { SKILL_ICONS } from "@/types/habits";
 export default function HistoryPage() {
   const t = useTranslations("history");
   const tHabits = useTranslations("habits");
+  const locale = useLocale();
 
   const { data: entries = [], isLoading: isLoadingEntries } = useJournalHistory();
   const { data: habits = [], isLoading: isLoadingHabits } = useHabits();
@@ -28,21 +29,58 @@ export default function HistoryPage() {
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedEntries, setSelectedEntries] = useState<JournalEntry[]>([]);
 
   const habitMap = Object.fromEntries((habits as Habit[]).map((h) => [h.id, h]));
 
-  const handleDayClick = (date: string, dayEntries: JournalEntry[]) => {
-    setSelectedDate(date);
+  const handleDayClick = (_date: string, dayEntries: JournalEntry[]) => {
     setSelectedEntries(dayEntries);
-    setModalOpen(true);
   };
+
+  const handleEntryClick = (_date: string, dayEntries: JournalEntry[]) => {
+    setSelectedEntries(dayEntries);
+  };
+
+  const modalDate = selectedEntries[0]?.entryDate;
+  const formattedDate = modalDate
+    ? (() => {
+        const [y, m, d] = modalDate.split("-").map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString(locale, {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+      })()
+    : null;
+
+  const modalTitle = formattedDate ? (
+    <Box>
+      <Text fontSize="2xl" fontWeight="800" mb={2} textTransform="none">
+        {formattedDate}
+      </Text>
+      <Box display="flex" gap={2} flexWrap="wrap">
+        {selectedEntries.map((entry) =>
+          entry.aiFeedback?.agentType ? (
+            <Box
+              key={entry.id}
+              px={2}
+              py="2px"
+              border="2px solid black"
+              bg="surface.sky"
+              fontSize="xs"
+              fontWeight="800"
+            >
+              {t(`agentTypes.${entry.aiFeedback.agentType}`)}
+            </Box>
+          ) : null
+        )}
+      </Box>
+    </Box>
+  ) : null;
 
   return (
     <PageWrapper title={t("pageTitle")} loading={isLoadingEntries || isLoadingHabits}>
-      <Box maxW="3xl">
+      <Box maxW="4xl">
         <Calendar
           entries={entries}
           habits={activeHabits}
@@ -51,41 +89,43 @@ export default function HistoryPage() {
           onDayClick={handleDayClick}
         />
 
-        <RecentEntries entries={entries} habits={activeHabits} onEntryClick={handleDayClick} />
+        <RecentEntries entries={entries} habits={activeHabits} onEntryClick={handleEntryClick} />
       </Box>
 
       <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={selectedDate ?? ""}
+        open={selectedEntries.length > 0}
+        onClose={() => setSelectedEntries([])}
+        title={modalTitle ?? ""}
         maxW="680px"
       >
-        {selectedEntries.map((entry, idx) => {
+        {selectedEntries.map((entry, index) => {
           const habit = habitMap[entry.habitId];
           return (
             <Box key={entry.id}>
-              {idx > 0 && <Separator borderColor="black" borderWidth="2px" my={6} />}
+              {index > 0 && <Separator borderColor="black" borderWidth="2px" my={5} />}
 
-              <Box border="3px solid black" bg="card" p={4} mb={4}>
-                {habit && (
-                  <Box display="flex" alignItems="center" gap={2} mb={2}>
-                    <Text fontSize="lg">{habit.icon}</Text>
-                    <Text fontWeight="800" fontSize="sm">
-                      {habit.name}
-                    </Text>
-                    <Box
-                      px={2}
-                      py="2px"
-                      border="2px solid black"
-                      fontSize="xs"
-                      fontWeight="800"
-                      bg="muted"
-                    >
-                      {SKILL_ICONS[habit.target_skill]}{" "}
-                      {tHabits(`skills.${habit.target_skill}.name`)}
-                    </Box>
-                  </Box>
-                )}
+              <Box border="2px solid black" bg="card" p={4} mb={3}>
+                <Box display="flex" alignItems="center" gap={2} mb={2} flexWrap="wrap">
+                  {habit && (
+                    <>
+                      <Text fontSize="lg">{habit.icon}</Text>
+                      <Text fontWeight="800" fontSize="sm">
+                        {habit.name}
+                      </Text>
+                      <Box
+                        px={2}
+                        py="2px"
+                        border="2px solid black"
+                        fontSize="xs"
+                        fontWeight="800"
+                        bg="surface.sky"
+                      >
+                        {SKILL_ICONS[habit.target_skill]}{" "}
+                        {tHabits(`skills.${habit.target_skill}.name`)}
+                      </Box>
+                    </>
+                  )}
+                </Box>
                 <Text fontSize="sm" fontWeight="500" mb={2}>
                   {entry.content}
                 </Text>

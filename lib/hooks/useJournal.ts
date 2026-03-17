@@ -33,10 +33,6 @@ export function useJournalHistory() {
   };
 }
 
-/**
- * Hook para salvar uma entrada no diário.
- * Invalida cache da data após sucesso.
- */
 export function useSaveJournal() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -47,10 +43,6 @@ export function useSaveJournal() {
   });
 }
 
-/**
- * Hook para analisar uma entrada de diário com IA.
- * Atualiza cache local com feedback e invalida queries de perfil.
- */
 export function useAnalyzeJournal() {
   const queryClient = useQueryClient();
   return useMutation({

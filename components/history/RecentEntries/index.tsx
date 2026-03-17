@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Text } from "@chakra-ui/react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import type { JournalEntry } from "@/types/journal";
 import type { Habit } from "@/types/habits";
 import { SKILL_ICONS } from "@/types/habits";
@@ -13,13 +13,23 @@ interface RecentEntriesProps {
   onEntryClick: (_date: string, _entries: JournalEntry[]) => void;
 }
 
+function formatEntryDate(dateStr: string, locale: string): string {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString(locale, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export function RecentEntries({ entries, habits, onEntryClick }: RecentEntriesProps) {
   const t = useTranslations("history");
   const tHabits = useTranslations("habits");
+  const locale = useLocale();
 
   const habitMap = Object.fromEntries(habits.map((h) => [h.id, h]));
 
-  const recent = [...entries].sort((a, b) => b.entryDate.localeCompare(a.entryDate)).slice(0, 5);
+  const recent = entries.slice(0, 5);
 
   return (
     <Box {...s.section}>
@@ -33,17 +43,16 @@ export function RecentEntries({ entries, habits, onEntryClick }: RecentEntriesPr
         <Box {...s.list}>
           {recent.map((entry) => {
             const habit = habitMap[entry.habitId];
-            const dayEntries = entries.filter((e) => e.entryDate === entry.entryDate);
 
             return (
               <Box
                 key={entry.id}
                 {...s.card}
-                onClick={() => onEntryClick(entry.entryDate, dayEntries)}
+                onClick={() => onEntryClick(entry.entryDate, [entry])}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) =>
-                  (e.key === "Enter" || e.key === " ") && onEntryClick(entry.entryDate, dayEntries)
+                  (e.key === "Enter" || e.key === " ") && onEntryClick(entry.entryDate, [entry])
                 }
               >
                 <Box {...s.cardHeader}>
@@ -61,7 +70,7 @@ export function RecentEntries({ entries, habits, onEntryClick }: RecentEntriesPr
                       </Box>
                     )}
                   </Box>
-                  <Text {...s.date}>{entry.entryDate}</Text>
+                  <Text {...s.date}>{formatEntryDate(entry.entryDate, locale)}</Text>
                 </Box>
 
                 <Text {...s.preview} lineClamp={2}>

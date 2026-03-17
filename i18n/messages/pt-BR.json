@@ -490,6 +490,10 @@
     "mood": "Humor",
     "energy": "Energia",
     "noFeedback": "Sem feedback de IA para esta entrada.",
+    "agentTypes": {
+      "language-teacher": "📝 Professor de Idiomas",
+      "behavioral-coach": "🎯 Coach Comportamental"
+    },
     "weekdays": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
   }
 }

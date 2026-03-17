@@ -4,7 +4,7 @@ export const s = {
   wrapper: {
     border: "3px solid black",
     bg: "card",
-    p: 4,
+    p: 6,
     boxShadow: "brutal",
   },
 
@@ -16,10 +16,8 @@ export const s = {
   },
 
   monthTitle: {
-    fontSize: "xl",
+    fontSize: "2xl",
     fontWeight: "800",
-    textTransform: "uppercase",
-    letterSpacing: "wider",
   },
 
   navBtn: {
@@ -42,51 +40,53 @@ export const s = {
   weekdayGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: 1,
-    mb: 1,
+    gap: 2,
+    mb: 2,
   },
 
   weekdayLabel: {
     textAlign: "center",
-    fontSize: "xs",
+    fontSize: "sm",
     fontWeight: "800",
     textTransform: "uppercase",
     letterSpacing: "wider",
     color: "mutedFg",
-    py: 1,
+    py: 2,
   },
 
   daysGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(7, 1fr)",
-    gap: 1,
+    gap: 2,
   },
 
   dayCell: {
-    minH: { base: "44px", md: "56px" },
+    aspectRatio: "1",
     border: "2px solid black",
     display: "flex",
     flexDirection: "column" as const,
     alignItems: "center",
     justifyContent: "center",
-    gap: 1,
+    gap: "2px",
     cursor: "default",
     bg: "card",
-    position: "relative" as const,
+    opacity: 0.5,
   },
 
   dayCellEmpty: {
-    minH: { base: "44px", md: "56px" },
-    border: "2px solid transparent",
+    aspectRatio: "1",
   },
 
   dayCellToday: {
     border: "2px solid black",
-    boxShadow: "brutal-sm",
-    bg: "surface.yellow",
+    outline: "4px solid",
+    outlineColor: "ring",
+    opacity: 1,
   },
 
   dayCellHasEntries: {
+    bg: "surface.mint",
+    opacity: 1,
     cursor: "pointer",
     transition: "transform 0.1s ease, box-shadow 0.1s ease",
     _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal-sm" },
@@ -94,26 +94,14 @@ export const s = {
   },
 
   dayNumber: {
-    fontSize: "sm",
+    fontSize: "lg",
     fontWeight: "700",
     lineHeight: 1,
   },
 
-  dayNumberMuted: {
-    color: "mutedFg",
-  },
-
-  dotsRow: {
-    display: "flex",
-    gap: "3px",
-    flexWrap: "wrap" as const,
-    justifyContent: "center",
-  },
-
-  dot: {
-    w: "6px",
-    h: "6px",
-    borderRadius: "full",
-    border: "1px solid black",
+  entryCount: {
+    fontSize: "xs",
+    lineHeight: 1,
+    mt: "2px",
   },
 } satisfies Record<string, SystemStyleObject>;
