@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, HStack, Text, Textarea } from "@chakra-ui/react";
+import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { HabitSetupForm } from "./wizard/HabitSetupForm";
 import { SkillPlanForm } from "./wizard/SkillPlanForm";
 import { TrackingOptionsForm } from "./wizard/TrackingOptionsForm";
 import { PlanReviewPanel } from "./wizard/PlanReviewPanel";
+import { Textarea } from "@/components/ui/textarea";
 import {
   WIZARD_FORM_ID,
   type HabitSetupData,
@@ -198,7 +199,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       return (
         <Box display="flex" flexDirection="column" gap={2} w="100%">
           {needsPlan && previewedPlan && (
-            <Box display="flex" flexDirection="column" gap={1}>
+            <VStack gap={1} align="stretch">
               <Text fontSize="sm" fontWeight="600">
                 {tStep3("feedbackLabel")}
               </Text>
@@ -211,11 +212,8 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
                 disabled={isDisabled}
                 rows={2}
                 resize="none"
-                border="2px solid black"
-                borderRadius={0}
-                fontSize="sm"
               />
-            </Box>
+            </VStack>
           )}
           <Box display="flex" flexDirection={{ base: "column", sm: "row" }} gap={2}>
             <Button type="button" variant="muted" flex={1} onClick={goBack} disabled={isDisabled}>

@@ -51,7 +51,7 @@ export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
         <Controller
           name="availableMinutes"
           control={control}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <Input
               type="number"
               min={5}
@@ -62,6 +62,7 @@ export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
               onBlur={field.onBlur}
               name={field.name}
               ref={field.ref}
+              error={error?.message}
             />
           )}
         />

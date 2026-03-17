@@ -18,11 +18,11 @@ export const skillPlanSchema = z.object({
 export const trackingConfigSchema = z
   .object({
     wantPlan: z.boolean(),
-    barrier: z.string(),
+    barrier: z.string().trim(),
     availableMinutes: z.number().int().min(5).max(120),
     level: z.enum(["beginner", "intermediate", "advanced"]),
   })
-  .refine((data) => !data.wantPlan || data.barrier.length > 0, {
+  .refine((data) => !data.wantPlan || data.barrier.trim().length > 0, {
     path: ["barrier"],
     message: "required",
   });

@@ -6,6 +6,7 @@ export const s = {
     border: "3px solid black",
     boxShadow: "brutal",
     w: "100%",
+    maxH: "90vh",
     p: 6,
   },
 
