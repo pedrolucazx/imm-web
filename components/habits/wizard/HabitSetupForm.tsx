@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Grid, Input, Text, VStack } from "@chakra-ui/react";
@@ -17,18 +18,34 @@ import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
 interface HabitSetupFormProps {
   defaultValues?: Partial<HabitSetupData>;
   onNext: (_data: HabitSetupData) => void;
+  onValidityChange?: (_valid: boolean) => void;
 }
 
-export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
+export function HabitSetupForm({ defaultValues, onNext, onValidityChange }: HabitSetupFormProps) {
   const t = useTranslations("habitWizard.step1");
 
-  const { control, handleSubmit, watch } = useForm<HabitSetupData>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors, isValid },
+  } = useForm<HabitSetupData>({
     resolver: zodResolver(habitSetupSchema),
+    mode: "onChange",
     defaultValues: { name: "", targetSkill: "", ...defaultValues },
   });
 
   const targetSkill = watch("targetSkill") as TargetSkill | "";
   const mode = targetSkill ? deriveHabitMode(targetSkill as TargetSkill) : null;
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
+
+  useEffect(() => {
+    onValidityChange?.(isValid);
+  }, [isValid, onValidityChange]);
 
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
@@ -49,6 +66,11 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
               />
             )}
           />
+          {errors.name && (
+            <Text fontSize="xs" color="red.500" mt={1}>
+              {t("errors.nameRequired")}
+            </Text>
+          )}
         </Box>
 
         <Box>
@@ -96,6 +118,11 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
               </VStack>
             )}
           />
+          {errors.targetSkill && (
+            <Text fontSize="xs" color="red.500" mt={1}>
+              {t("errors.skillRequired")}
+            </Text>
+          )}
         </Box>
 
         {targetSkill && mode && (

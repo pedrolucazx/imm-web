@@ -370,7 +370,11 @@
       "behaviorHint": "Track consistency with an optional plan. AI monitors patterns and offers weekly tips.",
       "modeHintSkill": "📝 You'll receive a complete 66-day plan with structured daily tasks. AI will analyze your writing and provide linguistic feedback.",
       "modeHintTracking": "🎯 The AI will track your mood, energy, and behavioral patterns.",
-      "next": "Next →"
+      "next": "Next →",
+      "errors": {
+        "nameRequired": "Habit name is required",
+        "skillRequired": "Select a skill to continue"
+      }
     },
     "step2Skill": {
       "planNote": "📝 AI will generate a full 66-day plan (Mandatory)",
@@ -384,7 +388,10 @@
         "advanced": "Advanced"
       },
       "back": "← Back",
-      "generate": "Generate My 66-Day Plan →"
+      "generate": "Generate My 66-Day Plan →",
+      "errors": {
+        "strugglesRequired": "Describe your struggles to continue"
+      }
     },
     "step2Tracking": {
       "optionalNote": "🎯 AI plan is optional for behavioral habits.",
@@ -403,7 +410,10 @@
       "manualNote": "Got it! You'll track this habit manually.",
       "back": "← Back",
       "nextWithPlan": "Generate Strategy →",
-      "next": "Next →"
+      "next": "Next →",
+      "errors": {
+        "barrierRequired": "Describe your biggest barrier to continue"
+      }
     },
     "step3": {
       "loadingTitle": "Generating your plan...",

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Input, Text, Textarea } from "@chakra-ui/react";
@@ -12,13 +13,25 @@ import { trackingConfigSchema, type TrackingConfigData, LEVELS, WIZARD_FORM_ID }
 interface TrackingOptionsFormProps {
   defaultValues?: Partial<TrackingConfigData>;
   onNext: (_data: TrackingConfigData) => void;
+  onValidityChange?: (_valid: boolean) => void;
 }
 
-export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFormProps) {
+export function TrackingOptionsForm({
+  defaultValues,
+  onNext,
+  onValidityChange,
+}: TrackingOptionsFormProps) {
   const t = useTranslations("habitWizard.step2Tracking");
 
-  const { control, handleSubmit, watch } = useForm<TrackingConfigData>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors, isValid },
+  } = useForm<TrackingConfigData>({
     resolver: zodResolver(trackingConfigSchema),
+    mode: "onChange",
     defaultValues: {
       wantPlan: false,
       barrier: "",
@@ -29,6 +42,14 @@ export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFo
   });
 
   const wantPlan = watch("wantPlan");
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
+
+  useEffect(() => {
+    onValidityChange?.(isValid);
+  }, [isValid, onValidityChange]);
 
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
@@ -61,6 +82,11 @@ export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFo
                   <Textarea {...field} rows={3} placeholder={t("barrierPh")} {...s.textarea} />
                 )}
               />
+              {errors.barrier && (
+                <Text fontSize="xs" color="red.500" mt={1}>
+                  {t("errors.barrierRequired")}
+                </Text>
+              )}
             </Box>
 
             <Box>

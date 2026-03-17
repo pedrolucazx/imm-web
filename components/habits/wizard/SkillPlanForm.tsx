@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Input, Text, Textarea } from "@chakra-ui/react";
@@ -11,15 +12,30 @@ import { skillPlanSchema, type SkillPlanData, LEVELS, WIZARD_FORM_ID } from "./t
 interface SkillPlanFormProps {
   defaultValues?: Partial<SkillPlanData>;
   onNext: (_data: SkillPlanData) => void;
+  onValidityChange?: (_valid: boolean) => void;
 }
 
-export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
+export function SkillPlanForm({ defaultValues, onNext, onValidityChange }: SkillPlanFormProps) {
   const t = useTranslations("habitWizard.step2Skill");
 
-  const { control, handleSubmit } = useForm<SkillPlanData>({
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { errors, isValid },
+  } = useForm<SkillPlanData>({
     resolver: zodResolver(skillPlanSchema),
+    mode: "onChange",
     defaultValues: { struggles: "", availableMinutes: 30, level: "beginner", ...defaultValues },
   });
+
+  useEffect(() => {
+    trigger();
+  }, [trigger]);
+
+  useEffect(() => {
+    onValidityChange?.(isValid);
+  }, [isValid, onValidityChange]);
 
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
@@ -39,6 +55,11 @@ export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
               <Textarea {...field} rows={4} placeholder={t("strugglesPh")} {...s.textarea} />
             )}
           />
+          {errors.struggles && (
+            <Text fontSize="xs" color="red.500" mt={1}>
+              {t("errors.strugglesRequired")}
+            </Text>
+          )}
         </Box>
 
         <Box>
