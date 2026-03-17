@@ -1,4 +1,5 @@
 import * as React from "react";
+import { chakra } from "@chakra-ui/react";
 import {
   DialogRoot,
   DialogContent,
@@ -6,13 +7,13 @@ import {
   DialogTitle,
   DialogBody,
   DialogFooter,
-  DialogCloseTrigger,
 } from "./dialog";
+import { s } from "./modal.styles";
 
 export interface ModalProps {
   open: boolean;
   onClose: () => void;
-  title: string;
+  title: React.ReactNode;
   footer?: React.ReactNode;
   maxW?: string;
   children: React.ReactNode;
@@ -21,20 +22,12 @@ export interface ModalProps {
 export function Modal({ open, onClose, title, footer, maxW = "520px", children }: ModalProps) {
   return (
     <DialogRoot open={open} onOpenChange={(e) => !e.open && onClose()}>
-      <DialogContent
-        bg="card"
-        border="3px solid black"
-        boxShadow="brutal"
-        maxW={maxW}
-        w="100%"
-        maxH="90vh"
-        overflowY="auto"
-        p={6}
-      >
-        <DialogHeader p={0} mb={6}>
-          <DialogTitle fontSize="2xl" fontWeight="800" textTransform="uppercase">
-            {title}
-          </DialogTitle>
+      <DialogContent {...s.content} maxW={maxW}>
+        <DialogHeader {...s.header}>
+          <DialogTitle {...s.title}>{title}</DialogTitle>
+          <chakra.button type="button" onClick={onClose} aria-label="Close" {...s.closeBtn}>
+            ✕
+          </chakra.button>
         </DialogHeader>
         <DialogBody p={0}>{children}</DialogBody>
         {footer && (
@@ -42,7 +35,6 @@ export function Modal({ open, onClose, title, footer, maxW = "520px", children }
             {footer}
           </DialogFooter>
         )}
-        <DialogCloseTrigger position="absolute" top={4} right={4} />
       </DialogContent>
     </DialogRoot>
   );
