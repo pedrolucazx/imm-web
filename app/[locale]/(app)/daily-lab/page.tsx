@@ -52,7 +52,7 @@ export default function DailyLabPage() {
         <HabitChecklist
           habits={activeHabits}
           journalEntries={journalEntries}
-          selectedHabitId={resolvedHabitId}
+          selectedHabitId={selectedHabitId}
           onSelect={setSelectedHabitId}
         />
 
