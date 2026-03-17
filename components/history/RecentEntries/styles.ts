@@ -75,7 +75,6 @@ export const s = {
     fontWeight: "500",
     color: "mutedFg",
     mb: 2,
-    lineClamp: 2,
     overflow: "hidden",
   },
 

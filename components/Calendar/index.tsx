@@ -4,12 +4,10 @@ import { useMemo } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
 import type { JournalEntry } from "@/types/journal";
-import type { Habit } from "@/types/habits";
 import { s } from "./styles";
 
 interface CalendarProps {
   entries: JournalEntry[];
-  habits: Habit[];
   currentMonth: Date;
   onMonthChange: (_date: Date) => void;
   onDayClick: (_date: string, _entries: JournalEntry[]) => void;
