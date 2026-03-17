@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Grid, Input, Text, VStack } from "@chakra-ui/react";
+import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import {
   type TargetSkill,
@@ -11,6 +10,8 @@ import {
   BEHAVIORAL_SKILLS,
   deriveHabitMode,
 } from "@/types/habits";
+import { Input } from "@/components/ui/input";
+import { Field } from "@/components/ui/field";
 import { SkillCard } from "./SkillCard";
 import { s } from "../styles";
 import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
@@ -18,62 +19,42 @@ import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
 interface HabitSetupFormProps {
   defaultValues?: Partial<HabitSetupData>;
   onNext: (_data: HabitSetupData) => void;
-  onValidityChange?: (_valid: boolean) => void;
 }
 
-export function HabitSetupForm({ defaultValues, onNext, onValidityChange }: HabitSetupFormProps) {
+export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
   const t = useTranslations("habitWizard.step1");
 
   const {
     control,
     handleSubmit,
     watch,
-    trigger,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<HabitSetupData>({
     resolver: zodResolver(habitSetupSchema),
-    mode: "onChange",
     defaultValues: { name: "", targetSkill: "", ...defaultValues },
   });
 
   const targetSkill = watch("targetSkill") as TargetSkill | "";
   const mode = targetSkill ? deriveHabitMode(targetSkill as TargetSkill) : null;
 
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
-
-  useEffect(() => {
-    onValidityChange?.(isValid);
-  }, [isValid, onValidityChange]);
-
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
       <Box {...s.formStack}>
-        <Box>
-          <Text as="label" {...s.label}>
-            {t("habitNameLabel")}
-          </Text>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                placeholder={t("habitNamePlaceholder")}
-                maxLength={80}
-                {...s.input}
-              />
-            )}
-          />
-          {errors.name && (
-            <Text fontSize="xs" color="red.500" mt={1}>
-              {t("errors.nameRequired")}
-            </Text>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              label={t("habitNameLabel")}
+              placeholder={t("habitNamePlaceholder")}
+              maxLength={80}
+              error={errors.name ? t("errors.nameRequired") : undefined}
+            />
           )}
-        </Box>
+        />
 
-        <Box>
+        <Field.Root invalid={!!errors.targetSkill}>
           <Text as="label" {...s.label}>
             {t("targetSkillLabel")}
           </Text>
@@ -118,12 +99,8 @@ export function HabitSetupForm({ defaultValues, onNext, onValidityChange }: Habi
               </VStack>
             )}
           />
-          {errors.targetSkill && (
-            <Text fontSize="xs" color="red.500" mt={1}>
-              {t("errors.skillRequired")}
-            </Text>
-          )}
-        </Box>
+          <Field.ErrorText>{t("errors.skillRequired")}</Field.ErrorText>
+        </Field.Root>
 
         {targetSkill && mode && (
           <Box {...(mode === "skill-building" ? s.modeHintSkill : s.modeHintTracking)}>

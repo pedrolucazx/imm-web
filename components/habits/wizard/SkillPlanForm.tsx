@@ -1,41 +1,31 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { s } from "../styles";
 import { skillPlanSchema, type SkillPlanData, LEVELS, WIZARD_FORM_ID } from "./types";
 
 interface SkillPlanFormProps {
   defaultValues?: Partial<SkillPlanData>;
   onNext: (_data: SkillPlanData) => void;
-  onValidityChange?: (_valid: boolean) => void;
 }
 
-export function SkillPlanForm({ defaultValues, onNext, onValidityChange }: SkillPlanFormProps) {
+export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
   const t = useTranslations("habitWizard.step2Skill");
 
   const {
     control,
     handleSubmit,
-    trigger,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<SkillPlanData>({
     resolver: zodResolver(skillPlanSchema),
-    mode: "onChange",
     defaultValues: { struggles: "", availableMinutes: 30, level: "beginner", ...defaultValues },
   });
-
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
-
-  useEffect(() => {
-    onValidityChange?.(isValid);
-  }, [isValid, onValidityChange]);
 
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
@@ -44,47 +34,37 @@ export function SkillPlanForm({ defaultValues, onNext, onValidityChange }: Skill
           <Text {...s.planNoteText}>{t("planNote")}</Text>
         </Box>
 
-        <Box>
-          <Text as="label" {...s.label}>
-            {t("strugglesLabel")}
-          </Text>
-          <Controller
-            name="struggles"
-            control={control}
-            render={({ field }) => (
-              <Textarea {...field} rows={4} placeholder={t("strugglesPh")} {...s.textarea} />
-            )}
-          />
-          {errors.struggles && (
-            <Text fontSize="xs" color="red.500" mt={1}>
-              {t("errors.strugglesRequired")}
-            </Text>
+        <Controller
+          name="struggles"
+          control={control}
+          render={({ field }) => (
+            <Textarea
+              {...field}
+              label={t("strugglesLabel")}
+              placeholder={t("strugglesPh")}
+              rows={4}
+              error={errors.struggles ? t("errors.strugglesRequired") : undefined}
+            />
           )}
-        </Box>
+        />
 
-        <Box>
-          <Text as="label" {...s.label}>
-            {t("timeLabel")}
-          </Text>
-          <Controller
-            name="availableMinutes"
-            control={control}
-            render={({ field }) => (
-              <Input
-                type="number"
-                min={5}
-                max={120}
-                fontWeight="bold"
-                value={field.value}
-                onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
-                onBlur={field.onBlur}
-                name={field.name}
-                ref={field.ref}
-                {...s.input}
-              />
-            )}
-          />
-        </Box>
+        <Controller
+          name="availableMinutes"
+          control={control}
+          render={({ field }) => (
+            <Input
+              type="number"
+              min={5}
+              max={120}
+              label={t("timeLabel")}
+              value={field.value}
+              onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+              onBlur={field.onBlur}
+              name={field.name}
+              ref={field.ref}
+            />
+          )}
+        />
 
         <Box>
           <Text as="label" {...s.label}>

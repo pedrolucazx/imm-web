@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { s } from "../styles";
 import { trackingConfigSchema, type TrackingConfigData, LEVELS, WIZARD_FORM_ID } from "./types";
@@ -13,25 +14,18 @@ import { trackingConfigSchema, type TrackingConfigData, LEVELS, WIZARD_FORM_ID }
 interface TrackingOptionsFormProps {
   defaultValues?: Partial<TrackingConfigData>;
   onNext: (_data: TrackingConfigData) => void;
-  onValidityChange?: (_valid: boolean) => void;
 }
 
-export function TrackingOptionsForm({
-  defaultValues,
-  onNext,
-  onValidityChange,
-}: TrackingOptionsFormProps) {
+export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFormProps) {
   const t = useTranslations("habitWizard.step2Tracking");
 
   const {
     control,
     handleSubmit,
     watch,
-    trigger,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<TrackingConfigData>({
     resolver: zodResolver(trackingConfigSchema),
-    mode: "onChange",
     defaultValues: {
       wantPlan: false,
       barrier: "",
@@ -42,14 +36,6 @@ export function TrackingOptionsForm({
   });
 
   const wantPlan = watch("wantPlan");
-
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
-
-  useEffect(() => {
-    onValidityChange?.(isValid);
-  }, [isValid, onValidityChange]);
 
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
@@ -71,47 +57,37 @@ export function TrackingOptionsForm({
 
         {wantPlan && (
           <>
-            <Box>
-              <Text as="label" {...s.label}>
-                {t("barrierLabel")}
-              </Text>
-              <Controller
-                name="barrier"
-                control={control}
-                render={({ field }) => (
-                  <Textarea {...field} rows={3} placeholder={t("barrierPh")} {...s.textarea} />
-                )}
-              />
-              {errors.barrier && (
-                <Text fontSize="xs" color="red.500" mt={1}>
-                  {t("errors.barrierRequired")}
-                </Text>
+            <Controller
+              name="barrier"
+              control={control}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  label={t("barrierLabel")}
+                  placeholder={t("barrierPh")}
+                  rows={3}
+                  error={errors.barrier ? t("errors.barrierRequired") : undefined}
+                />
               )}
-            </Box>
+            />
 
-            <Box>
-              <Text as="label" {...s.label}>
-                {t("timeLabel")}
-              </Text>
-              <Controller
-                name="availableMinutes"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    type="number"
-                    min={5}
-                    max={120}
-                    fontWeight="bold"
-                    value={field.value}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
-                    onBlur={field.onBlur}
-                    name={field.name}
-                    ref={field.ref}
-                    {...s.input}
-                  />
-                )}
-              />
-            </Box>
+            <Controller
+              name="availableMinutes"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  type="number"
+                  min={5}
+                  max={120}
+                  label={t("timeLabel")}
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                />
+              )}
+            />
 
             <Box>
               <Text as="label" {...s.label}>

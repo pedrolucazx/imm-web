@@ -46,7 +46,6 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const [previewedPlan, setPreviewedPlan] = useState<HabitPlan | null>(null);
   const [stepError, setStepError] = useState<"generic" | "rate-limit" | null>(null);
   const [regenerateFeedback, setRegenerateFeedback] = useState("");
-  const [isStepValid, setIsStepValid] = useState(false);
 
   const previewMutation = usePreviewHabitPlan();
   const createMutation = useCreateHabit();
@@ -145,7 +144,6 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const goBack = () => {
     setStepError(null);
     setPreviewedPlan(null);
-    setIsStepValid(false);
     previewMutation.reset();
     setStep((s) => s - 1);
   };
@@ -157,13 +155,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const footer = (() => {
     if (step === 1) {
       return (
-        <Button
-          type="submit"
-          form={WIZARD_FORM_ID}
-          variant="primary"
-          w="100%"
-          disabled={!isStepValid}
-        >
+        <Button type="submit" form={WIZARD_FORM_ID} variant="primary" w="100%">
           {tStep1("next")}
         </Button>
       );
@@ -184,7 +176,6 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
             variant="primary"
             w="100%"
             loading={isPreviewLoading}
-            disabled={!isStepValid}
           >
             {label}
           </Button>
@@ -275,18 +266,13 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       </HStack>
 
       {step === 1 && (
-        <HabitSetupForm
-          defaultValues={habitSetup ?? undefined}
-          onNext={handleStep1Next}
-          onValidityChange={setIsStepValid}
-        />
+        <HabitSetupForm defaultValues={habitSetup ?? undefined} onNext={handleStep1Next} />
       )}
 
       {step === 2 && mode === "skill-building" && (
         <SkillPlanForm
           defaultValues={planConfig ? (planConfig as SkillPlanData) : undefined}
           onNext={handleStep2Next}
-          onValidityChange={setIsStepValid}
         />
       )}
 
@@ -294,7 +280,6 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
         <TrackingOptionsForm
           defaultValues={planConfig ? (planConfig as TrackingConfigData) : undefined}
           onNext={handleStep2Next}
-          onValidityChange={setIsStepValid}
         />
       )}
 
