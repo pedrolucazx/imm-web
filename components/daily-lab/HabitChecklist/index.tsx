@@ -71,7 +71,7 @@ export function HabitChecklist({
                     <Text {...s.habitName}>{habit.name}</Text>
                     <Text {...s.statusText}>
                       {completed
-                        ? `✓ ${t("checklist.doneToday")}`
+                        ? t("checklist.doneToday")
                         : selected
                           ? t("checklist.inFocus")
                           : t("checklist.notYet")}
