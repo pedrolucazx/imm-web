@@ -197,7 +197,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
 
     if (step === 3) {
       return (
-        <Box display="flex" flexDirection="column" gap={2} w="100%">
+        <VStack gap={2} align="stretch" w="100%">
           {needsPlan && previewedPlan && (
             <VStack gap={1} align="stretch">
               <Text fontSize="sm" fontWeight="600">
@@ -215,7 +215,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
               />
             </VStack>
           )}
-          <Box display="flex" flexDirection={{ base: "column", sm: "row" }} gap={2}>
+          <HStack flexWrap={{ base: "wrap", sm: "nowrap" }} gap={2}>
             <Button type="button" variant="muted" flex={1} onClick={goBack} disabled={isDisabled}>
               {tStep3("back")}
             </Button>
@@ -231,7 +231,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
                 {tStep3("regenerate")}
               </Button>
             )}
-          </Box>
+          </HStack>
           <Button
             type="button"
             variant="primary"
@@ -242,7 +242,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
           >
             {tStep3("create")}
           </Button>
-        </Box>
+        </VStack>
       );
     }
 
