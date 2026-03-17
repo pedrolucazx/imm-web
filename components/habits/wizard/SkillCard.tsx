@@ -37,6 +37,7 @@ export function SkillCard({ skill, isSelected, onClick }: SkillCardProps) {
   return (
     <Box
       as="button"
+      type="button"
       w="full"
       h="auto"
       p={3}
