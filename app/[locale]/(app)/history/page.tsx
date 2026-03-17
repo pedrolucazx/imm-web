@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Text, Separator } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
 import { PageWrapper } from "@/components/PageWrapper";
@@ -23,7 +23,7 @@ export default function HistoryPage() {
 
   const { data: entries = [], isLoading: isLoadingEntries } = useJournalHistory();
   const { data: habits = [], isLoading: isLoadingHabits } = useHabits();
-  const activeHabits = (habits as Habit[]).filter((h) => h.is_active);
+  const allHabits = habits as Habit[];
 
   const [currentMonth, setCurrentMonth] = useState(() => {
     const now = new Date();
@@ -32,10 +32,22 @@ export default function HistoryPage() {
 
   const [selectedEntries, setSelectedEntries] = useState<JournalEntry[]>([]);
 
-  const habitMap = Object.fromEntries((habits as Habit[]).map((h) => [h.id, h]));
+  const monthPrefix = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, "0")}`;
+
+  const monthEntries = useMemo(
+    () => entries.filter((e) => e.entryDate.startsWith(monthPrefix)),
+    [entries, monthPrefix]
+  );
+
+  const habitMap = Object.fromEntries(allHabits.map((h) => [h.id, h]));
 
   const handleEntrySelect = (_date: string, dayEntries: JournalEntry[]) => {
     setSelectedEntries(dayEntries);
+  };
+
+  const handleMonthChange = (date: Date) => {
+    setCurrentMonth(date);
+    setSelectedEntries([]);
   };
 
   const modalDate = selectedEntries[0]?.entryDate;
@@ -54,13 +66,13 @@ export default function HistoryPage() {
     <PageWrapper title={t("pageTitle")} loading={isLoadingEntries || isLoadingHabits}>
       <Box {...s.pageContainer}>
         <Calendar
-          entries={entries}
+          entries={monthEntries}
           currentMonth={currentMonth}
-          onMonthChange={setCurrentMonth}
+          onMonthChange={handleMonthChange}
           onDayClick={handleEntrySelect}
         />
 
-        <RecentEntries entries={entries} habits={activeHabits} onEntryClick={handleEntrySelect} />
+        <RecentEntries entries={monthEntries} habits={allHabits} onEntryClick={handleEntrySelect} />
       </Box>
 
       <Modal

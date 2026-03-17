@@ -35,6 +35,7 @@ export const s = {
     transition: "transform 0.1s ease, box-shadow 0.1s ease",
     _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
     _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    _focusVisible: { outline: "3px solid", outlineColor: "ring", outlineOffset: "2px" },
   },
 
   weekdayGrid: {
@@ -91,6 +92,7 @@ export const s = {
     transition: "transform 0.1s ease, box-shadow 0.1s ease",
     _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal-sm" },
     _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    _focusVisible: { outline: "3px solid", outlineColor: "ring", outlineOffset: "2px" },
   },
 
   dayNumber: {
