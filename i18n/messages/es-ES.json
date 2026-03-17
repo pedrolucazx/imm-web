@@ -244,7 +244,6 @@
     "analytics": "Análisis",
     "settings": "Configuración",
     "progressLabel": "Progreso",
-    "progressDays": "Día {day} de {total}",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
     "logout": "Cerrar sesión"
