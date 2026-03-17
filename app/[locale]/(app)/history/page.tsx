@@ -53,31 +53,6 @@ export default function HistoryPage() {
       })()
     : null;
 
-  const modalTitle = formattedDate ? (
-    <Box>
-      <Text fontSize="2xl" fontWeight="800" mb={2} textTransform="none">
-        {formattedDate}
-      </Text>
-      <Box display="flex" gap={2} flexWrap="wrap">
-        {selectedEntries.map((entry) =>
-          entry.aiFeedback?.agentType ? (
-            <Box
-              key={entry.id}
-              px={2}
-              py="2px"
-              border="2px solid black"
-              bg="surface.sky"
-              fontSize="xs"
-              fontWeight="800"
-            >
-              {t(`agentTypes.${entry.aiFeedback.agentType}`)}
-            </Box>
-          ) : null
-        )}
-      </Box>
-    </Box>
-  ) : null;
-
   return (
     <PageWrapper title={t("pageTitle")} loading={isLoadingEntries || isLoadingHabits}>
       <Box maxW="4xl">
@@ -95,9 +70,26 @@ export default function HistoryPage() {
       <Modal
         open={selectedEntries.length > 0}
         onClose={() => setSelectedEntries([])}
-        title={modalTitle ?? ""}
+        title={formattedDate ?? ""}
         maxW="680px"
       >
+        <Box display="flex" gap={2} flexWrap="wrap" mb={4}>
+          {selectedEntries.map((entry) =>
+            entry.aiFeedback?.agentType ? (
+              <Box
+                key={entry.id}
+                px={2}
+                py="2px"
+                border="2px solid black"
+                bg="surface.sky"
+                fontSize="xs"
+                fontWeight="800"
+              >
+                {t(`agentTypes.${entry.aiFeedback.agentType}`)}
+              </Box>
+            ) : null
+          )}
+        </Box>
         {selectedEntries.map((entry, index) => {
           const habit = habitMap[entry.habitId];
           return (
