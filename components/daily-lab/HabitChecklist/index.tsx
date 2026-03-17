@@ -14,6 +14,7 @@ interface HabitChecklistProps {
   onSelect: (_id: string) => void;
 }
 
+/** Returns the active plan phase for the given habit based on its current day, or null if no plan is ready. */
 function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhase | null {
   if (!habit.habit_plan || habit.plan_status !== "ready") return null;
   return (
@@ -32,24 +33,22 @@ export function HabitChecklist({
 }: HabitChecklistProps) {
   const t = useTranslations("dailyLab");
   const tHabits = useTranslations("habits");
+  const habitsWithFeedback = new Set(
+    journalEntries.filter((e) => e.aiFeedback != null).map((e) => e.habitId)
+  );
 
   return (
     <Box {...s.section}>
       <Text {...s.sectionTitle}>
         {t("checklist.sectionTitle", {
-          completed: habits.filter(
-            (h) =>
-              h.completed_today ||
-              journalEntries.find((e) => e.habitId === h.id)?.aiFeedback != null
-          ).length,
+          completed: habits.filter((h) => h.completed_today || habitsWithFeedback.has(h.id)).length,
           total: habits.length,
         })}
       </Text>
 
       <Box {...s.habitList}>
         {habits.map((habit) => {
-          const entry = journalEntries.find((e) => e.habitId === habit.id);
-          const completed = habit.completed_today || entry?.aiFeedback != null;
+          const completed = habit.completed_today || habitsWithFeedback.has(habit.id);
           const selected = habit.id === selectedHabitId;
           const isActive = completed || selected;
           const phase = getCurrentPhase(habit);
