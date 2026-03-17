@@ -169,6 +169,7 @@
       "day": "Día {current}/66",
       "doneToday": "Hecho hoy",
       "notYet": "Aún no",
+      "inFocus": "En foco",
       "todaysFocus": "Foco de Hoy · Fase {phase} — {theme}"
     },
     "journal": {

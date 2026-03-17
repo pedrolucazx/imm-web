@@ -51,27 +51,30 @@ export function HabitChecklist({
           const entry = journalEntries.find((e) => e.habitId === habit.id);
           const completed = habit.completed_today || entry?.aiFeedback != null;
           const selected = habit.id === selectedHabitId;
+          const isActive = completed || selected;
           const phase = getCurrentPhase(habit);
 
           return (
             <Box key={habit.id}>
               <chakra.button
                 type="button"
-                aria-pressed={selected}
+                aria-pressed={isActive}
                 onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
-                bg={completed ? habit.color : "card"}
-                boxShadow={completed ? "none" : selected ? "brutal" : "brutal"}
-                transform={completed ? "translate(4px, 4px)" : undefined}
-                outline={selected && !completed ? "3px solid black" : undefined}
-                outlineOffset={selected && !completed ? "-3px" : undefined}
+                bg={isActive ? habit.color : "card"}
+                boxShadow={isActive ? "none" : "brutal"}
+                transform={isActive ? "translate(4px, 4px)" : undefined}
               >
                 <Box {...s.habitRow}>
                   <Text {...s.habitIcon}>{habit.icon}</Text>
                   <Box {...s.habitInfo}>
                     <Text {...s.habitName}>{habit.name}</Text>
                     <Text {...s.statusText}>
-                      {completed ? `✓ ${t("checklist.doneToday")}` : t("checklist.notYet")}
+                      {completed
+                        ? `✓ ${t("checklist.doneToday")}`
+                        : selected
+                          ? t("checklist.inFocus")
+                          : t("checklist.notYet")}
                     </Text>
                     <Box {...s.habitMeta}>
                       <Box {...s.skillBadge}>
@@ -83,8 +86,8 @@ export function HabitChecklist({
                       </Text>
                     </Box>
                   </Box>
-                  <Box {...s.checkbox} bg={completed ? "black" : "card"}>
-                    {completed && <Text {...s.checkboxIcon}>✓</Text>}
+                  <Box {...s.checkbox} bg={isActive ? "black" : "card"}>
+                    {isActive && <Text {...s.checkboxIcon}>✓</Text>}
                   </Box>
                 </Box>
               </chakra.button>
