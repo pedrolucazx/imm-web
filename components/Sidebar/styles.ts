@@ -165,33 +165,4 @@ export const s = {
     _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
     _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
   },
-
-  footer: {
-    px: 5,
-    py: 5,
-    borderTop: "3px solid black",
-  },
-
-  progressLabel: {
-    fontSize: "sm",
-    fontWeight: "800",
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.08em",
-    color: "sidebar.fg",
-    mb: 2,
-  },
-
-  progressBar: {
-    h: "10px",
-    w: "100%",
-    bg: "card",
-    border: "3px solid black",
-    overflow: "hidden" as const,
-  },
-
-  progressFill: {
-    h: "100%",
-    bg: "sidebar.primary",
-    transition: "width 0.3s ease",
-  },
 } satisfies Record<string, SystemStyleObject>;

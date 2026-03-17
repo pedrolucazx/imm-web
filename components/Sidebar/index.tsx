@@ -7,12 +7,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Link, usePathname, useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { useAuthContext } from "@/lib/auth-context";
-import { useHabits } from "@/lib/hooks/useHabits";
 import { logger } from "@/lib/logger";
 import { s, SIDEBAR_WIDTH } from "./styles";
-import type { Habit } from "@/types/habits";
-
-const TOTAL_DAYS = 66;
 
 interface NavItem {
   icon: string;
@@ -44,12 +40,11 @@ const MOBILE_PANEL_ID = "sidebar-mobile-panel";
 interface SidebarContentProps {
   t: ReturnType<typeof useTranslations>;
   pathname: string;
-  currentDay: number | null;
   onNavClick?: () => void;
   onLogout: () => void;
 }
 
-function SidebarContent({ t, pathname, currentDay, onNavClick, onLogout }: SidebarContentProps) {
+function SidebarContent({ t, pathname, onNavClick, onLogout }: SidebarContentProps) {
   return (
     <>
       <Box {...s.logoSection}>
@@ -83,24 +78,6 @@ function SidebarContent({ t, pathname, currentDay, onNavClick, onLogout }: Sideb
         </Box>
         {t("logout")}
       </chakra.button>
-
-      {currentDay !== null && (
-        <Box {...s.footer}>
-          <Text {...s.progressLabel}>
-            {t("progressDays", { day: currentDay, total: TOTAL_DAYS })}
-          </Text>
-          <Box
-            {...s.progressBar}
-            role="progressbar"
-            aria-valuenow={currentDay}
-            aria-valuemin={0}
-            aria-valuemax={TOTAL_DAYS}
-            aria-label={t("progressDays", { day: currentDay, total: TOTAL_DAYS })}
-          >
-            <Box {...s.progressFill} style={{ width: `${(currentDay / TOTAL_DAYS) * 100}%` }} />
-          </Box>
-        </Box>
-      )}
     </>
   );
 }
@@ -112,11 +89,6 @@ export function Sidebar() {
   const queryClient = useQueryClient();
   const { logout } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
-
-  const { data: habits = [] } = useHabits();
-  const activeHabits = habits.filter((h: Habit) => h.is_active);
-  const currentDay =
-    activeHabits.length > 0 ? Math.max(...activeHabits.map((h: Habit) => h.current_day)) : null;
 
   const handleLogout = async () => {
     try {
@@ -132,7 +104,6 @@ export function Sidebar() {
   const contentProps: SidebarContentProps = {
     t,
     pathname,
-    currentDay,
     onLogout: handleLogout,
   };
 
