@@ -24,7 +24,6 @@ export const s = {
     border: "3px solid black",
     p: 5,
     textAlign: "left",
-    cursor: "pointer",
     transition: "transform 0.1s ease, box-shadow 0.1s ease",
   },
 
@@ -50,14 +49,6 @@ export const s = {
     fontWeight: "800",
   },
 
-  statusText: {
-    fontSize: "sm",
-    fontWeight: "500",
-    color: "mutedFg",
-    mt: "1px",
-    mb: 1,
-  },
-
   habitMeta: {
     display: "flex",
     alignItems: "center",
@@ -81,7 +72,7 @@ export const s = {
     color: "mutedFg",
   },
 
-  checkbox: {
+  checkboxIndicator: {
     w: 8,
     h: 8,
     border: "3px solid black",
@@ -89,6 +80,13 @@ export const s = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  checkboxIcon: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "sm",
+    lineHeight: 1,
   },
 
   planCard: {
@@ -124,11 +122,5 @@ export const s = {
     fontWeight: "bold",
     color: "mutedFg",
     mt: 1,
-  },
-
-  checkboxIcon: {
-    color: "card",
-    fontWeight: "bold",
-    fontSize: "sm",
   },
 } satisfies Record<string, SystemStyleObject>;

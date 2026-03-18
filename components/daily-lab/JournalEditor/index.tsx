@@ -5,11 +5,20 @@ import { Box, Text, chakra } from "@chakra-ui/react";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
-import type { Habit } from "@/types/habits";
+import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
 import { useSaveJournal } from "@/lib/hooks/useJournal";
 import { s } from "./styles";
 import { DEFAULT_MOOD_SCORE, DEFAULT_ENERGY_SCORE } from "@/lib/constants";
+
+function getJournalPrompt(habit: Habit): string | undefined {
+  if (!habit.habit_plan || habit.plan_status !== "ready") return undefined;
+  const phase = habit.habit_plan.phases.find((p) => {
+    const [start, end] = p.days.split("-").map(Number);
+    return habit.current_day >= start && habit.current_day <= end;
+  }) as SkillBuildingPhase | TrackingCoachedPhase | undefined;
+  return phase?.journal_prompt;
+}
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
 const ENERGY_EMOJIS = ["🐌", "🚶", "🏃", "💨", "🚀"] as const;
@@ -108,9 +117,10 @@ export function JournalEditor({
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={
-          habit.habit_mode === "skill-building"
+          getJournalPrompt(habit) ??
+          (habit.habit_mode === "skill-building"
             ? t("journal.placeholderSkill")
-            : t("journal.placeholderTracking")
+            : t("journal.placeholderTracking"))
         }
         disabled={isSaving}
         {...s.textarea}
