@@ -1,7 +1,6 @@
 "use client";
 
 export { useAvatarUpload } from "./useAvatarUpload";
-
 import { useId, useRef } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui";
@@ -64,12 +63,12 @@ export function AvatarUpload({
       >
         <Avatar src={previewUrl ?? currentUrl ?? undefined} name={name} size={size} />
       </chakra.button>
-      <input
+      <chakra.input
         id={inputId}
         ref={inputRef}
         type="file"
         accept={ACCEPTED}
-        style={{ display: "none" }}
+        display="none"
         onChange={handleFileChange}
       />
     </Box>
