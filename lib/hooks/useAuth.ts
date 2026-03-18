@@ -20,13 +20,13 @@ export function useRegister(
     mutationFn: (data: RegisterInput): Promise<AuthResponse> => register(data),
     onSuccess: (data: AuthResponse): void => {
       queryClient.setQueryData(["user"], data.user);
+      options?.onSuccess?.(data);
       toaster.create({
         title: t("toastSuccessTitle"),
         description: t("toastSuccessDesc"),
         type: "success",
         meta: { closable: true },
       });
-      options?.onSuccess?.(data);
     },
     onError: (error: Error): void => {
       toaster.create({
@@ -51,13 +51,13 @@ export function useLogin(
     mutationFn: (data: LoginInput): Promise<AuthResponse> => login(data),
     onSuccess: (data: AuthResponse): void => {
       queryClient.setQueryData(["user"], data.user);
+      options?.onSuccess?.(data);
       toaster.create({
         title: t("toastSuccessTitle"),
         description: t("toastSuccessDesc"),
         type: "success",
         meta: { closable: true },
       });
-      options?.onSuccess?.(data);
     },
     onError: (error: Error): void => {
       toaster.create({

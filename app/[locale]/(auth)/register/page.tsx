@@ -60,6 +60,7 @@ export default function RegisterPage(): React.JSX.Element {
       name: data.name,
       email: data.email,
       password: data.password,
+      ui_lang: data.uiLanguage,
     });
   };
 

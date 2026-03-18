@@ -33,6 +33,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isAuthRoute(pathname)) return;
+    if (accessToken) {
+      setIsLoading(false);
+      return;
+    }
 
     authService
       .refresh()
