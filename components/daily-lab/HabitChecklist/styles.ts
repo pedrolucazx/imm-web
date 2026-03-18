@@ -1,5 +1,11 @@
 import type { SystemStyleObject } from "@chakra-ui/react";
 
+const checkboxBaseIcon: SystemStyleObject = {
+  fontWeight: "bold",
+  fontSize: "sm",
+  lineHeight: 1,
+};
+
 export const s = {
   section: {
     mb: 8,
@@ -82,19 +88,9 @@ export const s = {
     justifyContent: "center",
   },
 
-  checkboxIcon: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: "sm",
-    lineHeight: 1,
-  },
+  checkboxIcon: { ...checkboxBaseIcon, color: "white" },
 
-  checkboxDashIcon: {
-    color: "black",
-    fontWeight: "bold",
-    fontSize: "sm",
-    lineHeight: 1,
-  },
+  checkboxDashIcon: { ...checkboxBaseIcon, color: "black" },
 
   planCard: {
     ml: 12,

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
 import { SKILL_ICONS } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
+import { getCurrentPhase } from "@/lib/habit-utils";
 import { s } from "./styles";
 
 interface HabitChecklistProps {
@@ -12,17 +13,6 @@ interface HabitChecklistProps {
   journalEntries: JournalEntry[];
   selectedHabitId: string | null;
   onSelect: (_id: string) => void;
-}
-
-/** Returns the active plan phase for the given habit based on its current day, or null if no plan is ready. */
-function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhase | null {
-  if (!habit.habit_plan || habit.plan_status !== "ready") return null;
-  return (
-    habit.habit_plan.phases.find((phase) => {
-      const [start, end] = phase.days.split("-").map(Number);
-      return habit.current_day >= start && habit.current_day <= end;
-    }) ?? null
-  );
 }
 
 export function HabitChecklist({
