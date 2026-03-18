@@ -1,4 +1,4 @@
-import type { UILanguage } from "@/components/LanguageSelector";
+import type { UILanguage } from "@/lib/constants";
 
 export interface UserProfileData {
   uiLanguage: UILanguage;

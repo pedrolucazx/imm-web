@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { Box, Text } from "@chakra-ui/react";
 import { useLocale, useTranslations } from "next-intl";
+import { getDateFnsLocale } from "@/lib/date-locale";
 import { PageWrapper } from "@/components/PageWrapper";
 import { HabitChecklist } from "@/components/daily-lab/HabitChecklist";
 import { JournalEditor } from "@/components/daily-lab/JournalEditor";
@@ -14,7 +16,7 @@ import type { Habit } from "@/types/habits";
 import { s } from "./styles";
 
 function getLocalDateString(): string {
-  return new Date().toLocaleDateString("sv-SE");
+  return format(new Date(), "yyyy-MM-dd");
 }
 
 export default function DailyLabPage() {
@@ -37,12 +39,7 @@ export default function DailyLabPage() {
 
   const selectedHabit = activeHabits.find((h) => h.id === resolvedHabitId);
 
-  const displayDate = new Date().toLocaleDateString(locale, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const displayDate = format(new Date(), "PPPP", { locale: getDateFnsLocale(locale) });
 
   return (
     <PageWrapper title={`⚡ ${t("pageTitle")}`} loading={isLoading}>

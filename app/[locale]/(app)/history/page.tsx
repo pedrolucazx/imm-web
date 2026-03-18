@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { format, parseISO, startOfMonth } from "date-fns";
 import { Box, Text, Separator } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
+import { getDateFnsLocale } from "@/lib/date-locale";
 import { PageWrapper } from "@/components/PageWrapper";
 import { Calendar } from "@/components/Calendar";
 import { RecentEntries } from "@/components/history/RecentEntries";
@@ -13,7 +15,7 @@ import { useJournalHistory } from "@/lib/hooks/useJournal";
 import { useHabits } from "@/lib/hooks/useHabits";
 import type { JournalEntry } from "@/types/journal";
 import type { Habit } from "@/types/habits";
-import { SKILL_ICONS } from "@/types/habits";
+import { SKILL_ICONS } from "@/lib/habit-utils";
 import { s } from "./styles";
 
 export default function HistoryPage() {
@@ -25,14 +27,11 @@ export default function HistoryPage() {
   const { data: habits = [], isLoading: isLoadingHabits } = useHabits();
   const allHabits = habits as Habit[];
 
-  const [currentMonth, setCurrentMonth] = useState(() => {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), 1);
-  });
+  const [currentMonth, setCurrentMonth] = useState(() => startOfMonth(new Date()));
 
   const [selectedEntries, setSelectedEntries] = useState<JournalEntry[]>([]);
 
-  const monthPrefix = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, "0")}`;
+  const monthPrefix = format(currentMonth, "yyyy-MM");
 
   const monthEntries = useMemo(
     () => entries.filter((e) => e.entryDate.startsWith(monthPrefix)),
@@ -52,14 +51,7 @@ export default function HistoryPage() {
 
   const modalDate = selectedEntries[0]?.entryDate;
   const formattedDate = modalDate
-    ? (() => {
-        const [y, m, d] = modalDate.split("-").map(Number);
-        return new Date(y, m - 1, d).toLocaleDateString(locale, {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
-      })()
+    ? format(parseISO(modalDate), "PPP", { locale: getDateFnsLocale(locale) })
     : null;
 
   return (

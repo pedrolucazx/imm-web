@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 import { routing } from "@/lib/navigation";
-import { ROUTES } from "@/lib/routes";
+import { resolveLocale, isProtectedRoute, isAuthRoute } from "./lib/routing-utils";
 
 const handleI18n = createMiddleware({
   locales: routing.locales,
@@ -10,41 +10,6 @@ const handleI18n = createMiddleware({
 });
 
 const REFRESH_TOKEN_COOKIE = "refreshToken";
-
-const PROTECTED_SEGMENTS = [
-  ROUTES.APP_DAILY_LAB.slice(1),
-  ROUTES.APP_HABITS.slice(1),
-  ROUTES.APP_HISTORY.slice(1),
-  ROUTES.APP_ANALYTICS.slice(1),
-  ROUTES.SETTINGS.slice(1),
-];
-
-function resolveLocale(pathname: string): (typeof routing.locales)[number] {
-  return (
-    routing.locales.find(
-      (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
-    ) ?? routing.defaultLocale
-  );
-}
-
-function isProtectedRoute(pathname: string): boolean {
-  return routing.locales.some((locale) =>
-    PROTECTED_SEGMENTS.some(
-      (segment) =>
-        pathname === `/${locale}/${segment}` || pathname.startsWith(`/${locale}/${segment}/`)
-    )
-  );
-}
-
-function isAuthRoute(pathname: string): boolean {
-  return routing.locales.some(
-    (locale) =>
-      pathname === `/${locale}/login` ||
-      pathname.startsWith(`/${locale}/login/`) ||
-      pathname === `/${locale}/register` ||
-      pathname.startsWith(`/${locale}/register/`)
-  );
-}
 
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

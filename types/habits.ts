@@ -44,18 +44,6 @@ export interface Habit {
   habit_plan: HabitPlan | null;
 }
 
-export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "pt-BR"];
-export const BEHAVIORAL_SKILLS: TargetSkill[] = ["general", "fitness", "mindfulness"];
-
-export const SKILL_ICONS: Record<TargetSkill, string> = {
-  "en-US": "🇺🇸",
-  "es-ES": "🇪🇸",
-  "pt-BR": "🇧🇷",
-  general: "🧠",
-  fitness: "💪",
-  mindfulness: "🧘",
-};
-
 export type SkillMetadata = {
   label: string;
   icon: string;
@@ -64,61 +52,3 @@ export type SkillMetadata = {
   category: "language" | "behavioral";
   hasDailyPlan: boolean;
 };
-
-export const SKILL_METADATA: Record<TargetSkill, SkillMetadata> = {
-  "en-US": {
-    label: "habits.skills.en-US.name",
-    icon: "🇺🇸",
-    shortDescription: "habits.skills.en-US.short",
-    longDescription: "habits.skills.en-US.long",
-    category: "language",
-    hasDailyPlan: true,
-  },
-  "es-ES": {
-    label: "habits.skills.es-ES.name",
-    icon: "🇪🇸",
-    shortDescription: "habits.skills.es-ES.short",
-    longDescription: "habits.skills.es-ES.long",
-    category: "language",
-    hasDailyPlan: true,
-  },
-  "pt-BR": {
-    label: "habits.skills.pt-BR.name",
-    icon: "🇧🇷",
-    shortDescription: "habits.skills.pt-BR.short",
-    longDescription: "habits.skills.pt-BR.long",
-    category: "language",
-    hasDailyPlan: true,
-  },
-  general: {
-    label: "habits.skills.general.name",
-    icon: "🧠",
-    shortDescription: "habits.skills.general.short",
-    longDescription: "habits.skills.general.long",
-    category: "behavioral",
-    hasDailyPlan: false,
-  },
-  fitness: {
-    label: "habits.skills.fitness.name",
-    icon: "💪",
-    shortDescription: "habits.skills.fitness.short",
-    longDescription: "habits.skills.fitness.long",
-    category: "behavioral",
-    hasDailyPlan: false,
-  },
-  mindfulness: {
-    label: "habits.skills.mindfulness.name",
-    icon: "🧘",
-    shortDescription: "habits.skills.mindfulness.short",
-    longDescription: "habits.skills.mindfulness.long",
-    category: "behavioral",
-    hasDailyPlan: false,
-  },
-};
-
-export function deriveHabitMode(skill: TargetSkill): HabitMode {
-  return LANGUAGE_SKILLS.includes(skill) ? "skill-building" : "tracking-coached";
-}
-
-export const MAX_ACTIVE_HABITS = 5;
-export const WARN_ACTIVE_HABITS = 3;

@@ -1,9 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
+import { format, getDaysInMonth, getDay, startOfMonth } from "date-fns";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
 import type { JournalEntry } from "@/types/journal";
+import { getDateFnsLocale, toDateString } from "@/lib/date-locale";
 import { s } from "./styles";
 
 interface CalendarProps {
@@ -13,19 +15,15 @@ interface CalendarProps {
   onDayClick: (_date: string, _entries: JournalEntry[]) => void;
 }
 
-function toDateString(year: number, month: number, day: number): string {
-  return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-}
-
 export function Calendar({ entries, currentMonth, onMonthChange, onDayClick }: CalendarProps) {
   const t = useTranslations("history");
   const locale = useLocale();
+  const dateFnsLocale = getDateFnsLocale(locale);
 
   const year = currentMonth.getFullYear();
   const month = currentMonth.getMonth();
 
-  const today = new Date();
-  const todayStr = toDateString(today.getFullYear(), today.getMonth(), today.getDate());
+  const todayStr = format(new Date(), "yyyy-MM-dd");
 
   const entriesByDate = useMemo(() => {
     const map: Record<string, JournalEntry[]> = {};
@@ -36,10 +34,10 @@ export function Calendar({ entries, currentMonth, onMonthChange, onDayClick }: C
     return map;
   }, [entries]);
 
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayOfWeek = new Date(year, month, 1).getDay();
+  const daysInMonth = getDaysInMonth(currentMonth);
+  const firstDayOfWeek = getDay(startOfMonth(currentMonth));
 
-  const monthLabel = currentMonth.toLocaleDateString(locale, { month: "long", year: "numeric" });
+  const monthLabel = format(currentMonth, "MMMM yyyy", { locale: dateFnsLocale });
   const weekdays = t.raw("weekdays") as string[];
 
   return (

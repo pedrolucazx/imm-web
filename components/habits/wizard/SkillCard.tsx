@@ -4,7 +4,7 @@ import { Box, HStack, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Tooltip } from "@/components/ui/tooltip";
 import type { TargetSkill } from "@/types/habits";
-import { SKILL_METADATA } from "@/types/habits";
+import { SKILL_METADATA } from "@/lib/habit-utils";
 
 interface SkillCardProps {
   skill: TargetSkill;

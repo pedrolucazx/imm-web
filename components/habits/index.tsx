@@ -5,7 +5,8 @@ import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { type TargetSkill, type HabitPlan, SKILL_ICONS, deriveHabitMode } from "@/types/habits";
+import type { TargetSkill, HabitPlan } from "@/types/habits";
+import { SKILL_ICONS, deriveHabitMode, buildPainPoints, randomColor } from "@/lib/habit-utils";
 import { usePreviewHabitPlan, useCreateHabit } from "@/lib/hooks/useHabits";
 import { type PreviewPlanInput } from "@/lib/habit.service";
 import { HabitSetupForm } from "./wizard/HabitSetupForm";
@@ -19,14 +20,6 @@ import {
   type SkillPlanData,
   type TrackingConfigData,
 } from "./wizard/types";
-
-const API_COLORS = [
-  "bg-surface-mint",
-  "bg-surface-sky",
-  "bg-surface-coral",
-  "bg-surface-lavender",
-  "bg-surface-yellow",
-];
 
 interface HabitCreationWizardProps {
   open: boolean;
@@ -54,16 +47,6 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const mode = habitSetup ? deriveHabitMode(habitSetup.targetSkill as TargetSkill) : null;
   const wantPlan = (planConfig as TrackingConfigData)?.wantPlan ?? false;
   const needsPlan = mode === "skill-building" || wantPlan;
-  const randomColor = () => API_COLORS[Math.floor(Math.random() * API_COLORS.length)];
-
-  const buildPainPoints = (data: SkillPlanData | TrackingConfigData): string[] => {
-    const raw = "barrier" in data ? data.barrier : data.struggles;
-    const parts = raw
-      .split(/[.,;]+/)
-      .map((s: string) => s.trim())
-      .filter(Boolean);
-    return parts.length > 0 ? parts : [raw];
-  };
 
   const handleStep1Next = (data: HabitSetupData) => {
     setHabitSetup(data);

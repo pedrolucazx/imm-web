@@ -3,7 +3,7 @@
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
-import { SKILL_ICONS } from "@/types/habits";
+import { SKILL_ICONS } from "@/lib/habit-utils";
 import type { JournalEntry } from "@/types/journal";
 import { getCurrentPhase } from "@/lib/habit-utils";
 import { s } from "./styles";

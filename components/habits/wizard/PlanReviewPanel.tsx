@@ -2,14 +2,13 @@
 
 import { Box, Heading, Spinner, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import {
-  type TargetSkill,
-  type HabitPlan,
-  type SkillBuildingPhase,
-  type TrackingCoachedPhase,
-  SKILL_ICONS,
-  deriveHabitMode,
+import type {
+  TargetSkill,
+  HabitPlan,
+  SkillBuildingPhase,
+  TrackingCoachedPhase,
 } from "@/types/habits";
+import { SKILL_ICONS, deriveHabitMode } from "@/lib/habit-utils";
 import { s } from "../styles";
 
 interface Step3ConfirmProps {

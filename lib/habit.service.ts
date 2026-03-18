@@ -1,28 +1,9 @@
 import { api } from "@/lib/api-client";
 import { ENDPOINTS } from "@/lib/endpoints";
-import type { Habit, HabitMode, HabitPlan, PlanStatus, TargetSkill } from "@/types/habits";
-import { LANGUAGE_SKILLS } from "@/types/habits";
+import type { Habit, HabitPlan } from "@/types/habits";
+import { type ApiHabit, mapApiHabitToHabit } from "@/lib/habit-utils";
 
-export interface ApiHabit {
-  id: string;
-  userId: string;
-  name: string;
-  targetSkill: string | null;
-  icon: string;
-  color: string;
-  frequency: string;
-  targetDays: number;
-  isActive: boolean;
-  sortOrder: number;
-  startDate: string | null;
-  habitPlan: Record<string, unknown>;
-  planStatus: string;
-  streak: number;
-  currentDay: number;
-  completedToday: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+export type { ApiHabit };
 
 export interface HabitLogInput {
   logDate: string;
@@ -35,72 +16,6 @@ export interface HabitLogResponse {
   logDate: string;
   completed: boolean;
   completedAt: string | null;
-}
-
-const VALID_SKILLS = new Set<TargetSkill>([
-  "en-US",
-  "es-ES",
-  "pt-BR",
-  "general",
-  "fitness",
-  "mindfulness",
-]);
-
-function toTargetSkill(apiSkill: string | null): TargetSkill {
-  if (apiSkill && VALID_SKILLS.has(apiSkill as TargetSkill)) {
-    return apiSkill as TargetSkill;
-  }
-  return "general";
-}
-
-function toHabitMode(targetSkill: TargetSkill): HabitMode {
-  return LANGUAGE_SKILLS.includes(targetSkill) ? "skill-building" : "tracking-coached";
-}
-
-function toPlanStatus(apiStatus: string, habitPlan: Record<string, unknown>): PlanStatus {
-  switch (apiStatus) {
-    case "generating":
-      return "generating";
-    case "failed":
-      return "failed";
-    case "pending":
-      return "pending";
-    case "ready":
-      return "ready";
-    case "active":
-      return Object.keys(habitPlan).length > 0 ? "ready" : "skipped";
-    default:
-      return "skipped";
-  }
-}
-
-function toChakraColor(apiColor: string): string {
-  return apiColor.replace(/^bg-/, "").replace(/-([^-]+)$/, ".$1");
-}
-
-function toHabitPlan(raw: Record<string, unknown>): HabitPlan | null {
-  if (!raw || !raw.strategy || !Array.isArray(raw.phases)) return null;
-  return raw as unknown as HabitPlan;
-}
-
-export function mapApiHabitToHabit(apiHabit: ApiHabit): Habit {
-  const targetSkill = toTargetSkill(apiHabit.targetSkill);
-  return {
-    id: apiHabit.id,
-    name: apiHabit.name,
-    target_skill: targetSkill,
-    habit_mode: toHabitMode(targetSkill),
-    icon: apiHabit.icon,
-    color: toChakraColor(apiHabit.color),
-    frequency: apiHabit.frequency,
-    is_active: apiHabit.isActive,
-    start_date: apiHabit.startDate ?? "",
-    current_day: apiHabit.currentDay ?? 1,
-    streak: apiHabit.streak ?? 0,
-    completed_today: apiHabit.completedToday ?? false,
-    plan_status: toPlanStatus(apiHabit.planStatus, apiHabit.habitPlan),
-    habit_plan: toHabitPlan(apiHabit.habitPlan),
-  };
 }
 
 export interface CreateHabitInput {

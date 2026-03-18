@@ -1,7 +1,8 @@
 "use client";
 
 import { AuthCard } from "@/components/AuthCard";
-import { LANGUAGES, LanguageSelector, type UILanguage } from "@/components/LanguageSelector";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { LANGUAGES, type UILanguage } from "@/lib/constants";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";

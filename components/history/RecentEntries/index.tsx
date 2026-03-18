@@ -4,22 +4,14 @@ import { Box, Text } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
 import type { JournalEntry } from "@/types/journal";
 import type { Habit } from "@/types/habits";
-import { SKILL_ICONS } from "@/types/habits";
+import { SKILL_ICONS } from "@/lib/habit-utils";
+import { formatEntryDate } from "@/lib/date-locale";
 import { s } from "./styles";
 
 interface RecentEntriesProps {
   entries: JournalEntry[];
   habits: Habit[];
   onEntryClick: (_date: string, _entries: JournalEntry[]) => void;
-}
-
-function formatEntryDate(dateStr: string, locale: string): string {
-  const [year, month, day] = dateStr.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString(locale, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
 }
 
 export function RecentEntries({ entries, habits, onEntryClick }: RecentEntriesProps) {
