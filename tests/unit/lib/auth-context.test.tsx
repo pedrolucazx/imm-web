@@ -20,6 +20,7 @@ jest.mock("@/lib/api-client", () => ({
     setToken: jest.fn(),
     removeToken: jest.fn(),
     setOnTokenRefreshed: jest.fn(),
+    getToken: jest.fn().mockReturnValue(null),
   },
 }));
 
@@ -73,6 +74,20 @@ describe("AuthProvider", () => {
       expect(result.current.user).toEqual(mockAuthResponse.user);
       expect(result.current.isAuthenticated).toBe(true);
       expect(mockApi.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
+    });
+
+    it("skips refresh and hydrates from api.getToken() when token already in memory", async () => {
+      mockApi.getToken.mockReturnValue("existing-token");
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper });
+
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+      expect(result.current.accessToken).toBe("existing-token");
+      expect(result.current.isAuthenticated).toBe(true);
+      expect(mockAuthService.refresh).not.toHaveBeenCalled();
+
+      mockApi.getToken.mockReturnValue(null);
     });
   });
 
