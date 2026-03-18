@@ -6,8 +6,7 @@ import type { JournalEntry } from "@/types/journal";
 import { LanguageTeacherPanel } from "./LanguageTeacherPanel";
 import { BehavioralCoachPanel } from "./BehavioralCoachPanel";
 import { s } from "./styles";
-
-const AI_DAILY_LIMIT = 10;
+import { AI_DAILY_LIMIT } from "@/lib/constants";
 
 interface AIFeedbackPanelProps {
   entry: JournalEntry | null;

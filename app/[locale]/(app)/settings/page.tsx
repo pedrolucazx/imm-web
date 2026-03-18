@@ -14,6 +14,7 @@ import { useRouter, usePathname } from "@/lib/navigation";
 import { toaster } from "@/components/ui/toaster";
 import { PageWrapper } from "@/components/PageWrapper";
 import { s } from "./settings.styles";
+import { AI_DAILY_LIMIT as AI_LIMIT, MIN_NAME_LENGTH } from "@/lib/constants";
 
 const TIMEZONES = [
   { value: "America/Sao_Paulo", labelKey: "timezone.america_sao_paulo" },
@@ -35,8 +36,6 @@ type ProfileForm = {
   ui_language: UILanguage;
 };
 
-const AI_LIMIT = 10;
-
 export default function SettingsPage(): React.JSX.Element {
   const t = useTranslations("settings");
   const router = useRouter();
@@ -53,7 +52,7 @@ export default function SettingsPage(): React.JSX.Element {
   const schema = useMemo(
     () =>
       z.object({
-        name: z.string().min(2, t("nameMinLength")),
+        name: z.string().min(MIN_NAME_LENGTH, t("nameMinLength")),
         bio: z.string(),
         timezone: z.string(),
         ui_language: z.enum(["pt-BR", "en-US", "es-ES"]),

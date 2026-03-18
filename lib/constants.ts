@@ -1,0 +1,19 @@
+// AI
+export const AI_DAILY_LIMIT = 15;
+
+// Auth / profile validation
+export const MIN_NAME_LENGTH = 2;
+export const MIN_PASSWORD_LENGTH = 6;
+
+// Habit wizard
+export const MAX_HABIT_NAME_LENGTH = 80;
+export const MIN_AVAILABLE_MINUTES = 5;
+export const MAX_AVAILABLE_MINUTES = 120;
+export const DEFAULT_AVAILABLE_MINUTES = 30;
+
+// Journal editor
+export const DEFAULT_MOOD_SCORE = 3;
+export const DEFAULT_ENERGY_SCORE = 3;
+
+// Pagination
+export const JOURNAL_HISTORY_LIMIT = 100;

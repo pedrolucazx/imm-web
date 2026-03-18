@@ -10,6 +10,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { s } from "../styles";
 import { trackingConfigSchema, type TrackingConfigData, LEVELS, WIZARD_FORM_ID } from "./types";
+import {
+  MIN_AVAILABLE_MINUTES,
+  MAX_AVAILABLE_MINUTES,
+  DEFAULT_AVAILABLE_MINUTES,
+} from "@/lib/constants";
 
 interface TrackingOptionsFormProps {
   defaultValues?: Partial<TrackingConfigData>;
@@ -29,7 +34,7 @@ export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFo
     defaultValues: {
       wantPlan: false,
       barrier: "",
-      availableMinutes: 30,
+      availableMinutes: DEFAULT_AVAILABLE_MINUTES,
       level: "beginner",
       ...defaultValues,
     },
@@ -77,8 +82,8 @@ export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFo
               render={({ field, fieldState: { error } }) => (
                 <Input
                   type="number"
-                  min={5}
-                  max={120}
+                  min={MIN_AVAILABLE_MINUTES}
+                  max={MAX_AVAILABLE_MINUTES}
                   label={t("timeLabel")}
                   value={field.value}
                   onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}

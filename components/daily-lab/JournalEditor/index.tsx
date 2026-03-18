@@ -9,6 +9,7 @@ import type { Habit } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
 import { useSaveJournal } from "@/lib/hooks/useJournal";
 import { s } from "./styles";
+import { DEFAULT_MOOD_SCORE, DEFAULT_ENERGY_SCORE } from "@/lib/constants";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
 const ENERGY_EMOJIS = ["🐌", "🚶", "🏃", "💨", "🚀"] as const;
@@ -38,13 +39,13 @@ export function JournalEditor({
   const { mutate: saveJournal, isPending: isSaving } = useSaveJournal();
 
   const [content, setContent] = useState("");
-  const [moodScore, setMoodScore] = useState<number>(3);
-  const [energyScore, setEnergyScore] = useState<number>(3);
+  const [moodScore, setMoodScore] = useState<number>(DEFAULT_MOOD_SCORE);
+  const [energyScore, setEnergyScore] = useState<number>(DEFAULT_ENERGY_SCORE);
 
   useEffect(() => {
     setContent("");
-    setMoodScore(3);
-    setEnergyScore(3);
+    setMoodScore(DEFAULT_MOOD_SCORE);
+    setEnergyScore(DEFAULT_ENERGY_SCORE);
   }, [habit.id]);
 
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
