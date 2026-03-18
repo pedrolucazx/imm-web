@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { s } from "./login.styles";
+import { MIN_PASSWORD_LENGTH } from "@/lib/constants";
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
@@ -24,7 +25,7 @@ export default function LoginPage() {
     () =>
       z.object({
         email: z.email(t("emailInvalid")),
-        password: z.string().min(6, t("passwordMinLength")),
+        password: z.string().min(MIN_PASSWORD_LENGTH, t("passwordMinLength")),
       }),
     [t]
   );

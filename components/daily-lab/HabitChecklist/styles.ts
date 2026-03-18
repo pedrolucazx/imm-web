@@ -1,5 +1,11 @@
 import type { SystemStyleObject } from "@chakra-ui/react";
 
+const checkboxBaseIcon: SystemStyleObject = {
+  fontWeight: "bold",
+  fontSize: "sm",
+  lineHeight: 1,
+};
+
 export const s = {
   section: {
     mb: 8,
@@ -24,7 +30,6 @@ export const s = {
     border: "3px solid black",
     p: 5,
     textAlign: "left",
-    cursor: "pointer",
     transition: "transform 0.1s ease, box-shadow 0.1s ease",
   },
 
@@ -50,14 +55,6 @@ export const s = {
     fontWeight: "800",
   },
 
-  statusText: {
-    fontSize: "sm",
-    fontWeight: "500",
-    color: "mutedFg",
-    mt: "1px",
-    mb: 1,
-  },
-
   habitMeta: {
     display: "flex",
     alignItems: "center",
@@ -81,7 +78,7 @@ export const s = {
     color: "mutedFg",
   },
 
-  checkbox: {
+  checkboxIndicator: {
     w: 8,
     h: 8,
     border: "3px solid black",
@@ -90,6 +87,10 @@ export const s = {
     alignItems: "center",
     justifyContent: "center",
   },
+
+  checkboxIcon: { ...checkboxBaseIcon, color: "white" },
+
+  checkboxDashIcon: { ...checkboxBaseIcon, color: "black" },
 
   planCard: {
     ml: 12,
@@ -124,11 +125,5 @@ export const s = {
     fontWeight: "bold",
     color: "mutedFg",
     mt: 1,
-  },
-
-  checkboxIcon: {
-    color: "card",
-    fontWeight: "bold",
-    fontSize: "sm",
   },
 } satisfies Record<string, SystemStyleObject>;

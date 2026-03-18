@@ -1,6 +1,7 @@
 import { api } from "@/lib/api-client";
 import { ENDPOINTS } from "@/lib/endpoints";
 import type { JournalEntry, CreateJournalEntryInput, AiFeedback } from "@/types/journal";
+import { JOURNAL_HISTORY_LIMIT } from "@/lib/constants";
 
 export type AnalyzeResult = {
   aiFeedback: AiFeedback;
@@ -16,7 +17,7 @@ export const journalService = {
     return api.get<JournalEntry[]>(ENDPOINTS.JOURNAL.LIST, { params: { date } });
   },
 
-  async listHistory(limit = 100): Promise<JournalEntry[]> {
+  async listHistory(limit = JOURNAL_HISTORY_LIMIT): Promise<JournalEntry[]> {
     return api.get<JournalEntry[]>(ENDPOINTS.JOURNAL.HISTORY, { params: { limit } });
   },
 

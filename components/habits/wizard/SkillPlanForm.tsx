@@ -9,6 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { s } from "../styles";
 import { skillPlanSchema, type SkillPlanData, LEVELS, WIZARD_FORM_ID } from "./types";
+import {
+  MIN_AVAILABLE_MINUTES,
+  MAX_AVAILABLE_MINUTES,
+  DEFAULT_AVAILABLE_MINUTES,
+} from "@/lib/constants";
 
 interface SkillPlanFormProps {
   defaultValues?: Partial<SkillPlanData>;
@@ -24,7 +29,12 @@ export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
     formState: { errors },
   } = useForm<SkillPlanData>({
     resolver: zodResolver(skillPlanSchema),
-    defaultValues: { struggles: "", availableMinutes: 30, level: "beginner", ...defaultValues },
+    defaultValues: {
+      struggles: "",
+      availableMinutes: DEFAULT_AVAILABLE_MINUTES,
+      level: "beginner",
+      ...defaultValues,
+    },
   });
 
   return (
@@ -54,8 +64,8 @@ export function SkillPlanForm({ defaultValues, onNext }: SkillPlanFormProps) {
           render={({ field, fieldState: { error } }) => (
             <Input
               type="number"
-              min={5}
-              max={120}
+              min={MIN_AVAILABLE_MINUTES}
+              max={MAX_AVAILABLE_MINUTES}
               label={t("timeLabel")}
               value={field.value}
               onChange={(e) => field.onChange(e.target.valueAsNumber || 0)}

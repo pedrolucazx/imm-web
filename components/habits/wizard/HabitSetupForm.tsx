@@ -15,6 +15,7 @@ import { Field } from "@/components/ui/field";
 import { SkillCard } from "./SkillCard";
 import { s } from "../styles";
 import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
+import { MAX_HABIT_NAME_LENGTH } from "@/lib/constants";
 
 interface HabitSetupFormProps {
   defaultValues?: Partial<HabitSetupData>;
@@ -48,7 +49,7 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
               {...field}
               label={t("habitNameLabel")}
               placeholder={t("habitNamePlaceholder")}
-              maxLength={80}
+              maxLength={MAX_HABIT_NAME_LENGTH}
               error={errors.name ? t("errors.nameRequired") : undefined}
             />
           )}

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import type { Habit, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
 import { SKILL_ICONS } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
+import { getCurrentPhase } from "@/lib/habit-utils";
 import { s } from "./styles";
 
 interface HabitChecklistProps {
@@ -12,17 +13,6 @@ interface HabitChecklistProps {
   journalEntries: JournalEntry[];
   selectedHabitId: string | null;
   onSelect: (_id: string) => void;
-}
-
-/** Returns the active plan phase for the given habit based on its current day, or null if no plan is ready. */
-function getCurrentPhase(habit: Habit): SkillBuildingPhase | TrackingCoachedPhase | null {
-  if (!habit.habit_plan || habit.plan_status !== "ready") return null;
-  return (
-    habit.habit_plan.phases.find((phase) => {
-      const [start, end] = phase.days.split("-").map(Number);
-      return habit.current_day >= start && habit.current_day <= end;
-    }) ?? null
-  );
 }
 
 export function HabitChecklist({
@@ -48,7 +38,8 @@ export function HabitChecklist({
 
       <Box {...s.habitList}>
         {habits.map((habit) => {
-          const completed = habit.completed_today || habitsWithFeedback.has(habit.id);
+          const hasFeedback = habitsWithFeedback.has(habit.id);
+          const completed = habit.completed_today || hasFeedback;
           const selected = habit.id === selectedHabitId;
           const isActive = completed || selected;
           const phase = getCurrentPhase(habit);
@@ -58,9 +49,13 @@ export function HabitChecklist({
               <chakra.button
                 type="button"
                 aria-pressed={selected}
-                aria-label={`${habit.name} — ${completed ? t("checklist.doneToday") : t("checklist.notYet")}`}
-                onClick={() => onSelect(habit.id)}
+                aria-disabled={hasFeedback}
+                aria-label={`${habit.name}${hasFeedback ? ` — ${t("checklist.doneToday")}` : ""}`}
+                onClick={() => {
+                  if (!hasFeedback) onSelect(habit.id);
+                }}
                 {...s.habitCard}
+                cursor={hasFeedback ? "default" : "pointer"}
                 bg={isActive ? habit.color : "card"}
                 boxShadow={isActive ? "none" : "brutal"}
                 transform={isActive ? "translate(4px, 4px)" : undefined}
@@ -69,13 +64,6 @@ export function HabitChecklist({
                   <Text {...s.habitIcon}>{habit.icon}</Text>
                   <Box {...s.habitInfo}>
                     <Text {...s.habitName}>{habit.name}</Text>
-                    <Text {...s.statusText}>
-                      {completed
-                        ? t("checklist.doneToday")
-                        : selected
-                          ? t("checklist.inFocus")
-                          : t("checklist.notYet")}
-                    </Text>
                     <Box {...s.habitMeta}>
                       <Box {...s.skillBadge}>
                         {SKILL_ICONS[habit.target_skill]}{" "}
@@ -86,8 +74,13 @@ export function HabitChecklist({
                       </Text>
                     </Box>
                   </Box>
-                  <Box aria-hidden="true" {...s.checkbox} bg={completed ? "black" : "card"}>
-                    {completed && <Text {...s.checkboxIcon}>✓</Text>}
+                  <Box
+                    aria-hidden="true"
+                    {...s.checkboxIndicator}
+                    bg={hasFeedback ? "black" : "card"}
+                  >
+                    {hasFeedback && <Text {...s.checkboxIcon}>✓</Text>}
+                    {selected && !hasFeedback && <Text {...s.checkboxDashIcon}>–</Text>}
                   </Box>
                 </Box>
               </chakra.button>

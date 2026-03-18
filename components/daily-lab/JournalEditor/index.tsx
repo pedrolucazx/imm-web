@@ -8,7 +8,9 @@ import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
 import type { JournalEntry } from "@/types/journal";
 import { useSaveJournal } from "@/lib/hooks/useJournal";
+import { getJournalPrompt } from "@/lib/habit-utils";
 import { s } from "./styles";
+import { DEFAULT_MOOD_SCORE, DEFAULT_ENERGY_SCORE } from "@/lib/constants";
 
 const MOOD_EMOJIS = ["😞", "😕", "😐", "😊", "😄"] as const;
 const ENERGY_EMOJIS = ["🐌", "🚶", "🏃", "💨", "🚀"] as const;
@@ -38,21 +40,21 @@ export function JournalEditor({
   const { mutate: saveJournal, isPending: isSaving } = useSaveJournal();
 
   const [content, setContent] = useState("");
-  const [moodScore, setMoodScore] = useState<number>(3);
-  const [energyScore, setEnergyScore] = useState<number>(3);
+  const [moodScore, setMoodScore] = useState<number>(DEFAULT_MOOD_SCORE);
+  const [energyScore, setEnergyScore] = useState<number>(DEFAULT_ENERGY_SCORE);
 
   useEffect(() => {
     setContent("");
-    setMoodScore(3);
-    setEnergyScore(3);
+    setMoodScore(DEFAULT_MOOD_SCORE);
+    setEnergyScore(DEFAULT_ENERGY_SCORE);
   }, [habit.id]);
 
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
-  const isContentValid = journalSchema.safeParse({ content }).success;
+  const parseResult = journalSchema.safeParse({ content });
+  const isContentValid = parseResult.success;
 
   const handleSave = () => {
-    const result = journalSchema.safeParse({ content });
-    if (!result.success || isSaving) return;
+    if (!parseResult.success || isSaving) return;
 
     saveJournal(
       { habitId: habit.id, content, entryDate: today, moodScore, energyScore },
@@ -107,9 +109,10 @@ export function JournalEditor({
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={
-          habit.habit_mode === "skill-building"
+          getJournalPrompt(habit) ??
+          (habit.habit_mode === "skill-building"
             ? t("journal.placeholderSkill")
-            : t("journal.placeholderTracking")
+            : t("journal.placeholderTracking"))
         }
         disabled={isSaving}
         {...s.textarea}

@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button, Input, PasswordInput } from "../../../../components/ui";
 import { s } from "./register.styles";
+import { MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH } from "@/lib/constants";
 
 const LANGUAGE_VALUES = LANGUAGES.map((l) => l.value) as [UILanguage, ...UILanguage[]];
 
@@ -27,9 +28,9 @@ export default function RegisterPage(): React.JSX.Element {
   const registerSchema = useMemo(
     () =>
       z.object({
-        name: z.string().min(2, t("nameMinLength")),
+        name: z.string().min(MIN_NAME_LENGTH, t("nameMinLength")),
         email: z.email(t("emailInvalid")),
-        password: z.string().min(6, t("passwordMinLength")),
+        password: z.string().min(MIN_PASSWORD_LENGTH, t("passwordMinLength")),
         uiLanguage: z.enum(LANGUAGE_VALUES),
       }),
     [t]

@@ -8,6 +8,7 @@ export interface HabitPlanPhase {
   phase: number;
   days: string;
   theme: string;
+  journal_prompt?: string;
 }
 
 export interface SkillBuildingPhase extends HabitPlanPhase {
