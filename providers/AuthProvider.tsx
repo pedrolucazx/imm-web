@@ -6,13 +6,7 @@ import { AuthContext } from "@/lib/auth-context";
 import { api } from "@/lib/api-client";
 import { authService } from "@/lib/auth.service";
 import type { AuthResponse, LoginInput, RegisterInput, User } from "@/types/auth";
-
-const AUTH_ROUTES = ["/login", "/register"];
-
-function isAuthRoute(pathname: string | null): boolean {
-  if (!pathname) return false;
-  return AUTH_ROUTES.some((route) => pathname.includes(route));
-}
+import { isAuthRoute } from "@/lib/routing-utils";
 
 /**
  * Provedor de autenticação que gerencia estado global de usuário e token.

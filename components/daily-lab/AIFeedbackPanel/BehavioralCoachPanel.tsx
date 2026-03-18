@@ -3,7 +3,8 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { BehavioralCoachFeedback } from "@/types/journal";
-import { SKILL_ICONS, type TargetSkill } from "@/types/habits";
+import type { TargetSkill } from "@/types/habits";
+import { SKILL_ICONS } from "@/lib/habit-utils";
 import { ScoreBadge } from "./ScoreBadge";
 import { s } from "./styles";
 

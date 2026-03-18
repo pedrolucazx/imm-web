@@ -9,15 +9,8 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { PageWrapper } from "@/components/PageWrapper";
 import { HabitCreationWizard } from "@/components/habits";
 import { useHabits } from "@/lib/hooks/useHabits";
-import {
-  type Habit,
-  type PlanStatus,
-  type SkillBuildingPhase,
-  type TrackingCoachedPhase,
-  MAX_ACTIVE_HABITS,
-  WARN_ACTIVE_HABITS,
-  SKILL_ICONS,
-} from "@/types/habits";
+import type { Habit, PlanStatus, SkillBuildingPhase, TrackingCoachedPhase } from "@/types/habits";
+import { MAX_ACTIVE_HABITS, WARN_ACTIVE_HABITS, SKILL_ICONS } from "@/lib/habit-utils";
 import { s } from "./habits.styles";
 
 const STATUS_BG: Record<PlanStatus, string> = {

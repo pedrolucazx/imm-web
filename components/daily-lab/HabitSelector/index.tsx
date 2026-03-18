@@ -3,7 +3,7 @@
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { Habit } from "@/types/habits";
-import { SKILL_ICONS } from "@/types/habits";
+import { SKILL_ICONS } from "@/lib/habit-utils";
 import { s } from "./styles";
 
 interface HabitSelectorProps {

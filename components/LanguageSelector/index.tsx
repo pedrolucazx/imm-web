@@ -2,14 +2,9 @@
 
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { useCallback, useId, useRef } from "react";
+import { LANGUAGES, type UILanguage } from "@/lib/constants";
 
-export const LANGUAGES = [
-  { value: "pt-BR", label: "Português", flag: "🇧🇷" },
-  { value: "en-US", label: "English", flag: "🇺🇸" },
-  { value: "es-ES", label: "Español", flag: "🇪🇸" },
-] as const;
-
-export type UILanguage = (typeof LANGUAGES)[number]["value"];
+export type { UILanguage };
 
 type Language = (typeof LANGUAGES)[number];
 

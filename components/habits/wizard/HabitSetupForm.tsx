@@ -4,12 +4,8 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import {
-  type TargetSkill,
-  LANGUAGE_SKILLS,
-  BEHAVIORAL_SKILLS,
-  deriveHabitMode,
-} from "@/types/habits";
+import type { TargetSkill } from "@/types/habits";
+import { LANGUAGE_SKILLS, BEHAVIORAL_SKILLS, deriveHabitMode } from "@/lib/habit-utils";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/field";
 import { SkillCard } from "./SkillCard";
