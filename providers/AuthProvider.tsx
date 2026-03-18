@@ -38,6 +38,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (existingToken) {
       setAccessToken(existingToken);
       setIsLoading(false);
+      authService
+        .refresh()
+        .then((data) => {
+          api.setToken(data.token);
+          setAccessToken(data.token);
+          setUser(data.user);
+        })
+        .catch(() => {
+          api.removeToken();
+          setAccessToken(null);
+        });
       return;
     }
 
