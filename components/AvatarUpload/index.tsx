@@ -58,11 +58,13 @@ export function AvatarUpload({
         onClick={() => inputRef.current?.click()}
         title={changeLabel || "Change avatar"}
         aria-label={changeLabel || "Change avatar"}
+        aria-controls="avatar-file-input"
         {...s.avatarBtn}
       >
         <Avatar src={previewUrl ?? currentUrl ?? undefined} name={name} size={size} />
       </chakra.button>
       <input
+        id="avatar-file-input"
         ref={inputRef}
         type="file"
         accept={ACCEPTED}

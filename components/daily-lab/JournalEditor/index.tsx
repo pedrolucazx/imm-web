@@ -132,6 +132,7 @@ export function JournalEditor({
                 <chakra.button
                   key={val}
                   type="button"
+                  aria-pressed={active}
                   onClick={() => setMoodScore(val)}
                   {...s.scoreBtn}
                   {...(active ? s.scoreBtnActive : s.scoreBtnInactive)}
@@ -155,6 +156,7 @@ export function JournalEditor({
                 <chakra.button
                   key={val}
                   type="button"
+                  aria-pressed={active}
                   onClick={() => setEnergyScore(val)}
                   {...s.scoreBtn}
                   {...(active ? s.scoreBtnActive : s.scoreBtnInactive)}

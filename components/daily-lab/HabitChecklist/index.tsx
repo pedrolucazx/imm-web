@@ -58,6 +58,7 @@ export function HabitChecklist({
               <chakra.button
                 type="button"
                 aria-pressed={selected}
+                aria-label={`${habit.name} — ${completed ? t("checklist.doneToday") : t("checklist.notYet")}`}
                 onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
                 bg={isActive ? habit.color : "card"}
@@ -85,7 +86,7 @@ export function HabitChecklist({
                       </Text>
                     </Box>
                   </Box>
-                  <Box {...s.checkbox} bg={completed ? "black" : "card"}>
+                  <Box aria-hidden="true" {...s.checkbox} bg={completed ? "black" : "card"}>
                     {completed && <Text {...s.checkboxIcon}>✓</Text>}
                   </Box>
                 </Box>
