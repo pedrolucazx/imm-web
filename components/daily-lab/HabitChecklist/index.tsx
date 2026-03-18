@@ -87,9 +87,10 @@ export function HabitChecklist({
                   <Box
                     aria-hidden="true"
                     {...s.checkboxIndicator}
-                    bg={selected || hasFeedback ? "black" : "card"}
+                    bg={hasFeedback ? "black" : "card"}
                   >
                     {hasFeedback && <Text {...s.checkboxIcon}>✓</Text>}
+                    {selected && !hasFeedback && <Text {...s.checkboxDashIcon}>–</Text>}
                   </Box>
                 </Box>
               </chakra.button>

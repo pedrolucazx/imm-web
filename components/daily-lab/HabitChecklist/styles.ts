@@ -89,6 +89,13 @@ export const s = {
     lineHeight: 1,
   },
 
+  checkboxDashIcon: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "sm",
+    lineHeight: 1,
+  },
+
   planCard: {
     ml: 12,
     mt: 2,
