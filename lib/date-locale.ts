@@ -17,5 +17,7 @@ export function toDateString(year: number, month: number, day: number): string {
 }
 
 export function formatEntryDate(dateStr: string, uiLanguage: string): string {
-  return format(parseISO(dateStr), "PPP", { locale: getDateFnsLocale(uiLanguage) });
+  const date = parseISO(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return format(date, "PPP", { locale: getDateFnsLocale(uiLanguage) });
 }

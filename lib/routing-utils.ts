@@ -28,11 +28,13 @@ export function isProtectedRoute(pathname: string): boolean {
 
 export function isAuthRoute(pathname: string | null): boolean {
   if (!pathname) return false;
+  const loginSlug = ROUTES.LOGIN.slice(1);
+  const registerSlug = ROUTES.REGISTER.slice(1);
   return routing.locales.some(
     (locale) =>
-      pathname === `/${locale}/login` ||
-      pathname.startsWith(`/${locale}/login/`) ||
-      pathname === `/${locale}/register` ||
-      pathname.startsWith(`/${locale}/register/`)
+      pathname === `/${locale}/${loginSlug}` ||
+      pathname.startsWith(`/${locale}/${loginSlug}/`) ||
+      pathname === `/${locale}/${registerSlug}` ||
+      pathname.startsWith(`/${locale}/${registerSlug}/`)
   );
 }

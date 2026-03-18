@@ -23,7 +23,7 @@ export interface ApiHabit {
   isActive: boolean;
   sortOrder: number;
   startDate: string | null;
-  habitPlan: Record<string, unknown>;
+  habitPlan: Record<string, unknown> | null;
   planStatus: string;
   streak: number;
   currentDay: number;
@@ -118,25 +118,17 @@ export function deriveHabitMode(skill: TargetSkill): HabitMode {
 
 export function buildPainPoints(data: SkillPlanData | TrackingConfigData): string[] {
   const raw = "barrier" in data ? data.barrier : data.struggles;
-  const parts = raw
+  return raw
     .split(/[.,;]+/)
     .map((s: string) => s.trim())
     .filter(Boolean);
-  return parts.length > 0 ? parts : [raw];
 }
 
 export function randomColor(): string {
   return API_COLORS[Math.floor(Math.random() * API_COLORS.length)];
 }
 
-const VALID_SKILLS = new Set<TargetSkill>([
-  "en-US",
-  "es-ES",
-  "pt-BR",
-  "general",
-  "fitness",
-  "mindfulness",
-]);
+const VALID_SKILLS = new Set<TargetSkill>([...LANGUAGE_SKILLS, ...BEHAVIORAL_SKILLS]);
 
 export function toTargetSkill(apiSkill: string | null): TargetSkill {
   if (apiSkill && VALID_SKILLS.has(apiSkill as TargetSkill)) {
@@ -149,7 +141,10 @@ export function toHabitMode(targetSkill: TargetSkill): HabitMode {
   return LANGUAGE_SKILLS.includes(targetSkill) ? "skill-building" : "tracking-coached";
 }
 
-export function toPlanStatus(apiStatus: string, habitPlan: Record<string, unknown>): PlanStatus {
+export function toPlanStatus(
+  apiStatus: string,
+  habitPlan: Record<string, unknown> | null
+): PlanStatus {
   switch (apiStatus) {
     case "generating":
       return "generating";
@@ -160,17 +155,18 @@ export function toPlanStatus(apiStatus: string, habitPlan: Record<string, unknow
     case "ready":
       return "ready";
     case "active":
-      return Object.keys(habitPlan).length > 0 ? "ready" : "skipped";
+      return habitPlan && Object.keys(habitPlan).length > 0 ? "ready" : "skipped";
     default:
       return "skipped";
   }
 }
 
 export function toChakraColor(apiColor: string): string {
+  if (!API_COLORS.includes(apiColor as (typeof API_COLORS)[number])) return "surface.mint";
   return apiColor.replace(/^bg-/, "").replace(/-([^-]+)$/, ".$1");
 }
 
-export function toHabitPlan(raw: Record<string, unknown>): HabitPlan | null {
+export function toHabitPlan(raw: Record<string, unknown> | null): HabitPlan | null {
   if (!raw || !raw.strategy || !Array.isArray(raw.phases)) return null;
   return raw as unknown as HabitPlan;
 }

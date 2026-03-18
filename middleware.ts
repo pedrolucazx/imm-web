@@ -1,6 +1,6 @@
 import createMiddleware from "next-intl/middleware";
 import { type NextRequest, NextResponse } from "next/server";
-import { routing } from "@/lib/navigation";
+import { routing } from "@/lib/routing";
 import { resolveLocale, isProtectedRoute, isAuthRoute } from "./lib/routing-utils";
 
 const handleI18n = createMiddleware({

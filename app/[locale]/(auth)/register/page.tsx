@@ -2,7 +2,7 @@
 
 import { AuthCard } from "@/components/AuthCard";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { LANGUAGES, type UILanguage } from "@/lib/constants";
+import { LANGUAGES, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH, type UILanguage } from "@/lib/constants";
 import { useRegister } from "@/lib/hooks/useAuth";
 import { useRouter } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
@@ -14,7 +14,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button, Input, PasswordInput } from "../../../../components/ui";
 import { s } from "./register.styles";
-import { MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH } from "@/lib/constants";
 
 const LANGUAGE_VALUES = LANGUAGES.map((l) => l.value) as [UILanguage, ...UILanguage[]];
 

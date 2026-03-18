@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { format, parseISO, startOfMonth } from "date-fns";
+import { format, startOfMonth } from "date-fns";
 import { Box, Text, Separator } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
-import { getDateFnsLocale } from "@/lib/date-locale";
+import { formatEntryDate } from "@/lib/date-locale";
 import { PageWrapper } from "@/components/PageWrapper";
 import { Calendar } from "@/components/Calendar";
 import { RecentEntries } from "@/components/history/RecentEntries";
@@ -50,9 +50,7 @@ export default function HistoryPage() {
   };
 
   const modalDate = selectedEntries[0]?.entryDate;
-  const formattedDate = modalDate
-    ? format(parseISO(modalDate), "PPP", { locale: getDateFnsLocale(locale) })
-    : null;
+  const formattedDate = modalDate ? formatEntryDate(modalDate, locale) : null;
 
   return (
     <PageWrapper title={t("pageTitle")} loading={isLoadingEntries || isLoadingHabits}>
