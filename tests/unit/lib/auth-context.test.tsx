@@ -20,6 +20,7 @@ jest.mock("@/lib/api-client", () => ({
     setToken: jest.fn(),
     removeToken: jest.fn(),
     setOnTokenRefreshed: jest.fn(),
+    getToken: jest.fn().mockReturnValue(null),
   },
 }));
 
@@ -73,6 +74,40 @@ describe("AuthProvider", () => {
       expect(result.current.user).toEqual(mockAuthResponse.user);
       expect(result.current.isAuthenticated).toBe(true);
       expect(mockApi.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
+    });
+
+    it("skips loading block and hydrates user via background refresh when token already in memory", async () => {
+      mockApi.getToken.mockReturnValue("existing-token");
+      mockAuthService.refresh.mockResolvedValue(mockAuthResponse);
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper });
+
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+      expect(result.current.accessToken).toBe("existing-token");
+      expect(result.current.isAuthenticated).toBe(true);
+
+      await waitFor(() => expect(result.current.user).toEqual(mockAuthResponse.user));
+      expect(result.current.accessToken).toBe(mockAuthResponse.token);
+
+      mockApi.getToken.mockReturnValue(null);
+    });
+
+    it("clears token and auth state if background refresh fails after memory token", async () => {
+      mockApi.getToken.mockReturnValue("existing-token");
+      mockAuthService.refresh.mockRejectedValue(new Error("Session expired"));
+
+      const { result } = renderHook(() => useAuthContext(), { wrapper });
+
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
+      expect(result.current.accessToken).toBe("existing-token");
+
+      await waitFor(() => expect(result.current.accessToken).toBeNull());
+      expect(result.current.isAuthenticated).toBe(false);
+      expect(result.current.user).toBeNull();
+      expect(mockApi.removeToken).toHaveBeenCalled();
+
+      mockApi.getToken.mockReturnValue(null);
     });
   });
 

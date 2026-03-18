@@ -1,8 +1,7 @@
 "use client";
 
 export { useAvatarUpload } from "./useAvatarUpload";
-
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { Avatar } from "@/components/ui";
 import { s } from "./styles";
@@ -32,6 +31,7 @@ export function AvatarUpload({
   size = "2xl",
 }: AvatarUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = `${useId()}-avatar-file-input`;
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -58,15 +58,17 @@ export function AvatarUpload({
         onClick={() => inputRef.current?.click()}
         title={changeLabel || "Change avatar"}
         aria-label={changeLabel || "Change avatar"}
+        aria-controls={inputId}
         {...s.avatarBtn}
       >
         <Avatar src={previewUrl ?? currentUrl ?? undefined} name={name} size={size} />
       </chakra.button>
-      <input
+      <chakra.input
+        id={inputId}
         ref={inputRef}
         type="file"
         accept={ACCEPTED}
-        style={{ display: "none" }}
+        display="none"
         onChange={handleFileChange}
       />
     </Box>

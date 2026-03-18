@@ -34,6 +34,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isAuthRoute(pathname)) return;
 
+    const existingToken = api.getToken();
+    if (existingToken) {
+      setAccessToken(existingToken);
+      setIsLoading(false);
+      authService
+        .refresh()
+        .then((data) => {
+          api.setToken(data.token);
+          setAccessToken(data.token);
+          setUser(data.user);
+        })
+        .catch(() => {
+          api.removeToken();
+          setAccessToken(null);
+        });
+      return;
+    }
+
     authService
       .refresh()
       .then((data) => {

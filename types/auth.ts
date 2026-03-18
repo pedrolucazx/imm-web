@@ -13,6 +13,7 @@ export interface RegisterInput {
   email: string;
   password: string;
   name: string;
+  ui_lang?: string;
 }
 
 export interface LoginInput {

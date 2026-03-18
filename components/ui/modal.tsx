@@ -34,7 +34,9 @@ export function Modal({ open, onClose, title, footer, maxW = "520px", children }
             ✕
           </chakra.button>
         </DialogHeader>
-        <DialogBody p={0}>{children}</DialogBody>
+        <DialogBody p={0} overflowY="auto" flex="1" minH={0}>
+          {children}
+        </DialogBody>
         {footer && (
           <DialogFooter p={0} mt={6}>
             {footer}
