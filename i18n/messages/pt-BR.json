@@ -507,6 +507,7 @@
       "language-teacher": "📝 Professor de Idiomas",
       "behavioral-coach": "🎯 Coach Comportamental"
     },
-    "weekdays": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
+    "weekdays": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+    "selectedDate": "Data Selecionada"
   }
 }

@@ -13,7 +13,7 @@ export function PageWrapper({ title, actions, loading, children }: PageWrapperPr
   return (
     <Box {...s.page}>
       <Box {...s.header}>
-        <Heading as="h1" {...s.title}>
+        <Heading as="h1" aria-label={title.replace(/\p{Emoji}/gu, "").trim()} {...s.title}>
           {title}
         </Heading>
         {actions}

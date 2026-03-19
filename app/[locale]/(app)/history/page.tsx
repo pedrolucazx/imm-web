@@ -68,7 +68,7 @@ export default function HistoryPage() {
       <Modal
         open={selectedEntries.length > 0}
         onClose={() => setSelectedEntries([])}
-        title={formattedDate ?? ""}
+        title={formattedDate ?? t("selectedDate")}
         maxW="680px"
       >
         <Box {...s.badgesRow}>
