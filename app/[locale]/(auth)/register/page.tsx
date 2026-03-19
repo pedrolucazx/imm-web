@@ -78,6 +78,7 @@ export default function RegisterPage(): React.JSX.Element {
           <Input
             label={t("nameLabel")}
             type="text"
+            autoComplete="name"
             placeholder={t("namePlaceholder")}
             error={errors.name?.message}
             {...register("name")}
@@ -86,6 +87,7 @@ export default function RegisterPage(): React.JSX.Element {
           <Input
             label={t("emailLabel")}
             type="email"
+            autoComplete="email"
             placeholder={t("emailPlaceholder")}
             error={errors.email?.message}
             {...register("email")}
@@ -93,6 +95,7 @@ export default function RegisterPage(): React.JSX.Element {
 
           <PasswordInput
             label={t("passwordLabel")}
+            autoComplete="new-password"
             placeholder={t("passwordPlaceholder")}
             error={errors.password?.message}
             passwordValue={passwordValue}

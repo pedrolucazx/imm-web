@@ -8,7 +8,6 @@ export const s = {
     display: "flex",
     flexDirection: "column",
     gap: 6,
-    maxW: "800px",
   },
 
   header: {

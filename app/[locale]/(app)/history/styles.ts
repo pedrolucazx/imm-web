@@ -2,7 +2,7 @@ import type { SystemStyleObject } from "@chakra-ui/react";
 
 export const s = {
   pageContainer: {
-    maxW: "4xl",
+    maxW: "800px",
   },
 
   badgesRow: {

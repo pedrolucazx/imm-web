@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { Box, Text } from "@chakra-ui/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -26,7 +26,15 @@ export default function DailyLabPage() {
   const { data: profile } = useGetProfile();
 
   const activeHabits = habits.filter((h: Habit) => h.is_active);
-  const today = getLocalDateString();
+  const [today, setToday] = useState(getLocalDateString);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const next = getLocalDateString();
+      setToday((prev) => (prev === next ? prev : next));
+    }, 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
   const resolvedHabitId = selectedHabitId ?? activeHabits[0]?.id ?? null;
@@ -39,49 +47,54 @@ export default function DailyLabPage() {
 
   const selectedHabit = activeHabits.find((h) => h.id === resolvedHabitId);
 
-  const displayDate = format(new Date(), "PPPP", { locale: getDateFnsLocale(locale) });
+  const displayDate = useMemo(
+    () => format(new Date(`${today}T00:00:00`), "PPPP", { locale: getDateFnsLocale(locale) }),
+    [today, locale]
+  );
 
   return (
     <PageWrapper title={`⚡ ${t("pageTitle")}`} loading={isLoading}>
-      <Text {...s.displayDate}>{displayDate}</Text>
+      <Box maxW="800px">
+        <Text {...s.displayDate}>{displayDate}</Text>
 
-      <Box maxW="3xl">
-        <HabitChecklist
-          habits={activeHabits}
-          journalEntries={journalEntries}
-          selectedHabitId={resolvedHabitId}
-          onSelect={setSelectedHabitId}
-        />
+        <Box>
+          <HabitChecklist
+            habits={activeHabits}
+            journalEntries={journalEntries}
+            selectedHabitId={resolvedHabitId}
+            onSelect={setSelectedHabitId}
+          />
 
-        {activeHabits.length > 0 && selectedHabit && (
-          <Box>
-            <Text {...s.sectionTitle}>{t("journal.sectionTitle")}</Text>
+          {activeHabits.length > 0 && selectedHabit && (
+            <Box>
+              <Text {...s.sectionTitle}>{t("journal.sectionTitle")}</Text>
 
-            <JournalEditor
-              habit={selectedHabit}
-              existingEntry={journalEntry}
-              isLoadingEntry={isLoadingEntry}
-              isAnalyzing={isAnalyzing}
-              today={today}
-              onAnalyze={(journalEntryId, habitId) =>
-                analyzeJournal(
-                  { journalEntryId, habitId },
-                  {
-                    onSuccess: () =>
-                      logHabit({ id: habitId, input: { logDate: today, completed: true } }),
-                  }
-                )
-              }
-            />
+              <JournalEditor
+                habit={selectedHabit}
+                existingEntry={journalEntry}
+                isLoadingEntry={isLoadingEntry}
+                isAnalyzing={isAnalyzing}
+                today={today}
+                onAnalyze={(journalEntryId, habitId) =>
+                  analyzeJournal(
+                    { journalEntryId, habitId },
+                    {
+                      onSuccess: () =>
+                        logHabit({ id: habitId, input: { logDate: today, completed: true } }),
+                    }
+                  )
+                }
+              />
 
-            <AIFeedbackPanel
-              entry={journalEntry}
-              isAnalyzing={isAnalyzing}
-              aiRequestsToday={profile?.profile.aiRequestsToday ?? 0}
-              habitColor={selectedHabit.color}
-            />
-          </Box>
-        )}
+              <AIFeedbackPanel
+                entry={journalEntry}
+                isAnalyzing={isAnalyzing}
+                aiRequestsToday={profile?.profile.aiRequestsToday ?? 0}
+                habitColor={selectedHabit.color}
+              />
+            </Box>
+          )}
+        </Box>
       </Box>
     </PageWrapper>
   );

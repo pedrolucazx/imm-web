@@ -57,6 +57,7 @@ export default function LoginPage() {
           <Input
             label={t("emailLabel")}
             type="email"
+            autoComplete="email"
             placeholder={t("emailPlaceholder")}
             error={errors.email?.message}
             {...register("email")}
@@ -64,6 +65,7 @@ export default function LoginPage() {
 
           <PasswordInput
             label={t("passwordLabel")}
+            autoComplete="current-password"
             placeholder={t("passwordPlaceholder")}
             error={errors.password?.message}
             {...register("password")}
