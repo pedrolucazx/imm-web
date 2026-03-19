@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { Box, Text } from "@chakra-ui/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -26,7 +26,15 @@ export default function DailyLabPage() {
   const { data: profile } = useGetProfile();
 
   const activeHabits = habits.filter((h: Habit) => h.is_active);
-  const [today] = useState(getLocalDateString);
+  const [today, setToday] = useState(getLocalDateString);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const next = getLocalDateString();
+      setToday((prev) => (prev === next ? prev : next));
+    }, 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
   const resolvedHabitId = selectedHabitId ?? activeHabits[0]?.id ?? null;
@@ -40,8 +48,8 @@ export default function DailyLabPage() {
   const selectedHabit = activeHabits.find((h) => h.id === resolvedHabitId);
 
   const displayDate = useMemo(
-    () => format(new Date(), "PPPP", { locale: getDateFnsLocale(locale) }),
-    [locale]
+    () => format(new Date(`${today}T00:00:00`), "PPPP", { locale: getDateFnsLocale(locale) }),
+    [today, locale]
   );
 
   return (
