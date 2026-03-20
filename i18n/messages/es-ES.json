@@ -512,6 +512,9 @@
   },
   "analytics": {
     "pageTitle": "Análisis",
+    "loadErrorTitle": "No se pudieron cargar los análisis.",
+    "loadErrorDescription": "Inténtalo de nuevo en unos segundos.",
+    "retry": "Intentar de nuevo",
     "noHabits": "No se encontraron hábitos.",
     "streak": {
       "current": "Racha",

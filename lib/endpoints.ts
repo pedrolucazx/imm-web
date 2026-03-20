@@ -26,6 +26,9 @@ export const ENDPOINTS = {
     HISTORY: "/journal/history",
     CREATE: "/journal/entry",
   },
+  ANALYTICS: {
+    SUMMARY: "/analytics/summary",
+  },
   AI: {
     ANALYZE: "/ai/analyze",
   },
