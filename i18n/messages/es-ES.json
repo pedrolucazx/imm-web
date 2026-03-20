@@ -509,5 +509,55 @@
     },
     "weekdays": ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
     "selectedDate": "Fecha Seleccionada"
+  },
+  "analytics": {
+    "pageTitle": "Análisis",
+    "noHabits": "No se encontraron hábitos.",
+    "streak": {
+      "current": "Racha",
+      "best": "Mejor"
+    },
+    "consistency": "Consistencia",
+    "totalDays": "Días Completados",
+    "phase": "Fase {phase} — {theme}",
+    "calendar": {
+      "title": "Calendario de Racha",
+      "notDone": "No hecho",
+      "done": "Hecho"
+    },
+    "scoreTimeline": {
+      "title": "Progreso Lingüístico",
+      "grammar": "Gramática",
+      "vocabulary": "Vocabulario",
+      "fluency": "Fluidez"
+    },
+    "journal": {
+      "title": "Métricas del Diario",
+      "totalEntries": "Total de Entradas",
+      "totalWords": "Total de Palabras",
+      "avgWords": "Promedio de Palabras"
+    },
+    "mood": {
+      "title": "Humor y Energía (últimos 30 días)",
+      "mood": "Humor",
+      "energy": "Energía",
+      "axisDate": "Fecha",
+      "axisScore": "Puntuación",
+      "axisLevel": "Nivel"
+    },
+    "global": {
+      "title": "Resumen Global",
+      "completionToday": "Hecho Hoy",
+      "totalEntries": "Total de Entradas",
+      "avgWords": "Promedio de Palabras",
+      "aiUsage": "Uso de IA",
+      "completionRate": "Tasa de Finalización",
+      "totalWords": "Total de Palabras",
+      "avgMood": "Humor Promedio",
+      "journalEntries": "Entradas en el Diario",
+      "moodConsistency": "Humor Alto / Bajo",
+      "bestHour": "Mejor Hora"
+    },
+    "dayOf": "Día {current} / {total}"
   }
 }
