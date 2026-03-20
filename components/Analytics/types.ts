@@ -5,7 +5,7 @@ export interface MoodConsistencyCorrelation {
 
 export interface AnalyticsGlobalStats {
   completionRateToday: number;
-  avgConsistencyRate?: number;
+  avgConsistencyRate: number;
   totalJournalEntries: number;
   totalWords: number;
   avgWordsPerEntry: number;

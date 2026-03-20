@@ -12,29 +12,22 @@ interface GlobalStatsRowProps {
 export function GlobalStatsRow({ global }: GlobalStatsRowProps) {
   const t = useTranslations("analytics");
 
-  const effectiveRate =
-    global.avgConsistencyRate != null ? global.avgConsistencyRate : global.completionRateToday;
-
-  const stats: { value: string; label: string; bg: string }[] = [
+  const stats: { value: string; label: string }[] = [
     {
-      value: `${Math.round(effectiveRate * 100)}%`,
+      value: `${Math.round(global.avgConsistencyRate * 100)}%`,
       label: t("global.completionRate"),
-      bg: "hsl(152, 80%, 70%)",
     },
     {
       value: global.totalWords.toLocaleString(),
       label: t("global.totalWords"),
-      bg: "hsl(54, 100%, 70%)",
     },
     {
       value: global.avgMood != null ? String(Math.round(global.avgMood * 10) / 10) : "—",
       label: t("global.avgMood"),
-      bg: "hsl(0, 100%, 80%)",
     },
     {
       value: String(global.totalJournalEntries),
       label: t("global.journalEntries"),
-      bg: "hsl(280, 80%, 80%)",
     },
   ];
 
@@ -44,7 +37,6 @@ export function GlobalStatsRow({ global }: GlobalStatsRowProps) {
     stats.push({
       value: `${high}% / ${low}%`,
       label: t("global.moodConsistency"),
-      bg: "hsl(54, 100%, 70%)",
     });
   }
 
@@ -52,14 +44,13 @@ export function GlobalStatsRow({ global }: GlobalStatsRowProps) {
     stats.push({
       value: global.bestPerformanceHour,
       label: t("global.bestHour"),
-      bg: "hsl(195, 70%, 72%)",
     });
   }
 
   return (
     <>
       {stats.map((stat) => (
-        <Box key={stat.label} {...s.card} bg={stat.bg}>
+        <Box key={stat.label} {...s.card}>
           <Text {...s.value}>{stat.value}</Text>
           <Text {...s.label}>{stat.label}</Text>
         </Box>
