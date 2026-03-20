@@ -14,14 +14,13 @@ import {
   YAxis,
 } from "recharts";
 import type { MoodTimelineEntry } from "../types";
-import { s } from "./styles";
+import { chartColors, legendWrapperStyle, s, tooltipContentStyle } from "./styles";
 
 interface MoodEnergyChartProps {
   timeline: MoodTimelineEntry[];
 }
 
 const CHART_MARGIN = { top: 30, right: 16, bottom: 40, left: 32 };
-const LEGEND_STYLE = { fontSize: 11, fontWeight: 700, right: 24, top: 4 };
 
 export function MoodEnergyChart({ timeline }: MoodEnergyChartProps) {
   const t = useTranslations("analytics");
@@ -82,20 +81,12 @@ export function MoodEnergyChart({ timeline }: MoodEnergyChartProps) {
                   fill: "#888",
                 }}
               />
-              <Tooltip
-                contentStyle={{
-                  border: "0.125rem solid black",
-                  boxShadow: "0.1875rem 0.1875rem 0 black",
-                  borderRadius: 0,
-                  fontWeight: 700,
-                  fontSize: 12,
-                }}
-              />
-              <Legend verticalAlign="top" align="right" wrapperStyle={LEGEND_STYLE} />
+              <Tooltip contentStyle={tooltipContentStyle} />
+              <Legend verticalAlign="top" align="right" wrapperStyle={legendWrapperStyle} />
               <Line
                 type="monotone"
                 dataKey={moodLabel}
-                stroke="hsl(152, 70%, 40%)"
+                stroke={chartColors.mood}
                 strokeWidth={2}
                 dot={{ r: 2 }}
                 activeDot={{ r: 5, stroke: "white", strokeWidth: 2 }}
@@ -105,7 +96,7 @@ export function MoodEnergyChart({ timeline }: MoodEnergyChartProps) {
               <Line
                 type="monotone"
                 dataKey={energyLabel}
-                stroke="hsl(348, 90%, 62%)"
+                stroke={chartColors.energy}
                 strokeWidth={2}
                 dot={{ r: 2 }}
                 activeDot={{ r: 5, stroke: "white", strokeWidth: 2 }}

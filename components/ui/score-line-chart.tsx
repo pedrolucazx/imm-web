@@ -12,7 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { addDays, format, subDays } from "date-fns";
-import { s } from "./score-line-chart.styles";
+import { chartColors, legendWrapperStyle, s, tooltipContentStyle } from "./score-line-chart.styles";
 
 export interface ScoreEntry {
   date: string;
@@ -35,7 +35,6 @@ interface ScoreLineChartProps {
 
 const TOTAL_DAYS = 66;
 const CHART_MARGIN = { top: 30, right: 16, bottom: 40, left: 32 };
-const LEGEND_STYLE = { fontSize: 11, fontWeight: 700, right: 24, top: 4 };
 
 export function ScoreLineChart({ entries, currentDay, labels }: ScoreLineChartProps) {
   const safeCurrentDay = Math.max(1, Math.min(currentDay, TOTAL_DAYS));
@@ -94,20 +93,12 @@ export function ScoreLineChart({ entries, currentDay, labels }: ScoreLineChartPr
                 fill: "#888",
               }}
             />
-            <Tooltip
-              contentStyle={{
-                border: "0.125rem solid black",
-                boxShadow: "0.1875rem 0.1875rem 0 black",
-                borderRadius: 0,
-                fontWeight: 700,
-                fontSize: 12,
-              }}
-            />
-            <Legend verticalAlign="top" align="right" wrapperStyle={LEGEND_STYLE} />
+            <Tooltip contentStyle={tooltipContentStyle} />
+            <Legend verticalAlign="top" align="right" wrapperStyle={legendWrapperStyle} />
             <Line
               type="monotone"
               dataKey={labels.grammar}
-              stroke="hsl(210, 80%, 50%)"
+              stroke={chartColors.grammar}
               strokeWidth={2}
               dot={{ r: 2 }}
               activeDot={{ r: 5, stroke: "white", strokeWidth: 2 }}
@@ -117,7 +108,7 @@ export function ScoreLineChart({ entries, currentDay, labels }: ScoreLineChartPr
             <Line
               type="monotone"
               dataKey={labels.vocabulary}
-              stroke="hsl(30, 90%, 50%)"
+              stroke={chartColors.vocabulary}
               strokeWidth={2}
               dot={{ r: 2 }}
               activeDot={{ r: 5, stroke: "white", strokeWidth: 2 }}
@@ -127,7 +118,7 @@ export function ScoreLineChart({ entries, currentDay, labels }: ScoreLineChartPr
             <Line
               type="monotone"
               dataKey={labels.fluency}
-              stroke="hsl(152, 70%, 40%)"
+              stroke={chartColors.fluency}
               strokeWidth={2}
               dot={{ r: 2 }}
               activeDot={{ r: 5, stroke: "white", strokeWidth: 2 }}
