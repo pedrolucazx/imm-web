@@ -19,16 +19,15 @@ const DAYS = 66;
 function buildGrid(
   logs: HabitLog[] | undefined,
   currentDay: number
-): { date: string; completed: boolean; future: boolean }[] {
+): { date: string; completed: boolean }[] {
   const completedSet = new Set((logs ?? []).filter((l) => l.completed).map((l) => l.logDate));
   const today = new Date();
   const startDate = subDays(today, currentDay - 1);
-  const cells: { date: string; completed: boolean; future: boolean }[] = [];
+  const cells: { date: string; completed: boolean }[] = [];
 
   for (let i = 0; i < DAYS; i++) {
     const date = format(subDays(startDate, -i), "yyyy-MM-dd");
-    const isFuture = date > format(today, "yyyy-MM-dd");
-    cells.push({ date, completed: completedSet.has(date), future: isFuture });
+    cells.push({ date, completed: completedSet.has(date) });
   }
 
   return cells;
