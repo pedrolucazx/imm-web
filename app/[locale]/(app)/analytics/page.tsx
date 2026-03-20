@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Alert, Box, Button } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { PageWrapper } from "@/components/PageWrapper";
 import { GlobalStatsRow } from "@/components/Analytics/GlobalStatsRow";
@@ -36,13 +36,22 @@ export default function AnalyticsPage() {
     <PageWrapper title={t("pageTitle")} loading={isLoading}>
       <Box {...s.content}>
         {isError ? (
-          <Box {...s.errorCard}>
-            <Text {...s.errorTitle}>{t("loadErrorTitle")}</Text>
-            <Text {...s.errorText}>{t("loadErrorDescription")}</Text>
-            <Button size="sm" width="fit-content" colorPalette="yellow" onClick={() => refetch()}>
-              {t("retry")}
-            </Button>
-          </Box>
+          <Alert.Root colorPalette="yellow" {...s.errorCard}>
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Title {...s.errorTitle}>{t("loadErrorTitle")}</Alert.Title>
+              <Alert.Description {...s.errorText}>{t("loadErrorDescription")}</Alert.Description>
+              <Button
+                mt={3}
+                size="sm"
+                width="fit-content"
+                colorPalette="yellow"
+                onClick={() => refetch()}
+              >
+                {t("retry")}
+              </Button>
+            </Alert.Content>
+          </Alert.Root>
         ) : (
           <>
             {data && (
