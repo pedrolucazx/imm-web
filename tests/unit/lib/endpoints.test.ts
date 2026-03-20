@@ -82,4 +82,10 @@ describe("ENDPOINTS", () => {
       expect(ENDPOINTS.AI.ANALYZE).toBe("/ai/analyze");
     });
   });
+
+  describe("ANALYTICS", () => {
+    it("has the correct SUMMARY endpoint", () => {
+      expect(ENDPOINTS.ANALYTICS.SUMMARY).toBe("/analytics/summary");
+    });
+  });
 });

@@ -512,6 +512,9 @@
   },
   "analytics": {
     "pageTitle": "Analytics",
+    "loadErrorTitle": "Could not load analytics.",
+    "loadErrorDescription": "Please try again in a few seconds.",
+    "retry": "Try again",
     "noHabits": "No habits found.",
     "streak": {
       "current": "Streak",

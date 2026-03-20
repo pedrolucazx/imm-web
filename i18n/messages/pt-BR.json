@@ -512,6 +512,9 @@
   },
   "analytics": {
     "pageTitle": "Análises",
+    "loadErrorTitle": "Não foi possível carregar as análises.",
+    "loadErrorDescription": "Tente novamente em alguns segundos.",
+    "retry": "Tentar novamente",
     "noHabits": "Nenhum hábito encontrado.",
     "streak": {
       "current": "Sequência",
