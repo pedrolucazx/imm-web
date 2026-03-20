@@ -46,3 +46,9 @@ export interface HabitStat {
   logs: HabitLog[];
   scoreTimeline: ScorePoint[] | null;
 }
+
+export interface MoodTimelineEntry {
+  date: string;
+  mood: number | null;
+  energy: number | null;
+}
