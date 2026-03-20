@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, VStack, HStack } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
 import { format, subDays } from "date-fns";
 import { formatEntryDate } from "@/lib/date-locale";
@@ -56,26 +56,28 @@ export function StreakCalendar({ habit, logs }: StreakCalendarProps) {
   const completedStyle = resolveCompletedStyle(toChakraColor(habit?.color ?? ""));
 
   return (
-    <Box {...s.wrapper}>
+    <VStack {...s.wrapper}>
       <Text {...s.title}>{t("calendar.title")}</Text>
       <Box {...s.scrollContainer}>
-        <Box {...s.grid}>
+        <Box {...s.grid} role="grid">
           {cells.map((cell) => (
             <Box
               key={cell.date}
               title={`${formatEntryDate(cell.date, locale)}${cell.completed ? " ✓" : ""}`}
+              aria-label={`${formatEntryDate(cell.date, locale)}${cell.completed ? ` - ${t("calendar.done")}` : ` - ${t("calendar.notDone")}`}`}
+              role="gridcell"
               {...s.cell}
               {...(cell.completed ? completedStyle : s.pendingRegular)}
             />
           ))}
         </Box>
       </Box>
-      <Box {...s.legend}>
+      <HStack {...s.legend}>
         <Box {...s.legendCell} {...s.pendingRegular} />
         <Text {...s.legendText}>{t("calendar.notDone")}</Text>
         <Box {...s.legendCell} {...completedStyle} />
         <Text {...s.legendText}>{t("calendar.done")}</Text>
-      </Box>
-    </Box>
+      </HStack>
+    </VStack>
   );
 }

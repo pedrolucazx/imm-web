@@ -10,8 +10,6 @@ export const s = {
     w: "100%",
     maxW: "none",
     gridColumn: { base: "auto", md: "span 2" },
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
   },
   title: {
@@ -48,8 +46,6 @@ export const s = {
   completedYellow: { bg: "surface.yellow" },
   pendingRegular: { bg: "muted" },
   legend: {
-    display: "flex",
-    alignItems: "center",
     gap: 1,
     mt: 2,
   },

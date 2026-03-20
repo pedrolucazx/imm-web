@@ -65,7 +65,7 @@ export const s = {
   },
 
   errorCard: {
-    border: "3px solid black",
+    border: "0.1875rem solid black",
     boxShadow: "brutal",
     bg: "surface.coral",
     p: 6,
