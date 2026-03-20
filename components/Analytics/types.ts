@@ -1,3 +1,5 @@
+import type { PlanStatus, TargetSkill } from "@/types/habits";
+
 export interface MoodConsistencyCorrelation {
   highMoodRate: number;
   lowMoodRate: number;
@@ -38,8 +40,8 @@ export interface HabitStat {
   bestStreak: number;
   consistencyRate: number;
   totalCompletedDays: number;
-  targetSkill: string | null;
-  planStatus: string;
+  targetSkill: TargetSkill | null;
+  planStatus: PlanStatus;
   habitPlan: Record<string, unknown> | null;
   logs: HabitLog[];
   scoreTimeline: ScorePoint[] | null;

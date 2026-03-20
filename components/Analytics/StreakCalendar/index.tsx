@@ -20,9 +20,10 @@ function buildGrid(
   logs: HabitLog[] | undefined,
   currentDay: number
 ): { date: string; completed: boolean }[] {
+  const safeCurrentDay = Math.max(1, Math.min(currentDay, DAYS));
   const completedSet = new Set((logs ?? []).filter((l) => l.completed).map((l) => l.logDate));
   const today = new Date();
-  const startDate = subDays(today, currentDay - 1);
+  const startDate = subDays(today, safeCurrentDay - 1);
   const cells: { date: string; completed: boolean }[] = [];
 
   for (let i = 0; i < DAYS; i++) {

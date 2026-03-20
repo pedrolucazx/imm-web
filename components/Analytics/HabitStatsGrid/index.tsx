@@ -2,7 +2,6 @@
 
 import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
-import type { TargetSkill } from "@/types/habits";
 import { SKILL_ICONS, toChakraColor } from "@/lib/habit-utils";
 import type { HabitStat } from "../types";
 import { s } from "./styles";
@@ -46,9 +45,9 @@ export function HabitStatsGrid({ habits, selectedId, onSelect }: HabitStatsGridP
   return (
     <Box {...s.grid}>
       {habits.map((habit) => {
-        const skillIcon = habit.targetSkill ? SKILL_ICONS[habit.targetSkill as TargetSkill] : null;
+        const skillIcon = habit.targetSkill ? SKILL_ICONS[habit.targetSkill] : null;
         const skillLabel = habit.targetSkill ? tHabits(`skills.${habit.targetSkill}.name`) : null;
-        const progressPct = Math.min((habit.currentDay / MAX_HABIT_DAYS) * 100, 100);
+        const progressPct = Math.max(0, Math.min((habit.currentDay / MAX_HABIT_DAYS) * 100, 100));
         const progressStyle = { ...s.progressInner, w: `${progressPct}%` };
         const isSelected = selectedId === habit.id;
 
