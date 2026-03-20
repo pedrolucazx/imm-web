@@ -6,6 +6,9 @@ export const s = {
     boxShadow: "brutal",
     p: 4,
     minH: "7.5rem",
+    w: "100%",
+    minW: 0,
+    color: "black",
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
@@ -14,7 +17,7 @@ export const s = {
     gap: 1,
   },
   value: {
-    fontSize: "3xl",
+    fontSize: { base: "2xl", md: "3xl" },
     fontWeight: "900",
     lineHeight: 1,
   },

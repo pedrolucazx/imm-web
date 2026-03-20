@@ -35,9 +35,9 @@ export const s = {
   toneYellow: { bg: "surface.yellow" },
   cardHeader: {
     mb: 3,
-    gap: 3,
+    gap: 2,
     alignItems: "flex-start",
-    minHeight: "6rem",
+    minHeight: { base: "4rem", sm: "6rem" },
     display: "flex",
   },
   cardInfo: {
@@ -45,7 +45,7 @@ export const s = {
     minW: 0,
   },
   habitIcon: {
-    fontSize: "4xl",
+    fontSize: { base: "3xl", sm: "4xl" },
     lineHeight: 1,
     flexShrink: 0,
   },
@@ -69,7 +69,7 @@ export const s = {
     fontWeight: "bold",
   },
   streakNumber: {
-    fontSize: "5xl",
+    fontSize: { base: "4xl", sm: "5xl" },
     fontWeight: "900",
     lineHeight: 1,
     mb: 1,
@@ -102,9 +102,10 @@ export const s = {
   },
   extraStats: {
     mt: 3,
-    gap: 4,
+    gap: { base: 2, sm: 4 },
     justifyContent: "space-between",
     display: "flex",
+    flexWrap: "wrap",
   },
   extraStat: {
     fontSize: "xs",

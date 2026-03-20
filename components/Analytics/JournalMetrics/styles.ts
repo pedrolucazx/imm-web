@@ -4,6 +4,7 @@ export const s = {
   wrapper: {
     mb: 0,
     w: "100%",
+    gridColumn: { base: "auto", md: "span 3" },
   },
   title: {
     fontSize: "xl",
@@ -16,16 +17,16 @@ export const s = {
     display: "grid",
     gridTemplateColumns: {
       base: "1fr",
+      sm: "repeat(2, minmax(0, 1fr))",
       md: "repeat(3, minmax(0, 1fr))",
     },
-    gap: 4,
+    gap: 3,
     w: "100%",
-    maxW: "56.25rem",
+    maxW: "100%",
   },
   card: {
     border: "0.1875rem solid black",
     boxShadow: "brutal-sm",
-    bg: "card",
     p: { base: 4, md: 5 },
     textAlign: "center",
   },

@@ -4,28 +4,68 @@ export const s = {
   content: {
     display: "grid",
     gap: 6,
+    w: "100%",
+    minW: 0,
+    overflowX: "hidden",
   },
 
   globalGrid: {
     display: "grid",
-    gap: 3,
     gridTemplateColumns: {
-      base: "repeat(2, minmax(0, 1fr))",
-      lg: "repeat(4, minmax(0, 1fr))",
+      base: "1fr",
+      md: "repeat(2, minmax(0, 1fr))",
+      xl: "repeat(auto-fit, minmax(12rem, 1fr))",
     },
+    gap: 3,
+    w: "100%",
+    minW: 0,
   },
 
   sectionGrid: {
     display: "grid",
-    gap: 6,
+    gap: 3,
+    alignItems: "start",
+    justifyContent: "start",
     gridTemplateColumns: {
       base: "1fr",
-      xl: "minmax(0, 1.35fr) minmax(0, 1fr)",
+      md: "repeat(5, 1fr)",
     },
   },
 
+  detailCard: {
+    border: "0.1875rem solid black",
+    boxShadow: "brutal",
+    bg: "card",
+    p: { base: 4, md: 6 },
+    w: "100%",
+  },
+
+  detailHeader: {
+    display: "grid",
+    gap: 1,
+    borderBottom: "0.125rem solid black",
+    pb: 4,
+    mb: 4,
+  },
+
+  detailTitle: {
+    fontSize: { base: "lg", md: "xl" },
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: "wider",
+    lineHeight: "1.2",
+  },
+
+  detailPhase: {
+    fontSize: "xs",
+    fontWeight: "700",
+    color: "mutedFg",
+    textTransform: "uppercase",
+    letterSpacing: "wider",
+  },
+
   errorCard: {
-    border: "3px solid black",
+    border: "0.1875rem solid black",
     boxShadow: "brutal",
     bg: "surface.coral",
     p: 6,
