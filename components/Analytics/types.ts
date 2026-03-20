@@ -15,3 +15,32 @@ export interface AnalyticsGlobalStats {
   moodConsistencyCorrelation: MoodConsistencyCorrelation | null;
   bestPerformanceHour: string | null;
 }
+
+export interface HabitLog {
+  logDate: string;
+  completed: boolean;
+}
+
+export interface ScorePoint {
+  date: string;
+  grammarScore: number;
+  vocabularyScore: number;
+  fluencyScore: number;
+}
+
+export interface HabitStat {
+  id: string;
+  name: string;
+  icon: string;
+  color: string;
+  currentDay: number;
+  streak: number;
+  bestStreak: number;
+  consistencyRate: number;
+  totalCompletedDays: number;
+  targetSkill: string | null;
+  planStatus: string;
+  habitPlan: Record<string, unknown> | null;
+  logs: HabitLog[];
+  scoreTimeline: ScorePoint[] | null;
+}
