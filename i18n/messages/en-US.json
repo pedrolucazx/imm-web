@@ -509,5 +509,55 @@
     },
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "selectedDate": "Selected Date"
+  },
+  "analytics": {
+    "pageTitle": "Analytics",
+    "noHabits": "No habits found.",
+    "streak": {
+      "current": "Streak",
+      "best": "Best"
+    },
+    "consistency": "Consistency",
+    "totalDays": "Completed Days",
+    "phase": "Phase {phase} — {theme}",
+    "calendar": {
+      "title": "Streak Calendar",
+      "notDone": "Not done",
+      "done": "Done"
+    },
+    "scoreTimeline": {
+      "title": "Linguistic Progress",
+      "grammar": "Grammar",
+      "vocabulary": "Vocabulary",
+      "fluency": "Fluency"
+    },
+    "journal": {
+      "title": "Journal Metrics",
+      "totalEntries": "Total Entries",
+      "totalWords": "Total Words",
+      "avgWords": "Avg Words"
+    },
+    "mood": {
+      "title": "Mood & Energy (last 30 days)",
+      "mood": "Mood",
+      "energy": "Energy",
+      "axisDate": "Date",
+      "axisScore": "Score",
+      "axisLevel": "Level"
+    },
+    "global": {
+      "title": "Global Overview",
+      "completionToday": "Done Today",
+      "totalEntries": "Total Entries",
+      "avgWords": "Avg Words",
+      "aiUsage": "AI Usage",
+      "completionRate": "Completion Rate",
+      "totalWords": "Total Words",
+      "avgMood": "Avg Mood",
+      "journalEntries": "Journal Entries",
+      "moodConsistency": "High / Low Mood",
+      "bestHour": "Best Time"
+    },
+    "dayOf": "Day {current} / {total}"
   }
 }
