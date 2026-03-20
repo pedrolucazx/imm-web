@@ -4,14 +4,16 @@ import type { CSSProperties } from "react";
 export const s = {
   wrapper: {
     w: "100%",
-    overflowX: "auto",
+    overflowX: { base: "auto", md: "visible" },
+    flex: 1,
+    minH: 0,
   },
   chartFrame: {
     w: "100%",
-    minW: { base: "43.75rem", md: "53.75rem" },
-    maxW: "53.75rem",
+    minW: { base: "28rem", sm: "32rem", md: "0" },
+    maxW: { base: "100%", xl: "61.25rem" },
     mx: "auto",
-    h: "20rem",
+    h: { base: "11.625rem", md: "14.625rem" },
   },
 } satisfies Record<string, SystemStyleObject>;
 
@@ -31,7 +33,7 @@ export const tooltipContentStyle: CSSProperties = {
 };
 
 export const chartColors = {
-  grammar: "var(--chakra-colors-surface-sky)",
-  vocabulary: "var(--chakra-colors-surface-yellow)",
-  fluency: "var(--chakra-colors-surface-mint)",
+  grammar: "var(--chakra-colors-brand-coral)",
+  vocabulary: "var(--chakra-colors-brand-yellow)",
+  fluency: "var(--chakra-colors-brand-mint)",
 };

@@ -12,22 +12,26 @@ interface JournalMetricsProps {
 export function JournalMetrics({ global }: JournalMetricsProps) {
   const t = useTranslations("analytics");
 
+  const cards = [
+    { value: global.totalJournalEntries, label: t("journal.totalEntries"), bg: "surface.lavender" },
+    {
+      value: global.totalWords.toLocaleString(),
+      label: t("journal.totalWords"),
+      bg: "surface.yellow",
+    },
+    { value: global.avgWordsPerEntry, label: t("journal.avgWords"), bg: "surface.coral" },
+  ];
+
   return (
     <Box {...s.wrapper}>
       <Text {...s.title}>{t("journal.title")}</Text>
       <Box {...s.row}>
-        <Box {...s.card}>
-          <Text {...s.value}>{global.totalJournalEntries}</Text>
-          <Text {...s.label}>{t("journal.totalEntries")}</Text>
-        </Box>
-        <Box {...s.card}>
-          <Text {...s.value}>{global.totalWords.toLocaleString()}</Text>
-          <Text {...s.label}>{t("journal.totalWords")}</Text>
-        </Box>
-        <Box {...s.card}>
-          <Text {...s.value}>{global.avgWordsPerEntry}</Text>
-          <Text {...s.label}>{t("journal.avgWords")}</Text>
-        </Box>
+        {cards.map((card) => (
+          <Box key={card.label} {...s.card} bg={card.bg}>
+            <Text {...s.value}>{card.value}</Text>
+            <Text {...s.label}>{card.label}</Text>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

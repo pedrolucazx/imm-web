@@ -49,13 +49,10 @@ export function HabitChecklist({
               <chakra.button
                 type="button"
                 aria-pressed={selected}
-                aria-disabled={hasFeedback}
                 aria-label={`${habit.name}${hasFeedback ? ` — ${t("checklist.doneToday")}` : ""}`}
-                onClick={() => {
-                  if (!hasFeedback) onSelect(habit.id);
-                }}
+                onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
-                cursor={hasFeedback ? "default" : "pointer"}
+                cursor="pointer"
                 bg={isActive ? habit.color : "card"}
                 boxShadow={isActive ? "none" : "brutal"}
                 transform={isActive ? "translate(4px, 4px)" : undefined}

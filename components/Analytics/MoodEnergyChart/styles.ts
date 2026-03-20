@@ -8,7 +8,8 @@ export const s = {
     border: "0.1875rem solid black",
     boxShadow: "brutal",
     bg: "card",
-    p: { base: 4, md: 6 },
+    p: { base: 3, md: 6 },
+    overflowX: "auto",
   },
   header: {
     borderBottom: "0.125rem solid black",
@@ -22,14 +23,14 @@ export const s = {
   },
   body: {
     pt: 4,
-    overflowX: "auto",
+    overflowX: { base: "auto", md: "visible" },
   },
   chartFrame: {
     w: "100%",
-    maxW: { base: "none", xl: "61.25rem" },
+    maxW: { base: "100%", xl: "61.25rem" },
     mx: "auto",
-    h: { base: "20rem", md: "23.75rem" },
-    minW: { base: "43.75rem", md: "53.75rem" },
+    h: { base: "16rem", sm: "18rem", md: "23.75rem" },
+    minW: { base: "26rem", sm: "32rem", md: "0" },
   },
 } satisfies Record<string, SystemStyleObject>;
 
@@ -49,6 +50,6 @@ export const tooltipContentStyle: CSSProperties = {
 };
 
 export const chartColors = {
-  mood: "var(--chakra-colors-surface-mint)",
-  energy: "var(--chakra-colors-surface-coral)",
+  mood: "var(--chakra-colors-brand-coral)",
+  energy: "var(--chakra-colors-habit-reading)",
 };

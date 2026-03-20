@@ -11,7 +11,6 @@ import { s } from "./styles";
 interface StreakCalendarProps {
   habit: HabitStat | null;
   logs?: HabitLog[];
-  compact?: boolean;
 }
 
 const DAYS = 66;
@@ -50,40 +49,32 @@ function resolveCompletedStyle(color: string) {
   }
 }
 
-export function StreakCalendar({ habit, logs, compact = false }: StreakCalendarProps) {
+export function StreakCalendar({ habit, logs }: StreakCalendarProps) {
   const t = useTranslations("analytics");
   const locale = useLocale();
   const cells = buildGrid(logs, habit?.currentDay ?? 1);
   const completedStyle = resolveCompletedStyle(toChakraColor(habit?.color ?? ""));
-  const pendingStyle = compact ? s.pendingCompact : s.pendingRegular;
-  const wrapperStyle = compact ? s.wrapperCompact : s.wrapper;
-  const titleStyle = compact ? s.titleCompact : s.title;
-  const scrollStyle = compact ? s.scrollContainerCompact : s.scrollContainer;
-  const gridStyle = compact ? s.gridCompact : s.grid;
-  const legendStyle = compact ? s.legendCompact : s.legend;
-  const legendCellStyle = compact ? s.legendCellCompact : s.legendCell;
-  const legendTextStyle = compact ? s.legendTextCompact : s.legendText;
 
   return (
-    <Box {...wrapperStyle}>
-      <Text {...titleStyle}>{t("calendar.title")}</Text>
-      <Box {...scrollStyle}>
-        <Box {...gridStyle}>
+    <Box {...s.wrapper}>
+      <Text {...s.title}>{t("calendar.title")}</Text>
+      <Box {...s.scrollContainer}>
+        <Box {...s.grid}>
           {cells.map((cell) => (
             <Box
               key={cell.date}
               title={`${formatEntryDate(cell.date, locale)}${cell.completed ? " ✓" : ""}`}
               {...s.cell}
-              {...(cell.completed ? completedStyle : pendingStyle)}
+              {...(cell.completed ? completedStyle : s.pendingRegular)}
             />
           ))}
         </Box>
       </Box>
-      <Box {...legendStyle}>
-        <Box {...legendCellStyle} {...pendingStyle} />
-        <Text {...legendTextStyle}>{t("calendar.notDone")}</Text>
-        <Box {...legendCellStyle} {...completedStyle} />
-        <Text {...legendTextStyle}>{t("calendar.done")}</Text>
+      <Box {...s.legend}>
+        <Box {...s.legendCell} {...s.pendingRegular} />
+        <Text {...s.legendText}>{t("calendar.notDone")}</Text>
+        <Box {...s.legendCell} {...completedStyle} />
+        <Text {...s.legendText}>{t("calendar.done")}</Text>
       </Box>
     </Box>
   );
