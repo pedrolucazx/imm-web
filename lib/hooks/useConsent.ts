@@ -3,13 +3,17 @@ import { useTranslations } from "next-intl";
 import { consentService } from "@/lib/consent.service";
 import { toaster } from "@/components/ui/toaster";
 import { useTranslatedError } from "./useTranslatedError";
+import { useAuthContext } from "@/lib/auth-context";
 
 export function useGetConsents() {
+  const { isLoading: isAuthLoading, accessToken } = useAuthContext();
+
   return useQuery({
     queryKey: ["consents"],
     queryFn: () => consentService.getConsents(),
     retry: false,
     staleTime: Infinity,
+    enabled: !isAuthLoading && !!accessToken,
   });
 }
 
