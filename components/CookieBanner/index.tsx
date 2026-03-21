@@ -8,15 +8,19 @@ import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
 import { useSaveConsent } from "@/lib/hooks/useConsent";
 import { s } from "./styles";
 
-const CONSENT_KEY = "imm_consent_given";
-const CONSENT_VERSION = "1.0";
+export const CONSENT_KEY = "imm_consent_given";
+export const CONSENT_VERSION = "1.0";
 
-interface ConsentData {
+export interface ConsentData {
   version: string;
   timestamp: string;
   accepted: boolean;
 }
 
+/**
+ * Cookie consent banner component that prompts users to accept privacy policy
+ * before using the application. Shows once and persists consent in localStorage.
+ */
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
   const [isVisible, setIsVisible] = useState(false);
