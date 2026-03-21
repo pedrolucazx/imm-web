@@ -8,7 +8,12 @@ export const ENDPOINTS = {
   USER: {
     ME: "/users/me",
     UPDATE: "/users/me",
+    DELETE: "/users/me",
     AVATAR_UPLOAD_URL: "/users/me/avatar-upload-url",
+  },
+  CONSENTS: {
+    SAVE: "/consents",
+    LIST: "/consents",
   },
   HABITS: {
     LIST: "/habits",

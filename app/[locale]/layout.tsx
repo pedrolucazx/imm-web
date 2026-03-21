@@ -2,6 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/lib/navigation";
+import { CookieBanner } from "@/components/CookieBanner";
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -17,5 +18,10 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   const messages = await getMessages();
 
-  return <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>;
+  return (
+    <NextIntlClientProvider messages={messages}>
+      {children}
+      <CookieBanner />
+    </NextIntlClientProvider>
+  );
 }
