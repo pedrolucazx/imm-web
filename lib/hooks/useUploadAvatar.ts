@@ -1,5 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { userService, type AvatarContentType } from "@/lib/user.service";
+import { toaster } from "@/components/ui/toaster";
+import { useTranslatedError } from "./useTranslatedError";
 
 const CONTENT_TYPE_MAP: Record<string, AvatarContentType> = {
   "image/jpeg": "image/jpeg",
@@ -9,8 +11,18 @@ const CONTENT_TYPE_MAP: Record<string, AvatarContentType> = {
 };
 
 export function useUploadAvatar(options?: { onError?: (_error: Error) => void }) {
+  const { translateError } = useTranslatedError();
+
   return useMutation({
-    onError: options?.onError,
+    onError: (error: Error) => {
+      toaster.create({
+        title: "Error",
+        description: translateError(error),
+        type: "error",
+        meta: { closable: true },
+      });
+      options?.onError?.(error);
+    },
     mutationFn: async (file: File): Promise<string> => {
       const contentType = CONTENT_TYPE_MAP[file.type];
       if (!contentType) throw new Error("Unsupported file type");

@@ -21,8 +21,10 @@ const config: Config = {
     "components/ui/Button.tsx",
     "components/ui/Input.tsx",
     "lib/auth.service.ts",
+    "lib/api-error-messages.ts",
     "lib/endpoints.ts",
     "lib/hooks/useAuth.ts",
+    "lib/hooks/useTranslatedError.ts",
   ],
 };
 

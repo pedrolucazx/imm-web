@@ -3,6 +3,7 @@ import { useAuthContext } from "@/lib/auth-context";
 import { toaster } from "@/components/ui/toaster";
 import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
 import { useTranslations } from "next-intl";
+import { useTranslatedError } from "./useTranslatedError";
 
 export interface AuthMutationOptions {
   onSuccess?: (_data: AuthResponse) => void;
@@ -15,6 +16,7 @@ export function useRegister(
   const { register } = useAuthContext();
   const queryClient = useQueryClient();
   const t = useTranslations("auth.register");
+  const { translateError } = useTranslatedError();
 
   return useMutation({
     mutationFn: (data: RegisterInput): Promise<AuthResponse> => register(data),
@@ -29,9 +31,10 @@ export function useRegister(
       });
     },
     onError: (error: Error): void => {
+      const translatedMessage = translateError(error);
       toaster.create({
         title: t("toastErrorTitle"),
-        description: error.message || t("toastErrorDesc"),
+        description: translatedMessage,
         type: "error",
         meta: { closable: true },
       });
@@ -46,6 +49,7 @@ export function useLogin(
   const { login } = useAuthContext();
   const queryClient = useQueryClient();
   const t = useTranslations("auth.login");
+  const { translateError } = useTranslatedError();
 
   return useMutation({
     mutationFn: (data: LoginInput): Promise<AuthResponse> => login(data),
@@ -60,9 +64,10 @@ export function useLogin(
       });
     },
     onError: (error: Error): void => {
+      const translatedMessage = translateError(error);
       toaster.create({
         title: t("toastErrorTitle"),
-        description: error.message || t("toastErrorDesc"),
+        description: translatedMessage,
         type: "error",
         meta: { closable: true },
       });
