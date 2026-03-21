@@ -33,12 +33,14 @@ export function useDeleteAccount(
       window.location.href = "/";
     },
     onError: (error: Error): void => {
-      toaster.create({
-        title: t("title"),
-        description: translateError(error),
-        type: "error",
-        meta: { closable: true },
-      });
+      if (!options?.onError) {
+        toaster.create({
+          title: t("title"),
+          description: translateError(error),
+          type: "error",
+          meta: { closable: true },
+        });
+      }
       options?.onError?.(error);
     },
   });

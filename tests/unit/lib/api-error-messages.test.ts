@@ -170,16 +170,24 @@ describe("api-error-messages", () => {
     });
 
     describe("AI_NOT_CONFIGURED", () => {
-      it("should map 'GEMINI_API_KEY is not configured' to AI_NOT_CONFIGURED", () => {
-        expect(mapApiErrorToKey("GEMINI_API_KEY is not configured")).toBe("AI_NOT_CONFIGURED");
+      it("should map 'Gemini API error' to AI_NOT_CONFIGURED", () => {
+        expect(mapApiErrorToKey("Gemini API error")).toBe("AI_NOT_CONFIGURED");
+      });
+
+      it("should map 'Gemini error' to AI_NOT_CONFIGURED", () => {
+        expect(mapApiErrorToKey("Gemini error")).toBe("AI_NOT_CONFIGURED");
       });
 
       it("should map 'AI service not configured' to AI_NOT_CONFIGURED", () => {
         expect(mapApiErrorToKey("AI service not configured")).toBe("AI_NOT_CONFIGURED");
       });
 
-      it("should map 'Gemini API error' to AI_NOT_CONFIGURED", () => {
-        expect(mapApiErrorToKey("Gemini API error")).toBe("AI_NOT_CONFIGURED");
+      it("should NOT map generic 'gemini' to AI_NOT_CONFIGURED", () => {
+        expect(mapApiErrorToKey("gemini returned invalid json")).toBeNull();
+      });
+
+      it("should NOT map 'api key' alone to AI_NOT_CONFIGURED", () => {
+        expect(mapApiErrorToKey("api key is required")).toBeNull();
       });
     });
 

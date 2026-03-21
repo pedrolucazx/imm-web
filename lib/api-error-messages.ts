@@ -98,10 +98,9 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
   }
 
   if (
-    normalizedMessage.includes("gemini") ||
-    normalizedMessage.includes("ai service") ||
-    normalizedMessage.includes("not configured") ||
-    normalizedMessage.includes("api key")
+    normalizedMessage.includes("gemini api") ||
+    normalizedMessage.includes("gemini error") ||
+    normalizedMessage.includes("ai service not configured")
   ) {
     return "AI_NOT_CONFIGURED";
   }
@@ -125,6 +124,19 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
   return null;
 }
 
+/**
+ * Detects network-related errors.
+ *
+ * NOTE: This function should be called AFTER mapApiErrorToKey() in useTranslatedError.
+ * This ordering is important because:
+ * - mapApiErrorToKey() runs first and handles specific error types like "AI request timed out"
+ *   which should map to AI_TIMEOUT, not NETWORK_ERROR
+ * - isNetworkError() is a fallback for generic network issues (connection failures, etc.)
+ * - If mapApiErrorToKey() returns null, then isNetworkError() is checked
+ *
+ * The "timeout" keyword remains here because generic timeout errors (not AI-specific)
+ * should still be treated as network errors.
+ */
 export function isNetworkError(message: string): boolean {
   const normalizedMessage = message.toLowerCase();
   return (

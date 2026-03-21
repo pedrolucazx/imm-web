@@ -26,6 +26,20 @@ export function useHabits() {
   };
 }
 
+function createErrorHandler(
+  t: (_key: string) => string,
+  translateError: (_error: Error) => string
+) {
+  return (error: Error): void => {
+    toaster.create({
+      title: t("title"),
+      description: translateError(error),
+      type: "error",
+      meta: { closable: true },
+    });
+  };
+}
+
 export function usePreviewHabitPlan() {
   const queryClient = useQueryClient();
   const t = useTranslations("errors");
@@ -36,14 +50,7 @@ export function usePreviewHabitPlan() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
-    onError: (error: Error) => {
-      toaster.create({
-        title: t("title"),
-        description: translateError(error),
-        type: "error",
-        meta: { closable: true },
-      });
-    },
+    onError: createErrorHandler(t, translateError),
   });
 }
 
@@ -57,14 +64,7 @@ export function useCreateHabit() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["habits"] });
     },
-    onError: (error: Error) => {
-      toaster.create({
-        title: t("title"),
-        description: translateError(error),
-        type: "error",
-        meta: { closable: true },
-      });
-    },
+    onError: createErrorHandler(t, translateError),
   });
 }
 
@@ -79,13 +79,6 @@ export function useLogHabit() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["habits"] });
     },
-    onError: (error: Error) => {
-      toaster.create({
-        title: t("title"),
-        description: translateError(error),
-        type: "error",
-        meta: { closable: true },
-      });
-    },
+    onError: createErrorHandler(t, translateError),
   });
 }
