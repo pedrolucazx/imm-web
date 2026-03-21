@@ -15,6 +15,12 @@ jest.mock("@/lib/auth.service", () => ({
   },
 }));
 
+Object.defineProperty(document, "cookie", {
+  value: "",
+  writable: true,
+  configurable: true,
+});
+
 jest.mock("@/lib/api-client", () => ({
   api: {
     setToken: jest.fn(),
@@ -36,21 +42,32 @@ function wrapper({ children }: { children: React.ReactNode }) {
   return <AuthProvider>{children}</AuthProvider>;
 }
 
+function clearCookies(): void {
+  Object.defineProperty(document, "cookie", {
+    value: "",
+    writable: true,
+    configurable: true,
+  });
+}
+
 beforeEach(() => {
+  clearCookies();
   jest.clearAllMocks();
   mockAuthService.refresh.mockRejectedValue(new Error("No session"));
 });
 
+afterEach(() => {
+  clearCookies();
+});
+
 describe("AuthProvider", () => {
   describe("initial state", () => {
-    it("starts with isLoading true and becomes false after rehydration attempt", async () => {
+    it("starts with isLoading false when no token and no refresh cookie", async () => {
       const { result } = renderHook(() => useAuthContext(), { wrapper });
 
-      expect(result.current.isLoading).toBe(true);
-
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
+      expect(result.current.isLoading).toBe(false);
+      expect(result.current.accessToken).toBeNull();
+      expect(result.current.isAuthenticated).toBe(false);
     });
 
     it("has no user and no token when refresh fails", async () => {
@@ -65,6 +82,11 @@ describe("AuthProvider", () => {
 
     it("rehydrates user from a valid refresh token cookie on mount", async () => {
       mockAuthService.refresh.mockResolvedValue(mockAuthResponse);
+      Object.defineProperty(document, "cookie", {
+        value: "refreshToken=test-refresh-token",
+        writable: true,
+        configurable: true,
+      });
 
       const { result } = renderHook(() => useAuthContext(), { wrapper });
 
@@ -82,11 +104,10 @@ describe("AuthProvider", () => {
 
       const { result } = renderHook(() => useAuthContext(), { wrapper });
 
-      await waitFor(() => expect(result.current.isLoading).toBe(false));
-
       expect(result.current.accessToken).toBe("existing-token");
       expect(result.current.isAuthenticated).toBe(true);
 
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
       await waitFor(() => expect(result.current.user).toEqual(mockAuthResponse.user));
       expect(result.current.accessToken).toBe(mockAuthResponse.token);
 
@@ -99,9 +120,10 @@ describe("AuthProvider", () => {
 
       const { result } = renderHook(() => useAuthContext(), { wrapper });
 
-      await waitFor(() => expect(result.current.isLoading).toBe(false));
       expect(result.current.accessToken).toBe("existing-token");
+      expect(result.current.isAuthenticated).toBe(true);
 
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
       await waitFor(() => expect(result.current.accessToken).toBeNull());
       expect(result.current.isAuthenticated).toBe(false);
       expect(result.current.user).toBeNull();
