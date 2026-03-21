@@ -7,9 +7,7 @@ import { Button } from "@/components/ui";
 import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
 import { useSaveConsent } from "@/lib/hooks/useConsent";
 import { s } from "./styles";
-
-export const CONSENT_KEY = "imm_consent_given";
-export const CONSENT_VERSION = "1.0";
+import { CONSENT_KEY, CONSENT_VERSION } from "@/lib/consent-constants";
 
 export interface ConsentData {
   version: string;

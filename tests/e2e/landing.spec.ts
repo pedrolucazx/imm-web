@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { CONSENT_KEY, CONSENT_VERSION } from "@/components/CookieBanner";
+import { CONSENT_KEY, CONSENT_VERSION } from "@/lib/consent-constants";
 
 const CONSENT_DATA = JSON.stringify({
   version: CONSENT_VERSION,
@@ -17,6 +17,8 @@ async function setConsent(page: Page) {
     key: CONSENT_KEY,
     value: CONSENT_DATA,
   });
+  await page.reload();
+  await page.waitForLoadState("networkidle");
 }
 
 test.describe("Landing page", () => {
@@ -27,19 +29,17 @@ test.describe("Landing page", () => {
 
   test("navigate to login page from header", async ({ page }) => {
     await setConsent(page);
-    await page
-      .getByRole("link", { name: /entrar|log in/i })
-      .first()
-      .click();
+    const link = page.getByRole("link", { name: /entrar|log in/i }).first();
+    await link.waitFor({ state: "visible" });
+    await link.click();
     await expect(page).toHaveURL(/\/login/);
   });
 
   test("navigate to register page from CTA", async ({ page }) => {
     await setConsent(page);
-    await page
-      .getByRole("link", { name: /criar.*plano|create.*plan|crear.*plan/i })
-      .first()
-      .click();
+    const link = page.getByRole("link", { name: /criar.*plano|create.*plan|crear.*plan/i }).first();
+    await link.waitFor({ state: "visible" });
+    await link.click();
     await expect(page).toHaveURL(/\/register/);
   });
 });
