@@ -9,6 +9,7 @@
     }
   },
   "errors": {
+    "title": "Error",
     "INVALID_CREDENTIALS": "Invalid email or password.",
     "INVALID_PASSWORD": "Invalid password.",
     "EMAIL_ALREADY_EXISTS": "An account with this email already exists.",

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { userService, type AvatarContentType } from "@/lib/user.service";
 import { toaster } from "@/components/ui/toaster";
 import { useTranslatedError } from "./useTranslatedError";
@@ -11,12 +12,13 @@ const CONTENT_TYPE_MAP: Record<string, AvatarContentType> = {
 };
 
 export function useUploadAvatar(options?: { onError?: (_error: Error) => void }) {
+  const t = useTranslations("errors");
   const { translateError } = useTranslatedError();
 
   return useMutation({
     onError: (error: Error) => {
       toaster.create({
-        title: "Error",
+        title: t("title"),
         description: translateError(error),
         type: "error",
         meta: { closable: true },

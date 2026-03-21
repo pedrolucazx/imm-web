@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useAuthContext } from "@/lib/auth-context";
 import { journalService } from "@/lib/journal.service";
 import { toaster } from "@/components/ui/toaster";
@@ -37,6 +38,7 @@ export function useJournalHistory() {
 
 export function useSaveJournal() {
   const queryClient = useQueryClient();
+  const t = useTranslations("errors");
   const { translateError } = useTranslatedError();
 
   return useMutation({
@@ -46,7 +48,7 @@ export function useSaveJournal() {
     },
     onError: (error: Error) => {
       toaster.create({
-        title: "Error",
+        title: t("title"),
         description: translateError(error),
         type: "error",
         meta: { closable: true },
@@ -57,6 +59,7 @@ export function useSaveJournal() {
 
 export function useAnalyzeJournal() {
   const queryClient = useQueryClient();
+  const t = useTranslations("errors");
   const { translateError } = useTranslatedError();
 
   return useMutation({
@@ -74,7 +77,7 @@ export function useAnalyzeJournal() {
     },
     onError: (error: Error) => {
       toaster.create({
-        title: "Error",
+        title: t("title"),
         description: translateError(error),
         type: "error",
         meta: { closable: true },

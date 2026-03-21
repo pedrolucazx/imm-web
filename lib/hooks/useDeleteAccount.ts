@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient, type UseMutationResult } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useAuthContext } from "@/lib/auth-context";
 import { userService } from "@/lib/user.service";
 import { api } from "@/lib/api-client";
@@ -15,6 +16,7 @@ export function useDeleteAccount(
 ): UseMutationResult<void, Error, string> {
   const { setUser, setAccessToken } = useAuthContext();
   const queryClient = useQueryClient();
+  const t = useTranslations("errors");
   const { translateError } = useTranslatedError();
 
   return useMutation({
@@ -32,7 +34,7 @@ export function useDeleteAccount(
     },
     onError: (error: Error): void => {
       toaster.create({
-        title: "Error",
+        title: t("title"),
         description: translateError(error),
         type: "error",
         meta: { closable: true },

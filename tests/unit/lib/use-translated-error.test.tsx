@@ -149,6 +149,7 @@ describe("useTranslatedError", () => {
 
   describe("translation keys exist in all locale files", () => {
     const requiredKeys = [
+      "title",
       "INVALID_CREDENTIALS",
       "INVALID_PASSWORD",
       "EMAIL_ALREADY_EXISTS",
