@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { consentService } from "@/lib/consent.service";
 import { toaster } from "@/components/ui/toaster";
@@ -20,6 +20,7 @@ export function useGetConsents() {
 export function useSaveConsent(options?: { onError?: (_error: Error) => void }) {
   const t = useTranslations("errors");
   const { translateError } = useTranslatedError();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () =>
@@ -28,6 +29,9 @@ export function useSaveConsent(options?: { onError?: (_error: Error) => void }) 
         consentService.saveConsent("privacy_policy"),
         consentService.saveConsent("terms_of_use"),
       ]),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["consents"] });
+    },
     onError: (error: Error) => {
       toaster.create({
         title: t("title"),
