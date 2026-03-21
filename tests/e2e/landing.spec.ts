@@ -1,4 +1,19 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+const CONSENT_KEY = "imm_consent_given";
+const CONSENT_DATA = JSON.stringify({
+  version: "1.0",
+  timestamp: new Date().toISOString(),
+  accepted: true,
+});
+
+async function setConsent(page: Page) {
+  await page.goto("/pt-BR/");
+  await page.evaluate(({ key, value }) => localStorage.setItem(key, value), {
+    key: CONSENT_KEY,
+    value: CONSENT_DATA,
+  });
+}
 
 test.describe("Landing page", () => {
   test("loads and shows the main heading", async ({ page }) => {
@@ -7,7 +22,7 @@ test.describe("Landing page", () => {
   });
 
   test("navigate to login page from header", async ({ page }) => {
-    await page.goto("/pt-BR/");
+    await setConsent(page);
     await page
       .getByRole("link", { name: /entrar|log in/i })
       .first()
@@ -16,7 +31,7 @@ test.describe("Landing page", () => {
   });
 
   test("navigate to register page from CTA", async ({ page }) => {
-    await page.goto("/pt-BR/");
+    await setConsent(page);
     await page
       .getByRole("link", { name: /criar.*plano|create.*plan|crear.*plan/i })
       .first()
