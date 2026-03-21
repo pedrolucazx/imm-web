@@ -31,7 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const existingToken = api.getToken();
     if (existingToken) {
       setAccessTokenState(existingToken);
-      setIsLoading(false);
       authService
         .refresh()
         .then((data) => {
@@ -42,21 +41,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .catch(() => {
           api.removeToken();
           setAccessTokenState(null);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
       return;
     }
 
-    authService
-      .refresh()
-      .then((data) => {
-        api.setToken(data.token);
-        setAccessTokenState(data.token);
-        setUserState(data.user);
-      })
-      .catch((_error) => {})
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const hasRefreshToken = document.cookie.includes("refreshToken=");
+    if (hasRefreshToken) {
+      authService
+        .refresh()
+        .then((data) => {
+          api.setToken(data.token);
+          setAccessTokenState(data.token);
+          setUserState(data.user);
+        })
+        .catch((_error) => {})
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
