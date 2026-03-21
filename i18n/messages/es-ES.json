@@ -8,31 +8,6 @@
       "strong": "Fuerte"
     }
   },
-  "cookieBanner": {
-    "title": "Antes de continuar",
-    "intro": "Para usar Inside My Mind, necesitas aceptar nuestra política de privacidad. Esto es necesario para guardar tus hábitos, diarios y procesar análisis de IA.",
-    "accept": "Aceptar y continuar",
-    "viewPrivacy": "Leer política de privacidad"
-  },
-  "privacyPolicy": {
-    "title": "Política de Privacidad y Términos",
-    "dataCollection": "1. Recopilación de Datos",
-    "dataCollectionText": "Recopilamos información que proporcionas directamente: nombre, correo electrónico, idioma preferido y zona horaria. También recopilamos datos sobre tus hábitos, diarios e interacciones con nuestros agentes de IA para personalizar tu experiencia.",
-    "aiUsage": "2. Uso de IA",
-    "aiUsageText": "Utilizamos IA (Google Gemini) para generar planes de hábitos personalizados y proporcionar retroalimentación sobre tus diarios. Tus textos pueden ser procesados temporalmente por estos servicios para análisis lingüístico y conductual.",
-    "dataStorage2": "3. Almacenamiento de Datos",
-    "dataStorageText": "Tus datos se almacenan en servidores seguros (Supabase/PostgreSQL). No vendemos, compartimos ni transferimos tus datos personales a terceros.",
-    "userRights": "4. Tus Derechos",
-    "userRightsText": "Tienes derecho a: acceder a tus datos, corregir datos inexactos, solicitar anonimización o eliminación de tus datos, y revocar el consentimiento. Para ejercer tus derechos, utiliza la función de eliminación de cuenta en la configuración.",
-    "cookies": "5. Cookies",
-    "cookiesText": "Utilizamos cookies esenciales para autenticación y funcionalidad básica. No utilizamos cookies de seguimiento o publicidad de terceros.",
-    "contact": "6. Contacto",
-    "contactText": "Para preguntas sobre privacidad, contáctanos en: privacy@insidemymind.app",
-    "updates": "7. Actualizaciones",
-    "updatesText": "Esta política puede actualizarse periódicamente. Te notificaremos sobre cambios significativos.",
-    "acceptAndClose": "Aceptar y Cerrar",
-    "close": "Cerrar"
-  },
   "landing": {
     "seo": {
       "title": "Inside My Mind — Rastreador de Hábitos con IA | 66 Días",
@@ -370,23 +345,6 @@
     "toastSuccessDesc": "Tus cambios se guardaron correctamente.",
     "toastErrorTitle": "Error al guardar",
     "toastErrorDesc": "No se pudieron guardar los cambios. Inténtalo de nuevo.",
-    "accountCardTitle": "Cuenta",
-    "accountDescription": "Eliminar tu cuenta elimina permanentemente todos tus datos.",
-    "deleteAccount": "Eliminar",
-    "privacyCardTitle": "Privacidad",
-    "privacyCardDescription": "Lee nuestra política de privacidad para saber cómo protegemos tus datos.",
-    "privacyLink": "Política de Privacidad",
-    "deleteModal": {
-      "title": "Eliminar cuenta",
-      "warning": "Esta acción es permanente e irreversible. Todos tus datos serán eliminados.",
-      "passwordLabel": "CONTRASEÑA ACTUAL",
-      "passwordPlaceholder": "Ingresa tu contraseña…",
-      "passwordRequired": "La contraseña es obligatoria",
-      "invalidPassword": "Contraseña incorrecta",
-      "cancelBtn": "Cancelar",
-      "confirmBtn": "Eliminar",
-      "error": "No se pudo eliminar la cuenta. Inténtalo de nuevo."
-    },
     "timezone": {
       "america_sao_paulo": "América/São Paulo (UTC-3)",
       "america_new_york": "América/Nueva York (UTC-5/-4)",

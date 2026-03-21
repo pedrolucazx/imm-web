@@ -8,31 +8,6 @@
       "strong": "Strong"
     }
   },
-  "cookieBanner": {
-    "title": "Before you continue",
-    "intro": "To use Inside My Mind, you need to accept our privacy policy. This is necessary to save your habits, journals, and process AI analyses.",
-    "accept": "Accept and continue",
-    "viewPrivacy": "Read privacy policy"
-  },
-  "privacyPolicy": {
-    "title": "Privacy Policy & Terms",
-    "dataCollection": "1. Data Collection",
-    "dataCollectionText": "We collect information you provide directly: name, email, preferred language, and timezone. We also collect data about your habits, journals, and interactions with our AI agents to personalize your experience.",
-    "aiUsage": "2. AI Usage",
-    "aiUsageText": "We use AI (Google Gemini) to generate personalized habit plans and provide feedback on your journals. Your texts may be temporarily processed by these services for linguistic and behavioral analysis.",
-    "dataStorage2": "3. Data Storage",
-    "dataStorageText": "Your data is stored on secure servers (Supabase/PostgreSQL). We do not sell, share, or transfer your personal data to third parties.",
-    "userRights": "4. Your Rights",
-    "userRightsText": "You have the right to: access your data, correct inaccurate data, request anonymization or deletion of your data, and revoke consent. To exercise your rights, use the account deletion feature in settings.",
-    "cookies": "5. Cookies",
-    "cookiesText": "We use essential cookies for authentication and basic functionality. We do not use tracking or third-party advertising cookies.",
-    "contact": "6. Contact",
-    "contactText": "For privacy questions, contact us at: privacy@insidemymind.app",
-    "updates": "7. Updates",
-    "updatesText": "This policy may be updated periodically. We will notify you of significant changes.",
-    "acceptAndClose": "Accept and Close",
-    "close": "Close"
-  },
   "landing": {
     "seo": {
       "title": "Inside My Mind — AI-Powered Habit Tracker | 66-Day Journey",
@@ -370,23 +345,6 @@
     "toastSuccessDesc": "Your changes have been saved successfully.",
     "toastErrorTitle": "Save failed",
     "toastErrorDesc": "Could not save changes. Please try again.",
-    "accountCardTitle": "Account",
-    "accountDescription": "Deleting your account permanently removes all your data.",
-    "deleteAccount": "Delete",
-    "privacyCardTitle": "Privacy",
-    "privacyCardDescription": "Read our privacy policy to learn how we protect your data.",
-    "privacyLink": "Privacy Policy",
-    "deleteModal": {
-      "title": "Delete account",
-      "warning": "This action is permanent and irreversible. All your data will be deleted.",
-      "passwordLabel": "CURRENT PASSWORD",
-      "passwordPlaceholder": "Enter your password…",
-      "passwordRequired": "Password is required",
-      "invalidPassword": "Incorrect password",
-      "cancelBtn": "Cancel",
-      "confirmBtn": "Delete",
-      "error": "Could not delete account. Please try again."
-    },
     "timezone": {
       "america_sao_paulo": "America/São Paulo (UTC-3)",
       "america_new_york": "America/New York (UTC-5/-4)",
