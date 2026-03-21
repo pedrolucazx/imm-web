@@ -7,37 +7,13 @@ import { Button } from "@/components/ui";
 import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
 import { useGetConsents, useSaveConsent } from "@/lib/hooks/useConsent";
 import { s } from "./styles";
-import { CONSENT_KEY, CONSENT_VERSION } from "@/lib/consent-constants";
+import { hasLocalConsent, setLocalConsent } from "@/lib/consent-constants";
 import { useAuthContext } from "@/lib/auth-context";
 
-export interface ConsentData {
-  version: string;
-  timestamp: string;
-  accepted: boolean;
-}
-
-function hasLocalConsent(): boolean {
-  if (typeof window === "undefined") return false;
-  const stored = localStorage.getItem(CONSENT_KEY);
-  if (!stored) return false;
-
-  try {
-    const parsed = JSON.parse(stored) as ConsentData;
-    return parsed.version === CONSENT_VERSION;
-  } catch {
-    return stored === CONSENT_VERSION;
-  }
-}
-
-function setLocalConsent(): void {
-  const consentData: ConsentData = {
-    version: CONSENT_VERSION,
-    timestamp: new Date().toISOString(),
-    accepted: true,
-  };
-  localStorage.setItem(CONSENT_KEY, JSON.stringify(consentData));
-}
-
+/**
+ * Cookie consent banner component that prompts users to accept privacy policy
+ * before using the application. Shows once and persists consent in localStorage.
+ */
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
   const { isAuthenticated, isLoading: isAuthLoading } = useAuthContext();
