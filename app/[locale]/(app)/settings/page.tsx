@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,6 +9,8 @@ import { Box, Text } from "@chakra-ui/react";
 import { Input, Textarea, Select, Button } from "@/components/ui";
 import { AvatarUpload, useAvatarUpload } from "@/components/AvatarUpload";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { DeleteAccountModal } from "@/components/settings/DeleteAccountModal";
+import { PrivacyPolicyModal } from "@/components/CookieBanner/PrivacyPolicyModal";
 import type { UILanguage } from "@/lib/constants";
 import { useGetProfile, useUpdateProfile } from "@/lib/hooks/useProfile";
 import { useRouter, usePathname } from "@/lib/navigation";
@@ -41,6 +43,9 @@ export default function SettingsPage(): React.JSX.Element {
   const t = useTranslations("settings");
   const router = useRouter();
   const pathname = usePathname();
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
 
   const { data: profile, isLoading } = useGetProfile();
   const { mutateAsync: saveProfile, isPending: isSaving } = useUpdateProfile();
@@ -118,101 +123,149 @@ export default function SettingsPage(): React.JSX.Element {
 
   return (
     <PageWrapper title={`⚙️ ${t("pageTitle")}`} loading={isLoading || !isAvatarReady}>
-      <Box {...s.languageCard}>
-        <Text {...s.languageCardTitle}>{t("languageCardTitle")}</Text>
-        <Text {...s.languageBanner}>{t("languageBanner")}</Text>
-        <LanguageSelector
-          label=""
-          value={watch("ui_language")}
-          onChange={(lang) => setValue("ui_language", lang, { shouldDirty: true })}
-        />
-      </Box>
+      <Box {...s.pageGrid}>
+        <Box {...s.profileCard}>
+          <Text {...s.profileCardTitle}>{t("profileCardTitle")}</Text>
+          <Box as="form" onSubmit={handleSubmit(onSubmit)} {...s.formStack}>
+            <AvatarUpload
+              currentUrl={profile?.avatarUrl}
+              previewUrl={previewUrl}
+              name={profile?.name}
+              label={t("avatarLabel")}
+              changeLabel={t("avatarUploadLabel")}
+              onFileChange={handleFileChange}
+              onValidationError={(reason) => {
+                const title = reason === "size" ? t("avatarErrorSize") : t("avatarErrorType");
+                toaster.create({ type: "error", title, meta: { closable: true } });
+              }}
+            />
 
-      <Box {...s.profileCard}>
-        <Text {...s.profileCardTitle}>{t("profileCardTitle")}</Text>
-        <Box as="form" onSubmit={handleSubmit(onSubmit)} {...s.formStack}>
-          <AvatarUpload
-            currentUrl={profile?.avatarUrl}
-            previewUrl={previewUrl}
-            name={profile?.name}
-            label={t("avatarLabel")}
-            changeLabel={t("avatarUploadLabel")}
-            onFileChange={handleFileChange}
-            onValidationError={(reason) => {
-              const title = reason === "size" ? t("avatarErrorSize") : t("avatarErrorType");
-              toaster.create({ type: "error", title, meta: { closable: true } });
-            }}
-          />
+            <Input
+              label={t("nameLabel")}
+              placeholder={t("namePlaceholder")}
+              error={errors.name?.message}
+              {...register("name")}
+            />
 
-          <Input
-            label={t("nameLabel")}
-            placeholder={t("namePlaceholder")}
-            error={errors.name?.message}
-            {...register("name")}
-          />
+            <Input
+              label={t("emailLabel")}
+              value={profile?.email ?? ""}
+              disabled
+              title={t("emailReadonly")}
+            />
 
-          <Input
-            label={t("emailLabel")}
-            value={profile?.email ?? ""}
-            disabled
-            title={t("emailReadonly")}
-          />
+            <Textarea
+              label={t("bioLabel")}
+              placeholder={t("bioPlaceholder")}
+              error={errors.bio?.message}
+              {...register("bio")}
+            />
 
-          <Textarea
-            label={t("bioLabel")}
-            placeholder={t("bioPlaceholder")}
-            error={errors.bio?.message}
-            {...register("bio")}
-          />
+            <Controller
+              control={control}
+              name="timezone"
+              render={({ field }) => (
+                <Select
+                  label={t("timezoneLabel")}
+                  options={[
+                    { value: "", label: "—" },
+                    ...TIMEZONES.map((tz) => ({ value: tz.value, label: t(tz.labelKey) })),
+                  ]}
+                  value={field.value ? [field.value] : []}
+                  onValueChange={({ value }) => field.onChange(value[0] ?? "")}
+                  positioning={{ placement: "bottom" }}
+                />
+              )}
+            />
 
-          <Controller
-            control={control}
-            name="timezone"
-            render={({ field }) => (
-              <Select
-                label={t("timezoneLabel")}
-                options={[
-                  { value: "", label: "—" },
-                  ...TIMEZONES.map((tz) => ({ value: tz.value, label: t(tz.labelKey) })),
-                ]}
-                value={field.value ? [field.value] : []}
-                onValueChange={({ value }) => field.onChange(value[0] ?? "")}
-                positioning={{ placement: "bottom" }}
-              />
-            )}
-          />
-
-          <Box {...s.aiSection}>
-            <Text {...s.aiTitle}>{t("aiUsageTitle")}</Text>
-            <Box {...s.usageInfo}>
-              <Text {...s.usageLabel}>
-                {t("aiUsageLabel", {
-                  used: profile?.profile.aiRequestsToday ?? 0,
+            <Box {...s.aiSection}>
+              <Text {...s.aiTitle}>{t("aiUsageTitle")}</Text>
+              <Box {...s.usageInfo}>
+                <Text {...s.usageLabel}>
+                  {t("aiUsageLabel", {
+                    used: profile?.profile.aiRequestsToday ?? 0,
+                    limit: AI_LIMIT,
+                  })}
+                </Text>
+                <Text {...s.usageReset}>{t("aiUsageReset")}</Text>
+              </Box>
+              <Box
+                {...s.usageBar}
+                role="progressbar"
+                aria-valuenow={profile?.profile?.aiRequestsToday ?? 0}
+                aria-valuemin={0}
+                aria-valuemax={AI_LIMIT}
+                aria-label={t("aiUsageLabel", {
+                  used: profile?.profile?.aiRequestsToday ?? 0,
                   limit: AI_LIMIT,
                 })}
-              </Text>
-              <Text {...s.usageReset}>{t("aiUsageReset")}</Text>
+              >
+                <Box {...s.usageFill} style={{ width: `${usagePercent}%` }} />
+              </Box>
             </Box>
-            <Box
-              {...s.usageBar}
-              role="progressbar"
-              aria-valuenow={profile?.profile?.aiRequestsToday ?? 0}
-              aria-valuemin={0}
-              aria-valuemax={AI_LIMIT}
-              aria-label={t("aiUsageLabel", {
-                used: profile?.profile?.aiRequestsToday ?? 0,
-                limit: AI_LIMIT,
-              })}
+
+            <Button
+              type="submit"
+              loading={isUploading || isSaving}
+              variant="primary"
+              {...s.saveBtn}
             >
-              <Box {...s.usageFill} style={{ width: `${usagePercent}%` }} />
-            </Box>
+              {t("save")}
+            </Button>
+          </Box>
+        </Box>
+
+        <Box {...s.sideCards}>
+          <Box {...s.languageCard}>
+            <Text {...s.languageCardTitle}>{t("languageCardTitle")}</Text>
+            <Text {...s.languageBanner}>{t("languageBanner")}</Text>
+            <LanguageSelector
+              label=""
+              value={watch("ui_language")}
+              onChange={(lang) => setValue("ui_language", lang, { shouldDirty: true })}
+            />
           </Box>
 
-          <Button type="submit" loading={isUploading || isSaving} variant="primary" {...s.saveBtn}>
-            {t("save")}
-          </Button>
+          <Box {...s.privacyCard}>
+            <Text {...s.privacyCardTitle}>{t("privacyCardTitle")}</Text>
+            <Text {...s.privacyDescription}>{t("privacyCardDescription")}</Text>
+            <Button
+              variant="muted"
+              onClick={() => setIsPrivacyModalOpen(true)}
+              justifyContent="space-between"
+              w="100%"
+              py={4}
+            >
+              <Text fontSize="sm" fontWeight="700">
+                {t("privacyLink")}
+              </Text>
+              <Text fontSize="lg">→</Text>
+            </Button>
+          </Box>
+
+          <Box {...s.accountCard}>
+            <Text {...s.accountCardTitle}>{t("accountCardTitle")}</Text>
+            <Text {...s.accountDescription}>{t("accountDescription")}</Text>
+            <Button
+              onClick={() => setIsDeleteModalOpen(true)}
+              variant="accent"
+              w="100%"
+              py={4}
+              fontSize={{ base: "xs", md: "sm" }}
+            >
+              {t("deleteAccount")}
+            </Button>
+          </Box>
         </Box>
       </Box>
+
+      <DeleteAccountModal open={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
+
+      <PrivacyPolicyModal
+        open={isPrivacyModalOpen}
+        onClose={() => setIsPrivacyModalOpen(false)}
+        onAccept={() => setIsPrivacyModalOpen(false)}
+      />
     </PageWrapper>
   );
 }
