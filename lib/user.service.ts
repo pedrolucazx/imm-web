@@ -18,4 +18,8 @@ export const userService = {
   ): Promise<{ signedUrl: string; publicUrl: string; path: string }> {
     return api.post(ENDPOINTS.USER.AVATAR_UPLOAD_URL, { contentType });
   },
+
+  async deleteAccount(password: string): Promise<void> {
+    return api.delete(ENDPOINTS.USER.DELETE, { data: { password } });
+  },
 };
