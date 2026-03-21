@@ -8,6 +8,27 @@
       "strong": "Fuerte"
     }
   },
+  "errors": {
+    "title": "Error",
+    "INVALID_CREDENTIALS": "Correo o contraseña incorrectos.",
+    "INVALID_PASSWORD": "Contraseña incorrecta.",
+    "EMAIL_ALREADY_EXISTS": "Ya existe una cuenta con este correo.",
+    "VALIDATION_FAILED": "Verifica tu información e inténtalo de nuevo.",
+    "INTERNAL_SERVER_ERROR": "Algo salió mal. Inténtalo más tarde.",
+    "NOT_FOUND": "Recurso no encontrado.",
+    "HABIT_NOT_FOUND": "Hábito no encontrado.",
+    "JOURNAL_ENTRY_NOT_FOUND": "Entrada del diario no encontrada.",
+    "HABITS_LIMIT_REACHED": "Has alcanzado el número máximo de hábitos activos.",
+    "PLAN_ALREADY_GENERATING": "El plan ya se está generando.",
+    "HABIT_INACTIVE": "Este hábito ya no está activo.",
+    "AI_RATE_LIMIT": "El servicio de IA está ocupado. Espera un momento e inténtalo de nuevo.",
+    "AI_TIMEOUT": "La solicitud de IA expiró. Inténtalo de nuevo.",
+    "AI_NOT_CONFIGURED": "El servicio de IA no está disponible en este momento.",
+    "REFRESH_TOKEN_EXPIRED": "Tu sesión ha expirado. Inicia sesión de nuevo.",
+    "INVALID_REFRESH_TOKEN": "Tu sesión es inválida. Inicia sesión de nuevo.",
+    "FORBIDDEN": "No tienes permiso para realizar esta acción.",
+    "NETWORK_ERROR": "No se pudo conectar al servidor. Verifica tu conexión."
+  },
   "cookieBanner": {
     "title": "Antes de continuar",
     "intro": "Para usar Inside My Mind, necesitas aceptar nuestra política de privacidad. Esto es necesario para guardar tus hábitos, diarios y procesar análisis de IA.",
@@ -158,7 +179,6 @@
       "toastSuccessTitle": "¡Bienvenido de vuelta!",
       "toastSuccessDesc": "Has iniciado sesión correctamente.",
       "toastErrorTitle": "Error al iniciar sesión",
-      "toastErrorDesc": "Correo o contraseña inválidos.",
       "noAccount": "¿No tienes cuenta?",
       "registerLink": "Regístrate"
     },
@@ -182,7 +202,6 @@
       "toastSuccessTitle": "¡Cuenta creada!",
       "toastSuccessDesc": "Bienvenido a tu viaje de transformación de 66 días.",
       "toastErrorTitle": "Error en el registro",
-      "toastErrorDesc": "Por favor, inténtalo de nuevo.",
       "hasAccount": "¿Ya tienes cuenta?",
       "loginLink": "Iniciar sesión"
     }

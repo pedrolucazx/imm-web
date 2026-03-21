@@ -4,6 +4,7 @@ import { useAuthContext } from "@/lib/auth-context";
 import { userService } from "@/lib/user.service";
 import { toaster } from "@/components/ui/toaster";
 import type { UpdateProfileInput, UserProfile } from "@/types/user";
+import { useTranslatedError } from "./useTranslatedError";
 
 export function useGetProfile() {
   const { isLoading: isAuthLoading, accessToken } = useAuthContext();
@@ -23,6 +24,7 @@ export function useGetProfile() {
 export function useUpdateProfile(options?: { silent?: boolean }) {
   const queryClient = useQueryClient();
   const t = useTranslations("settings");
+  const { translateError } = useTranslatedError();
 
   return useMutation({
     mutationFn: (data: UpdateProfileInput) => userService.updateMe(data),
@@ -40,7 +42,7 @@ export function useUpdateProfile(options?: { silent?: boolean }) {
     onError: (error: Error) => {
       toaster.create({
         title: t("toastErrorTitle"),
-        description: error.message || t("toastErrorDesc"),
+        description: translateError(error),
         type: "error",
         meta: { closable: true },
       });

@@ -8,6 +8,27 @@
       "strong": "Strong"
     }
   },
+  "errors": {
+    "title": "Error",
+    "INVALID_CREDENTIALS": "Invalid email or password.",
+    "INVALID_PASSWORD": "Invalid password.",
+    "EMAIL_ALREADY_EXISTS": "An account with this email already exists.",
+    "VALIDATION_FAILED": "Please check your information and try again.",
+    "INTERNAL_SERVER_ERROR": "Something went wrong. Please try again later.",
+    "NOT_FOUND": "Resource not found.",
+    "HABIT_NOT_FOUND": "Habit not found.",
+    "JOURNAL_ENTRY_NOT_FOUND": "Journal entry not found.",
+    "HABITS_LIMIT_REACHED": "You've reached the maximum number of active habits.",
+    "PLAN_ALREADY_GENERATING": "Plan is already being generated.",
+    "HABIT_INACTIVE": "This habit is no longer active.",
+    "AI_RATE_LIMIT": "AI service is busy. Please wait a moment and try again.",
+    "AI_TIMEOUT": "AI request timed out. Please try again.",
+    "AI_NOT_CONFIGURED": "AI service is not available at the moment.",
+    "REFRESH_TOKEN_EXPIRED": "Your session has expired. Please log in again.",
+    "INVALID_REFRESH_TOKEN": "Your session is invalid. Please log in again.",
+    "FORBIDDEN": "You don't have permission to perform this action.",
+    "NETWORK_ERROR": "Unable to connect to the server. Please check your connection."
+  },
   "cookieBanner": {
     "title": "Before you continue",
     "intro": "To use Inside My Mind, you need to accept our privacy policy. This is necessary to save your habits, journals, and process AI analyses.",
@@ -158,7 +179,6 @@
       "toastSuccessTitle": "Welcome back!",
       "toastSuccessDesc": "You've successfully logged in.",
       "toastErrorTitle": "Login failed",
-      "toastErrorDesc": "Invalid email or password.",
       "noAccount": "Don't have an account?",
       "registerLink": "Sign Up"
     },
@@ -182,7 +202,6 @@
       "toastSuccessTitle": "Account created!",
       "toastSuccessDesc": "Welcome to your 66-day transformation journey.",
       "toastErrorTitle": "Registration failed",
-      "toastErrorDesc": "Please try again.",
       "hasAccount": "Already have an account?",
       "loginLink": "Log In"
     }
