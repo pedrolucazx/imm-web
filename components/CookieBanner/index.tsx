@@ -32,7 +32,7 @@ function setLocalConsent(): void {
 
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuthContext();
   const [isVisible, setIsVisible] = useState(false);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
 
@@ -40,13 +40,13 @@ export function CookieBanner() {
   const { mutate: saveConsent, isPending: isSavingConsent } = useSaveConsent();
 
   useEffect(() => {
-    if (isLoadingConsents) return;
+    if (isLoadingConsents || isAuthLoading) return;
 
     const hasConsent = hasLocalConsent() || (consentsData?.length ?? 0) > 0;
     if (!hasConsent) {
       setIsVisible(true);
     }
-  }, [isLoadingConsents, consentsData]);
+  }, [isLoadingConsents, consentsData, isAuthLoading]);
 
   const handleAccept = () => {
     setLocalConsent();
