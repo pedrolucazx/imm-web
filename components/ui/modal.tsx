@@ -27,7 +27,7 @@ export function Modal({ open, onClose, title, footer, maxW = "520px", children }
       scrollBehavior="inside"
       placement="center"
     >
-      <DialogContent {...s.content} maxW={maxW}>
+      <DialogContent {...s.content} maxW={maxW} style={{ overscrollBehavior: "contain" }}>
         <DialogHeader {...s.header}>
           <DialogTitle {...s.title}>{title}</DialogTitle>
           <chakra.button type="button" onClick={onClose} aria-label="Close" {...s.closeBtn}>
@@ -38,7 +38,7 @@ export function Modal({ open, onClose, title, footer, maxW = "520px", children }
           {children}
         </DialogBody>
         {footer && (
-          <DialogFooter p={0} mt={6}>
+          <DialogFooter p={0} mt={4}>
             {footer}
           </DialogFooter>
         )}

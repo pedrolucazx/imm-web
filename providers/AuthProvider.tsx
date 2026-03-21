@@ -14,14 +14,14 @@ import { isAuthRoute } from "@/lib/routing-utils";
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [accessToken, setAccessTokenState] = useState<string | null>(null);
+  const [user, setUserState] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(!isAuthRoute(pathname));
 
   useEffect(() => {
     api.setOnTokenRefreshed((newToken, newUser) => {
-      setAccessToken(newToken);
-      setUser(newUser);
+      setAccessTokenState(newToken);
+      setUserState(newUser);
     });
   }, []);
 
@@ -30,18 +30,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const existingToken = api.getToken();
     if (existingToken) {
-      setAccessToken(existingToken);
+      setAccessTokenState(existingToken);
       setIsLoading(false);
       authService
         .refresh()
         .then((data) => {
           api.setToken(data.token);
-          setAccessToken(data.token);
-          setUser(data.user);
+          setAccessTokenState(data.token);
+          setUserState(data.user);
         })
         .catch(() => {
           api.removeToken();
-          setAccessToken(null);
+          setAccessTokenState(null);
         });
       return;
     }
@@ -50,8 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .refresh()
       .then((data) => {
         api.setToken(data.token);
-        setAccessToken(data.token);
-        setUser(data.user);
+        setAccessTokenState(data.token);
+        setUserState(data.user);
       })
       .catch((_error) => {})
       .finally(() => {
@@ -63,16 +63,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
     const response = await authService.login(data);
     api.setToken(response.token);
-    setAccessToken(response.token);
-    setUser(response.user);
+    setAccessTokenState(response.token);
+    setUserState(response.user);
     return response;
   }, []);
 
   const register = useCallback(async (data: RegisterInput): Promise<AuthResponse> => {
     const response = await authService.register(data);
     api.setToken(response.token);
-    setAccessToken(response.token);
-    setUser(response.user);
+    setAccessTokenState(response.token);
+    setUserState(response.user);
     return response;
   }, []);
 
@@ -81,9 +81,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await authService.logout();
     } finally {
       api.removeToken();
-      setAccessToken(null);
-      setUser(null);
+      setAccessTokenState(null);
+      setUserState(null);
     }
+  }, []);
+
+  const setAccessToken = useCallback((token: string | null) => {
+    setAccessTokenState(token);
+  }, []);
+
+  const setUser = useCallback((userData: User | null) => {
+    setUserState(userData);
   }, []);
 
   return (
@@ -96,6 +104,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         register,
         logout,
+        setAccessToken,
+        setUser,
       }}
     >
       {children}

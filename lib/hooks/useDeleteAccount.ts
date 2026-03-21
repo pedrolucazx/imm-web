@@ -1,0 +1,34 @@
+import { useMutation, useQueryClient, type UseMutationResult } from "@tanstack/react-query";
+import { useAuthContext } from "@/lib/auth-context";
+import { userService } from "@/lib/user.service";
+import { api } from "@/lib/api-client";
+
+export interface DeleteAccountOptions {
+  onSuccess?: () => void;
+  onError?: (_error: Error) => void;
+}
+
+export function useDeleteAccount(
+  options?: DeleteAccountOptions
+): UseMutationResult<void, Error, string> {
+  const { setUser, setAccessToken } = useAuthContext();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (password: string): Promise<void> => userService.deleteAccount(password),
+    onSuccess: (): void => {
+      api.removeToken();
+      localStorage.removeItem("imm_access_token");
+      localStorage.removeItem("imm_refresh_token");
+      localStorage.removeItem("imm_consent_given");
+      setAccessToken(null);
+      setUser(null);
+      queryClient.clear();
+      options?.onSuccess?.();
+      window.location.href = "/";
+    },
+    onError: (error: Error): void => {
+      options?.onError?.(error);
+    },
+  });
+}

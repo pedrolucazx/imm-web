@@ -11,6 +11,8 @@ export interface AuthContextValue {
   login: (_data: LoginInput) => Promise<AuthResponse>;
   register: (_data: RegisterInput) => Promise<AuthResponse>;
   logout: () => Promise<void>;
+  setAccessToken: (_token: string | null) => void;
+  setUser: (_user: User | null) => void;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
