@@ -42,9 +42,22 @@ function wrapper({ children }: { children: React.ReactNode }) {
   return <AuthProvider>{children}</AuthProvider>;
 }
 
+function clearCookies(): void {
+  Object.defineProperty(document, "cookie", {
+    value: "",
+    writable: true,
+    configurable: true,
+  });
+}
+
 beforeEach(() => {
+  clearCookies();
   jest.clearAllMocks();
   mockAuthService.refresh.mockRejectedValue(new Error("No session"));
+});
+
+afterEach(() => {
+  clearCookies();
 });
 
 describe("AuthProvider", () => {
@@ -83,12 +96,6 @@ describe("AuthProvider", () => {
       expect(result.current.user).toEqual(mockAuthResponse.user);
       expect(result.current.isAuthenticated).toBe(true);
       expect(mockApi.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
-
-      Object.defineProperty(document, "cookie", {
-        value: "",
-        writable: true,
-        configurable: true,
-      });
     });
 
     it("skips loading block and hydrates user via background refresh when token already in memory", async () => {

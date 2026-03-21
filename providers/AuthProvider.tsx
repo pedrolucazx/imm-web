@@ -8,6 +8,11 @@ import { authService } from "@/lib/auth.service";
 import type { AuthResponse, LoginInput, RegisterInput, User } from "@/types/auth";
 import { isAuthRoute } from "@/lib/routing-utils";
 
+function hasRefreshTokenCookie(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.cookie.split(";").some((cookie) => cookie.trim().startsWith("refreshToken="));
+}
+
 /**
  * Provedor de autenticação que gerencia estado global de usuário e token.
  * Tenta refresh automático ao carregar e fornece funções de login/logout/register.
@@ -48,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const hasRefreshToken = document.cookie.includes("refreshToken=");
+    const hasRefreshToken = hasRefreshTokenCookie();
     if (hasRefreshToken) {
       authService
         .refresh()
