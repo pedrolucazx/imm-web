@@ -10,10 +10,6 @@ import { s } from "./styles";
 import { hasLocalConsent, setLocalConsent } from "@/lib/consent-constants";
 import { useAuthContext } from "@/lib/auth-context";
 
-/**
- * Cookie consent banner component that prompts users to accept privacy policy
- * before using the application. Shows once and persists consent in localStorage.
- */
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
   const { isAuthenticated, isLoading: isAuthLoading } = useAuthContext();
