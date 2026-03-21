@@ -5,9 +5,10 @@ import { Box, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
-import { useSaveConsent } from "@/lib/hooks/useConsent";
+import { useGetConsents, useSaveConsent } from "@/lib/hooks/useConsent";
 import { s } from "./styles";
 import { CONSENT_KEY, CONSENT_VERSION } from "@/lib/consent-constants";
+import { useAuthContext } from "@/lib/auth-context";
 
 export interface ConsentData {
   version: string;
@@ -15,35 +16,40 @@ export interface ConsentData {
   accepted: boolean;
 }
 
-/**
- * Cookie consent banner component that prompts users to accept privacy policy
- * before using the application. Shows once and persists consent in localStorage.
- */
+function hasLocalConsent(): boolean {
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem(CONSENT_KEY);
+}
+
+function setLocalConsent(): void {
+  const consentData: ConsentData = {
+    version: CONSENT_VERSION,
+    timestamp: new Date().toISOString(),
+    accepted: true,
+  };
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(consentData));
+}
+
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
+  const { isAuthenticated } = useAuthContext();
   const [isVisible, setIsVisible] = useState(false);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const { mutate: saveConsent } = useSaveConsent();
+  const { data: consentsData, isLoading: isLoadingConsents } = useGetConsents();
+  const { mutate: saveConsent, isPending: isSavingConsent } = useSaveConsent();
 
   useEffect(() => {
-    const consent = localStorage.getItem(CONSENT_KEY);
-    if (!consent) {
+    if (isLoadingConsents) return;
+
+    const hasConsent = hasLocalConsent() || (consentsData?.length ?? 0) > 0;
+    if (!hasConsent) {
       setIsVisible(true);
     }
-
-    const token = localStorage.getItem("imm_access_token");
-    setIsAuthenticated(!!token);
-  }, []);
+  }, [isLoadingConsents, consentsData]);
 
   const handleAccept = () => {
-    const consentData: ConsentData = {
-      version: CONSENT_VERSION,
-      timestamp: new Date().toISOString(),
-      accepted: true,
-    };
-    localStorage.setItem(CONSENT_KEY, JSON.stringify(consentData));
+    setLocalConsent();
     setIsVisible(false);
     if (isAuthenticated) {
       saveConsent();
@@ -83,7 +89,7 @@ export function CookieBanner() {
             </Box>
 
             <Box {...s.footer}>
-              <Button onClick={handleAccept} w="100%">
+              <Button onClick={handleAccept} w="100%" loading={isSavingConsent}>
                 {t("accept")}
               </Button>
               <Box {...s.links}>

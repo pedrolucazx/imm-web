@@ -1,8 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { consentService } from "@/lib/consent.service";
 import { toaster } from "@/components/ui/toaster";
 import { useTranslatedError } from "./useTranslatedError";
+
+export function useGetConsents() {
+  return useQuery({
+    queryKey: ["consents"],
+    queryFn: () => consentService.getConsents(),
+    retry: false,
+    staleTime: Infinity,
+  });
+}
 
 export function useSaveConsent(options?: { onError?: (_error: Error) => void }) {
   const t = useTranslations("errors");
