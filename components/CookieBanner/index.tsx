@@ -20,20 +20,10 @@ export function CookieBanner() {
   const { mutate: saveConsent, isPending: isSavingConsent } = useSaveConsent();
 
   useEffect(() => {
-    if (isLoadingConsents || isAuthLoading) return;
-
-    const localConsent = hasLocalConsent();
-    const serverConsentCount = consentsData?.length ?? 0;
-
-    if (!localConsent && serverConsentCount === 0) {
-      setIsVisible(true);
-      return;
-    }
-
-    if (isAuthenticated && localConsent && serverConsentCount === 0) {
-      saveConsent();
-    }
-  }, [isLoadingConsents, consentsData, isAuthLoading, isAuthenticated, saveConsent]);
+    if (isAuthLoading || isLoadingConsents) return;
+    if (hasLocalConsent() || (consentsData?.length ?? 0) > 0) return;
+    setIsVisible(true);
+  }, [isAuthLoading, isLoadingConsents, consentsData]);
 
   const handleAccept = () => {
     setLocalConsent();
