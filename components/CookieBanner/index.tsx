@@ -21,7 +21,11 @@ export function CookieBanner() {
 
   useEffect(() => {
     if (isAuthLoading || isLoadingConsents) return;
-    if (hasLocalConsent() || (consentsData?.length ?? 0) > 0) return;
+    if ((consentsData?.length ?? 0) > 0) {
+      if (!hasLocalConsent()) setLocalConsent();
+      return;
+    }
+    if (hasLocalConsent()) return;
     setIsVisible(true);
   }, [isAuthLoading, isLoadingConsents, consentsData]);
 
