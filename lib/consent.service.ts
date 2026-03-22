@@ -4,13 +4,10 @@ import { ENDPOINTS } from "./endpoints";
 export type ConsentType = "privacy_policy" | "terms_of_use" | "cookie_consent";
 
 export interface ConsentResponse {
-  success: boolean;
-  consent: {
-    type: string;
-    version: string;
-    accepted: boolean;
-    createdAt: string;
-  };
+  id: string;
+  type: ConsentType;
+  version: string;
+  acceptedAt: string;
 }
 
 export const consentService = {

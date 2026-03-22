@@ -22,11 +22,18 @@ export function CookieBanner() {
   useEffect(() => {
     if (isLoadingConsents || isAuthLoading) return;
 
-    const hasConsent = hasLocalConsent() || (consentsData?.length ?? 0) > 0;
-    if (!hasConsent) {
+    const localConsent = hasLocalConsent();
+    const serverConsentCount = consentsData?.length ?? 0;
+
+    if (!localConsent && serverConsentCount === 0) {
       setIsVisible(true);
+      return;
     }
-  }, [isLoadingConsents, consentsData, isAuthLoading]);
+
+    if (isAuthenticated && localConsent && serverConsentCount === 0) {
+      saveConsent();
+    }
+  }, [isLoadingConsents, consentsData, isAuthLoading, isAuthenticated, saveConsent]);
 
   const handleAccept = () => {
     setLocalConsent();
