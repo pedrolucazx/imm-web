@@ -6,7 +6,11 @@ import { hasLocalConsent } from "@/lib/consent-constants";
 export function useConsentSync() {
   const { isAuthenticated, isLoading: isAuthLoading } = useAuthContext();
   const { data: consentsData, isLoading: isLoadingConsents } = useGetConsents();
-  const { mutate: saveConsent } = useSaveConsent();
+  const { mutate: saveConsent } = useSaveConsent({
+    onError: () => {
+      hasSynced.current = false;
+    },
+  });
   const hasSynced = useRef(false);
 
   useEffect(() => {
