@@ -31,7 +31,7 @@ export const authService = {
     return api.post<AuthResponse>(ENDPOINTS.AUTH.VERIFY_EMAIL, { token });
   },
 
-  async resendVerification(email: string): Promise<{ message: string }> {
-    return api.post<{ message: string }>(ENDPOINTS.AUTH.RESEND_VERIFICATION, { email });
+  async resendVerification(email: string): Promise<RegisterResponse> {
+    return api.post<RegisterResponse>(ENDPOINTS.AUTH.RESEND_VERIFICATION, { email });
   },
 };

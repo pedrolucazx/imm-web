@@ -7,6 +7,7 @@ import { api } from "@/lib/api-client";
 import { authService } from "@/lib/auth.service";
 import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput, User } from "@/types/auth";
 import { isAuthRoute } from "@/lib/routing-utils";
+import { logger } from "@/lib/logger";
 
 function hasRefreshTokenCookie(): boolean {
   if (typeof document === "undefined") return false;
@@ -59,7 +60,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setAccessTokenState(data.token);
           setUserState(data.user);
         })
-        .catch((_error) => {})
+        .catch((error) => {
+          logger.debug("[AuthProvider] silent refresh failed", error);
+        })
         .finally(() => {
           setIsLoading(false);
         });

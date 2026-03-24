@@ -1,6 +1,14 @@
 import { routing } from "@/lib/routing";
 import { ROUTES } from "@/lib/routes";
 
+const AUTH_SLUGS = [
+  ROUTES.LOGIN.slice(1),
+  ROUTES.REGISTER.slice(1),
+  ROUTES.FORGOT_PASSWORD.slice(1),
+  ROUTES.RESET_PASSWORD.slice(1),
+  ROUTES.VERIFY_EMAIL.slice(1),
+];
+
 const PROTECTED_SEGMENTS = [
   ROUTES.APP_DAILY_LAB.slice(1),
   ROUTES.APP_HABITS.slice(1),
@@ -28,15 +36,8 @@ export function isProtectedRoute(pathname: string): boolean {
 
 export function isAuthRoute(pathname: string | null): boolean {
   if (!pathname) return false;
-  const authSlugs = [
-    ROUTES.LOGIN.slice(1),
-    ROUTES.REGISTER.slice(1),
-    ROUTES.FORGOT_PASSWORD.slice(1),
-    ROUTES.RESET_PASSWORD.slice(1),
-    ROUTES.VERIFY_EMAIL.slice(1),
-  ];
   return routing.locales.some((locale) =>
-    authSlugs.some(
+    AUTH_SLUGS.some(
       (slug) => pathname === `/${locale}/${slug}` || pathname.startsWith(`/${locale}/${slug}/`)
     )
   );
