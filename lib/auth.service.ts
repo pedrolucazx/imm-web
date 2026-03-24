@@ -1,10 +1,10 @@
 import { api } from "@/lib/api-client";
 import { ENDPOINTS } from "@/lib/endpoints";
-import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
+import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput } from "@/types/auth";
 
 export const authService = {
-  async register(data: RegisterInput): Promise<AuthResponse> {
-    return api.post<AuthResponse>(ENDPOINTS.AUTH.REGISTER, data);
+  async register(data: RegisterInput): Promise<RegisterResponse> {
+    return api.post<RegisterResponse>(ENDPOINTS.AUTH.REGISTER, data);
   },
 
   async login(data: LoginInput): Promise<AuthResponse> {
@@ -17,5 +17,21 @@ export const authService = {
 
   async logout(): Promise<void> {
     return api.post<void>(ENDPOINTS.AUTH.LOGOUT);
+  },
+
+  async forgotPassword(email: string): Promise<{ message: string }> {
+    return api.post<{ message: string }>(ENDPOINTS.AUTH.FORGOT_PASSWORD, { email });
+  },
+
+  async resetPassword(token: string, newPassword: string): Promise<{ message: string }> {
+    return api.post<{ message: string }>(ENDPOINTS.AUTH.RESET_PASSWORD, { token, newPassword });
+  },
+
+  async verifyEmail(token: string): Promise<AuthResponse> {
+    return api.post<AuthResponse>(ENDPOINTS.AUTH.VERIFY_EMAIL, { token });
+  },
+
+  async resendVerification(email: string): Promise<{ message: string }> {
+    return api.post<{ message: string }>(ENDPOINTS.AUTH.RESEND_VERIFICATION, { email });
   },
 };
