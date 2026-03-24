@@ -3,17 +3,14 @@ import "../__setup__/msw/server";
 import { authService } from "@/lib/auth.service";
 
 describe("authService — MSW integration", () => {
-  it("registers a user and returns a token and user object", async () => {
+  it("registers a user and returns a verification message", async () => {
     const result = await authService.register({
       email: "msw@example.com",
       password: "password123",
       name: "MSW User",
     });
 
-    expect(result.token).toBe("mock-jwt-token");
-    expect(result.user.email).toBe("msw@example.com");
-    expect(result.user.name).toBe("MSW User");
-    expect(result.user.id).toBeDefined();
+    expect(result.message).toBe("Verification email sent");
   });
 
   it("logs in and returns a token and user object", async () => {

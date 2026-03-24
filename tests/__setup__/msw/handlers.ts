@@ -11,17 +11,7 @@ export const handlers = [
       return HttpResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    return HttpResponse.json(
-      {
-        token: "mock-jwt-token",
-        user: {
-          id: "00000000-0000-0000-0000-000000000001",
-          email: body.email,
-          name: body.name,
-        },
-      },
-      { status: 201 }
-    );
+    return HttpResponse.json({ message: "Verification email sent" }, { status: 201 });
   }),
 
   http.post(`${API_URL}/auth/login`, async ({ request }) => {
