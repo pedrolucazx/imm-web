@@ -241,7 +241,8 @@
       "toastSuccessDesc": "Agora você pode fazer login com sua nova senha.",
       "toastErrorTitle": "Falha ao redefinir",
       "tokenInvalid": "Este link expirou ou é inválido. Por favor, solicite um novo.",
-      "backToForgotPassword": "← Solicitar novo link"
+      "backToForgotPassword": "← Solicitar novo link",
+      "loading": "Carregando..."
     },
     "verifyEmail": {
       "verifyingTitle": "Verificando...",
