@@ -48,7 +48,7 @@ function VerifyEmailContent(): React.JSX.Element {
 
   return (
     <AuthCard
-      title={isPending ? t("verifyingTitle") : isSuccess ? t("successTitle") : t("verifyingTitle")}
+      title={isSuccess ? t("successTitle") : t("verifyingTitle")}
       subtitle=""
       footerText=""
       footerLinkLabel={t("backToLogin")}
