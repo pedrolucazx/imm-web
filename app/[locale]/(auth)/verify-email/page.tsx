@@ -1,0 +1,70 @@
+"use client";
+
+import { useEffect, Suspense } from "react";
+import { AuthCard } from "@/components/AuthCard";
+import { useRouter } from "@/lib/navigation";
+import { useSearchParams } from "next/navigation";
+import { ROUTES } from "@/lib/routes";
+import { useVerifyEmail } from "@/lib/hooks/useVerifyEmail";
+import { useTranslations } from "next-intl";
+import { Box, Text } from "@chakra-ui/react";
+
+function VerifyEmailContent(): React.JSX.Element {
+  const t = useTranslations("auth.verifyEmail");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  const {
+    mutate: verifyEmail,
+    isPending,
+    isError,
+    isSuccess,
+  } = useVerifyEmail({
+    onSuccess: () => router.push(ROUTES.APP_DAILY_LAB),
+  });
+
+  useEffect(() => {
+    if (token) {
+      verifyEmail(token);
+    }
+  }, [token, verifyEmail]);
+
+  if (!token || isError) {
+    return (
+      <AuthCard
+        title={t("errorTitle")}
+        subtitle=""
+        footerText=""
+        footerLinkLabel={t("backToRegister")}
+        footerLinkHref={ROUTES.REGISTER}
+      >
+        <Box textAlign="center" py={4}>
+          <Text color="error">{t("errorDesc")}</Text>
+        </Box>
+      </AuthCard>
+    );
+  }
+
+  return (
+    <AuthCard
+      title={isPending ? t("verifyingTitle") : isSuccess ? t("successTitle") : t("verifyingTitle")}
+      subtitle=""
+      footerText=""
+      footerLinkLabel={t("backToLogin")}
+      footerLinkHref={ROUTES.LOGIN}
+    >
+      <Box textAlign="center" py={4}>
+        <Text color="mutedFg">{isPending ? t("verifyingDesc") : t("successDesc")}</Text>
+      </Box>
+    </AuthCard>
+  );
+}
+
+export default function VerifyEmailPage(): React.JSX.Element {
+  return (
+    <Suspense fallback={<Box minH="100vh" bg="canvas" />}>
+      <VerifyEmailContent />
+    </Suspense>
+  );
+}
