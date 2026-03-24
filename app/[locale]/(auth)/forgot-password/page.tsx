@@ -8,18 +8,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Box, VStack, Text } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { Button, Input } from "@/components/ui";
 import { s } from "./styles";
 
 export default function ForgotPasswordPage(): React.JSX.Element {
   const t = useTranslations("auth.forgotPassword");
-  const { mutate: forgotPassword, isPending, isSuccess } = useForgotPassword({});
+  const { mutate: forgotPassword, isPending, isSuccess } = useForgotPassword();
 
   const schema = useMemo(
     () =>
       z.object({
-        email: z.email(t("emailRequired")),
+        email: z.string().trim().min(1, t("emailRequired")).email(t("emailInvalid")),
       }),
     [t]
   );
@@ -47,9 +47,7 @@ export default function ForgotPasswordPage(): React.JSX.Element {
         footerLinkLabel={t("backToLogin")}
         footerLinkHref={ROUTES.LOGIN}
       >
-        <Box textAlign="center" py={4}>
-          <Text color="mutedFg">{t("successDesc")}</Text>
-        </Box>
+        <Box textAlign="center" py={4} />
       </AuthCard>
     );
   }

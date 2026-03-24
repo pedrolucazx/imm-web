@@ -218,6 +218,7 @@
       "emailLabel": "EMAIL",
       "emailPlaceholder": "your@email.com",
       "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
       "submit": "Send Reset Link →",
       "successTitle": "Check your email",
       "successDesc": "If an account with that email exists, we've sent a password reset link.",
