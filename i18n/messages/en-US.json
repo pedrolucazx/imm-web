@@ -241,7 +241,8 @@
       "toastSuccessDesc": "You can now log in with your new password.",
       "toastErrorTitle": "Reset failed",
       "tokenInvalid": "This link has expired or is invalid. Please request a new one.",
-      "backToForgotPassword": "← Request new link"
+      "backToForgotPassword": "← Request new link",
+      "loading": "Loading..."
     },
     "verifyEmail": {
       "verifyingTitle": "Verifying...",
