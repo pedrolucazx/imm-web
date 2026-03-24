@@ -53,7 +53,9 @@ describe("authService — MSW integration", () => {
   });
 
   it("throws on reset-password with invalid token", async () => {
-    await expect(authService.resetPassword("invalid-token", "newpassword123")).rejects.toThrow();
+    await expect(authService.resetPassword("invalid-token", "newpassword123")).rejects.toThrow(
+      "Invalid or expired token"
+    );
   });
 
   it("verifies email with valid token and returns auth response", async () => {
@@ -64,7 +66,9 @@ describe("authService — MSW integration", () => {
   });
 
   it("throws on verify-email with invalid token", async () => {
-    await expect(authService.verifyEmail("invalid-token")).rejects.toThrow();
+    await expect(authService.verifyEmail("invalid-token")).rejects.toThrow(
+      "Invalid or expired token"
+    );
   });
 
   it("resends verification email and returns a message", async () => {
