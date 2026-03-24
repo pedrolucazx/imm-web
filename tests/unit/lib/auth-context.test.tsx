@@ -186,23 +186,25 @@ describe("AuthProvider", () => {
   });
 
   describe("register", () => {
-    it("sets accessToken and user on successful registration", async () => {
-      mockAuthService.register.mockResolvedValue(mockAuthResponse);
+    it("returns message and does not set accessToken on successful registration", async () => {
+      mockAuthService.register.mockResolvedValue({ message: "Verification email sent" });
 
       const { result } = renderHook(() => useAuthContext(), { wrapper });
       await waitFor(() => expect(result.current.isLoading).toBe(false));
 
+      let response: { message: string } | undefined;
       await act(async () => {
-        await result.current.register({
+        response = await result.current.register({
           name: "Test User",
           email: "user@example.com",
           password: "pass123",
         });
       });
 
-      expect(result.current.accessToken).toBe(mockAuthResponse.token);
-      expect(result.current.user).toEqual(mockAuthResponse.user);
-      expect(result.current.isAuthenticated).toBe(true);
+      expect(response).toEqual({ message: "Verification email sent" });
+      expect(result.current.accessToken).toBeNull();
+      expect(result.current.user).toBeNull();
+      expect(result.current.isAuthenticated).toBe(false);
     });
   });
 
