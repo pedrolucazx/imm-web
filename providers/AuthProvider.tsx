@@ -1,27 +1,26 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AuthContext } from "@/lib/auth-context";
 import { api } from "@/lib/api-client";
 import { authService } from "@/lib/auth.service";
-import type { AuthResponse, LoginInput, RegisterInput, User } from "@/types/auth";
+import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput, User } from "@/types/auth";
 import { isAuthRoute } from "@/lib/routing-utils";
+import { logger } from "@/lib/logger";
 
 function hasRefreshTokenCookie(): boolean {
   if (typeof document === "undefined") return false;
   return document.cookie.split(";").some((cookie) => cookie.trim().startsWith("refreshToken="));
 }
 
-/**
- * Provedor de autenticação que gerencia estado global de usuário e token.
- * Tenta refresh automático ao carregar e fornece funções de login/logout/register.
- */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isCurrentAuthRoute = isAuthRoute(pathname);
+  const hasAttemptedRestore = useRef(false);
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [user, setUserState] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(!isAuthRoute(pathname));
+  const [isLoading, setIsLoading] = useState(!isCurrentAuthRoute);
 
   useEffect(() => {
     api.setOnTokenRefreshed((newToken, newUser) => {
@@ -31,7 +30,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (isAuthRoute(pathname)) return;
+    if (isCurrentAuthRoute) {
+      setIsLoading(false);
+      return;
+    }
+    if (hasAttemptedRestore.current) return;
+    hasAttemptedRestore.current = true;
 
     const existingToken = api.getToken();
     if (existingToken) {
@@ -62,15 +66,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setAccessTokenState(data.token);
           setUserState(data.user);
         })
-        .catch((_error) => {})
+        .catch((error) => {
+          logger.debug("[AuthProvider] silent refresh failed", error);
+        })
         .finally(() => {
           setIsLoading(false);
         });
     } else {
       setIsLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isCurrentAuthRoute]);
 
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
     const response = await authService.login(data);
@@ -80,12 +85,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return response;
   }, []);
 
-  const register = useCallback(async (data: RegisterInput): Promise<AuthResponse> => {
-    const response = await authService.register(data);
-    api.setToken(response.token);
-    setAccessTokenState(response.token);
-    setUserState(response.user);
-    return response;
+  const register = useCallback(async (data: RegisterInput): Promise<RegisterResponse> => {
+    return authService.register(data);
   }, []);
 
   const logout = useCallback(async (): Promise<void> => {

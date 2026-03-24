@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { AuthResponse, LoginInput, RegisterInput, User } from "@/types/auth";
+import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput, User } from "@/types/auth";
 
 export interface AuthContextValue {
   accessToken: string | null;
@@ -9,7 +9,7 @@ export interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (_data: LoginInput) => Promise<AuthResponse>;
-  register: (_data: RegisterInput) => Promise<AuthResponse>;
+  register: (_data: RegisterInput) => Promise<RegisterResponse>;
   logout: () => Promise<void>;
   setAccessToken: (_token: string | null) => void;
   setUser: (_user: User | null) => void;
