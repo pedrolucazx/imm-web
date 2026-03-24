@@ -16,10 +16,11 @@ function hasRefreshTokenCookie(): boolean {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const initialIsAuthRoute = useRef(isAuthRoute(pathname));
+  const isCurrentAuthRoute = isAuthRoute(pathname);
+  const hasAttemptedRestore = useRef(false);
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [user, setUserState] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(!initialIsAuthRoute.current);
+  const [isLoading, setIsLoading] = useState(!isCurrentAuthRoute);
 
   useEffect(() => {
     api.setOnTokenRefreshed((newToken, newUser) => {
@@ -29,7 +30,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (initialIsAuthRoute.current) return;
+    if (isCurrentAuthRoute) {
+      setIsLoading(false);
+      return;
+    }
+    if (hasAttemptedRestore.current) return;
+    hasAttemptedRestore.current = true;
 
     const existingToken = api.getToken();
     if (existingToken) {
@@ -69,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [isCurrentAuthRoute]);
 
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
     const response = await authService.login(data);

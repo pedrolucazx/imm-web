@@ -39,4 +39,37 @@ describe("authService — MSW integration", () => {
   it("logs out successfully without throwing", async () => {
     await expect(authService.logout()).resolves.not.toThrow();
   });
+
+  it("sends forgot-password email and returns a message", async () => {
+    const result = await authService.forgotPassword("user@example.com");
+
+    expect(result.message).toBe("Password reset email sent");
+  });
+
+  it("resets password with valid token and returns a message", async () => {
+    const result = await authService.resetPassword("valid-token", "newpassword123");
+
+    expect(result.message).toBe("Password reset successfully");
+  });
+
+  it("throws on reset-password with invalid token", async () => {
+    await expect(authService.resetPassword("invalid-token", "newpassword123")).rejects.toThrow();
+  });
+
+  it("verifies email with valid token and returns auth response", async () => {
+    const result = await authService.verifyEmail("valid-token");
+
+    expect(result.token).toBe("mock-jwt-token");
+    expect(result.user.email).toBe("user@example.com");
+  });
+
+  it("throws on verify-email with invalid token", async () => {
+    await expect(authService.verifyEmail("invalid-token")).rejects.toThrow();
+  });
+
+  it("resends verification email and returns a message", async () => {
+    const result = await authService.resendVerification("user@example.com");
+
+    expect(result.message).toBe("Verification email sent");
+  });
 });
