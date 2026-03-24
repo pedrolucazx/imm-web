@@ -3,7 +3,7 @@
 import { Button, Input, PasswordInput } from "../../../../components/ui";
 import { AuthCard } from "@/components/AuthCard";
 import { useLogin } from "@/lib/hooks/useAuth";
-import { useRouter } from "@/lib/navigation";
+import { useRouter, Link } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, VStack } from "@chakra-ui/react";
@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { s } from "./login.styles";
+import { s, forgotPasswordLinkStyle } from "./login.styles";
 import { MIN_PASSWORD_LENGTH } from "@/lib/constants";
 
 export default function LoginPage() {
@@ -70,6 +70,12 @@ export default function LoginPage() {
             error={errors.password?.message}
             {...register("password")}
           />
+
+          <Box {...s.forgotPasswordWrapper}>
+            <Link href={ROUTES.FORGOT_PASSWORD} style={forgotPasswordLinkStyle}>
+              {t("forgotPassword")}
+            </Link>
+          </Box>
 
           <Button type="submit" loading={isPending} {...s.submitBtn}>
             {t("submit")}
