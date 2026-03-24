@@ -83,6 +83,6 @@ export const footerLinkStyle: CSSProperties = {
 
 export const forgotPasswordLinkStyle: CSSProperties = {
   fontSize: "0.875rem",
-  color: "hsl(0, 0%, 30%)",
+  color: "var(--chakra-colors-muted-fg)",
   textDecoration: "none",
 };
