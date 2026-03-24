@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AuthContext } from "@/lib/auth-context";
 import { api } from "@/lib/api-client";
 import { authService } from "@/lib/auth.service";
-import type { AuthResponse, LoginInput, RegisterInput, User } from "@/types/auth";
+import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput, User } from "@/types/auth";
 import { isAuthRoute } from "@/lib/routing-utils";
 
 function hasRefreshTokenCookie(): boolean {
@@ -13,15 +13,12 @@ function hasRefreshTokenCookie(): boolean {
   return document.cookie.split(";").some((cookie) => cookie.trim().startsWith("refreshToken="));
 }
 
-/**
- * Provedor de autenticação que gerencia estado global de usuário e token.
- * Tenta refresh automático ao carregar e fornece funções de login/logout/register.
- */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const initialIsAuthRoute = useRef(isAuthRoute(pathname));
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [user, setUserState] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(!isAuthRoute(pathname));
+  const [isLoading, setIsLoading] = useState(!initialIsAuthRoute.current);
 
   useEffect(() => {
     api.setOnTokenRefreshed((newToken, newUser) => {
@@ -31,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (isAuthRoute(pathname)) return;
+    if (initialIsAuthRoute.current) return;
 
     const existingToken = api.getToken();
     if (existingToken) {
@@ -69,7 +66,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else {
       setIsLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
@@ -80,12 +76,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return response;
   }, []);
 
-  const register = useCallback(async (data: RegisterInput): Promise<AuthResponse> => {
-    const response = await authService.register(data);
-    api.setToken(response.token);
-    setAccessTokenState(response.token);
-    setUserState(response.user);
-    return response;
+  const register = useCallback(async (data: RegisterInput): Promise<RegisterResponse> => {
+    return authService.register(data);
   }, []);
 
   const logout = useCallback(async (): Promise<void> => {

@@ -1,9 +1,14 @@
 import { useMutation, useQueryClient, type UseMutationResult } from "@tanstack/react-query";
 import { useAuthContext } from "@/lib/auth-context";
 import { toaster } from "@/components/ui/toaster";
-import type { AuthResponse, LoginInput, RegisterInput } from "@/types/auth";
+import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput } from "@/types/auth";
 import { useTranslations } from "next-intl";
 import { useTranslatedError } from "./useTranslatedError";
+
+export interface RegisterMutationOptions {
+  onSuccess?: () => void;
+  onError?: (_error: Error) => void;
+}
 
 export interface AuthMutationOptions {
   onSuccess?: (_data: AuthResponse) => void;
@@ -11,18 +16,16 @@ export interface AuthMutationOptions {
 }
 
 export function useRegister(
-  options?: AuthMutationOptions
-): UseMutationResult<AuthResponse, Error, RegisterInput> {
+  options?: RegisterMutationOptions
+): UseMutationResult<RegisterResponse, Error, RegisterInput> {
   const { register } = useAuthContext();
-  const queryClient = useQueryClient();
   const t = useTranslations("auth.register");
   const { translateError } = useTranslatedError();
 
   return useMutation({
-    mutationFn: (data: RegisterInput): Promise<AuthResponse> => register(data),
-    onSuccess: (data: AuthResponse): void => {
-      queryClient.setQueryData(["user"], data.user);
-      options?.onSuccess?.(data);
+    mutationFn: (data: RegisterInput): Promise<RegisterResponse> => register(data),
+    onSuccess: (): void => {
+      options?.onSuccess?.();
       toaster.create({
         title: t("toastSuccessTitle"),
         description: t("toastSuccessDesc"),
@@ -64,13 +67,22 @@ export function useLogin(
       });
     },
     onError: (error: Error): void => {
-      const translatedMessage = translateError(error);
-      toaster.create({
-        title: t("toastErrorTitle"),
-        description: translatedMessage,
-        type: "error",
-        meta: { closable: true },
-      });
+      if (error.message === "EMAIL_NOT_VERIFIED") {
+        toaster.create({
+          title: t("emailNotVerifiedTitle"),
+          description: t("emailNotVerifiedDesc"),
+          type: "warning",
+          meta: { closable: true },
+        });
+      } else {
+        const translatedMessage = translateError(error);
+        toaster.create({
+          title: t("toastErrorTitle"),
+          description: translatedMessage,
+          type: "error",
+          meta: { closable: true },
+        });
+      }
       options?.onError?.(error);
     },
   });
