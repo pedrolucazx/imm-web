@@ -61,8 +61,23 @@ function VerifyEmailContent(): React.JSX.Element {
 }
 
 export default function VerifyEmailPage(): React.JSX.Element {
+  const t = useTranslations("auth.verifyEmail");
+
   return (
-    <Suspense fallback={<Box minH="100vh" bg="canvas" role="status" aria-live="polite" />}>
+    <Suspense
+      fallback={
+        <Box
+          minH="100vh"
+          bg="canvas"
+          role="status"
+          aria-live="polite"
+          display="grid"
+          placeItems="center"
+        >
+          <Text color="mutedFg">{t("verifyingDesc")}</Text>
+        </Box>
+      }
+    >
       <VerifyEmailContent />
     </Suspense>
   );
