@@ -17,7 +17,6 @@ function VerifyEmailContent(): React.JSX.Element {
 
   const {
     mutate: verifyEmail,
-    isPending,
     isError,
     isSuccess,
   } = useVerifyEmail({
@@ -55,7 +54,7 @@ function VerifyEmailContent(): React.JSX.Element {
       footerLinkHref={ROUTES.LOGIN}
     >
       <Box textAlign="center" py={4}>
-        <Text color="mutedFg">{isPending ? t("verifyingDesc") : t("successDesc")}</Text>
+        <Text color="mutedFg">{isSuccess ? t("successDesc") : t("verifyingDesc")}</Text>
       </Box>
     </AuthCard>
   );
@@ -63,7 +62,7 @@ function VerifyEmailContent(): React.JSX.Element {
 
 export default function VerifyEmailPage(): React.JSX.Element {
   return (
-    <Suspense fallback={<Box minH="100vh" bg="canvas" />}>
+    <Suspense fallback={<Box minH="100vh" bg="canvas" role="status" aria-live="polite" />}>
       <VerifyEmailContent />
     </Suspense>
   );

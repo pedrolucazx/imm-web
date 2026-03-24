@@ -2,6 +2,7 @@ import { useMutation, type UseMutationResult } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { authService } from "@/lib/auth.service";
 import { api } from "@/lib/api-client";
+import { useAuthContext } from "@/lib/auth-context";
 import { toaster } from "@/components/ui/toaster";
 import type { AuthResponse } from "@/types/auth";
 
@@ -14,11 +15,14 @@ export function useVerifyEmail(
   options?: VerifyEmailOptions
 ): UseMutationResult<AuthResponse, Error, string> {
   const t = useTranslations("auth.verifyEmail");
+  const { setAccessToken, setUser } = useAuthContext();
 
   return useMutation({
     mutationFn: (token: string): Promise<AuthResponse> => authService.verifyEmail(token),
     onSuccess: (data: AuthResponse): void => {
       api.setToken(data.token);
+      setAccessToken(data.token);
+      setUser(data.user);
       toaster.create({
         title: t("toastSuccessTitle"),
         description: t("toastSuccessDesc"),
