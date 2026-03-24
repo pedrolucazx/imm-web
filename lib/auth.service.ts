@@ -19,12 +19,12 @@ export const authService = {
     return api.post<void>(ENDPOINTS.AUTH.LOGOUT);
   },
 
-  async forgotPassword(email: string): Promise<{ message: string }> {
-    return api.post<{ message: string }>(ENDPOINTS.AUTH.FORGOT_PASSWORD, { email });
+  async forgotPassword(email: string): Promise<RegisterResponse> {
+    return api.post<RegisterResponse>(ENDPOINTS.AUTH.FORGOT_PASSWORD, { email });
   },
 
-  async resetPassword(token: string, newPassword: string): Promise<{ message: string }> {
-    return api.post<{ message: string }>(ENDPOINTS.AUTH.RESET_PASSWORD, { token, newPassword });
+  async resetPassword(token: string, newPassword: string): Promise<RegisterResponse> {
+    return api.post<RegisterResponse>(ENDPOINTS.AUTH.RESET_PASSWORD, { token, newPassword });
   },
 
   async verifyEmail(token: string): Promise<AuthResponse> {
