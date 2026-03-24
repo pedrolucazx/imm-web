@@ -22,17 +22,23 @@ export default function RegisterPage(): React.JSX.Element {
   const locale = useLocale();
   const router = useRouter();
   const { mutate: registerMutation, isPending } = useRegister({
-    onSuccess: () => router.push(ROUTES.APP_DAILY_LAB),
+    onSuccess: () => router.push(ROUTES.LOGIN),
   });
 
   const registerSchema = useMemo(
     () =>
-      z.object({
-        name: z.string().min(MIN_NAME_LENGTH, t("nameMinLength")),
-        email: z.email(t("emailInvalid")),
-        password: z.string().min(MIN_PASSWORD_LENGTH, t("passwordMinLength")),
-        uiLanguage: z.enum(LANGUAGE_VALUES),
-      }),
+      z
+        .object({
+          name: z.string().min(MIN_NAME_LENGTH, t("nameMinLength")),
+          email: z.email(t("emailInvalid")),
+          password: z.string().min(MIN_PASSWORD_LENGTH, t("passwordMinLength")),
+          confirmPassword: z.string().min(MIN_PASSWORD_LENGTH, t("passwordMinLength")),
+          uiLanguage: z.enum(LANGUAGE_VALUES),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          message: t("confirmPasswordMismatch"),
+          path: ["confirmPassword"],
+        }),
     [t]
   );
 
@@ -55,6 +61,7 @@ export default function RegisterPage(): React.JSX.Element {
 
   const selectedLang = watch("uiLanguage");
   const passwordValue = watch("password") ?? "";
+  const confirmPasswordValue = watch("confirmPassword") ?? "";
 
   const onSubmit = (data: RegisterForm): void => {
     registerMutation({
@@ -100,6 +107,15 @@ export default function RegisterPage(): React.JSX.Element {
             error={errors.password?.message}
             passwordValue={passwordValue}
             {...register("password")}
+          />
+
+          <PasswordInput
+            label={t("confirmPasswordLabel")}
+            autoComplete="new-password"
+            placeholder={t("confirmPasswordPlaceholder")}
+            error={errors.confirmPassword?.message}
+            passwordValue={confirmPasswordValue}
+            {...register("confirmPassword")}
           />
 
           <LanguageSelector

@@ -56,6 +56,10 @@ export const sharedAuthStyles = {
   submitBtn: {
     width: "100%",
   },
+  forgotPasswordWrapper: {
+    alignSelf: "flex-end",
+    mt: -2,
+  },
   footerText: {
     textAlign: "center",
     fontSize: "sm",
@@ -75,4 +79,10 @@ export const footerLinkStyle: CSSProperties = {
   color: "black",
   textDecoration: "underline",
   textUnderlineOffset: "4px",
+};
+
+export const forgotPasswordLinkStyle: CSSProperties = {
+  fontSize: "0.875rem",
+  color: "var(--chakra-colors-muted-fg)",
+  textDecoration: "none",
 };

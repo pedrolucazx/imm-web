@@ -218,6 +218,7 @@
       "emailLabel": "CORREO",
       "emailPlaceholder": "tu@correo.com",
       "emailRequired": "El correo es obligatorio",
+      "emailInvalid": "Correo inválido",
       "submit": "Enviar Enlace →",
       "successTitle": "Revisa tu correo",
       "successDesc": "Si existe una cuenta con ese correo, hemos enviado un enlace para restablecer la contraseña.",

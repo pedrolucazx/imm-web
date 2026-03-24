@@ -218,6 +218,7 @@
       "emailLabel": "E-MAIL",
       "emailPlaceholder": "seu@email.com",
       "emailRequired": "E-mail é obrigatório",
+      "emailInvalid": "E-mail inválido",
       "submit": "Enviar Link de Redefinição →",
       "successTitle": "Verifique seu e-mail",
       "successDesc": "Se existir uma conta com este e-mail, enviamos um link para redefinir sua senha.",
