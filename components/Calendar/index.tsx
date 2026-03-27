@@ -93,6 +93,9 @@ export function Calendar({ entries, currentMonth, onMonthChange, onDayClick }: C
               onClick={hasEntries ? () => onDayClick(dateStr, dayEntries) : undefined}
               role={hasEntries ? "button" : undefined}
               tabIndex={hasEntries ? 0 : undefined}
+              aria-label={
+                hasEntries ? t("dayAriaLabel", { day, count: dayEntries.length }) : undefined
+              }
               onKeyDown={
                 hasEntries
                   ? (e) => (e.key === "Enter" || e.key === " ") && onDayClick(dateStr, dayEntries)

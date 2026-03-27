@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { addDays, format, subDays } from "date-fns";
+import { addDays, format, parseISO, subDays } from "date-fns";
 import { chartColors, legendWrapperStyle, s, tooltipContentStyle } from "./score-line-chart.styles";
 
 export interface ScoreEntry {
@@ -38,8 +38,12 @@ const CHART_MARGIN = { top: 30, right: 16, bottom: 40, left: 32 };
 
 export function ScoreLineChart({ entries, currentDay, labels }: ScoreLineChartProps) {
   const safeCurrentDay = Math.max(1, Math.min(currentDay, TOTAL_DAYS));
-  const today = new Date();
-  const startDate = subDays(today, safeCurrentDay - 1);
+
+  const sortedEntries = [...entries].sort((a, b) => a.date.localeCompare(b.date));
+  const startDate = sortedEntries[0]
+    ? parseISO(sortedEntries[0].date)
+    : subDays(new Date(), safeCurrentDay - 1);
+
   const entryMap = new Map(entries.map((entry) => [entry.date, entry]));
 
   const data = Array.from({ length: TOTAL_DAYS }, (_, i) => {

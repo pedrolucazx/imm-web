@@ -32,9 +32,11 @@ export const s = {
     fontSize: "lg",
     cursor: "pointer",
     boxShadow: "brutal-sm",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
-    _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
-    _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    _motionSafe: {
+      transition: "transform 0.1s ease, box-shadow 0.1s ease",
+      _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
+      _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    },
     _focusVisible: { outline: "3px solid", outlineColor: "ring", outlineOffset: "2px" },
   },
 
@@ -89,9 +91,11 @@ export const s = {
     bg: "surface.mint",
     opacity: 1,
     cursor: "pointer",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
-    _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal-sm" },
-    _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    _motionSafe: {
+      transition: "transform 0.1s ease, box-shadow 0.1s ease",
+      _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal-sm" },
+      _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    },
     _focusVisible: { outline: "3px solid", outlineColor: "ring", outlineOffset: "2px" },
   },
 
