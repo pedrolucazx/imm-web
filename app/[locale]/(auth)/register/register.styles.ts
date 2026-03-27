@@ -1,5 +1,5 @@
 import { SystemStyleObject } from "@chakra-ui/react";
-import { sharedAuthStyles, brandLinkStyle, footerLinkStyle } from "../auth.styles";
+import { sharedAuthStyles } from "../auth.styles";
 
 export const s = {
   ...sharedAuthStyles,
@@ -33,5 +33,3 @@ export const s = {
     mb: 1,
   },
 } satisfies Record<string, SystemStyleObject>;
-
-export { brandLinkStyle, footerLinkStyle };

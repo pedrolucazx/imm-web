@@ -10,9 +10,10 @@ interface SkillCardProps {
   skill: TargetSkill;
   isSelected: boolean;
   onClick: () => void;
+  onKeyDown?: (_e: React.KeyboardEvent) => void;
 }
 
-export function SkillCard({ skill, isSelected, onClick }: SkillCardProps) {
+export function SkillCard({ skill, isSelected, onClick, onKeyDown }: SkillCardProps) {
   const t = useTranslations();
   const metadata = SKILL_METADATA[skill];
 
@@ -37,14 +38,18 @@ export function SkillCard({ skill, isSelected, onClick }: SkillCardProps) {
   return (
     <chakra.button
       type="button"
+      role="radio"
+      aria-checked={isSelected}
+      tabIndex={isSelected ? 0 : -1}
       w="full"
       h="auto"
       p={3}
       border="2px solid black"
       bg={isSelected ? "yellow.300" : "white"}
       cursor="pointer"
-      transition="all 0.15s"
+      transition="transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease"
       onClick={onClick}
+      onKeyDown={onKeyDown}
       _hover={{ boxShadow: "4px 4px 0 black" }}
       _active={{ transform: "translate(2px, 2px)", boxShadow: "none" }}
     >

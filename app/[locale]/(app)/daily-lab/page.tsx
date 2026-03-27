@@ -21,6 +21,7 @@ function getLocalDateString(): string {
 
 export default function DailyLabPage() {
   const t = useTranslations("dailyLab");
+  const tHabits = useTranslations("habits");
   const locale = useLocale();
   const { data: habits = [], isLoading } = useHabits();
   const { data: profile } = useGetProfile();
@@ -68,6 +69,17 @@ export default function DailyLabPage() {
           {activeHabits.length > 0 && selectedHabit && (
             <Box>
               <Text {...s.sectionTitle}>{t("journal.sectionTitle")}</Text>
+
+              {selectedHabit.habit_mode === "skill-building" && (
+                <Box {...s.skillBanner}>
+                  <Text {...s.skillBannerText}>
+                    ✍️{" "}
+                    {t("journal.skillBuildingBanner", {
+                      skill: tHabits(`skills.${selectedHabit.target_skill}.name`),
+                    })}
+                  </Text>
+                </Box>
+              )}
 
               <JournalEditor
                 habit={selectedHabit}

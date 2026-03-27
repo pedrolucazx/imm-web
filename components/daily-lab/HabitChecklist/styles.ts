@@ -30,7 +30,7 @@ export const s = {
     border: "3px solid black",
     p: 5,
     textAlign: "left",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
+    _motionSafe: { transition: "transform 0.1s ease, box-shadow 0.1s ease" },
   },
 
   habitRow: {

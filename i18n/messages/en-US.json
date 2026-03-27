@@ -6,6 +6,10 @@
       "weak": "Weak",
       "good": "Good",
       "strong": "Strong"
+    },
+    "passwordVisibility": {
+      "show": "Show password",
+      "hide": "Hide password"
     }
   },
   "errors": {
@@ -277,6 +281,9 @@
       "placeholderSkill": "Write about your session in the target language...",
       "placeholderTracking": "How did your habit go today? How are you feeling?",
       "words": "words",
+      "contentLabel": "Today's entry",
+      "moodAriaLabel": "Mood {val} of 5",
+      "energyAriaLabel": "Energy {val} of 5",
       "moodLabel": "Mood",
       "energyLabel": "Energy",
       "save": "Send to AI →",
@@ -555,7 +562,9 @@
       "errorTitle": "❌ Failed to generate plan",
       "errorSubtitle": "Check your connection and try again.",
       "rateLimitTitle": "⏳ AI is busy",
-      "rateLimitSubtitle": "Too many requests at once. Wait a few seconds and try again."
+      "rateLimitSubtitle": "Too many requests at once. Wait a few seconds and try again.",
+      "minPerDay": "{minutes} min/day",
+      "phaseLabel": "Phase {phase} · {days} days"
     },
     "skills": {
       "en-US": {
@@ -622,7 +631,8 @@
       "behavioral-coach": "🎯 Behavioral Coach"
     },
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    "selectedDate": "Selected Date"
+    "selectedDate": "Selected Date",
+    "dayAriaLabel": "Day {day}, {count} entries"
   },
   "analytics": {
     "pageTitle": "Analytics",

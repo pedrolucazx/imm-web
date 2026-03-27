@@ -71,14 +71,14 @@ export function PlanReviewPanel({
               <Text as="strong">{t("metricsLabel")}:</Text> {previewedPlan.success_metrics}
             </Text>
             <Text>
-              <Text as="strong">{t("timeLabel")}:</Text> {previewedPlan.total_time_per_day_minutes}{" "}
-              min/dia
+              <Text as="strong">{t("timeLabel")}:</Text>{" "}
+              {t("minPerDay", { minutes: previewedPlan.total_time_per_day_minutes })}
             </Text>
           </Box>
           {previewedPlan.phases.map((phase) => (
             <Box key={phase.phase} {...s.phaseCard}>
               <Text {...s.phaseHeader}>
-                Fase {phase.phase} · {phase.days} dias
+                {t("phaseLabel", { phase: phase.phase, days: phase.days })}
               </Text>
               <Text {...s.phaseTitle}>{phase.theme}</Text>
               {"daily_tasks" in phase ? (

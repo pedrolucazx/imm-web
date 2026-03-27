@@ -19,7 +19,7 @@ export const s = {
     border: "2px solid black",
     borderRadius: "0",
     px: 3,
-    _focus: { ring: "2px", ringColor: "ring" },
+    _focusVisible: { ring: "2px", ringColor: "ring" },
   },
 
   textarea: {
@@ -28,7 +28,7 @@ export const s = {
     borderRadius: "0",
     px: 3,
     resize: "none",
-    _focus: { ring: "2px", ringColor: "ring" },
+    _focusVisible: { ring: "2px", ringColor: "ring" },
   },
 
   sectionLabel: {

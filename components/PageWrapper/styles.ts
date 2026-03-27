@@ -5,6 +5,9 @@ export const s = {
     px: { base: 4, md: 8 },
     pt: { base: 20, md: 8 },
     pb: { base: 8, md: 8 },
+  },
+
+  inner: {
     display: "flex",
     flexDirection: "column",
     gap: 6,

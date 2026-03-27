@@ -173,7 +173,9 @@ export const s = {
     border: "2px solid black",
     bg: "surface.yellow",
     p: 4,
-    animation: "pulse 2s infinite",
+    _motionSafe: {
+      animation: "pulse 2s infinite",
+    },
   },
 
   failedStatus: {

@@ -1,19 +1,19 @@
 import { SystemStyleObject } from "@chakra-ui/react";
-import type { CSSProperties } from "react";
 
 export const sharedAuthStyles = {
   pageWrapper: {
     minH: "100vh",
     bg: "canvas",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
     px: 6,
     py: 6,
   },
   inner: {
     w: "100%",
     maxW: "448px",
+    my: "auto",
   },
   brandWrapper: {
     mb: 10,
@@ -56,10 +56,6 @@ export const sharedAuthStyles = {
   submitBtn: {
     width: "100%",
   },
-  forgotPasswordWrapper: {
-    alignSelf: "flex-end",
-    mt: -2,
-  },
   footerText: {
     textAlign: "center",
     fontSize: "sm",
@@ -68,21 +64,3 @@ export const sharedAuthStyles = {
     mt: 6,
   },
 } satisfies Record<string, SystemStyleObject>;
-
-export const brandLinkStyle: CSSProperties = {
-  textDecoration: "none",
-  color: "inherit",
-};
-
-export const footerLinkStyle: CSSProperties = {
-  fontWeight: "bold",
-  color: "black",
-  textDecoration: "underline",
-  textUnderlineOffset: "4px",
-};
-
-export const forgotPasswordLinkStyle: CSSProperties = {
-  fontSize: "0.875rem",
-  color: "var(--chakra-colors-muted-fg)",
-  textDecoration: "none",
-};
