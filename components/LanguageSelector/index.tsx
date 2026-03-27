@@ -1,21 +1,14 @@
 "use client";
 
 import { Box, Text, chakra } from "@chakra-ui/react";
-import { useCallback, useId, useRef } from "react";
+import { useId, useRef } from "react";
 import { LANGUAGES, type UILanguage } from "@/lib/constants";
+import { handleRovingKeyDown } from "@/lib/a11y";
+import { s } from "./styles";
 
 export type { UILanguage };
 
 type Language = (typeof LANGUAGES)[number];
-
-const LANG_KEY_INDEX: Record<string, (_i: number) => number> = {
-  ArrowRight: (i) => (i + 1) % LANGUAGES.length,
-  ArrowDown: (i) => (i + 1) % LANGUAGES.length,
-  ArrowLeft: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
-  ArrowUp: (i) => (i - 1 + LANGUAGES.length) % LANGUAGES.length,
-  Home: (_i) => 0,
-  End: (_i) => LANGUAGES.length - 1,
-};
 
 interface LanguageRadioProps {
   lang: Language;
@@ -29,26 +22,14 @@ function LanguageRadio({ lang, isSelected, onSelect, onKeyDown }: LanguageRadioP
     <chakra.button
       type="button"
       role="radio"
-      p={3}
-      borderWidth="2px"
-      borderColor="border"
-      boxShadow="brutal-sm"
-      fontWeight="700"
-      fontSize="sm"
-      textAlign="center"
-      cursor="pointer"
-      transition="transform 0.1s ease, box-shadow 0.1s ease"
-      _hover={{ transform: "translate(-2px, -2px)", boxShadow: "brutal" }}
-      _active={{ transform: "translate(2px, 2px)", boxShadow: "none" }}
-      bg={isSelected ? "primary" : "card"}
+      {...s.radio}
+      {...(isSelected ? s.radioSelected : s.radioUnselected)}
       aria-checked={isSelected}
       tabIndex={isSelected ? 0 : -1}
       onClick={onSelect}
       onKeyDown={onKeyDown}
     >
-      <Text fontSize="xl" display="block" mb={1}>
-        {lang.flag}
-      </Text>
+      <Text {...s.flagText}>{lang.flag}</Text>
       {lang.label}
     </chakra.button>
   );
@@ -65,54 +46,27 @@ export function LanguageSelector({ label, value, onChange, error }: LanguageSele
   const langGroupRef = useRef<HTMLDivElement>(null);
   const labelId = useId();
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, index: number): void => {
-      const getIndex = LANG_KEY_INDEX[e.key];
-      if (!getIndex) return;
-      e.preventDefault();
-      const targetIndex = getIndex(index);
-      onChange(LANGUAGES[targetIndex].value);
-      const radios = langGroupRef.current?.querySelectorAll<HTMLButtonElement>('[role="radio"]');
-      radios?.[targetIndex]?.focus();
-    },
-    [onChange]
-  );
-
   return (
     <Box w="100%">
-      <Text
-        id={labelId}
-        fontSize="sm"
-        fontWeight="700"
-        textTransform="uppercase"
-        letterSpacing="wider"
-        mb={2}
-      >
+      <Text id={labelId} {...s.label}>
         {label}
       </Text>
-      <Box
-        ref={langGroupRef}
-        role="radiogroup"
-        aria-labelledby={labelId}
-        display="grid"
-        gridTemplateColumns="repeat(3, 1fr)"
-        gap={2}
-      >
+      <Box ref={langGroupRef} role="radiogroup" aria-labelledby={labelId} {...s.radioGroup}>
         {LANGUAGES.map((lang, index) => (
           <LanguageRadio
             key={lang.value}
             lang={lang}
             isSelected={value === lang.value}
             onSelect={() => onChange(lang.value)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
+            onKeyDown={(e) =>
+              handleRovingKeyDown(e, index, LANGUAGES.length, langGroupRef, (i) =>
+                onChange(LANGUAGES[i].value)
+              )
+            }
           />
         ))}
       </Box>
-      {error && (
-        <Text fontSize="sm" color="red.500" mt={1}>
-          {error}
-        </Text>
-      )}
+      {error && <Text {...s.error}>{error}</Text>}
     </Box>
   );
 }

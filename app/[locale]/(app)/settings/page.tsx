@@ -15,6 +15,7 @@ import type { UILanguage } from "@/lib/constants";
 import { useGetProfile, useUpdateProfile } from "@/lib/hooks/useProfile";
 import { useRouter, usePathname } from "@/lib/navigation";
 import { toaster } from "@/components/ui/toaster";
+import { logger } from "@/lib/logger";
 import { PageWrapper } from "@/components/PageWrapper";
 import { s } from "./settings.styles";
 import { AI_DAILY_LIMIT as AI_LIMIT, MIN_NAME_LENGTH } from "@/lib/constants";
@@ -110,11 +111,26 @@ export default function SettingsPage(): React.JSX.Element {
 
       if (Object.keys(changed).length === 0) return;
 
-      await saveProfile(changed);
-      if (dirtyFields.ui_language) {
+      const needsLocaleChange = dirtyFields.ui_language;
+      const updatedProfile = await saveProfile(changed);
+      reset({
+        name: updatedProfile.name,
+        bio: updatedProfile.profile?.bio ?? "",
+        timezone: updatedProfile.profile?.timezone ?? "",
+        ui_language: updatedProfile.profile?.uiLanguage ?? "pt-BR",
+      });
+      if (needsLocaleChange) {
         router.replace(pathname, { locale: data.ui_language });
       }
-    } catch {}
+    } catch (err) {
+      logger.error({ err }, "settings: failed to save profile");
+      toaster.create({
+        type: "error",
+        title: t("toastErrorTitle"),
+        description: t("toastErrorDesc"),
+        meta: { closable: true },
+      });
+    }
   };
 
   const usagePercent = profile
@@ -143,6 +159,7 @@ export default function SettingsPage(): React.JSX.Element {
             <Input
               label={t("nameLabel")}
               placeholder={t("namePlaceholder")}
+              autoComplete="name"
               error={errors.name?.message}
               {...register("name")}
             />

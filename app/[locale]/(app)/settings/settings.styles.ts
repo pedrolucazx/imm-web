@@ -29,6 +29,7 @@ export const s = {
     textTransform: "uppercase",
     letterSpacing: "0.06em",
     lineHeight: 1.1,
+    textWrap: "balance",
     pb: 3,
     borderBottom: "2px solid black",
   },
@@ -85,7 +86,7 @@ export const s = {
   usageFill: {
     h: "100%",
     bg: "secondary",
-    transition: "width 0.3s ease",
+    _motionSafe: { transition: "width 0.3s ease" },
   },
 
   saveBtn: {
@@ -109,6 +110,7 @@ export const s = {
     textTransform: "uppercase",
     letterSpacing: "0.06em",
     lineHeight: 1.1,
+    textWrap: "balance",
     color: "black",
   },
 
@@ -134,6 +136,7 @@ export const s = {
     textTransform: "uppercase",
     letterSpacing: "0.06em",
     lineHeight: 1.1,
+    textWrap: "balance",
   },
 
   privacyDescription: {
@@ -157,6 +160,7 @@ export const s = {
     textTransform: "uppercase",
     letterSpacing: "0.06em",
     lineHeight: 1.1,
+    textWrap: "balance",
   },
 
   accountDescription: {

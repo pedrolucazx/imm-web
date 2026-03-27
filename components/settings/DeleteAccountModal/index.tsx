@@ -1,8 +1,16 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, chakra } from "@chakra-ui/react";
+import { useId } from "react";
 import { useTranslations } from "next-intl";
-import { Modal } from "@/components/ui/modal";
+import {
+  DialogRoot,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -51,51 +59,64 @@ export function DeleteAccountModal({ open, onClose }: DeleteAccountModalProps) {
     deleteAccount(data.password);
   };
 
+  const formId = useId();
+
   const handleClose = () => {
     reset();
     onClose();
   };
 
   return (
-    <Modal
+    <DialogRoot
       open={open}
-      onClose={handleClose}
-      title={t("deleteModal.title")}
-      maxW="420px"
-      footer={
-        <Box as="form" onSubmit={handleSubmit(onSubmit)} display="flex" gap={3} w="100%">
-          <Button type="button" variant="muted" onClick={handleClose} disabled={isPending} flex={1}>
-            {t("deleteModal.cancelBtn")}
-          </Button>
-          <Button
-            type="submit"
-            loading={isPending}
-            flex={1}
-            bg="red.500"
-            color="white"
-            _hover={{ bg: "red.600" }}
-          >
-            {t("deleteModal.confirmBtn")}
-          </Button>
-        </Box>
-      }
+      onOpenChange={(e) => !e.open && handleClose()}
+      scrollBehavior="inside"
+      placement="center"
     >
-      <Box>
-        <Box {...s.warningBox}>
-          <Text {...s.warningText}>{t("deleteModal.warning")}</Text>
-        </Box>
+      <DialogContent {...s.content} maxW="420px" style={{ overscrollBehavior: "contain" }}>
+        <DialogHeader {...s.header}>
+          <DialogTitle {...s.title}>{t("deleteModal.title")}</DialogTitle>
+          <chakra.button type="button" onClick={handleClose} aria-label="Close" {...s.closeBtn}>
+            ✕
+          </chakra.button>
+        </DialogHeader>
 
-        <Box {...s.field}>
-          <PasswordInput
-            label={t("deleteModal.passwordLabel")}
-            placeholder={t("deleteModal.passwordPlaceholder")}
-            autoComplete="current-password"
-            error={errors.password?.message}
-            autoFocus
-            {...register("password")}
-          />
-        </Box>
-      </Box>
-    </Modal>
+        <DialogBody {...s.body}>
+          <Box as="form" id={formId} onSubmit={handleSubmit(onSubmit)}>
+            <Box {...s.warningBox}>
+              <Text {...s.warningText}>{t("deleteModal.warning")}</Text>
+            </Box>
+
+            <Box {...s.field}>
+              <PasswordInput
+                label={t("deleteModal.passwordLabel")}
+                placeholder={t("deleteModal.passwordPlaceholder")}
+                autoComplete="current-password"
+                error={errors.password?.message}
+                autoFocus
+                {...register("password")}
+              />
+            </Box>
+          </Box>
+        </DialogBody>
+
+        <DialogFooter {...s.footer}>
+          <Box {...s.footerActions}>
+            <Button
+              type="button"
+              variant="muted"
+              onClick={handleClose}
+              disabled={isPending}
+              {...s.footerBtn}
+            >
+              {t("deleteModal.cancelBtn")}
+            </Button>
+            <Button type="submit" form={formId} loading={isPending} {...s.deleteBtn}>
+              {t("deleteModal.confirmBtn")}
+            </Button>
+          </Box>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 }
