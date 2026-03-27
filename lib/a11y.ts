@@ -21,7 +21,7 @@ export function handleRovingKeyDown(
   onSelect: (_targetIndex: number) => void
 ): void {
   const getIndex = ROVING_KEY_INDEX[e.key];
-  if (!getIndex) return;
+  if (!getIndex || length <= 0) return;
   e.preventDefault();
   const targetIndex = getIndex(index, length);
   onSelect(targetIndex);

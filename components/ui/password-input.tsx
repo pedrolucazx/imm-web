@@ -164,16 +164,15 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
     return (
       <Field.Root invalid={!!error}>
         {label && (
-          <Box
-            display="flex"
-            justifyContent={labelAddon ? "space-between" : undefined}
-            alignItems="baseline"
+          <HStack
+            justify={labelAddon ? "space-between" : undefined}
+            align="baseline"
             w="full"
             mb={0}
           >
             <Field.Label mb={0}>{label}</Field.Label>
             {labelAddon}
-          </Box>
+          </HStack>
         )}
         {inputGroup}
         {passwordValue !== undefined ? (

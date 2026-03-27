@@ -47,11 +47,14 @@ export function SkillCard({ skill, isSelected, onClick, onKeyDown }: SkillCardPr
       border="2px solid black"
       bg={isSelected ? "yellow.300" : "white"}
       cursor="pointer"
-      transition="transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease"
+      _motionSafe={{
+        transition: "transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease",
+        _active: { transform: "translate(2px, 2px)" },
+      }}
       onClick={onClick}
       onKeyDown={onKeyDown}
       _hover={{ boxShadow: "4px 4px 0 black" }}
-      _active={{ transform: "translate(2px, 2px)", boxShadow: "none" }}
+      _active={{ boxShadow: "none" }}
     >
       <HStack justify="space-between" align="center" gap={2} w="full">
         <HStack gap={3} flex="1">

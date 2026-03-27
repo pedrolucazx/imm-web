@@ -114,7 +114,7 @@ export default function HabitsPage(): React.JSX.Element {
                     <Button
                       onClick={() => setExpandedPlan(isExpanded ? null : habit.id)}
                       aria-expanded={isExpanded}
-                      aria-controls={`plan-${habit.id}`}
+                      aria-controls={isExpanded ? `plan-${habit.id}` : undefined}
                       {...s.planToggle}
                     >
                       {isExpanded ? t("hidePlan") : t("viewPlan")}
