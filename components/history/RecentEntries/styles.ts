@@ -25,9 +25,11 @@ export const s = {
     p: 4,
     boxShadow: "brutal-sm",
     cursor: "pointer",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
-    _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
-    _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    _motionSafe: {
+      transition: "transform 0.1s ease, box-shadow 0.1s ease",
+      _hover: { transform: "translate(-1px, -1px)", boxShadow: "brutal" },
+      _active: { transform: "translate(1px, 1px)", boxShadow: "none" },
+    },
     _focusVisible: { outline: "3px solid", outlineColor: "ring", outlineOffset: "2px" },
   },
 
