@@ -67,10 +67,8 @@ function ResetPasswordForm(): React.JSX.Element {
         footerLinkLabel={t("backToForgotPassword")}
         footerLinkHref={ROUTES.FORGOT_PASSWORD}
       >
-        <Box textAlign="center" py={4}>
-          <Text color="error" mb={4}>
-            {t("tokenInvalid")}
-          </Text>
+        <Box {...s.tokenErrorBox}>
+          <Text {...s.tokenErrorText}>{t("tokenInvalid")}</Text>
         </Box>
       </AuthCard>
     );
@@ -118,14 +116,7 @@ export default function ResetPasswordPage(): React.JSX.Element {
   return (
     <Suspense
       fallback={
-        <Box
-          minH="100vh"
-          bg="canvas"
-          role="status"
-          aria-live="polite"
-          display="grid"
-          placeItems="center"
-        >
+        <Box role="status" aria-live="polite" {...s.suspenseFallback}>
           <Text color="mutedFg">{t("loading")}</Text>
         </Box>
       }

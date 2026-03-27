@@ -47,7 +47,7 @@ export default function ForgotPasswordPage(): React.JSX.Element {
         footerLinkLabel={t("backToLogin")}
         footerLinkHref={ROUTES.LOGIN}
       >
-        <Box textAlign="center" py={4} />
+        <Box {...s.successSpacer} />
       </AuthCard>
     );
   }
