@@ -632,7 +632,7 @@
     },
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "selectedDate": "Selected Date",
-    "dayAriaLabel": "Day {day}, {count} entries"
+    "dayAriaLabel": "Day {day}, {count, plural, one {# entry} other {# entries}}"
   },
   "analytics": {
     "pageTitle": "Analytics",

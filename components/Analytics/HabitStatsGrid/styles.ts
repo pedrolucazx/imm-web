@@ -17,16 +17,17 @@ export const s = {
     display: "flex",
     flexDirection: "column",
     cursor: "pointer",
-    transition: "transform 0.1s, box-shadow 0.1s, border-bottom 0.1s",
+    _motionSafe: {
+      transition: "transform 0.1s, box-shadow 0.1s, border-bottom 0.1s",
+    },
   },
   cardSelected: {
     borderBottom: "0.375rem solid black",
     boxShadow: "0 0.5rem 0 0 black",
-    transform: "translateY(-0.1875rem)",
+    _motionSafe: { transform: "translateY(-0.1875rem)" },
   },
   cardUnselected: {
     borderBottom: "0.1875rem solid black",
-    transform: "none",
   },
   toneMint: { bg: "surface.mint" },
   toneSky: { bg: "surface.sky" },

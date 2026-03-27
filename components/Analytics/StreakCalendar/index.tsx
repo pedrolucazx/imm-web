@@ -2,7 +2,7 @@
 
 import { Box, Text, VStack, HStack } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
-import { format, subDays } from "date-fns";
+import { addDays, format, isValid, parseISO, subDays } from "date-fns";
 import { formatEntryDate } from "@/lib/date-locale";
 import { toChakraColor } from "@/lib/habit-utils";
 import type { HabitLog, HabitStat } from "../types";
@@ -21,12 +21,19 @@ function buildGrid(
 ): { date: string; completed: boolean }[] {
   const safeCurrentDay = Math.max(1, Math.min(currentDay, DAYS));
   const completedSet = new Set((logs ?? []).filter((l) => l.completed).map((l) => l.logDate));
-  const today = new Date();
-  const startDate = subDays(today, safeCurrentDay - 1);
-  const cells: { date: string; completed: boolean }[] = [];
 
+  // Anchor the grid to the earliest completed log date instead of computing
+  // from habit.startDate (UTC) + today. habit.startDate is stored in UTC but
+  // logs use the user's local date — if the user creates habits near midnight UTC,
+  // startDate ends up one day ahead of the actual first log, causing the grid to
+  // skip that log entirely.
+  const sortedDates = [...completedSet].sort();
+  const parsed = sortedDates[0] ? parseISO(sortedDates[0]) : null;
+  const startDate = parsed && isValid(parsed) ? parsed : subDays(new Date(), safeCurrentDay - 1);
+
+  const cells: { date: string; completed: boolean }[] = [];
   for (let i = 0; i < DAYS; i++) {
-    const date = format(subDays(startDate, -i), "yyyy-MM-dd");
+    const date = format(addDays(startDate, i), "yyyy-MM-dd");
     cells.push({ date, completed: completedSet.has(date) });
   }
 
