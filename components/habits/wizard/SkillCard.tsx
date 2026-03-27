@@ -9,11 +9,12 @@ import { SKILL_METADATA } from "@/lib/habit-utils";
 interface SkillCardProps {
   skill: TargetSkill;
   isSelected: boolean;
+  tabIndex?: number;
   onClick: () => void;
   onKeyDown?: (_e: React.KeyboardEvent) => void;
 }
 
-export function SkillCard({ skill, isSelected, onClick, onKeyDown }: SkillCardProps) {
+export function SkillCard({ skill, isSelected, tabIndex, onClick, onKeyDown }: SkillCardProps) {
   const t = useTranslations();
   const metadata = SKILL_METADATA[skill];
 
@@ -40,7 +41,7 @@ export function SkillCard({ skill, isSelected, onClick, onKeyDown }: SkillCardPr
       type="button"
       role="radio"
       aria-checked={isSelected}
-      tabIndex={isSelected ? 0 : -1}
+      tabIndex={tabIndex ?? (isSelected ? 0 : -1)}
       w="full"
       h="auto"
       p={3}

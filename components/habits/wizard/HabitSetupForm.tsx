@@ -2,7 +2,7 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { TargetSkill } from "@/types/habits";
@@ -39,6 +39,7 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
   const mode = targetSkill ? deriveHabitMode(targetSkill as TargetSkill) : null;
 
   const skillGroupRef = useRef<HTMLDivElement>(null);
+  const targetSkillLabelId = useId();
 
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
@@ -58,12 +59,20 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
         />
 
         <Field.Root invalid={!!errors.targetSkill} w="full" gap={0}>
-          <Field.Label mb={2}>{t("targetSkillLabel")}</Field.Label>
+          <Field.Label id={targetSkillLabelId} mb={2}>
+            {t("targetSkillLabel")}
+          </Field.Label>
           <Controller
             name="targetSkill"
             control={control}
             render={({ field }) => (
-              <Box ref={skillGroupRef} role="radiogroup" position="relative" w="full">
+              <Box
+                ref={skillGroupRef}
+                role="radiogroup"
+                aria-labelledby={targetSkillLabelId}
+                position="relative"
+                w="full"
+              >
                 <VStack w="full" gap={6} align="stretch">
                   <Box>
                     <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
@@ -76,6 +85,7 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
                           key={skill}
                           skill={skill}
                           isSelected={field.value === skill}
+                          tabIndex={field.value === skill ? 0 : !field.value && i === 0 ? 0 : -1}
                           onClick={() => field.onChange(skill)}
                           onKeyDown={(e) =>
                             handleRovingKeyDown(e, i, ALL_SKILLS.length, skillGroupRef, (idx) =>
