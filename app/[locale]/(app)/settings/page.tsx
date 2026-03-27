@@ -110,8 +110,15 @@ export default function SettingsPage(): React.JSX.Element {
 
       if (Object.keys(changed).length === 0) return;
 
-      await saveProfile(changed);
-      if (dirtyFields.ui_language) {
+      const needsLocaleChange = dirtyFields.ui_language;
+      const updatedProfile = await saveProfile(changed);
+      reset({
+        name: updatedProfile.name,
+        bio: updatedProfile.profile?.bio ?? "",
+        timezone: updatedProfile.profile?.timezone ?? "",
+        ui_language: updatedProfile.profile?.uiLanguage ?? "pt-BR",
+      });
+      if (needsLocaleChange) {
         router.replace(pathname, { locale: data.ui_language });
       }
     } catch {}
@@ -143,6 +150,7 @@ export default function SettingsPage(): React.JSX.Element {
             <Input
               label={t("nameLabel")}
               placeholder={t("namePlaceholder")}
+              autoComplete="name"
               error={errors.name?.message}
               {...register("name")}
             />

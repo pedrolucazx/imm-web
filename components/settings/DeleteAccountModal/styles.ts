@@ -18,4 +18,20 @@ export const s = {
   field: {
     mt: 4,
   },
+  footerActions: {
+    display: "flex",
+    gap: 3,
+    w: "100%",
+  },
+
+  footerBtn: {
+    flex: 1,
+  },
+
+  deleteBtn: {
+    flex: 1,
+    bg: "red.500",
+    color: "white",
+    _hover: { bg: "red.600" },
+  },
 } satisfies Record<string, SystemStyleObject>;

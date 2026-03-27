@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Text } from "@chakra-ui/react";
+import { useId } from "react";
 import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -51,6 +52,8 @@ export function DeleteAccountModal({ open, onClose }: DeleteAccountModalProps) {
     deleteAccount(data.password);
   };
 
+  const formId = useId();
+
   const handleClose = () => {
     reset();
     onClose();
@@ -63,24 +66,23 @@ export function DeleteAccountModal({ open, onClose }: DeleteAccountModalProps) {
       title={t("deleteModal.title")}
       maxW="420px"
       footer={
-        <Box as="form" onSubmit={handleSubmit(onSubmit)} display="flex" gap={3} w="100%">
-          <Button type="button" variant="muted" onClick={handleClose} disabled={isPending} flex={1}>
+        <Box {...s.footerActions}>
+          <Button
+            type="button"
+            variant="muted"
+            onClick={handleClose}
+            disabled={isPending}
+            {...s.footerBtn}
+          >
             {t("deleteModal.cancelBtn")}
           </Button>
-          <Button
-            type="submit"
-            loading={isPending}
-            flex={1}
-            bg="red.500"
-            color="white"
-            _hover={{ bg: "red.600" }}
-          >
+          <Button type="submit" form={formId} loading={isPending} {...s.deleteBtn}>
             {t("deleteModal.confirmBtn")}
           </Button>
         </Box>
       }
     >
-      <Box>
+      <Box as="form" id={formId} onSubmit={handleSubmit(onSubmit)}>
         <Box {...s.warningBox}>
           <Text {...s.warningText}>{t("deleteModal.warning")}</Text>
         </Box>
