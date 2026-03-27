@@ -39,9 +39,11 @@ const CHART_MARGIN = { top: 30, right: 16, bottom: 40, left: 32 };
 export function ScoreLineChart({ entries, currentDay, labels }: ScoreLineChartProps) {
   const safeCurrentDay = Math.max(1, Math.min(currentDay, TOTAL_DAYS));
 
-  const sortedEntries = [...entries].sort((a, b) => a.date.localeCompare(b.date));
-  const parsed = sortedEntries[0] ? parseISO(sortedEntries[0].date) : null;
-  const startDate = parsed && isValid(parsed) ? parsed : subDays(new Date(), safeCurrentDay - 1);
+  const startDate =
+    entries
+      .map((entry) => parseISO(entry.date))
+      .filter((date) => isValid(date))
+      .sort((a, b) => a.getTime() - b.getTime())[0] ?? subDays(new Date(), safeCurrentDay - 1);
 
   const entryMap = new Map(entries.map((entry) => [entry.date, entry]));
 

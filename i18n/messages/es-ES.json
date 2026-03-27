@@ -632,7 +632,7 @@
     },
     "weekdays": ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
     "selectedDate": "Fecha Seleccionada",
-    "dayAriaLabel": "Día {day}, {count, plural, one {1 registro} other {# registros}}"
+    "dayAriaLabel": "Día {day}, {count, plural, one {# registro} other {# registros}}"
   },
   "analytics": {
     "pageTitle": "Análisis",
