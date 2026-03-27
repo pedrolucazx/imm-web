@@ -55,7 +55,7 @@ export function HabitChecklist({
                 cursor="pointer"
                 bg={isActive ? habit.color : "card"}
                 boxShadow={isActive ? "none" : "brutal"}
-                transform={isActive ? "translate(4px, 4px)" : undefined}
+                _motionSafe={isActive ? { transform: "translate(4px, 4px)" } : undefined}
               >
                 <Box {...s.habitRow}>
                   <Text {...s.habitIcon}>{habit.icon}</Text>

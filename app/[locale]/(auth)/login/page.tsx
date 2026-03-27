@@ -6,13 +6,15 @@ import { useLogin } from "@/lib/hooks/useAuth";
 import { useRouter, Link } from "@/lib/navigation";
 import { ROUTES } from "@/lib/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, VStack, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { s, forgotPasswordLinkStyle } from "./login.styles";
+import { s } from "./login.styles";
 import { MIN_PASSWORD_LENGTH } from "@/lib/constants";
+
+const ForgotPasswordLink = chakra(Link);
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
@@ -58,6 +60,7 @@ export default function LoginPage() {
             label={t("emailLabel")}
             type="email"
             autoComplete="email"
+            spellCheck={false}
             placeholder={t("emailPlaceholder")}
             error={errors.email?.message}
             {...register("email")}
@@ -68,14 +71,24 @@ export default function LoginPage() {
             autoComplete="current-password"
             placeholder={t("passwordPlaceholder")}
             error={errors.password?.message}
+            labelAddon={
+              <ForgotPasswordLink
+                href={ROUTES.FORGOT_PASSWORD}
+                fontSize="sm"
+                color="mutedFg"
+                textDecoration="none"
+                _hover={{ textDecoration: "underline" }}
+                _focusVisible={{
+                  outline: "2px solid",
+                  outlineColor: "primary",
+                  outlineOffset: "2px",
+                }}
+              >
+                {t("forgotPassword")}
+              </ForgotPasswordLink>
+            }
             {...register("password")}
           />
-
-          <Box {...s.forgotPasswordWrapper}>
-            <Link href={ROUTES.FORGOT_PASSWORD} style={forgotPasswordLinkStyle}>
-              {t("forgotPassword")}
-            </Link>
-          </Box>
 
           <Button type="submit" loading={isPending} {...s.submitBtn}>
             {t("submit")}

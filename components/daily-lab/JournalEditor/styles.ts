@@ -57,7 +57,7 @@ export const s = {
     fontSize: "base",
     resize: "none",
     display: "block",
-    _focus: { outline: "none", ring: "2px", ringColor: "ring" },
+    _focusVisible: { outline: "none", ring: "2px", ringColor: "ring" },
     _placeholder: { color: "mutedFg" },
   },
 
@@ -103,7 +103,7 @@ export const s = {
     fontWeight: "bold",
     fontSize: "lg",
     cursor: "pointer",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
+    _motionSafe: { transition: "transform 0.1s ease, box-shadow 0.1s ease" },
   },
 
   scoreBtnActive: {
@@ -127,14 +127,16 @@ export const s = {
     letterSpacing: "wider",
     border: "3px solid black",
     cursor: "pointer",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
+    _motionSafe: { transition: "transform 0.1s ease, box-shadow 0.1s ease" },
   },
 
   saveBtnEnabled: {
     bg: "primary",
     boxShadow: "brutal",
-    _hover: { transform: "translate(-2px, -2px)", boxShadow: "brutal-lg" },
-    _active: { transform: "translate(2px, 2px)", boxShadow: "none" },
+    _motionSafe: {
+      _hover: { transform: "translate(-2px, -2px)", boxShadow: "brutal-lg" },
+      _active: { transform: "translate(2px, 2px)", boxShadow: "none" },
+    },
   },
 
   saveBtnDisabled: {

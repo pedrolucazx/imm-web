@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import { Box, Text, chakra } from "@chakra-ui/react";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
@@ -38,6 +38,8 @@ export function JournalEditor({
 }: JournalEditorProps) {
   const t = useTranslations("dailyLab");
   const { mutate: saveJournal, isPending: isSaving } = useSaveJournal();
+  const moodGroupId = useId();
+  const energyGroupId = useId();
 
   const [content, setContent] = useState("");
   const [moodScore, setMoodScore] = useState<number>(DEFAULT_MOOD_SCORE);
@@ -106,6 +108,7 @@ export function JournalEditor({
   return (
     <Box>
       <Textarea
+        aria-label={t("journal.contentLabel")}
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={
@@ -124,10 +127,10 @@ export function JournalEditor({
 
       <Box {...s.scoresGrid}>
         <Box {...s.scoreCard}>
-          <Text as="span" {...s.scoreLabel}>
+          <Text as="span" id={moodGroupId} {...s.scoreLabel}>
             {t("journal.moodLabel")}
           </Text>
-          <Box {...s.scoreRow}>
+          <Box role="group" aria-labelledby={moodGroupId} {...s.scoreRow}>
             {MOOD_EMOJIS.map((emoji, i) => {
               const val = i + 1;
               const active = moodScore === val;
@@ -136,6 +139,7 @@ export function JournalEditor({
                   key={val}
                   type="button"
                   aria-pressed={active}
+                  aria-label={t("journal.moodAriaLabel", { val })}
                   onClick={() => setMoodScore(val)}
                   {...s.scoreBtn}
                   {...(active ? s.scoreBtnActive : s.scoreBtnInactive)}
@@ -148,10 +152,10 @@ export function JournalEditor({
         </Box>
 
         <Box {...s.scoreCard}>
-          <Text as="span" {...s.scoreLabel}>
+          <Text as="span" id={energyGroupId} {...s.scoreLabel}>
             {t("journal.energyLabel")}
           </Text>
-          <Box {...s.scoreRow}>
+          <Box role="group" aria-labelledby={energyGroupId} {...s.scoreRow}>
             {ENERGY_EMOJIS.map((emoji, i) => {
               const val = i + 1;
               const active = energyScore === val;
@@ -160,6 +164,7 @@ export function JournalEditor({
                   key={val}
                   type="button"
                   aria-pressed={active}
+                  aria-label={t("journal.energyAriaLabel", { val })}
                   onClick={() => setEnergyScore(val)}
                   {...s.scoreBtn}
                   {...(active ? s.scoreBtnActive : s.scoreBtnInactive)}

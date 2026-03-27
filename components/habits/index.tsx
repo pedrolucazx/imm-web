@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import React, { useId, useState } from "react";
+import { Box, HStack, VStack, chakra } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
@@ -41,6 +41,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const [stepError, setStepError] = useState<"generic" | "rate-limit" | null>(null);
   const [regenerateFeedback, setRegenerateFeedback] = useState("");
 
+  const feedbackTextareaId = useId();
   const previewMutation = usePreviewHabitPlan();
   const createMutation = useCreateHabit();
 
@@ -73,7 +74,10 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       const plan = await previewMutation.mutateAsync(previewInput);
       setPreviewedPlan(plan);
     } catch (err) {
-      setStepError(err instanceof Error && err.message.includes("429") ? "rate-limit" : "generic");
+      const msg = err instanceof Error ? err.message : "";
+      setStepError(
+        msg.includes("429") || msg.toLowerCase().includes("rate limit") ? "rate-limit" : "generic"
+      );
     }
   };
 
@@ -95,7 +99,10 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       setPreviewedPlan(plan);
       setRegenerateFeedback("");
     } catch (err) {
-      setStepError(err instanceof Error && err.message.includes("429") ? "rate-limit" : "generic");
+      const msg = err instanceof Error ? err.message : "";
+      setStepError(
+        msg.includes("429") || msg.toLowerCase().includes("rate limit") ? "rate-limit" : "generic"
+      );
     }
   };
 
@@ -183,10 +190,11 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
         <VStack gap={2} align="stretch" w="100%">
           {needsPlan && previewedPlan && (
             <VStack gap={1} align="stretch">
-              <Text fontSize="sm" fontWeight="600">
+              <chakra.label htmlFor={feedbackTextareaId} fontSize="sm" fontWeight="600">
                 {tStep3("feedbackLabel")}
-              </Text>
+              </chakra.label>
               <Textarea
+                id={feedbackTextareaId}
                 value={regenerateFeedback}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setRegenerateFeedback(e.target.value)
@@ -234,7 +242,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
 
   return (
     <Modal open={open} onClose={handleClose} title={t("title")} footer={footer} maxW="680px">
-      <HStack gap={2} mb={6}>
+      <HStack gap={2} mb={6} aria-hidden="true">
         {[1, 2, 3].map((n) => (
           <Box
             key={n}

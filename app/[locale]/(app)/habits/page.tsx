@@ -45,6 +45,7 @@ export default function HabitsPage(): React.JSX.Element {
     <PageWrapper
       title={`🎯 ${t("pageTitle")}`}
       loading={isLoading}
+      maxW="800px"
       actions={
         <Tooltip content={t("tooltipLimit", { max: MAX_ACTIVE_HABITS })} disabled={!isAtLimit}>
           <Button
@@ -60,7 +61,7 @@ export default function HabitsPage(): React.JSX.Element {
         </Tooltip>
       }
     >
-      <Box maxW="800px">
+      <Box>
         {showWarning && (!bannerDismissed || isAtLimit) && (
           <Box {...s.banner} bg={isAtLimit ? "surface.coral" : "surface.yellow"}>
             <Text {...s.statusText}>
@@ -112,12 +113,14 @@ export default function HabitsPage(): React.JSX.Element {
                   <Box>
                     <Button
                       onClick={() => setExpandedPlan(isExpanded ? null : habit.id)}
+                      aria-expanded={isExpanded}
+                      aria-controls={isExpanded ? `plan-${habit.id}` : undefined}
                       {...s.planToggle}
                     >
                       {isExpanded ? t("hidePlan") : t("viewPlan")}
                     </Button>
                     {isExpanded && (
-                      <Box {...s.planContent}>
+                      <Box id={`plan-${habit.id}`} {...s.planContent}>
                         <Box {...s.planStrategy}>
                           <Text {...s.planStrategyText}>
                             {t("strategy", { strategy: habit.habit_plan.strategy })}
@@ -166,7 +169,7 @@ export default function HabitsPage(): React.JSX.Element {
                 )}
 
                 {habit.plan_status === "generating" && (
-                  <Box {...s.generatingStatus}>
+                  <Box {...s.generatingStatus} aria-live="polite" aria-atomic="true">
                     <Text {...s.statusText}>{t("generatingPlan")}</Text>
                   </Box>
                 )}

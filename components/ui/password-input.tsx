@@ -47,9 +47,13 @@ export const PasswordStrengthMeter = React.forwardRef<HTMLDivElement, PasswordSt
               flex="1"
               borderRadius="0"
               border="2px solid black"
+              css={{
+                "@media (prefers-reduced-motion: no-preference)": {
+                  transition: "background-color 0.2s ease",
+                },
+              }}
               style={{
                 backgroundColor: level && index < clampedValue ? level.color : "transparent",
-                transition: "background-color 0.2s ease",
               }}
             />
           ))}
@@ -81,6 +85,7 @@ export interface PasswordVisibilityProps {
 export interface PasswordInputProps extends InputProps, PasswordVisibilityProps {
   rootProps?: GroupProps;
   passwordValue?: string;
+  labelAddon?: React.ReactNode;
 }
 
 export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
@@ -91,14 +96,21 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
       visible: visibleProp,
       onVisibleChange,
       visibilityIcon = { on: <LuEye />, off: <LuEyeOff /> },
-      visibilityLabel = { show: "Show password", hide: "Hide password" },
+      visibilityLabel,
       label,
       error,
       passwordValue,
+      labelAddon,
       ...rest
     } = props;
 
     const tStrength = useTranslations("common.passwordStrength");
+    const tVisibility = useTranslations("common.passwordVisibility");
+
+    const resolvedVisibilityLabel = visibilityLabel ?? {
+      show: tVisibility("show"),
+      hide: tVisibility("hide"),
+    };
 
     const strengthLevels: StrengthLevel[] = React.useMemo(
       () => [
@@ -130,7 +142,7 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
         endElement={
           <VisibilityTrigger
             disabled={rest.disabled}
-            aria-label={visible ? visibilityLabel.hide : visibilityLabel.show}
+            aria-label={visible ? resolvedVisibilityLabel.hide : resolvedVisibilityLabel.show}
             aria-pressed={visible}
             onPointerDown={(e) => e.preventDefault()}
             onClick={() => {
@@ -151,7 +163,17 @@ export const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputPro
 
     return (
       <Field.Root invalid={!!error}>
-        {label && <Field.Label>{label}</Field.Label>}
+        {label && (
+          <HStack
+            justify={labelAddon ? "space-between" : undefined}
+            align="baseline"
+            w="full"
+            mb={0}
+          >
+            <Field.Label mb={0}>{label}</Field.Label>
+            {labelAddon}
+          </HStack>
+        )}
         {inputGroup}
         {passwordValue !== undefined ? (
           <Box mt={1} position="relative" w="full">

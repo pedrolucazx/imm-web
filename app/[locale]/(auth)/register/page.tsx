@@ -61,7 +61,6 @@ export default function RegisterPage(): React.JSX.Element {
 
   const selectedLang = watch("uiLanguage");
   const passwordValue = watch("password") ?? "";
-  const confirmPasswordValue = watch("confirmPassword") ?? "";
 
   const onSubmit = (data: RegisterForm): void => {
     registerMutation({
@@ -95,6 +94,7 @@ export default function RegisterPage(): React.JSX.Element {
             label={t("emailLabel")}
             type="email"
             autoComplete="email"
+            spellCheck={false}
             placeholder={t("emailPlaceholder")}
             error={errors.email?.message}
             {...register("email")}
@@ -114,7 +114,6 @@ export default function RegisterPage(): React.JSX.Element {
             autoComplete="new-password"
             placeholder={t("confirmPasswordPlaceholder")}
             error={errors.confirmPassword?.message}
-            passwordValue={confirmPasswordValue}
             {...register("confirmPassword")}
           />
 

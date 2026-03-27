@@ -15,4 +15,16 @@ export const s = {
     letterSpacing: "wider",
     mb: 4,
   },
+
+  skillBanner: {
+    border: "3px solid black",
+    bg: "surface.mint",
+    p: 3,
+    mb: 4,
+  },
+
+  skillBannerText: {
+    fontSize: "sm",
+    fontWeight: "bold",
+  },
 } satisfies Record<string, SystemStyleObject>;

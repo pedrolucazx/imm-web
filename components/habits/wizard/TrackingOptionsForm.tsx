@@ -2,6 +2,7 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useId, useRef } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import {
   MAX_AVAILABLE_MINUTES,
   DEFAULT_AVAILABLE_MINUTES,
 } from "@/lib/constants";
+import { handleRovingKeyDown } from "@/lib/a11y";
 
 interface TrackingOptionsFormProps {
   defaultValues?: Partial<TrackingConfigData>;
@@ -23,6 +25,8 @@ interface TrackingOptionsFormProps {
 
 export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFormProps) {
   const t = useTranslations("habitWizard.step2Tracking");
+  const levelLabelId = useId();
+  const levelGroupRef = useRef<HTMLDivElement>(null);
 
   const {
     control,
@@ -96,20 +100,33 @@ export function TrackingOptionsForm({ defaultValues, onNext }: TrackingOptionsFo
             />
 
             <Box>
-              <Text as="label" {...s.label}>
+              <Text id={levelLabelId} {...s.label}>
                 {t("levelLabel")}
               </Text>
               <Controller
                 name="level"
                 control={control}
                 render={({ field }) => (
-                  <Box {...s.levelGroup}>
-                    {LEVELS.map((l) => (
+                  <Box
+                    ref={levelGroupRef}
+                    role="radiogroup"
+                    aria-labelledby={levelLabelId}
+                    {...s.levelGroup}
+                  >
+                    {LEVELS.map((l, i) => (
                       <Button
                         key={l}
                         type="button"
+                        role="radio"
+                        aria-checked={field.value === l}
+                        tabIndex={field.value === l ? 0 : -1}
                         variant={field.value === l ? "primary" : "muted"}
                         onClick={() => field.onChange(l)}
+                        onKeyDown={(e: React.KeyboardEvent) =>
+                          handleRovingKeyDown(e, i, LEVELS.length, levelGroupRef, (idx) =>
+                            field.onChange(LEVELS[idx])
+                          )
+                        }
                         {...s.levelBtn}
                       >
                         {t(`levels.${l}`)}

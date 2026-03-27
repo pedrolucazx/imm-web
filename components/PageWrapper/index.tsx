@@ -7,29 +7,32 @@ interface PageWrapperProps {
   actions?: React.ReactNode;
   loading?: boolean;
   children?: React.ReactNode;
+  maxW?: string;
 }
 
-export function PageWrapper({ title, actions, loading, children }: PageWrapperProps) {
+export function PageWrapper({ title, actions, loading, children, maxW }: PageWrapperProps) {
   return (
     <Box {...s.page}>
-      <Box {...s.header}>
-        <Heading
-          as="h1"
-          aria-label={title.replace(/\p{Extended_Pictographic}/gu, "").trim() || undefined}
-          {...s.title}
-        >
-          {title}
-        </Heading>
-        {actions}
-      </Box>
-
-      {loading ? (
-        <Box {...s.spinner} pl={{ base: 0, md: SIDEBAR_WIDTH }}>
-          <Spinner size="xl" borderWidth="4px" color="primary" />
+      <Box {...s.inner} maxW={maxW}>
+        <Box {...s.header}>
+          <Heading
+            as="h1"
+            aria-label={title.replace(/\p{Extended_Pictographic}/gu, "").trim() || undefined}
+            {...s.title}
+          >
+            {title}
+          </Heading>
+          {actions}
         </Box>
-      ) : (
-        children
-      )}
+
+        {loading ? (
+          <Box {...s.spinner} pl={{ base: 0, md: SIDEBAR_WIDTH }}>
+            <Spinner size="xl" borderWidth="4px" color="primary" />
+          </Box>
+        ) : (
+          children
+        )}
+      </Box>
     </Box>
   );
 }

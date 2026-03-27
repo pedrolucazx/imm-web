@@ -233,6 +233,6 @@ export const s = {
   progressFill: {
     h: "100%",
     bg: "secondary",
-    transition: "width 0.3s ease",
+    _motionSafe: { transition: "width 0.3s ease" },
   },
 } satisfies Record<string, SystemStyleObject>;

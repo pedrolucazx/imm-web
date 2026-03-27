@@ -1,1 +1,1 @@
-export { sharedAuthStyles as s, brandLinkStyle, footerLinkStyle } from "../auth.styles";
+export { sharedAuthStyles as s } from "../auth.styles";

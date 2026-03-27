@@ -2,16 +2,20 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useId, useRef } from "react";
 import { Box, Grid, Text, VStack } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import type { TargetSkill } from "@/types/habits";
 import { LANGUAGE_SKILLS, BEHAVIORAL_SKILLS, deriveHabitMode } from "@/lib/habit-utils";
+import { handleRovingKeyDown } from "@/lib/a11y";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/field";
 import { SkillCard } from "./SkillCard";
 import { s } from "../styles";
 import { habitSetupSchema, type HabitSetupData, WIZARD_FORM_ID } from "./types";
 import { MAX_HABIT_NAME_LENGTH } from "@/lib/constants";
+
+const ALL_SKILLS = [...LANGUAGE_SKILLS, ...BEHAVIORAL_SKILLS];
 
 interface HabitSetupFormProps {
   defaultValues?: Partial<HabitSetupData>;
@@ -34,6 +38,9 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
   const targetSkill = watch("targetSkill") as TargetSkill | "";
   const mode = targetSkill ? deriveHabitMode(targetSkill as TargetSkill) : null;
 
+  const skillGroupRef = useRef<HTMLDivElement>(null);
+  const targetSkillLabelId = useId();
+
   return (
     <Box as="form" id={WIZARD_FORM_ID} onSubmit={handleSubmit(onNext)}>
       <Box {...s.formStack}>
@@ -52,12 +59,20 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
         />
 
         <Field.Root invalid={!!errors.targetSkill} w="full" gap={0}>
-          <Field.Label mb={2}>{t("targetSkillLabel")}</Field.Label>
+          <Field.Label id={targetSkillLabelId} mb={2}>
+            {t("targetSkillLabel")}
+          </Field.Label>
           <Controller
             name="targetSkill"
             control={control}
             render={({ field }) => (
-              <Box position="relative" w="full">
+              <Box
+                ref={skillGroupRef}
+                role="radiogroup"
+                aria-labelledby={targetSkillLabelId}
+                position="relative"
+                w="full"
+              >
                 <VStack w="full" gap={6} align="stretch">
                   <Box>
                     <Text {...s.sectionLabel}>{t("langSkillsLabel")}</Text>
@@ -65,12 +80,18 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
                       {t("langSkillsHint")}
                     </Text>
                     <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
-                      {LANGUAGE_SKILLS.map((skill) => (
+                      {LANGUAGE_SKILLS.map((skill, i) => (
                         <SkillCard
                           key={skill}
                           skill={skill}
                           isSelected={field.value === skill}
+                          tabIndex={field.value === skill ? 0 : !field.value && i === 0 ? 0 : -1}
                           onClick={() => field.onChange(skill)}
+                          onKeyDown={(e) =>
+                            handleRovingKeyDown(e, i, ALL_SKILLS.length, skillGroupRef, (idx) =>
+                              field.onChange(ALL_SKILLS[idx])
+                            )
+                          }
                         />
                       ))}
                     </Grid>
@@ -82,12 +103,21 @@ export function HabitSetupForm({ defaultValues, onNext }: HabitSetupFormProps) {
                       {t("behaviorHint")}
                     </Text>
                     <Grid templateColumns="repeat(auto-fit, minmax(240px, 1fr))" gap={3}>
-                      {BEHAVIORAL_SKILLS.map((skill) => (
+                      {BEHAVIORAL_SKILLS.map((skill, i) => (
                         <SkillCard
                           key={skill}
                           skill={skill}
                           isSelected={field.value === skill}
                           onClick={() => field.onChange(skill)}
+                          onKeyDown={(e) =>
+                            handleRovingKeyDown(
+                              e,
+                              LANGUAGE_SKILLS.length + i,
+                              ALL_SKILLS.length,
+                              skillGroupRef,
+                              (idx) => field.onChange(ALL_SKILLS[idx])
+                            )
+                          }
                         />
                       ))}
                     </Grid>

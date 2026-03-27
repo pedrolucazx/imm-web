@@ -33,24 +33,24 @@ beforeEach(() => {
 });
 
 describe("analyticsService", () => {
-  it("calls analytics summary endpoint without habitId by default", async () => {
+  it("calls analytics summary endpoint with timezone by default", async () => {
     mockApi.get.mockResolvedValue(mockSummary);
 
     const result = await analyticsService.getSummary();
 
     expect(mockApi.get).toHaveBeenCalledWith(ENDPOINTS.ANALYTICS.SUMMARY, {
-      params: undefined,
+      params: expect.objectContaining({ timezone: expect.any(String) }),
     });
     expect(result).toEqual(mockSummary);
   });
 
-  it("passes habitId as query param when provided", async () => {
+  it("passes habitId and timezone as query params when habitId provided", async () => {
     mockApi.get.mockResolvedValue(mockSummary);
 
     const result = await analyticsService.getSummary("habit-123");
 
     expect(mockApi.get).toHaveBeenCalledWith(ENDPOINTS.ANALYTICS.SUMMARY, {
-      params: { habitId: "habit-123" },
+      params: expect.objectContaining({ habitId: "habit-123", timezone: expect.any(String) }),
     });
     expect(result).toEqual(mockSummary);
   });

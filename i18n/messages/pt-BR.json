@@ -6,6 +6,10 @@
       "weak": "Fraca",
       "good": "Boa",
       "strong": "Forte"
+    },
+    "passwordVisibility": {
+      "show": "Mostrar senha",
+      "hide": "Ocultar senha"
     }
   },
   "errors": {
@@ -277,6 +281,9 @@
       "placeholderSkill": "Escreva sobre sua sessão no idioma alvo...",
       "placeholderTracking": "Como foi seu hábito hoje? Como você está se sentindo?",
       "words": "palavras",
+      "contentLabel": "Registro do dia",
+      "moodAriaLabel": "Humor {val} de 5",
+      "energyAriaLabel": "Energia {val} de 5",
       "moodLabel": "Humor",
       "energyLabel": "Energia",
       "save": "Enviar para IA →",
@@ -555,7 +562,9 @@
       "errorTitle": "❌ Falha ao gerar o plano",
       "errorSubtitle": "Verifique sua conexão e tente novamente.",
       "rateLimitTitle": "⏳ IA sobrecarregada",
-      "rateLimitSubtitle": "Muitas requisições ao mesmo tempo. Aguarde alguns segundos e tente novamente."
+      "rateLimitSubtitle": "Muitas requisições ao mesmo tempo. Aguarde alguns segundos e tente novamente.",
+      "minPerDay": "{minutes} min/dia",
+      "phaseLabel": "Fase {phase} · {days} dias"
     },
     "skills": {
       "en-US": {
@@ -622,7 +631,8 @@
       "behavioral-coach": "🎯 Coach Comportamental"
     },
     "weekdays": ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-    "selectedDate": "Data Selecionada"
+    "selectedDate": "Data Selecionada",
+    "dayAriaLabel": "Dia {day}, {count} registros"
   },
   "analytics": {
     "pageTitle": "Análises",
