@@ -98,7 +98,12 @@ export function Calendar({ entries, currentMonth, onMonthChange, onDayClick }: C
               }
               onKeyDown={
                 hasEntries
-                  ? (e) => (e.key === "Enter" || e.key === " ") && onDayClick(dateStr, dayEntries)
+                  ? (e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        onDayClick(dateStr, dayEntries);
+                      }
+                    }
                   : undefined
               }
             >

@@ -2,7 +2,7 @@
 
 import { Box, Text, VStack, HStack } from "@chakra-ui/react";
 import { useTranslations, useLocale } from "next-intl";
-import { format, parseISO, subDays } from "date-fns";
+import { addDays, format, isValid, parseISO, subDays } from "date-fns";
 import { formatEntryDate } from "@/lib/date-locale";
 import { toChakraColor } from "@/lib/habit-utils";
 import type { HabitLog, HabitStat } from "../types";
@@ -28,13 +28,12 @@ function buildGrid(
   // startDate ends up one day ahead of the actual first log, causing the grid to
   // skip that log entirely.
   const sortedDates = [...completedSet].sort();
-  const startDate = sortedDates[0]
-    ? parseISO(sortedDates[0])
-    : subDays(new Date(), safeCurrentDay - 1);
+  const parsed = sortedDates[0] ? parseISO(sortedDates[0]) : null;
+  const startDate = parsed && isValid(parsed) ? parsed : subDays(new Date(), safeCurrentDay - 1);
 
   const cells: { date: string; completed: boolean }[] = [];
   for (let i = 0; i < DAYS; i++) {
-    const date = format(subDays(startDate, -i), "yyyy-MM-dd");
+    const date = format(addDays(startDate, i), "yyyy-MM-dd");
     cells.push({ date, completed: completedSet.has(date) });
   }
 
