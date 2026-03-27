@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect, Suspense } from "react";
+import { useMemo, Suspense } from "react";
 import { AuthCard } from "@/components/AuthCard";
 import { useRouter } from "@/lib/navigation";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Box, VStack, Text } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { Button, PasswordInput } from "@/components/ui";
 import { s } from "./styles";
 import { MIN_PASSWORD_LENGTH } from "@/lib/constants";
@@ -19,15 +19,8 @@ function ResetPasswordForm(): React.JSX.Element {
   const t = useTranslations("auth.resetPassword");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [tokenError, setTokenError] = useState(false);
-
   const token = searchParams.get("token");
-
-  useEffect(() => {
-    if (!token) {
-      setTokenError(true);
-    }
-  }, [token]);
+  const tokenError = !token;
 
   const { mutate: resetPassword, isPending } = useResetPassword({
     onSuccess: () => router.push(ROUTES.LOGIN),
@@ -59,7 +52,6 @@ function ResetPasswordForm(): React.JSX.Element {
   });
 
   const passwordValue = watch("password") ?? "";
-  const confirmPasswordValue = watch("confirmPassword") ?? "";
 
   const onSubmit = (data: FormData): void => {
     if (!token) return;
@@ -108,7 +100,6 @@ function ResetPasswordForm(): React.JSX.Element {
             autoComplete="new-password"
             placeholder={t("confirmPasswordPlaceholder")}
             error={errors.confirmPassword?.message}
-            passwordValue={confirmPasswordValue}
             {...register("confirmPassword")}
           />
 

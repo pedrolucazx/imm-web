@@ -66,6 +66,7 @@ export default function ForgotPasswordPage(): React.JSX.Element {
             label={t("emailLabel")}
             type="email"
             autoComplete="email"
+            spellCheck={false}
             placeholder={t("emailPlaceholder")}
             error={errors.email?.message}
             {...register("email")}
