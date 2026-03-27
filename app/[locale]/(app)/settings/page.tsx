@@ -15,6 +15,7 @@ import type { UILanguage } from "@/lib/constants";
 import { useGetProfile, useUpdateProfile } from "@/lib/hooks/useProfile";
 import { useRouter, usePathname } from "@/lib/navigation";
 import { toaster } from "@/components/ui/toaster";
+import { logger } from "@/lib/logger";
 import { PageWrapper } from "@/components/PageWrapper";
 import { s } from "./settings.styles";
 import { AI_DAILY_LIMIT as AI_LIMIT, MIN_NAME_LENGTH } from "@/lib/constants";
@@ -121,7 +122,15 @@ export default function SettingsPage(): React.JSX.Element {
       if (needsLocaleChange) {
         router.replace(pathname, { locale: data.ui_language });
       }
-    } catch {}
+    } catch (err) {
+      logger.error({ err }, "settings: failed to save profile");
+      toaster.create({
+        type: "error",
+        title: t("toastErrorTitle"),
+        description: t("toastErrorDesc"),
+        meta: { closable: true },
+      });
+    }
   };
 
   const usagePercent = profile
