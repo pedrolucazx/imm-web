@@ -57,6 +57,12 @@ export function HabitChecklist({
             const selected = habit.id === selectedHabitId;
             const isActive = completed || selected;
             const phase = getCurrentPhase(habit);
+            const skillPhase =
+              phase && "daily_tasks" in phase ? (phase as SkillBuildingPhase) : null;
+            const practiceText =
+              skillPhase && habit.plan_status === "ready"
+                ? skillPhase.journal_prompt?.trim() || skillPhase.daily_tasks[0]?.trim() || null
+                : null;
 
             return (
               <Box key={habit.id}>
@@ -101,36 +107,25 @@ export function HabitChecklist({
                     <Text {...s.planHeader}>
                       {t("checklist.todaysFocus", { phase: phase.phase, theme: phase.theme })}
                     </Text>
-                    {"daily_tasks" in phase ? (
-                      (() => {
-                        const skillPhase = phase as SkillBuildingPhase;
-                        const practiceText =
-                          habit.plan_status === "ready"
-                            ? skillPhase.journal_prompt?.trim() ||
-                              skillPhase.daily_tasks[0]?.trim() ||
-                              null
-                            : null;
-                        return (
-                          <Box {...s.taskList}>
-                            {skillPhase.daily_tasks.map((task, i) => (
-                              <Text key={i} {...s.taskItem}>
-                                → {task}
-                              </Text>
-                            ))}
-                            {practiceText && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                mt={2}
-                                onClick={() => setModalState({ habit, originalText: practiceText })}
-                              >
-                                <LuMic />
-                                {t("checklist.practiceButton")}
-                              </Button>
-                            )}
-                          </Box>
-                        );
-                      })()
+                    {skillPhase ? (
+                      <Box {...s.taskList}>
+                        {skillPhase.daily_tasks.map((task, i) => (
+                          <Text key={i} {...s.taskItem}>
+                            → {task}
+                          </Text>
+                        ))}
+                        {practiceText && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            mt={2}
+                            onClick={() => setModalState({ habit, originalText: practiceText })}
+                          >
+                            <LuMic />
+                            {t("checklist.practiceButton")}
+                          </Button>
+                        )}
+                      </Box>
                     ) : (
                       <Box>
                         <Text {...s.taskItem}>{(phase as TrackingCoachedPhase).weekly_focus}</Text>

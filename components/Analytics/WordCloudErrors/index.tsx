@@ -25,7 +25,7 @@ export function WordCloudErrors({ habitId, habitColor }: WordCloudErrorsProps) {
   const t = useTranslations("pronunciation");
   const { data: items = [], isLoading } = useWordCloud(habitId);
 
-  if (isLoading) return <Skeleton h={10} w="100%" />;
+  if (isLoading) return <Skeleton data-testid="word-cloud-skeleton" h={10} w="100%" />;
   if (items.length === 0) return null;
 
   const frequencies = items.map((i) => i.frequency);

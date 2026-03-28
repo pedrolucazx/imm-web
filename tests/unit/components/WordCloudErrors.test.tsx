@@ -26,12 +26,9 @@ describe("WordCloudErrors — loading state", () => {
   it("renders Skeleton when isLoading is true", () => {
     mockUseWordCloud.mockReturnValue({ data: [], isLoading: true });
 
-    const { container } = renderWithProviders(
-      <WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />
-    );
+    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />);
 
-    // Skeleton renders something (not null) while loading
-    expect(container.firstChild).not.toBeNull();
+    expect(screen.getByTestId("word-cloud-skeleton")).toBeInTheDocument();
   });
 });
 
@@ -100,9 +97,9 @@ describe("WordCloudErrors — duplicate words", () => {
       ],
     });
 
-    expect(() =>
-      renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />)
-    ).not.toThrow();
+    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />);
+
+    expect(screen.getAllByText("the")).toHaveLength(2);
   });
 });
 

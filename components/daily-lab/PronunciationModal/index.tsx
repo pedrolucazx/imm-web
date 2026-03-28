@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { LuMic, LuSquare } from "react-icons/lu";
@@ -99,10 +99,10 @@ export function PronunciationModal({
               onRetry={handleRetry}
             />
           ) : showLoading ? (
-            <Box {...s.loadingBox}>
+            <VStack role="status" aria-live="polite" gap={3} py={6}>
               <Spinner size="xl" borderWidth="4px" color="primary" />
               <Text {...s.loadingText}>{t("analyzing")}</Text>
-            </Box>
+            </VStack>
           ) : (
             <>
               <Box {...s.referenceBox}>
@@ -111,10 +111,10 @@ export function PronunciationModal({
               </Box>
 
               {recorder.state === "recording" && (
-                <Box {...s.recordingIndicator}>
+                <HStack gap={2} justify="center" py={2}>
                   <Box {...s.recordingDot} />
                   <Text {...s.recordingText}>{t("record")}</Text>
-                </Box>
+                </HStack>
               )}
 
               {audioSrc && recorder.state === "recorded" && (

@@ -709,7 +709,7 @@
     "browserNotSupported": "Tu navegador no admite grabación de audio.",
     "wordCloud": {
       "title": "Palabras con más errores",
-      "itemLabel": "{word}: {count} ocurrencias"
+      "itemLabel": "{word}: {count, plural, one {# ocurrencia} other {# ocurrencias}}"
     }
   }
 }

@@ -706,10 +706,10 @@
     },
     "audioPreview": "Pré-visualização do áudio gravado",
     "retry": "Tentar novamente",
-    "browserNotSupported": "Seu browser não suporta gravação de áudio.",
+    "browserNotSupported": "Seu navegador não suporta gravação de áudio.",
     "wordCloud": {
       "title": "Palavras com mais erros",
-      "itemLabel": "{word}: {count} ocorrências"
+      "itemLabel": "{word}: {count, plural, one {# ocorrência} other {# ocorrências}}"
     }
   }
 }

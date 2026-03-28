@@ -31,14 +31,6 @@ export const s = {
     py: 4,
   },
 
-  recordingIndicator: {
-    display: "flex",
-    alignItems: "center",
-    gap: 2,
-    justifyContent: "center",
-    py: 2,
-  },
-
   recordingDot: {
     w: 3,
     h: 3,
@@ -57,14 +49,6 @@ export const s = {
   audioPlayerWrapper: {
     w: "100%",
     mb: 3,
-  },
-
-  loadingBox: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 3,
-    py: 6,
   },
 
   loadingText: {
