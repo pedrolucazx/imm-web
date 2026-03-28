@@ -146,6 +146,15 @@ export const s = {
     cursor: "not-allowed",
   },
 
+  saveBtnInactive: {
+    bg: "card",
+    boxShadow: "brutal",
+    _motionSafe: {
+      _hover: { transform: "translate(-2px, -2px)", boxShadow: "brutal-lg" },
+      _active: { transform: "translate(2px, 2px)", boxShadow: "none" },
+    },
+  },
+
   analyzingBadge: {
     border: "3px solid black",
     bg: "surface.yellow",
@@ -157,5 +166,84 @@ export const s = {
   analyzingText: {
     fontSize: "sm",
     fontWeight: "bold",
+  },
+
+  modeToggle: {
+    display: "flex",
+    border: "3px solid black",
+    mb: 4,
+    overflow: "hidden",
+  },
+
+  modeToggleBtn: {
+    flex: 1,
+    py: 2,
+    fontSize: "sm",
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: "wider",
+    cursor: "pointer",
+    border: "none",
+    _motionSafe: { transition: "background 0.1s ease" },
+  },
+
+  modeToggleBtnActive: {
+    bg: "primary",
+    boxShadow: "none",
+  },
+
+  modeToggleBtnInactive: {
+    bg: "card",
+  },
+
+  recorderBox: {
+    border: "3px solid black",
+    bg: "card",
+    p: 5,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 4,
+  },
+
+  recordingIndicator: {
+    display: "flex",
+    alignItems: "center",
+    gap: 2,
+  },
+
+  recordingDot: {
+    w: 3,
+    h: 3,
+    borderRadius: "full",
+    bg: "red.500",
+    _motionSafe: { animation: "pulse 1s infinite" },
+  },
+
+  recordingText: {
+    fontSize: "sm",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    letterSpacing: "wider",
+  },
+
+  audioPlayerWrapper: {
+    w: "100%",
+    border: "3px solid black",
+    p: 2,
+    bg: "muted",
+  },
+
+  recorderBtnRow: {
+    display: "flex",
+    gap: 3,
+    w: "100%",
+  },
+
+  micUnsupported: {
+    fontSize: "sm",
+    fontWeight: "bold",
+    color: "mutedFg",
+    textAlign: "center",
   },
 } satisfies Record<string, SystemStyleObject>;

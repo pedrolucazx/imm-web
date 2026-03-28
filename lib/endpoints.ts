@@ -34,6 +34,7 @@ export const ENDPOINTS = {
     LIST: "/journal/entries",
     HISTORY: "/journal/history",
     CREATE: "/journal/entry",
+    TRANSCRIBE: "/journal/transcribe",
   },
   ANALYTICS: {
     SUMMARY: "/analytics/summary",

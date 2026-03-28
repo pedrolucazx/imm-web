@@ -294,7 +294,15 @@
       "yourEntry": "Your Entry",
       "mood": "Mood",
       "energy": "Energy",
-      "analyzing": "AI is analyzing your entry..."
+      "analyzing": "AI is analyzing your entry...",
+      "modeWrite": "Write",
+      "modeRecord": "Record",
+      "startRecording": "Record audio",
+      "stopRecording": "Stop",
+      "transcribeAndSave": "Transcribe & Save",
+      "reRecord": "Re-record",
+      "transcribing": "Transcribing...",
+      "micNotSupported": "Recording not supported in this browser"
     },
     "ai": {
       "sectionTitle": "AI Analysis",

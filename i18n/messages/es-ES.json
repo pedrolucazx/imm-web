@@ -294,7 +294,15 @@
       "yourEntry": "Tu Registro",
       "mood": "Ánimo",
       "energy": "Energía",
-      "analyzing": "La IA está analizando tu registro..."
+      "analyzing": "La IA está analizando tu registro...",
+      "modeWrite": "Escribir",
+      "modeRecord": "Grabar",
+      "startRecording": "Grabar audio",
+      "stopRecording": "Detener",
+      "transcribeAndSave": "Transcribir y Guardar",
+      "reRecord": "Volver a grabar",
+      "transcribing": "Transcribiendo...",
+      "micNotSupported": "Grabación no compatible con este navegador"
     },
     "ai": {
       "sectionTitle": "Análisis IA",

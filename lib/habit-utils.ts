@@ -46,7 +46,7 @@ export function getJournalPrompt(habit: Habit): string | undefined {
   return getCurrentPhase(habit)?.journal_prompt;
 }
 
-export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "pt-BR"];
+export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "fr-FR", "pt-BR"];
 export const BEHAVIORAL_SKILLS: TargetSkill[] = ["general", "fitness", "mindfulness"];
 
 export const SKILL_ICONS: Record<TargetSkill, string> = {
