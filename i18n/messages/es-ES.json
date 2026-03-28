@@ -704,10 +704,12 @@
       "extra": "Palabras extra",
       "transcription": "Lo que se detectó:"
     },
+    "audioPreview": "Vista previa del audio grabado",
     "retry": "Intentar de nuevo",
     "browserNotSupported": "Tu navegador no admite grabación de audio.",
     "wordCloud": {
-      "title": "Palabras con más errores"
+      "title": "Palabras con más errores",
+      "itemLabel": "{word}: {count} ocurrencias"
     }
   }
 }

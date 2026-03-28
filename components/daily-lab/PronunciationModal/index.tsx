@@ -122,7 +122,7 @@ export function PronunciationModal({
                   <audio
                     controls
                     src={audioSrc}
-                    aria-label={t("listening")}
+                    aria-label={t("audioPreview")}
                     style={{ width: "100%" }}
                   />
                 </Box>

@@ -4,13 +4,12 @@ import { Box, Skeleton, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useWordCloud } from "@/lib/hooks/useWordCloud";
 import { toChakraColor } from "@/lib/habit-utils";
-import type { ApiColor } from "@/lib/constants";
 import { s } from "./styles";
 
 interface WordCloudErrorsProps {
   habitId: string;
-  /** Must be a valid ApiColor value (e.g. "bg-surface-mint") */
-  habitColor: ApiColor;
+  /** Chakra color token already transformed by toChakraColor (e.g. "surface.mint") */
+  habitColor: string;
 }
 
 const MIN_REM = 0.8;
@@ -47,7 +46,7 @@ export function WordCloudErrors({ habitId, habitColor }: WordCloudErrorsProps) {
               color={color}
               fontSize={fs}
               data-fontsize={fs}
-              aria-label={`${item.word}: ${item.frequency}`}
+              aria-label={t("wordCloud.itemLabel", { word: item.word, count: item.frequency })}
             >
               {item.word}
             </Text>

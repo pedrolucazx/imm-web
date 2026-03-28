@@ -22,6 +22,19 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+describe("WordCloudErrors — loading state", () => {
+  it("renders Skeleton when isLoading is true", () => {
+    mockUseWordCloud.mockReturnValue({ data: [], isLoading: true });
+
+    const { container } = renderWithProviders(
+      <WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />
+    );
+
+    // Skeleton renders something (not null) while loading
+    expect(container.firstChild).not.toBeNull();
+  });
+});
+
 describe("WordCloudErrors — empty state", () => {
   it("renders null when data is an empty array", () => {
     mockUseWordCloud.mockReturnValue({ data: [] });

@@ -704,10 +704,12 @@
       "extra": "Extra words",
       "transcription": "What was detected:"
     },
+    "audioPreview": "Recorded audio preview",
     "retry": "Try again",
     "browserNotSupported": "Your browser does not support audio recording.",
     "wordCloud": {
-      "title": "Most missed words"
+      "title": "Most missed words",
+      "itemLabel": "{word}: {count} occurrences"
     }
   }
 }
