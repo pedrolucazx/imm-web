@@ -41,4 +41,9 @@ export const ENDPOINTS = {
   AI: {
     ANALYZE: "/ai/analyze",
   },
+  PRONUNCIATION: {
+    UPLOAD_URL: "/pronunciation/upload-url",
+    ANALYZE: "/pronunciation/analyze",
+    WORD_CLOUD: "/pronunciation/word-cloud",
+  },
 } as const;

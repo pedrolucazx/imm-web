@@ -271,7 +271,8 @@
       "doneToday": "✓ Hecho hoy",
       "notYet": "Aún no",
       "inFocus": "En foco",
-      "todaysFocus": "Foco de Hoy · Fase {phase} — {theme}"
+      "todaysFocus": "Foco de Hoy · Fase {phase} — {theme}",
+      "practiceButton": "Practicar Pronunciación"
     },
     "journal": {
       "sectionTitle": "Diario",
@@ -686,5 +687,27 @@
       "bestHour": "Mejor Hora"
     },
     "dayOf": "Día {current} / {total}"
+  },
+  "pronunciation": {
+    "practiceButton": "Practicar Pronunciación",
+    "modalTitle": "Práctica de Pronunciación",
+    "referenceText": "Lee este texto en voz alta:",
+    "record": "Grabar",
+    "stop": "Detener",
+    "analyze": "Analizar",
+    "uploading": "Subiendo audio...",
+    "analyzing": "Analizando pronunciación...",
+    "result": {
+      "score": "Puntuación",
+      "correct": "Correctas",
+      "missed": "Perdidas",
+      "extra": "Palabras extra",
+      "transcription": "Lo que se detectó:"
+    },
+    "retry": "Intentar de nuevo",
+    "browserNotSupported": "Tu navegador no admite grabación de audio.",
+    "wordCloud": {
+      "title": "Palabras con más errores"
+    }
   }
 }

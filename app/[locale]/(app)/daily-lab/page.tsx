@@ -64,6 +64,7 @@ export default function DailyLabPage() {
             journalEntries={journalEntries}
             selectedHabitId={resolvedHabitId}
             onSelect={setSelectedHabitId}
+            today={today}
           />
 
           {activeHabits.length > 0 && selectedHabit && (
