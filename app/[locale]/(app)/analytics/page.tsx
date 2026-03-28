@@ -10,6 +10,7 @@ import { JournalMetrics } from "@/components/Analytics/JournalMetrics";
 import { MoodEnergyChart } from "@/components/Analytics/MoodEnergyChart";
 import { ScoreTimeline } from "@/components/Analytics/ScoreTimeline";
 import { StreakCalendar } from "@/components/Analytics/StreakCalendar";
+import { WordCloudErrors } from "@/components/Analytics/WordCloudErrors";
 import { useAnalyticsSummary } from "@/lib/hooks/useAnalytics";
 import { s } from "./styles";
 
@@ -123,7 +124,13 @@ export default function AnalyticsPage() {
                     <Box {...s.sectionGrid}>
                       <StreakCalendar habit={selectedHabit} logs={selectedHabit.logs} />
                       {isLanguageHabit ? (
-                        <ScoreTimeline habit={selectedHabit} />
+                        <>
+                          <ScoreTimeline habit={selectedHabit} />
+                          <WordCloudErrors
+                            habitId={selectedHabit.id}
+                            habitColor={selectedHabit.color}
+                          />
+                        </>
                       ) : (
                         <JournalMetrics global={data.global} />
                       )}

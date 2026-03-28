@@ -14,7 +14,9 @@ export const API_COLORS = [
   "bg-surface-coral",
   "bg-surface-lavender",
   "bg-surface-yellow",
-];
+] as const;
+
+export type ApiColor = (typeof API_COLORS)[number];
 export const MIN_NAME_LENGTH = 2;
 export const MIN_PASSWORD_LENGTH = 6;
 export const MAX_HABIT_NAME_LENGTH = 80;

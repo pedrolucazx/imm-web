@@ -271,7 +271,8 @@
       "doneToday": "✓ Done today",
       "notYet": "Not yet",
       "inFocus": "In focus",
-      "todaysFocus": "Today's Focus · Phase {phase} — {theme}"
+      "todaysFocus": "Today's Focus · Phase {phase} — {theme}",
+      "practiceButton": "Practice Pronunciation"
     },
     "journal": {
       "sectionTitle": "Journal",
@@ -686,5 +687,29 @@
       "bestHour": "Best Time"
     },
     "dayOf": "Day {current} / {total}"
+  },
+  "pronunciation": {
+    "practiceButton": "Practice Pronunciation",
+    "modalTitle": "Pronunciation Practice",
+    "referenceText": "Read this text aloud:",
+    "record": "Record",
+    "stop": "Stop",
+    "analyze": "Analyze",
+    "uploading": "Uploading audio...",
+    "analyzing": "Analyzing pronunciation...",
+    "result": {
+      "score": "Score",
+      "correct": "Correct",
+      "missed": "Missed",
+      "extra": "Extra words",
+      "transcription": "What was detected:"
+    },
+    "audioPreview": "Recorded audio preview",
+    "retry": "Try again",
+    "browserNotSupported": "Your browser does not support audio recording.",
+    "wordCloud": {
+      "title": "Most missed words",
+      "itemLabel": "{word}: {count, plural, one {# occurrence} other {# occurrences}}"
+    }
   }
 }
