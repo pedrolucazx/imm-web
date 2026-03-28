@@ -119,7 +119,12 @@ export function PronunciationModal({
 
               {audioSrc && recorder.state === "recorded" && (
                 <Box {...s.audioPlayerWrapper}>
-                  <audio controls src={audioSrc} style={{ width: "100%" }} />
+                  <audio
+                    controls
+                    src={audioSrc}
+                    aria-label={t("listening")}
+                    style={{ width: "100%" }}
+                  />
                 </Box>
               )}
 

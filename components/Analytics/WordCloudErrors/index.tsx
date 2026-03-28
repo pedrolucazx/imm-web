@@ -1,14 +1,16 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Skeleton, Text } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { useWordCloud } from "@/lib/hooks/useWordCloud";
 import { toChakraColor } from "@/lib/habit-utils";
+import type { ApiColor } from "@/lib/constants";
 import { s } from "./styles";
 
 interface WordCloudErrorsProps {
   habitId: string;
-  habitColor: string;
+  /** Must be a valid ApiColor value (e.g. "bg-surface-mint") */
+  habitColor: ApiColor;
 }
 
 const MIN_REM = 0.8;
@@ -22,8 +24,9 @@ function calcFontSize(frequency: number, min: number, max: number): string {
 
 export function WordCloudErrors({ habitId, habitColor }: WordCloudErrorsProps) {
   const t = useTranslations("pronunciation");
-  const { data: items = [] } = useWordCloud(habitId);
+  const { data: items = [], isLoading } = useWordCloud(habitId);
 
+  if (isLoading) return <Skeleton h={10} w="100%" />;
   if (items.length === 0) return null;
 
   const frequencies = items.map((i) => i.frequency);
@@ -35,11 +38,11 @@ export function WordCloudErrors({ habitId, habitColor }: WordCloudErrorsProps) {
     <Box {...s.wrapper}>
       <Text {...s.title}>{t("wordCloud.title")}</Text>
       <Box {...s.cloud}>
-        {items.map((item) => {
+        {items.map((item, i) => {
           const fs = calcFontSize(item.frequency, minF, maxF);
           return (
             <Text
-              key={item.word}
+              key={`${item.word}-${i}`}
               fontWeight="800"
               color={color}
               fontSize={fs}

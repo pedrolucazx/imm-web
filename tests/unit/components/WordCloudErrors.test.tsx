@@ -27,7 +27,7 @@ describe("WordCloudErrors — empty state", () => {
     mockUseWordCloud.mockReturnValue({ data: [] });
 
     const { container } = renderWithProviders(
-      <WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />
+      <WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />
     );
 
     expect(container.firstChild).toBeNull();
@@ -37,7 +37,7 @@ describe("WordCloudErrors — empty state", () => {
     mockUseWordCloud.mockReturnValue({ data: undefined });
 
     const { container } = renderWithProviders(
-      <WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />
+      <WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />
     );
 
     expect(container.firstChild).toBeNull();
@@ -54,7 +54,7 @@ describe("WordCloudErrors — renders words", () => {
   it("renders all words from data", () => {
     mockUseWordCloud.mockReturnValue({ data: items });
 
-    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />);
+    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />);
 
     expect(screen.getByText("pronunciation")).toBeInTheDocument();
     expect(screen.getByText("difficult")).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe("WordCloudErrors — renders words", () => {
   it("renders the section title", () => {
     mockUseWordCloud.mockReturnValue({ data: items });
 
-    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />);
+    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />);
 
     expect(screen.getByText("wordCloud.title")).toBeInTheDocument();
   });
@@ -72,9 +72,24 @@ describe("WordCloudErrors — renders words", () => {
   it("passes habitId to useWordCloud", () => {
     mockUseWordCloud.mockReturnValue({ data: items });
 
-    renderWithProviders(<WordCloudErrors habitId="habit-42" habitColor="bg-teal-400" />);
+    renderWithProviders(<WordCloudErrors habitId="habit-42" habitColor="bg-surface-mint" />);
 
     expect(mockUseWordCloud).toHaveBeenCalledWith("habit-42");
+  });
+});
+
+describe("WordCloudErrors — duplicate words", () => {
+  it("renders duplicate words without crashing (uses index-based key)", () => {
+    mockUseWordCloud.mockReturnValue({
+      data: [
+        { word: "the", frequency: 10 },
+        { word: "the", frequency: 8 },
+      ],
+    });
+
+    expect(() =>
+      renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />)
+    ).not.toThrow();
   });
 });
 
@@ -82,7 +97,7 @@ describe("WordCloudErrors — font size scaling", () => {
   it("renders a single word without crashing (min === max edge case)", () => {
     mockUseWordCloud.mockReturnValue({ data: [{ word: "only", frequency: 7 }] });
 
-    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />);
+    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />);
 
     const onlySize = parseFloat(screen.getByText("only").getAttribute("data-fontsize") ?? "0");
     expect(onlySize).toBeGreaterThanOrEqual(0.8);
@@ -96,7 +111,7 @@ describe("WordCloudErrors — font size scaling", () => {
     ];
     mockUseWordCloud.mockReturnValue({ data: words });
 
-    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />);
+    renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-surface-mint" />);
 
     const commonEl = screen.getByText("common");
     const rareEl = screen.getByText("rare");
