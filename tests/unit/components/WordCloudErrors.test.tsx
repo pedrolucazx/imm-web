@@ -84,7 +84,9 @@ describe("WordCloudErrors — font size scaling", () => {
 
     renderWithProviders(<WordCloudErrors habitId="habit-1" habitColor="bg-teal-400" />);
 
-    expect(screen.getByText("only")).toBeInTheDocument();
+    const onlySize = parseFloat(screen.getByText("only").getAttribute("data-fontsize") ?? "0");
+    expect(onlySize).toBeGreaterThanOrEqual(0.8);
+    expect(onlySize).toBeLessThanOrEqual(2);
   });
 
   it("highest-frequency word receives a larger font size than the lowest", () => {
@@ -102,6 +104,7 @@ describe("WordCloudErrors — font size scaling", () => {
     const commonSize = parseFloat(commonEl.getAttribute("data-fontsize") ?? "0");
     const rareSize = parseFloat(rareEl.getAttribute("data-fontsize") ?? "0");
 
-    expect(commonSize).toBeGreaterThan(rareSize);
+    expect(commonSize).toBeCloseTo(2, 3);
+    expect(rareSize).toBeCloseTo(0.8, 3);
   });
 });

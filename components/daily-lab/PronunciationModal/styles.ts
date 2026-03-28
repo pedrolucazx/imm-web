@@ -44,6 +44,7 @@ export const s = {
     h: 3,
     borderRadius: "full",
     bg: "red.500",
+    // 1s is intentional: faster pulse gives clear real-time recording feedback
     animation: "pulse 1s ease-in-out infinite",
   },
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { pronunciationService } from "@/lib/pronunciation.service";
 import { toaster } from "@/components/ui/toaster";
@@ -27,9 +27,11 @@ export function usePronunciation(): UsePronunciationResult {
   const { translateError } = useTranslatedError();
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<AnalyzePronunciationResult | null>(null);
+  const requestIdRef = useRef(0);
 
   const analyze = useCallback(
     async ({ blob, mimeType, habitId, originalText, entryDate }: AnalyzeParams) => {
+      const requestId = ++requestIdRef.current;
       setIsLoading(true);
       try {
         const { signedUrl, publicUrl } = await pronunciationService.getUploadUrl(mimeType);
@@ -40,22 +42,29 @@ export function usePronunciation(): UsePronunciationResult {
           originalText,
           entryDate,
         });
-        setResult(data);
+        if (requestId === requestIdRef.current) {
+          setResult(data);
+        }
       } catch (error) {
-        toaster.create({
-          title: t("title"),
-          description: translateError(error as Error),
-          type: "error",
-          meta: { closable: true },
-        });
+        if (requestId === requestIdRef.current) {
+          toaster.create({
+            title: t("title"),
+            description: translateError(error as Error),
+            type: "error",
+            meta: { closable: true },
+          });
+        }
       } finally {
-        setIsLoading(false);
+        if (requestId === requestIdRef.current) {
+          setIsLoading(false);
+        }
       }
     },
     [t, translateError]
   );
 
   const reset = useCallback(() => {
+    requestIdRef.current += 1;
     setResult(null);
     setIsLoading(false);
   }, []);

@@ -108,22 +108,24 @@ export function HabitChecklist({
                             → {task}
                           </Text>
                         ))}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          mt={2}
-                          onClick={() =>
-                            setModalState({
-                              habit,
-                              originalText:
-                                (phase as SkillBuildingPhase).journal_prompt ??
-                                (phase as SkillBuildingPhase).daily_tasks[0],
-                            })
-                          }
-                        >
-                          <LuMic />
-                          {t("checklist.practiceButton")}
-                        </Button>
+                        {(() => {
+                          const skillPhase = phase as SkillBuildingPhase;
+                          const originalText =
+                            skillPhase.journal_prompt?.trim() ||
+                            skillPhase.daily_tasks[0]?.trim() ||
+                            null;
+                          return habit.plan_status === "ready" && originalText ? (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              mt={2}
+                              onClick={() => setModalState({ habit, originalText })}
+                            >
+                              <LuMic />
+                              {t("checklist.practiceButton")}
+                            </Button>
+                          ) : null;
+                        })()}
                       </Box>
                     ) : (
                       <Box>

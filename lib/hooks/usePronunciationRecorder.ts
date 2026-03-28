@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { logger } from "@/lib/logger";
 
 export type RecorderState = "idle" | "recording" | "recorded";
 
@@ -32,6 +33,7 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
 
   const start = useCallback(async () => {
     if (!isSupported) return;
+    isResettingRef.current = false;
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -45,7 +47,10 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
 
       recorder.onstop = () => {
         stream.getTracks().forEach((t) => t.stop());
-        if (isResettingRef.current) return;
+        if (isResettingRef.current) {
+          isResettingRef.current = false;
+          return;
+        }
         const blob = new Blob(chunksRef.current, { type: mimeType });
         setAudioBlob(blob);
         setState("recorded");
@@ -54,8 +59,8 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
       mediaRecorderRef.current = recorder;
       recorder.start();
       setState("recording");
-    } catch {
-      // microphone permission denied or unavailable — stay idle
+    } catch (err) {
+      logger.error("Failed to initialize microphone", err);
     }
   }, [isSupported, mimeType]);
 
@@ -69,12 +74,14 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
     isResettingRef.current = true;
     if (mediaRecorderRef.current?.state === "recording") {
       mediaRecorderRef.current.stop();
+    } else {
+      // onstop won't fire — safe to clear the flag now
+      isResettingRef.current = false;
     }
     mediaRecorderRef.current = null;
     chunksRef.current = [];
     setAudioBlob(null);
     setState("idle");
-    isResettingRef.current = false;
   }, []);
 
   return { isSupported, state, audioBlob, mimeType, start, stop, reset };

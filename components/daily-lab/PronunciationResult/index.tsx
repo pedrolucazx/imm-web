@@ -27,12 +27,20 @@ function tokenizeWords(text: string): string[] {
     .map((w) => w.replace(/[^\p{L}\p{N}]+$/u, "").replace(/^[^\p{L}\p{N}]+/u, ""));
 }
 
+function buildCountMap(words: string[]): Map<string, number> {
+  return words.reduce((acc, word) => {
+    const key = word.toLowerCase();
+    acc.set(key, (acc.get(key) ?? 0) + 1);
+    return acc;
+  }, new Map<string, number>());
+}
+
 export function PronunciationResult({ result, originalText, onRetry }: PronunciationResultProps) {
   const t = useTranslations("pronunciation");
   const pct = Math.round(result.score * 100);
 
-  const correctSet = new Set(result.correctWords.map((w) => w.toLowerCase()));
-  const missedSet = new Set(result.missedWords.map((w) => w.toLowerCase()));
+  const correctCounts = buildCountMap(result.correctWords);
+  const missedCounts = buildCountMap(result.missedWords);
   const tokens = tokenizeWords(originalText);
 
   return (
@@ -56,14 +64,18 @@ export function PronunciationResult({ result, originalText, onRetry }: Pronuncia
         <Box {...s.wordList}>
           {tokens.map((word, i) => {
             const lower = word.toLowerCase();
-            if (correctSet.has(lower)) {
+            const correctRemaining = correctCounts.get(lower) ?? 0;
+            if (correctRemaining > 0) {
+              correctCounts.set(lower, correctRemaining - 1);
               return (
                 <Text key={i} {...s.wordCorrect}>
                   {word}
                 </Text>
               );
             }
-            if (missedSet.has(lower)) {
+            const missedRemaining = missedCounts.get(lower) ?? 0;
+            if (missedRemaining > 0) {
+              missedCounts.set(lower, missedRemaining - 1);
               return (
                 <Text key={i} {...s.wordMissed}>
                   {word}

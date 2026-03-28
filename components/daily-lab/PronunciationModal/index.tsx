@@ -101,9 +101,7 @@ export function PronunciationModal({
           ) : showLoading ? (
             <Box {...s.loadingBox}>
               <Spinner size="xl" borderWidth="4px" color="primary" />
-              <Text {...s.loadingText}>
-                {pronunciation.isLoading ? t("analyzing") : t("uploading")}
-              </Text>
+              <Text {...s.loadingText}>{t("analyzing")}</Text>
             </Box>
           ) : (
             <>

@@ -11,9 +11,12 @@ interface WordCloudErrorsProps {
   habitColor: string;
 }
 
+const MIN_REM = 0.8;
+const MAX_REM = 2;
+
 function calcFontSize(frequency: number, min: number, max: number): string {
-  const range = max - min || 1;
-  const scale = 0.875 + ((frequency - min) / range) * 1.125;
+  if (min === max) return `${MAX_REM}rem`;
+  const scale = MIN_REM + ((frequency - min) / (max - min)) * (MAX_REM - MIN_REM);
   return `${scale.toFixed(3)}rem`;
 }
 
@@ -35,7 +38,14 @@ export function WordCloudErrors({ habitId, habitColor }: WordCloudErrorsProps) {
         {items.map((item) => {
           const fs = calcFontSize(item.frequency, minF, maxF);
           return (
-            <Text key={item.word} fontWeight="800" color={color} fontSize={fs} data-fontsize={fs}>
+            <Text
+              key={item.word}
+              fontWeight="800"
+              color={color}
+              fontSize={fs}
+              data-fontsize={fs}
+              aria-label={`${item.word}: ${item.frequency}`}
+            >
               {item.word}
             </Text>
           );
