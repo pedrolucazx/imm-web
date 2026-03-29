@@ -27,4 +27,11 @@ export const journalService = {
       habit_id: habitId,
     });
   },
+
+  async transcribeAudio(input: {
+    audioUrl: string;
+    habitId: string;
+  }): Promise<{ transcription: string }> {
+    return api.post<{ transcription: string }>(ENDPOINTS.JOURNAL.TRANSCRIBE, input);
+  },
 };

@@ -46,12 +46,13 @@ export function getJournalPrompt(habit: Habit): string | undefined {
   return getCurrentPhase(habit)?.journal_prompt;
 }
 
-export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "pt-BR"];
+export const LANGUAGE_SKILLS: TargetSkill[] = ["en-US", "es-ES", "fr-FR", "pt-BR"];
 export const BEHAVIORAL_SKILLS: TargetSkill[] = ["general", "fitness", "mindfulness"];
 
 export const SKILL_ICONS: Record<TargetSkill, string> = {
   "en-US": "🇺🇸",
   "es-ES": "🇪🇸",
+  "fr-FR": "🇫🇷",
   "pt-BR": "🇧🇷",
   general: "🧠",
   fitness: "💪",
@@ -72,6 +73,14 @@ export const SKILL_METADATA: Record<TargetSkill, SkillMetadata> = {
     icon: "🇪🇸",
     shortDescription: "habits.skills.es-ES.short",
     longDescription: "habits.skills.es-ES.long",
+    category: "language",
+    hasDailyPlan: true,
+  },
+  "fr-FR": {
+    label: "habits.skills.fr-FR.name",
+    icon: "🇫🇷",
+    shortDescription: "habits.skills.fr-FR.short",
+    longDescription: "habits.skills.fr-FR.long",
     category: "language",
     hasDailyPlan: true,
   },

@@ -31,6 +31,10 @@ export const pronunciationService = {
     }
   },
 
+  async deleteAudio(path: string): Promise<void> {
+    await api.delete<void>(ENDPOINTS.PRONUNCIATION.DELETE_AUDIO, { data: { path } });
+  },
+
   async analyze(input: AnalyzeInput): Promise<AnalyzePronunciationResult> {
     return api.post<AnalyzePronunciationResult>(ENDPOINTS.PRONUNCIATION.ANALYZE, input);
   },

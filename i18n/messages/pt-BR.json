@@ -294,7 +294,15 @@
       "yourEntry": "Seu Registro",
       "mood": "Humor",
       "energy": "Energia",
-      "analyzing": "A IA está analisando seu registro..."
+      "analyzing": "A IA está analisando seu registro...",
+      "modeWrite": "Escrever",
+      "modeRecord": "Gravar",
+      "startRecording": "Gravar áudio",
+      "stopRecording": "Parar",
+      "transcribeAndSave": "Transcrever e Salvar",
+      "reRecord": "Regravar",
+      "transcribing": "Transcrevendo...",
+      "micNotSupported": "Gravação não suportada neste navegador"
     },
     "ai": {
       "sectionTitle": "Análise IA",
@@ -395,6 +403,11 @@
         "name": "Espanhol",
         "short": "Domine vocabulário e estrutura gramatical",
         "long": "Plano estruturado de 3 fases com exercícios diários. Feedback de IA em tempo real sobre seus avanços linguísticos."
+      },
+      "fr-FR": {
+        "name": "Francês",
+        "short": "Desenvolva fluência oral e escrita em francês",
+        "long": "Plano estruturado de 66 dias com tarefas diárias progressivas. Feedback de IA sobre gramática, vocabulário e expressões idiomáticas."
       },
       "pt-BR": {
         "name": "Português",
@@ -577,6 +590,11 @@
         "name": "Espanhol",
         "short": "Domine vocabulário e estrutura gramatical",
         "long": "Plano estruturado de 3 fases com exercícios diários. Feedback de IA em tempo real sobre seus avanços linguísticos."
+      },
+      "fr-FR": {
+        "name": "Francês",
+        "short": "Desenvolva fluência oral e escrita em francês",
+        "long": "Plano estruturado de 66 dias com tarefas diárias progressivas. Feedback de IA sobre gramática, vocabulário e expressões idiomáticas."
       },
       "pt-BR": {
         "name": "Português",

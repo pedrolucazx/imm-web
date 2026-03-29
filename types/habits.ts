@@ -1,4 +1,11 @@
-export type TargetSkill = "en-US" | "es-ES" | "pt-BR" | "general" | "fitness" | "mindfulness";
+export type TargetSkill =
+  | "en-US"
+  | "es-ES"
+  | "fr-FR"
+  | "pt-BR"
+  | "general"
+  | "fitness"
+  | "mindfulness";
 
 export type HabitMode = "skill-building" | "tracking-coached";
 

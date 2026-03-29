@@ -34,6 +34,7 @@ export const ENDPOINTS = {
     LIST: "/journal/entries",
     HISTORY: "/journal/history",
     CREATE: "/journal/entry",
+    TRANSCRIBE: "/journal/transcribe",
   },
   ANALYTICS: {
     SUMMARY: "/analytics/summary",
@@ -45,5 +46,6 @@ export const ENDPOINTS = {
     UPLOAD_URL: "/pronunciation/upload-url",
     ANALYZE: "/pronunciation/analyze",
     WORD_CLOUD: "/pronunciation/word-cloud",
+    DELETE_AUDIO: "/pronunciation/audio",
   },
 } as const;

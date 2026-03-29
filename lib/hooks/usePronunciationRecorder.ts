@@ -10,6 +10,7 @@ export type UsePronunciationRecorderResult = {
   state: RecorderState;
   audioBlob: Blob | null;
   mimeType: string;
+  error: Error | null;
   start: () => void;
   stop: () => void;
   reset: () => void;
@@ -26,6 +27,7 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
 
   const [state, setState] = useState<RecorderState>("idle");
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -34,6 +36,7 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
   const start = useCallback(async () => {
     if (!isSupported) return;
     isResettingRef.current = false;
+    setError(null);
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -61,6 +64,7 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
       setState("recording");
     } catch (err) {
       logger.error("Failed to initialize microphone", err);
+      setError(err instanceof Error ? err : new Error(String(err)));
     }
   }, [isSupported, mimeType]);
 
@@ -81,8 +85,9 @@ export function usePronunciationRecorder(): UsePronunciationRecorderResult {
     mediaRecorderRef.current = null;
     chunksRef.current = [];
     setAudioBlob(null);
+    setError(null);
     setState("idle");
   }, []);
 
-  return { isSupported, state, audioBlob, mimeType, start, stop, reset };
+  return { isSupported, state, audioBlob, mimeType, error, start, stop, reset };
 }
