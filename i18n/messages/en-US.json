@@ -404,6 +404,11 @@
         "short": "Master vocabulary and grammar structure",
         "long": "Structured 3-phase plan with daily exercises. Real-time AI feedback on your linguistic progress."
       },
+      "fr-FR": {
+        "name": "French",
+        "short": "Develop oral and written fluency in French",
+        "long": "Structured 66-day plan with progressive daily tasks. AI feedback on grammar, vocabulary, and idiomatic expressions."
+      },
       "pt-BR": {
         "name": "Portuguese",
         "short": "Practice Portuguese writing and conversation",
@@ -585,6 +590,11 @@
         "name": "Spanish",
         "short": "Master vocabulary and grammar structure",
         "long": "Structured 3-phase plan with daily exercises. Real-time AI feedback on your linguistic progress."
+      },
+      "fr-FR": {
+        "name": "French",
+        "short": "Develop oral and written fluency in French",
+        "long": "Structured 66-day plan with progressive daily tasks. AI feedback on grammar, vocabulary, and idiomatic expressions."
       },
       "pt-BR": {
         "name": "Portuguese",

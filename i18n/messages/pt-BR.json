@@ -404,6 +404,11 @@
         "short": "Domine vocabulário e estrutura gramatical",
         "long": "Plano estruturado de 3 fases com exercícios diários. Feedback de IA em tempo real sobre seus avanços linguísticos."
       },
+      "fr-FR": {
+        "name": "Francês",
+        "short": "Desenvolva fluência oral e escrita em francês",
+        "long": "Plano estruturado de 66 dias com tarefas diárias progressivas. Feedback de IA sobre gramática, vocabulário e expressões idiomáticas."
+      },
       "pt-BR": {
         "name": "Português",
         "short": "Pratique escrita e conversação em português",
@@ -585,6 +590,11 @@
         "name": "Espanhol",
         "short": "Domine vocabulário e estrutura gramatical",
         "long": "Plano estruturado de 3 fases com exercícios diários. Feedback de IA em tempo real sobre seus avanços linguísticos."
+      },
+      "fr-FR": {
+        "name": "Francês",
+        "short": "Desenvolva fluência oral e escrita em francês",
+        "long": "Plano estruturado de 66 dias com tarefas diárias progressivas. Feedback de IA sobre gramática, vocabulário e expressões idiomáticas."
       },
       "pt-BR": {
         "name": "Português",
