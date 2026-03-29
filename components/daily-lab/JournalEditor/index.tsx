@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useId, useMemo } from "react";
-import { Box, Text, chakra } from "@chakra-ui/react";
+import { Box, Text, chakra, Tabs } from "@chakra-ui/react";
 import { LuMic, LuSquare } from "react-icons/lu";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,6 +43,7 @@ export function JournalEditor({
   onAnalyze,
 }: JournalEditorProps) {
   const t = useTranslations("dailyLab");
+  const tPronunciation = useTranslations("pronunciation");
   const tErrors = useTranslations("errors");
   const { translateError } = useTranslatedError();
   const {
@@ -64,6 +65,17 @@ export function JournalEditor({
   const [isTranscribing, setIsTranscribing] = useState(false);
 
   const recorder = usePronunciationRecorder();
+
+  useEffect(() => {
+    if (recorder.error) {
+      toaster.create({
+        title: tErrors("title"),
+        description: recorder.error.message,
+        type: "error",
+        meta: { closable: true },
+      });
+    }
+  }, [recorder.error]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setContent("");
@@ -103,11 +115,16 @@ export function JournalEditor({
   };
 
   const handleRecordSave = async () => {
-    if (!recorder.audioBlob || isTranscribing || isSaving) return;
+    const audioBlob = recorder.audioBlob;
+    if (!audioBlob || isTranscribing || isSaving) return;
     setIsTranscribing(true);
+    let uploadedPath: string | null = null;
     try {
-      const { signedUrl, publicUrl } = await pronunciationService.getUploadUrl(recorder.mimeType);
-      await pronunciationService.uploadAudio(signedUrl, recorder.audioBlob, recorder.mimeType);
+      const { signedUrl, publicUrl, path } = await pronunciationService.getUploadUrl(
+        recorder.mimeType
+      );
+      uploadedPath = path;
+      await pronunciationService.uploadAudio(signedUrl, audioBlob, recorder.mimeType);
       const { transcription } = await journalService.transcribeAudio({
         audioUrl: publicUrl,
         habitId: habit.id,
@@ -120,9 +137,13 @@ export function JournalEditor({
         moodScore,
         energyScore,
       });
+      uploadedPath = null;
       recorder.reset();
       onAnalyze(entry.id, habit.id);
     } catch (error) {
+      if (uploadedPath) {
+        pronunciationService.deleteAudio(uploadedPath).catch(() => undefined);
+      }
       toaster.create({
         title: tErrors("title"),
         description: translateError(error as Error),
@@ -170,148 +191,146 @@ export function JournalEditor({
     );
   }
 
-  return (
-    <Box>
-      {showToggle && (
-        <Box {...s.modeToggle}>
-          <chakra.button
-            type="button"
-            aria-pressed={mode === "write"}
-            onClick={() => setMode("write")}
-            {...s.modeToggleBtn}
-            {...(mode === "write" ? s.modeToggleBtnActive : s.modeToggleBtnInactive)}
-          >
-            {t("journal.modeWrite")}
-          </chakra.button>
-          <chakra.button
-            type="button"
-            aria-pressed={mode === "record"}
-            onClick={() => setMode("record")}
-            {...s.modeToggleBtn}
-            {...(mode === "record" ? s.modeToggleBtnActive : s.modeToggleBtnInactive)}
-          >
-            {t("journal.modeRecord")}
-          </chakra.button>
-        </Box>
-      )}
+  const writeContent = (
+    <>
+      <Textarea
+        aria-label={t("journal.contentLabel")}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder={
+          getJournalPrompt(habit) ??
+          (habit.habit_mode === "skill-building"
+            ? t("journal.placeholderSkill")
+            : t("journal.placeholderTracking"))
+        }
+        disabled={isSaving}
+        {...s.textarea}
+      />
 
-      {mode === "write" && (
+      <Text {...s.wordCount}>
+        {wordCount} {t("journal.words")}
+      </Text>
+
+      <chakra.button
+        type="button"
+        onClick={handleSave}
+        disabled={!isContentValid || isSaving}
+        {...s.saveBtn}
+        {...(!isContentValid || isSaving ? s.saveBtnDisabled : s.saveBtnEnabled)}
+      >
+        {isSaving ? t("journal.saving") : t("journal.save")}
+      </chakra.button>
+    </>
+  );
+
+  const recordContent = (
+    <Box {...s.recorderBox}>
+      {!recorder.isSupported ? (
+        <Text {...s.micUnsupported}>{t("journal.micNotSupported")}</Text>
+      ) : (
         <>
-          <Textarea
-            aria-label={t("journal.contentLabel")}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder={
-              getJournalPrompt(habit) ??
-              (habit.habit_mode === "skill-building"
-                ? t("journal.placeholderSkill")
-                : t("journal.placeholderTracking"))
-            }
-            disabled={isSaving}
-            {...s.textarea}
-          />
+          {recorder.state === "recording" && (
+            <Box {...s.recordingIndicator}>
+              <Box {...s.recordingDot} />
+              <Text {...s.recordingText}>{t("journal.stopRecording")}</Text>
+            </Box>
+          )}
 
-          <Text {...s.wordCount}>
-            {wordCount} {t("journal.words")}
-          </Text>
+          {audioSrc && recorder.state === "recorded" && (
+            <Box {...s.audioPlayerWrapper}>
+              <audio
+                controls
+                src={audioSrc}
+                aria-label={tPronunciation("audioPreview")}
+                style={{ width: "100%" }}
+              />
+            </Box>
+          )}
 
-          <chakra.button
-            type="button"
-            onClick={handleSave}
-            disabled={!isContentValid || isSaving}
-            {...s.saveBtn}
-            {...(!isContentValid || isSaving ? s.saveBtnDisabled : s.saveBtnEnabled)}
-          >
-            {isSaving ? t("journal.saving") : t("journal.save")}
-          </chakra.button>
+          <Box {...s.recorderBtnRow}>
+            {recorder.state === "idle" && (
+              <chakra.button
+                type="button"
+                onClick={recorder.start}
+                {...s.saveBtn}
+                {...s.saveBtnEnabled}
+                mt={0}
+              >
+                <LuMic style={{ display: "inline", marginRight: "8px" }} />
+                {t("journal.startRecording")}
+              </chakra.button>
+            )}
+
+            {recorder.state === "recording" && (
+              <chakra.button
+                type="button"
+                onClick={recorder.stop}
+                {...s.saveBtn}
+                {...s.saveBtnEnabled}
+                mt={0}
+                bg="red.500"
+              >
+                <LuSquare style={{ display: "inline", marginRight: "8px" }} />
+                {t("journal.stopRecording")}
+              </chakra.button>
+            )}
+
+            {recorder.state === "recorded" && (
+              <>
+                <chakra.button
+                  type="button"
+                  onClick={recorder.reset}
+                  disabled={isTranscribing || isSaving}
+                  flex={1}
+                  {...s.saveBtn}
+                  {...(isTranscribing || isSaving ? s.saveBtnDisabled : s.saveBtnInactive)}
+                  mt={0}
+                >
+                  {t("journal.reRecord")}
+                </chakra.button>
+                <chakra.button
+                  type="button"
+                  onClick={handleRecordSave}
+                  disabled={isTranscribing || isSaving}
+                  flex={2}
+                  {...s.saveBtn}
+                  {...(isTranscribing || isSaving ? s.saveBtnDisabled : s.saveBtnEnabled)}
+                  mt={0}
+                >
+                  {isTranscribing
+                    ? t("journal.transcribing")
+                    : isSaving
+                      ? t("journal.saving")
+                      : t("journal.transcribeAndSave")}
+                </chakra.button>
+              </>
+            )}
+          </Box>
         </>
       )}
+    </Box>
+  );
 
-      {mode === "record" && (
-        <Box {...s.recorderBox}>
-          {!recorder.isSupported ? (
-            <Text {...s.micUnsupported}>{t("journal.micNotSupported")}</Text>
-          ) : (
-            <>
-              {recorder.state === "recording" && (
-                <Box {...s.recordingIndicator}>
-                  <Box {...s.recordingDot} />
-                  <Text {...s.recordingText}>{t("journal.stopRecording")}</Text>
-                </Box>
-              )}
-
-              {audioSrc && recorder.state === "recorded" && (
-                <Box {...s.audioPlayerWrapper}>
-                  <audio
-                    controls
-                    src={audioSrc}
-                    aria-label="Audio preview"
-                    style={{ width: "100%" }}
-                  />
-                </Box>
-              )}
-
-              <Box {...s.recorderBtnRow}>
-                {recorder.state === "idle" && (
-                  <chakra.button
-                    type="button"
-                    onClick={recorder.start}
-                    {...s.saveBtn}
-                    {...s.saveBtnEnabled}
-                    mt={0}
-                  >
-                    <LuMic style={{ display: "inline", marginRight: "8px" }} />
-                    {t("journal.startRecording")}
-                  </chakra.button>
-                )}
-
-                {recorder.state === "recording" && (
-                  <chakra.button
-                    type="button"
-                    onClick={recorder.stop}
-                    {...s.saveBtn}
-                    {...s.saveBtnEnabled}
-                    mt={0}
-                    bg="red.500"
-                  >
-                    <LuSquare style={{ display: "inline", marginRight: "8px" }} />
-                    {t("journal.stopRecording")}
-                  </chakra.button>
-                )}
-
-                {recorder.state === "recorded" && (
-                  <>
-                    <chakra.button
-                      type="button"
-                      onClick={recorder.reset}
-                      flex={1}
-                      {...s.saveBtn}
-                      {...s.saveBtnInactive}
-                      mt={0}
-                    >
-                      {t("journal.reRecord")}
-                    </chakra.button>
-                    <chakra.button
-                      type="button"
-                      onClick={handleRecordSave}
-                      disabled={isTranscribing || isSaving}
-                      flex={2}
-                      {...s.saveBtn}
-                      {...(isTranscribing || isSaving ? s.saveBtnDisabled : s.saveBtnEnabled)}
-                      mt={0}
-                    >
-                      {isTranscribing
-                        ? t("journal.transcribing")
-                        : isSaving
-                          ? t("journal.saving")
-                          : t("journal.transcribeAndSave")}
-                    </chakra.button>
-                  </>
-                )}
-              </Box>
-            </>
-          )}
-        </Box>
+  return (
+    <Box>
+      {showToggle ? (
+        <Tabs.Root
+          value={mode}
+          onValueChange={(details) => setMode(details.value as "write" | "record")}
+        >
+          <Tabs.List {...s.modeToggle}>
+            <Tabs.Trigger value="write" {...s.modeToggleBtn}>
+              {t("journal.modeWrite")}
+            </Tabs.Trigger>
+            <Tabs.Trigger value="record" {...s.modeToggleBtn}>
+              {t("journal.modeRecord")}
+            </Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="write">{writeContent}</Tabs.Content>
+          <Tabs.Content value="record">{recordContent}</Tabs.Content>
+        </Tabs.Root>
+      ) : (
+        writeContent
       )}
 
       <Box {...s.scoresGrid}>

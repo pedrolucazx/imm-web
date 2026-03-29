@@ -48,7 +48,7 @@
 **Agentes de IA**
 
 - **Habit Planner**: gera um plano de 66 dias com fases progressivas ao criar um novo hábito
-- **Language Teacher**: avalia gramática, vocabulário e fluência nas entradas de hábitos de idiomas; modo de gravação permite praticar pronúncia — o áudio é transcrito e um score de acerto é retornado com palavras corretas e erradas destacadas
+- **Language Teacher**: avalia gramática, vocabulário e fluência nas entradas de hábitos de idiomas; modo de gravação permite praticar pronúncia — o áudio é transcrito, salvo como entrada de journal e analisado pelo Language Teacher
 - **Behavioral Coach**: identifica padrões de humor e sugere ajustes de rotina para hábitos comportamentais
 
 **Internacionalização** — interface disponível em Português, Inglês e Espanhol. O idioma da interface é independente do idioma de estudo — você pode usar o app em pt-br enquanto aprende inglês.

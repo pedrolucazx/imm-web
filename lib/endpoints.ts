@@ -46,5 +46,6 @@ export const ENDPOINTS = {
     UPLOAD_URL: "/pronunciation/upload-url",
     ANALYZE: "/pronunciation/analyze",
     WORD_CLOUD: "/pronunciation/word-cloud",
+    DELETE_AUDIO: "/pronunciation/audio",
   },
 } as const;

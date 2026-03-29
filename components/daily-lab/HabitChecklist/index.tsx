@@ -53,7 +53,7 @@ export function HabitChecklist({
               <chakra.button
                 type="button"
                 aria-pressed={selected}
-                aria-label={`${habit.name}${hasFeedback ? ` — ${t("checklist.doneToday")}` : ""}`}
+                aria-label={`${habit.name}${completed ? ` — ${t("checklist.doneToday")}` : ""}`}
                 onClick={() => onSelect(habit.id)}
                 {...s.habitCard}
                 cursor="pointer"
@@ -78,10 +78,10 @@ export function HabitChecklist({
                   <Box
                     aria-hidden="true"
                     {...s.checkboxIndicator}
-                    bg={hasFeedback ? "black" : "card"}
+                    bg={completed ? "black" : "card"}
                   >
-                    {hasFeedback && <Text {...s.checkboxIcon}>✓</Text>}
-                    {selected && !hasFeedback && <Text {...s.checkboxDashIcon}>–</Text>}
+                    {completed && <Text {...s.checkboxIcon}>✓</Text>}
+                    {selected && !completed && <Text {...s.checkboxDashIcon}>–</Text>}
                   </Box>
                 </Box>
               </chakra.button>
@@ -92,17 +92,21 @@ export function HabitChecklist({
                     {t("checklist.todaysFocus", { phase: phase.phase, theme: phase.theme })}
                   </Text>
                   {skillPhase ? (
-                    <Box {...s.taskList}>
+                    <Box as="ul" {...s.taskList}>
                       {skillPhase.daily_tasks.map((task, i) => (
-                        <Text key={i} {...s.taskItem}>
+                        <Text as="li" key={i} {...s.taskItem}>
                           → {task}
                         </Text>
                       ))}
                     </Box>
                   ) : (
-                    <Box>
-                      <Text {...s.taskItem}>{(phase as TrackingCoachedPhase).weekly_focus}</Text>
-                      <Text {...s.tipText}>💡 {(phase as TrackingCoachedPhase).tip}</Text>
+                    <Box as="ul">
+                      <Text as="li" {...s.taskItem}>
+                        {(phase as TrackingCoachedPhase).weekly_focus}
+                      </Text>
+                      <Text as="li" {...s.tipText}>
+                        💡 {(phase as TrackingCoachedPhase).tip}
+                      </Text>
                     </Box>
                   )}
                 </Box>
