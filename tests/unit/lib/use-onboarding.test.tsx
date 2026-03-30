@@ -124,6 +124,28 @@ describe("useOnboarding — localStorage sync", () => {
     await waitFor(() => expect(result.current.shouldShowTour).toBe(true));
     expect(localStorage.getItem(LS_KEY)).toBeNull();
   });
+
+  it("re-fetches when user switches — new account does not inherit previous cache", async () => {
+    // First user: completed tour
+    mockGetStatus.mockResolvedValue({ completed: true, skipped: false, currentStep: 5 });
+    const { queryClient, wrapper } = makeWrapper();
+    const { result, rerender } = renderHook(() => useOnboarding(), { wrapper });
+    await waitFor(() => expect(result.current.shouldShowTour).toBe(false));
+
+    // Switch to a new user on the same QueryClient
+    const newUserId = "new-user-456";
+    mockUseAuthContext.mockReturnValue({
+      isAuthenticated: true,
+      isLoading: false,
+      user: { id: newUserId },
+    });
+    mockGetStatus.mockResolvedValue({ completed: false, skipped: false, currentStep: 0 });
+    queryClient.invalidateQueries({ queryKey: ["onboarding"] });
+
+    rerender();
+    await waitFor(() => expect(result.current.shouldShowTour).toBe(true));
+    expect(localStorage.getItem(`onboarding_completed_${newUserId}`)).toBeNull();
+  });
 });
 
 describe("useOnboarding — completeTour", () => {
