@@ -21,7 +21,7 @@ function TourCard({ api, totalSteps }: TourStepProps) {
   const t = useTranslations("onboarding");
 
   return (
-    <Box {...api.getContentProps()} {...s.card} zIndex={1500}>
+    <Box {...api.getContentProps()} {...s.card}>
       <chakra.button {...api.getCloseTriggerProps()} aria-label={t("btnClose")} {...s.closeBtn}>
         ✕
       </chakra.button>
@@ -79,7 +79,7 @@ export function TourStep({ api, totalSteps }: TourStepProps) {
       <Box
         position="fixed"
         inset="0"
-        zIndex={1500}
+        zIndex={9999}
         display="flex"
         alignItems="center"
         justifyContent="center"

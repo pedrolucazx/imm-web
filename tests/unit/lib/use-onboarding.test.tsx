@@ -163,7 +163,8 @@ describe("useOnboarding — skipTour", () => {
 describe("useOnboarding — restartTour", () => {
   it("removes localStorage and calls update to reset state", async () => {
     localStorage.setItem(LS_KEY, "true");
-    mockGetStatus.mockResolvedValue({ completed: true, skipped: false, currentStep: 5 });
+    // Server returns not-completed so the useEffect sync doesn't re-set the key
+    mockGetStatus.mockResolvedValue({ completed: false, skipped: false, currentStep: 0 });
     mockUpdate.mockResolvedValue({ completed: false, skipped: false, currentStep: 0 });
     const { wrapper } = makeWrapper();
     const { result } = renderHook(() => useOnboarding(), { wrapper });
@@ -174,5 +175,37 @@ describe("useOnboarding — restartTour", () => {
 
     expect(localStorage.getItem(LS_KEY)).toBeNull();
     expect(mockUpdate).toHaveBeenCalledWith({ completed: false, skipped: false, currentStep: 0 });
+  });
+});
+
+describe("useOnboarding — error paths", () => {
+  it("does not set localStorage when completeTour mutation fails", async () => {
+    mockGetStatus.mockResolvedValue({ completed: false, skipped: false, currentStep: 0 });
+    mockUpdate.mockRejectedValue(new Error("Network error"));
+    const { wrapper } = makeWrapper();
+    const { result } = renderHook(() => useOnboarding(), { wrapper });
+    await waitFor(() => expect(result.current.shouldShowTour).toBe(true));
+
+    await act(async () => {
+      await expect(result.current.completeTour()).rejects.toThrow("Network error");
+    });
+
+    expect(mockUpdate).toHaveBeenCalledWith({ completed: true });
+    expect(localStorage.getItem(LS_KEY)).toBeNull();
+  });
+
+  it("does not set localStorage when skipTour mutation fails", async () => {
+    mockGetStatus.mockResolvedValue({ completed: false, skipped: false, currentStep: 0 });
+    mockUpdate.mockRejectedValue(new Error("Network error"));
+    const { wrapper } = makeWrapper();
+    const { result } = renderHook(() => useOnboarding(), { wrapper });
+    await waitFor(() => expect(result.current.shouldShowTour).toBe(true));
+
+    await act(async () => {
+      await expect(result.current.skipTour()).rejects.toThrow("Network error");
+    });
+
+    expect(mockUpdate).toHaveBeenCalledWith({ skipped: true });
+    expect(localStorage.getItem(LS_KEY)).toBeNull();
   });
 });

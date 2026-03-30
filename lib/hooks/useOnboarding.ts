@@ -34,7 +34,7 @@ export function useOnboarding() {
     }
   }, [query.data, query.isSuccess, lsKey]);
 
-  const shouldShowTour = query.isSuccess && !query.data.completed && !query.data.skipped;
+  const shouldShowTour = query.isSuccess && !query.data?.completed && !query.data?.skipped;
 
   const { mutateAsync: updateOnboarding } = useMutation({
     mutationFn: (data: UpdateOnboardingInput) => onboardingService.update(data),
@@ -43,21 +43,19 @@ export function useOnboarding() {
     },
   });
 
-  const completeTour = (): Promise<void> => {
+  const completeTour = async (): Promise<void> => {
+    await updateOnboarding({ completed: true });
     if (lsKey) localStorage.setItem(lsKey, "true");
-    return updateOnboarding({ completed: true }).then(() => undefined);
   };
 
-  const skipTour = (): Promise<void> => {
+  const skipTour = async (): Promise<void> => {
+    await updateOnboarding({ skipped: true });
     if (lsKey) localStorage.setItem(lsKey, "true");
-    return updateOnboarding({ skipped: true }).then(() => undefined);
   };
 
-  const restartTour = (): Promise<void> => {
+  const restartTour = async (): Promise<void> => {
     if (lsKey) localStorage.removeItem(lsKey);
-    return updateOnboarding({ completed: false, skipped: false, currentStep: 0 }).then(
-      () => undefined
-    );
+    await updateOnboarding({ completed: false, skipped: false, currentStep: 0 });
   };
 
   return { shouldShowTour, completeTour, skipTour, restartTour };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Portal } from "@chakra-ui/react";
 import * as tour from "@zag-js/tour";
 
@@ -204,9 +204,9 @@ export function OnboardingTour() {
   const router = useRouter();
   const { shouldShowTour, completeTour, skipTour } = useOnboarding();
 
-  const navigateToHabits = useMemo(() => () => router.push(ROUTES.APP_HABITS), [router]);
-  const navigateToDailyLab = useMemo(() => () => router.push(ROUTES.APP_DAILY_LAB), [router]);
-  const navigateToAnalytics = useMemo(() => () => router.push(ROUTES.APP_ANALYTICS), [router]);
+  const navigateToHabits = useCallback(() => router.push(ROUTES.APP_HABITS), [router]);
+  const navigateToDailyLab = useCallback(() => router.push(ROUTES.APP_DAILY_LAB), [router]);
+  const navigateToAnalytics = useCallback(() => router.push(ROUTES.APP_ANALYTICS), [router]);
   const steps = useMemo(
     () =>
       sanitizeTourSteps(

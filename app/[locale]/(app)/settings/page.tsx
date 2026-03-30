@@ -252,8 +252,16 @@ export default function SettingsPage(): React.JSX.Element {
             <Button
               variant="muted"
               onClick={async () => {
-                await restartTour();
-                router.push(ROUTES.APP_DAILY_LAB);
+                try {
+                  await restartTour();
+                  router.push(ROUTES.APP_DAILY_LAB);
+                } catch {
+                  toaster.create({
+                    type: "error",
+                    title: t("tourRestartError"),
+                    meta: { closable: true },
+                  });
+                }
               }}
               justifyContent="space-between"
               w="100%"

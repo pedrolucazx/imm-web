@@ -494,7 +494,8 @@
     },
     "tourCardTitle": "Tour do App",
     "tourCardDesc": "Reveja o tour de introdução a qualquer momento.",
-    "tourBtnRestart": "Revisitar Tour"
+    "tourBtnRestart": "Revisitar Tour",
+    "tourRestartError": "Não foi possível reiniciar o tour. Tente novamente."
   },
   "habitWizard": {
     "title": "✨ Novo Hábito",
@@ -751,9 +752,6 @@
     "btnSkip": "Pular",
     "btnStart": "Começar",
     "btnClose": "Fechar",
-    "progress": "{current} de {total}",
-    "tourCardTitle": "Tour do App",
-    "tourCardDesc": "Reveja o tour de introdução a qualquer momento.",
-    "tourBtnRestart": "Revisitar Tour"
+    "progress": "{current} de {total}"
   }
 }
