@@ -105,4 +105,12 @@ export const handlers = [
 
     return HttpResponse.json({ message: "Verification email sent" });
   }),
+
+  http.get(`${API_URL}/users/me/onboarding`, () => {
+    return HttpResponse.json({ completed: false, skipped: false, currentStep: 0 });
+  }),
+
+  http.put(`${API_URL}/users/me/onboarding`, () => {
+    return HttpResponse.json({ completed: false, skipped: false, currentStep: 0 });
+  }),
 ];

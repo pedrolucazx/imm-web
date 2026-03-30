@@ -254,7 +254,7 @@ export default function SettingsPage(): React.JSX.Element {
               onClick={async () => {
                 try {
                   await restartTour();
-                  router.push(ROUTES.APP_DAILY_LAB);
+                  router.replace(ROUTES.APP_DAILY_LAB);
                 } catch {
                   toaster.create({
                     type: "error",
