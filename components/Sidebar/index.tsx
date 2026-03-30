@@ -15,6 +15,7 @@ interface NavItem {
   labelKey: string;
   href: string;
   ownedRoute: string;
+  tourId?: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -24,13 +25,20 @@ const NAV_ITEMS: NavItem[] = [
     href: ROUTES.APP_DAILY_LAB,
     ownedRoute: ROUTES.APP_DAILY_LAB,
   },
-  { icon: "🎯", labelKey: "habits", href: ROUTES.APP_HABITS, ownedRoute: ROUTES.APP_HABITS },
+  {
+    icon: "🎯",
+    labelKey: "habits",
+    href: ROUTES.APP_HABITS,
+    ownedRoute: ROUTES.APP_HABITS,
+    tourId: "nav-habits",
+  },
   { icon: "📅", labelKey: "history", href: ROUTES.APP_HISTORY, ownedRoute: ROUTES.APP_HISTORY },
   {
     icon: "📊",
     labelKey: "analytics",
     href: ROUTES.APP_ANALYTICS,
     ownedRoute: ROUTES.APP_ANALYTICS,
+    tourId: "nav-analytics",
   },
   { icon: "⚙️", labelKey: "settings", href: ROUTES.SETTINGS, ownedRoute: ROUTES.SETTINGS },
 ];
@@ -55,12 +63,12 @@ function SidebarContent({ t, pathname, onNavClick, onLogout }: SidebarContentPro
       </Box>
 
       <Box as="nav" {...s.nav}>
-        {NAV_ITEMS.map(({ icon, labelKey, href, ownedRoute }) => {
+        {NAV_ITEMS.map(({ icon, labelKey, href, ownedRoute, tourId }) => {
           const isActive = pathname === ownedRoute;
           const styles = isActive ? s.navItemActive : s.navItem;
 
           return (
-            <Box key={labelKey} asChild {...styles}>
+            <Box key={labelKey} asChild {...styles} {...(tourId ? { "data-tour": tourId } : {})}>
               <Link href={href} aria-current={isActive ? "page" : undefined} onClick={onNavClick}>
                 <Box as="span" aria-hidden="true" {...s.navIcon}>
                   {icon}

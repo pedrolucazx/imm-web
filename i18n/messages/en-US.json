@@ -491,7 +491,10 @@
       "europe_paris": "Europe/Paris (UTC+1/+2)",
       "europe_madrid": "Europe/Madrid (UTC+1/+2)",
       "asia_tokyo": "Asia/Tokyo (UTC+9)"
-    }
+    },
+    "tourCardTitle": "App Tour",
+    "tourCardDesc": "Revisit the introduction tour at any time.",
+    "tourBtnRestart": "Revisit Tour"
   },
   "habitWizard": {
     "title": "✨ New Habit",
@@ -729,5 +732,28 @@
       "title": "Most missed words",
       "itemLabel": "{word}: {count, plural, one {# occurrence} other {# occurrences}}"
     }
+  },
+  "onboarding": {
+    "step0Title": "Welcome to Inside My Mind",
+    "step0Desc": "This is your space to track habits, write in your journal, and visualize your progress. Let us take a quick tour?",
+    "step1Title": "Your Habits",
+    "step1Desc": "Here you manage all your habits. Create, edit, and track the progress of each one.",
+    "step2Title": "Daily Lab",
+    "step2Desc": "Check off completed habits for the day. Consistency is the key to turning actions into habits.",
+    "step3Title": "Journal",
+    "step3Desc": "Write about your day, reflections, and feelings. The journal helps process experiences and stay focused.",
+    "step4Title": "Analytics",
+    "step4Desc": "Visualize your progress over time with charts and statistics from your habits.",
+    "step5Title": "All set!",
+    "step5Desc": "You have seen the main features. Now it is time to put them into practice and build your routine.",
+    "btnNext": "Next",
+    "btnBack": "Back",
+    "btnSkip": "Skip",
+    "btnStart": "Get started",
+    "btnClose": "Close",
+    "progress": "{current} of {total}",
+    "tourCardTitle": "App Tour",
+    "tourCardDesc": "Revisit the introduction tour at any time.",
+    "tourBtnRestart": "Revisit Tour"
   }
 }

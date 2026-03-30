@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Sidebar } from "@/components/Sidebar";
 import { SIDEBAR_WIDTH } from "@/components/Sidebar/styles";
+import { OnboardingWrapper } from "@/components/onboarding/OnboardingWrapper";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <Box as="main" ml={{ base: 0, md: SIDEBAR_WIDTH }} flex="1">
         {children}
       </Box>
+      <OnboardingWrapper />
     </Box>
   );
 }

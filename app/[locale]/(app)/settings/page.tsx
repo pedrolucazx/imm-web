@@ -13,7 +13,9 @@ import { DeleteAccountModal } from "@/components/settings/DeleteAccountModal";
 import { PrivacyPolicyModal } from "@/components/CookieBanner/PrivacyPolicyModal";
 import type { UILanguage } from "@/lib/constants";
 import { useGetProfile, useUpdateProfile } from "@/lib/hooks/useProfile";
+import { useOnboarding } from "@/lib/hooks/useOnboarding";
 import { useRouter, usePathname } from "@/lib/navigation";
+import { ROUTES } from "@/lib/routes";
 import { toaster } from "@/components/ui/toaster";
 import { logger } from "@/lib/logger";
 import { PageWrapper } from "@/components/PageWrapper";
@@ -50,6 +52,7 @@ export default function SettingsPage(): React.JSX.Element {
 
   const { data: profile, isLoading } = useGetProfile();
   const { mutateAsync: saveProfile, isPending: isSaving } = useUpdateProfile();
+  const { restartTour } = useOnboarding();
   const { previewUrl, isAvatarReady, isUploading, handleFileChange, uploadIfPending } =
     useAvatarUpload(profile?.avatarUrl, {
       onUploadError: (_error: Error) =>
@@ -241,6 +244,26 @@ export default function SettingsPage(): React.JSX.Element {
               value={watch("ui_language")}
               onChange={(lang) => setValue("ui_language", lang, { shouldDirty: true })}
             />
+          </Box>
+
+          <Box {...s.tourCard}>
+            <Text {...s.tourCardTitle}>{t("tourCardTitle")}</Text>
+            <Text {...s.tourCardDesc}>{t("tourCardDesc")}</Text>
+            <Button
+              variant="muted"
+              onClick={async () => {
+                await restartTour();
+                router.push(ROUTES.APP_DAILY_LAB);
+              }}
+              justifyContent="space-between"
+              w="100%"
+              py={4}
+            >
+              <Text fontSize="sm" fontWeight="700">
+                {t("tourBtnRestart")}
+              </Text>
+              <Text fontSize="lg">→</Text>
+            </Button>
           </Box>
 
           <Box {...s.privacyCard}>

@@ -32,10 +32,33 @@ const config = defineConfig({
       color: "black",
       fontFamily: "var(--font-sans), system-ui, sans-serif",
       fontWeight: "400",
+      position: "relative",
     },
     "h1, h2, h3, h4, h5, h6": {
       fontWeight: "700",
       letterSpacing: "-0.025em",
+    },
+    "[data-scope='tour'][data-part='positioner']": {
+      position: "absolute",
+      zIndex: 9999,
+    },
+    "[data-scope='tour'][data-part='positioner'][data-type='dialog']": {
+      position: "fixed",
+      inset: "0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      overscrollBehavior: "contain",
+    },
+    "[data-scope='tour'][data-part='backdrop']": {
+      position: "fixed",
+      inset: "0",
+      zIndex: 9998,
+      overscrollBehavior: "contain",
+      pointerEvents: "none",
+    },
+    "[data-scope='tour'][data-part='content']": {
+      pointerEvents: "auto",
     },
   },
   theme: {
