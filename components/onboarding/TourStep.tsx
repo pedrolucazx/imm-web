@@ -7,7 +7,6 @@ import { s } from "./TourStep.styles";
 
 interface TourStepProps {
   api: Api;
-  totalSteps: number;
 }
 
 const variantBg: Record<string, string> = {
@@ -17,7 +16,8 @@ const variantBg: Record<string, string> = {
   muted: "var(--chakra-colors-card, #fff)",
 };
 
-function TourCard({ api, totalSteps }: TourStepProps) {
+function TourCard({ api }: TourStepProps) {
+  const totalSteps = api.totalSteps;
   const t = useTranslations("onboarding");
 
   return (
@@ -58,7 +58,8 @@ function TourCard({ api, totalSteps }: TourStepProps) {
               key={action.label}
               {...triggerProps}
               {...s.actionBtn}
-              style={{ backgroundColor: bg, color: "black" }}
+              bg={bg}
+              color="black"
             >
               {action.label}
             </chakra.button>
@@ -69,7 +70,7 @@ function TourCard({ api, totalSteps }: TourStepProps) {
   );
 }
 
-export function TourStep({ api, totalSteps }: TourStepProps) {
+export function TourStep({ api }: TourStepProps) {
   if (!api.step) return null;
 
   // Dialog steps: Zag's positioner has no position:fixed, so render in a centered
@@ -86,7 +87,7 @@ export function TourStep({ api, totalSteps }: TourStepProps) {
         pointerEvents="none"
       >
         <Box pointerEvents="auto">
-          <TourCard api={api} totalSteps={totalSteps} />
+          <TourCard api={api} />
         </Box>
       </Box>
     );
@@ -95,7 +96,7 @@ export function TourStep({ api, totalSteps }: TourStepProps) {
   // Tooltip steps: Zag's floating-ui provides position:fixed + transform.
   return (
     <Box {...api.getPositionerProps()}>
-      <TourCard api={api} totalSteps={totalSteps} />
+      <TourCard api={api} />
     </Box>
   );
 }

@@ -257,7 +257,7 @@ export function OnboardingTour() {
       {api.step && api.open && (
         <>
           <TourBackdrop api={api} />
-          <TourStep api={api} totalSteps={TOTAL_STEPS} />
+          <TourStep api={api} />
         </>
       )}
     </Portal>
