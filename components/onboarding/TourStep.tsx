@@ -27,13 +27,13 @@ function TourCard({ api, totalSteps }: TourStepProps) {
       </chakra.button>
 
       <Text {...api.getTitleProps()} {...s.title}>
-        {api.step.title}
+        {api.step?.title}
       </Text>
 
       <Box {...s.divider} />
 
       <Text {...api.getDescriptionProps()} {...s.description}>
-        {api.step.description}
+        {api.step?.description}
       </Text>
 
       <HStack {...s.progressRow}>
@@ -48,7 +48,7 @@ function TourCard({ api, totalSteps }: TourStepProps) {
       </HStack>
 
       <HStack {...s.footer}>
-        {api.step.actions?.map((action) => {
+        {api.step?.actions?.map((action) => {
           const triggerProps = api.getActionTriggerProps({ action });
           const variant = (action.attrs?.variant as string) ?? "muted";
           const bg = variantBg[variant] ?? variantBg.muted;
