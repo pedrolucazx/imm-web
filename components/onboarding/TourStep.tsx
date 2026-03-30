@@ -10,10 +10,10 @@ interface TourStepProps {
 }
 
 const variantBg: Record<string, string> = {
-  primary: "var(--chakra-colors-brand-yellow, #FFD700)",
-  secondary: "var(--chakra-colors-brand-mint, #00D26A)",
-  accent: "var(--chakra-colors-brand-coral, #FF6B6B)",
-  muted: "var(--chakra-colors-card, #fff)",
+  primary: "primary",
+  secondary: "secondary",
+  accent: "accent",
+  muted: "muted",
 };
 
 function TourCard({ api }: TourStepProps) {
