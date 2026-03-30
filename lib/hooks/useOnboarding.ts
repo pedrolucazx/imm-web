@@ -16,7 +16,7 @@ export function useOnboarding() {
   // localStorage is only a write-cache (avoids showing the tour again mid-session
   // after the user completes/skips), never a gate that prevents the query from running.
   const query = useQuery({
-    queryKey: ["onboarding"],
+    queryKey: ["onboarding", user?.id],
     queryFn: () => onboardingService.getStatus(),
     enabled: !isAuthLoading && isAuthenticated,
     staleTime: Infinity,
@@ -39,7 +39,7 @@ export function useOnboarding() {
   const { mutateAsync: updateOnboarding } = useMutation({
     mutationFn: (data: UpdateOnboardingInput) => onboardingService.update(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["onboarding"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding", user?.id] });
     },
   });
 

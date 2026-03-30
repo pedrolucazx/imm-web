@@ -28,6 +28,7 @@ import { useId } from "react";
 import type { StepDetails, StatusChangeDetails } from "@zag-js/tour";
 import { useOnboarding } from "@/lib/hooks/useOnboarding";
 import { ROUTES } from "@/lib/routes";
+import { logger } from "@/lib/logger";
 import { TourBackdrop } from "./TourBackdrop";
 import { TourStep } from "./TourStep";
 
@@ -231,9 +232,13 @@ export function OnboardingTour() {
     closeOnEscape: false,
     onStatusChange({ status, stepIndex }: StatusChangeDetails) {
       if (status === "completed" || (status === "dismissed" && stepIndex === TOTAL_STEPS - 1)) {
-        completeTourRef.current();
+        completeTourRef
+          .current()
+          .catch((err: unknown) => logger.error({ err }, "onboarding: completeTour failed"));
       } else if (status === "dismissed" || status === "skipped") {
-        skipTourRef.current();
+        skipTourRef
+          .current()
+          .catch((err: unknown) => logger.error({ err }, "onboarding: skipTour failed"));
       }
     },
   });
