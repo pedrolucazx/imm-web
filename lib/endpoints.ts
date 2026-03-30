@@ -14,6 +14,7 @@ export const ENDPOINTS = {
     UPDATE: "/users/me",
     DELETE: "/users/me",
     AVATAR_UPLOAD_URL: "/users/me/avatar-upload-url",
+    ONBOARDING: "/users/me/onboarding",
   },
   CONSENTS: {
     SAVE: "/consents",

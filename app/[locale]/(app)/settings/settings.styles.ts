@@ -168,4 +168,28 @@ export const s = {
     lineHeight: 1.5,
     color: "mutedFg",
   },
+
+  tourCard: {
+    layerStyle: "cardBrutal",
+    bg: "card",
+    p: 5,
+    display: "flex",
+    flexDirection: "column",
+    gap: 3,
+  },
+
+  tourCardTitle: {
+    fontSize: "sm",
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: "0.06em",
+    lineHeight: 1.1,
+    textWrap: "balance",
+  },
+
+  tourCardDesc: {
+    fontSize: "xs",
+    lineHeight: 1.5,
+    color: "mutedFg",
+  },
 } satisfies Record<string, SystemStyleObject>;

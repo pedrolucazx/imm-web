@@ -31,7 +31,7 @@ export function HabitChecklist({
   );
 
   return (
-    <Box {...s.section}>
+    <Box {...s.section} data-tour="habit-checklist">
       <Text {...s.sectionTitle}>
         {t("checklist.sectionTitle", {
           completed: habits.filter((h) => h.completed_today || habitsWithFeedback.has(h.id)).length,

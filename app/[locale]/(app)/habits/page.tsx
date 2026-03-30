@@ -61,7 +61,7 @@ export default function HabitsPage(): React.JSX.Element {
         </Tooltip>
       }
     >
-      <Box>
+      <Box data-tour="habits-section">
         {showWarning && (!bannerDismissed || isAtLimit) && (
           <Box {...s.banner} bg={isAtLimit ? "surface.coral" : "surface.yellow"}>
             <Text {...s.statusText}>

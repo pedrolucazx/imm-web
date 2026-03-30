@@ -491,7 +491,11 @@
       "europe_paris": "Europa/París (UTC+1/+2)",
       "europe_madrid": "Europa/Madrid (UTC+1/+2)",
       "asia_tokyo": "Asia/Tokio (UTC+9)"
-    }
+    },
+    "tourCardTitle": "Tour de la App",
+    "tourCardDesc": "Revisa el tour de introducción en cualquier momento.",
+    "tourBtnRestart": "Revisitar Tour",
+    "tourRestartError": "No se pudo reiniciar el tour. Inténtalo de nuevo."
   },
   "habitWizard": {
     "title": "✨ Nuevo Hábito",
@@ -729,5 +733,25 @@
       "title": "Palabras con más errores",
       "itemLabel": "{word}: {count, plural, one {# ocurrencia} other {# ocurrencias}}"
     }
+  },
+  "onboarding": {
+    "step0Title": "Bienvenido a Inside My Mind",
+    "step0Desc": "Este es tu espacio para hacer seguimiento de hábitos, escribir en tu diario y visualizar tu progreso. ¿Hacemos un recorrido rápido?",
+    "step1Title": "Tus Hábitos",
+    "step1Desc": "Aquí gestionas todos tus hábitos. Crea, edita y sigue el progreso de cada uno.",
+    "step2Title": "Laboratorio Diario",
+    "step2Desc": "Marca los hábitos completados del día. La constancia es clave para convertir acciones en hábitos.",
+    "step3Title": "Diario",
+    "step3Desc": "Escribe sobre tu día, reflexiones y sentimientos. El diario ayuda a procesar experiencias y mantener el enfoque.",
+    "step4Title": "Análisis",
+    "step4Desc": "Visualiza tu progreso a lo largo del tiempo con gráficas y estadísticas de tus hábitos.",
+    "step5Title": "¡Todo listo!",
+    "step5Desc": "Ya conoces las principales funcionalidades. Ahora es el momento de ponerlas en práctica y crear tu rutina.",
+    "btnNext": "Siguiente",
+    "btnBack": "Atrás",
+    "btnSkip": "Saltar",
+    "btnStart": "Empezar",
+    "btnClose": "Cerrar",
+    "progress": "{current} de {total}"
   }
 }

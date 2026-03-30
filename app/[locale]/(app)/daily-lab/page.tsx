@@ -67,46 +67,48 @@ export default function DailyLabPage() {
             today={today}
           />
 
-          {activeHabits.length > 0 && selectedHabit && (
-            <Box>
-              <Text {...s.sectionTitle}>{t("journal.sectionTitle")}</Text>
+          <Box data-tour="journal-section">
+            {activeHabits.length > 0 && selectedHabit && (
+              <Box>
+                <Text {...s.sectionTitle}>{t("journal.sectionTitle")}</Text>
 
-              {selectedHabit.habit_mode === "skill-building" && (
-                <Box {...s.skillBanner}>
-                  <Text {...s.skillBannerText}>
-                    ✍️{" "}
-                    {t("journal.skillBuildingBanner", {
-                      skill: tHabits(`skills.${selectedHabit.target_skill}.name`),
-                    })}
-                  </Text>
-                </Box>
-              )}
+                {selectedHabit.habit_mode === "skill-building" && (
+                  <Box {...s.skillBanner}>
+                    <Text {...s.skillBannerText}>
+                      ✍️{" "}
+                      {t("journal.skillBuildingBanner", {
+                        skill: tHabits(`skills.${selectedHabit.target_skill}.name`),
+                      })}
+                    </Text>
+                  </Box>
+                )}
 
-              <JournalEditor
-                habit={selectedHabit}
-                existingEntry={journalEntry}
-                isLoadingEntry={isLoadingEntry}
-                isAnalyzing={isAnalyzing}
-                today={today}
-                onAnalyze={(journalEntryId, habitId) =>
-                  analyzeJournal(
-                    { journalEntryId, habitId },
-                    {
-                      onSuccess: () =>
-                        logHabit({ id: habitId, input: { logDate: today, completed: true } }),
-                    }
-                  )
-                }
-              />
+                <JournalEditor
+                  habit={selectedHabit}
+                  existingEntry={journalEntry}
+                  isLoadingEntry={isLoadingEntry}
+                  isAnalyzing={isAnalyzing}
+                  today={today}
+                  onAnalyze={(journalEntryId, habitId) =>
+                    analyzeJournal(
+                      { journalEntryId, habitId },
+                      {
+                        onSuccess: () =>
+                          logHabit({ id: habitId, input: { logDate: today, completed: true } }),
+                      }
+                    )
+                  }
+                />
 
-              <AIFeedbackPanel
-                entry={journalEntry}
-                isAnalyzing={isAnalyzing}
-                aiRequestsToday={profile?.profile.aiRequestsToday ?? 0}
-                habitColor={selectedHabit.color}
-              />
-            </Box>
-          )}
+                <AIFeedbackPanel
+                  entry={journalEntry}
+                  isAnalyzing={isAnalyzing}
+                  aiRequestsToday={profile?.profile.aiRequestsToday ?? 0}
+                  habitColor={selectedHabit.color}
+                />
+              </Box>
+            )}
+          </Box>
         </Box>
       </Box>
     </PageWrapper>

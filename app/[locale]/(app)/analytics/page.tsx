@@ -77,7 +77,7 @@ export default function AnalyticsPage() {
 
   return (
     <PageWrapper title={t("pageTitle")} loading={isLoading}>
-      <Box {...s.content}>
+      <Box {...s.content} data-tour="analytics-section">
         {isError ? (
           <Alert.Root colorPalette="yellow" {...s.errorCard}>
             <Alert.Indicator />
