@@ -11,14 +11,16 @@ export function useOnboarding() {
   const queryClient = useQueryClient();
 
   const lsKey = user?.id ? `${LS_KEY_PREFIX}_${user.id}` : null;
+  const onboardingQueryKey = ["onboarding", user?.id] as const;
 
   // Always query the server — server is the source of truth.
   // localStorage is only a write-cache (avoids showing the tour again mid-session
   // after the user completes/skips), never a gate that prevents the query from running.
+  // Guard on user?.id to avoid caching under ["onboarding", undefined] before hydration.
   const query = useQuery({
-    queryKey: ["onboarding", user?.id],
+    queryKey: onboardingQueryKey,
     queryFn: () => onboardingService.getStatus(),
-    enabled: !isAuthLoading && isAuthenticated,
+    enabled: !isAuthLoading && isAuthenticated && Boolean(user?.id),
     staleTime: Infinity,
     retry: false,
   });
@@ -39,7 +41,7 @@ export function useOnboarding() {
   const { mutateAsync: updateOnboarding } = useMutation({
     mutationFn: (data: UpdateOnboardingInput) => onboardingService.update(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["onboarding", user?.id] });
+      queryClient.invalidateQueries({ queryKey: onboardingQueryKey });
     },
   });
 

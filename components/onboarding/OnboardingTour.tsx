@@ -205,9 +205,9 @@ export function OnboardingTour() {
   const router = useRouter();
   const { shouldShowTour, completeTour, skipTour } = useOnboarding();
 
-  const navigateToHabits = useCallback(() => router.push(ROUTES.APP_HABITS), [router]);
-  const navigateToDailyLab = useCallback(() => router.push(ROUTES.APP_DAILY_LAB), [router]);
-  const navigateToAnalytics = useCallback(() => router.push(ROUTES.APP_ANALYTICS), [router]);
+  const navigateToHabits = useCallback(() => router.replace(ROUTES.APP_HABITS), [router]);
+  const navigateToDailyLab = useCallback(() => router.replace(ROUTES.APP_DAILY_LAB), [router]);
+  const navigateToAnalytics = useCallback(() => router.replace(ROUTES.APP_ANALYTICS), [router]);
   const steps = useMemo(
     () =>
       sanitizeTourSteps(
