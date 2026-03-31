@@ -9,13 +9,6 @@ interface TourStepProps {
   api: Api;
 }
 
-const variantBg: Record<string, string> = {
-  primary: "primary",
-  secondary: "secondary",
-  accent: "accent",
-  muted: "muted",
-};
-
 function TourCard({ api }: TourStepProps) {
   const totalSteps = api.totalSteps;
   const t = useTranslations("onboarding");
@@ -51,14 +44,13 @@ function TourCard({ api }: TourStepProps) {
         {api.step?.actions?.map((action) => {
           const triggerProps = api.getActionTriggerProps({ action });
           const variant = (action.attrs?.variant as string) ?? "muted";
-          const bg = variantBg[variant] ?? variantBg.muted;
 
           return (
             <chakra.button
               key={action.label}
               {...triggerProps}
               {...s.actionBtn}
-              bg={bg}
+              bg={variant}
               color="black"
             >
               {action.label}

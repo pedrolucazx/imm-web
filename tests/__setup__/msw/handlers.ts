@@ -107,10 +107,26 @@ export const handlers = [
   }),
 
   http.get(`${API_URL}/users/me/onboarding`, () => {
-    return HttpResponse.json({ completed: false, skipped: false, currentStep: 0 });
+    return HttpResponse.json({
+      completed: false,
+      skipped: false,
+      currentStep: 0,
+      completedAt: null,
+    });
   }),
 
-  http.put(`${API_URL}/users/me/onboarding`, () => {
-    return HttpResponse.json({ completed: false, skipped: false, currentStep: 0 });
+  http.put(`${API_URL}/users/me/onboarding`, async ({ request }) => {
+    const body = (await request.json()) as {
+      completed?: boolean;
+      skipped?: boolean;
+      currentStep?: number;
+    };
+    return HttpResponse.json({
+      completed: false,
+      skipped: false,
+      currentStep: 0,
+      completedAt: null,
+      ...body,
+    });
   }),
 ];

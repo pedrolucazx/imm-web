@@ -16,6 +16,7 @@ const mockSession: OnboardingSession = {
   completed: false,
   skipped: false,
   currentStep: 0,
+  completedAt: null,
 };
 
 beforeEach(() => {
