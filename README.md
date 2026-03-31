@@ -18,7 +18,7 @@
 
 - [O que é Inside My Mind?](#o-que-é-inside-my-mind)
 - [Funcionalidades](#funcionalidades)
-- [Arquitetura](#arquitetura)
+- [Arquitetura](#arquitetura) · [Documento completo](docs/architecture.md)
 - [Stack de Tecnologias](#stack-de-tecnologias)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Pré-requisitos](#pré-requisitos)
@@ -37,25 +37,39 @@
 
 **Inside My Mind** é uma aplicação de rastreamento de hábitos que usa IA para gerar feedback personalizado. Você registra seu progresso diário, escreve sobre sua experiência e recebe análise de um dos três agentes especializados: um planejador de hábitos, um professor de idiomas ou um coach comportamental.
 
-É um projeto de código aberto, feito para aprendizado e portfólio.
+É um projeto de código aberto, feito para aprendizado e portfólio, 100% gratuito e sem funcionalidades bloqueadas.
 
 ---
 
 ## Funcionalidades
 
-**Daily Lab** — painel principal para registrar hábitos concluídos, escrever entradas e receber feedback de IA no dia.
+**Landing Page** — apresentação do projeto, agentes de IA e call-to-action para cadastro.
+
+**Autenticação completa**
+
+- Cadastro com verificação de e-mail obrigatória
+- Login com bloqueio até confirmação de conta
+- Recuperação de senha via e-mail (forgot password → reset password)
+
+**Onboarding Tour** — tour interativo de 6 passos exibido automaticamente na primeira sessão. Pode ser reiniciado nas Configurações.
+
+**Daily Lab** — painel principal para marcar hábitos como concluídos, escrever entradas de journal e receber feedback de IA.
 
 **Agentes de IA**
 
-- **Habit Planner**: gera um plano de 66 dias com fases progressivas ao criar um novo hábito
-- **Language Teacher**: avalia gramática, vocabulário e fluência nas entradas de hábitos de idiomas; modo de gravação permite praticar pronúncia — o áudio é transcrito, salvo como entrada de journal e analisado pelo Language Teacher
-- **Behavioral Coach**: identifica padrões de humor e sugere ajustes de rotina para hábitos comportamentais
+- **Habit Planner**: gera plano de 66 dias com preview e regeneração via feedback
+- **Language Teacher**: avalia gramática, vocabulário e fluência; modo de gravação para prática de pronúncia com score por palavra
+- **Behavioral Coach**: identifica padrões de humor e sugere micro-ações
 
-**Internacionalização** — interface disponível em Português, Inglês e Espanhol. O idioma da interface é independente do idioma de estudo — você pode usar o app em pt-br enquanto aprende inglês.
+**Histórico** — visualização de entradas por dia (calendário) e lista de entradas recentes.
 
-**Analytics** — heatmap de streak, taxas de conclusão e histórico de progresso por hábito.
+**Analytics** — heatmap de streak, taxa de conclusão, gráfico de humor e word cloud de erros de pronúncia.
 
-**Onboarding Tour** — tour interativo de 6 steps (Welcome → Habits → Daily Lab → Journal → Analytics → Finish) exibido automaticamente para novos usuários na primeira sessão. Pode ser reiniciado a qualquer momento nas Configurações.
+**Configurações** — editar perfil (nome, bio, timezone), trocar idioma da interface, reiniciar tour, excluir conta.
+
+**Internacionalização** — interface disponível em Português, Inglês e Espanhol. O idioma da interface é independente do idioma de estudo.
+
+**Políticas de privacidade** — banner de cookies na primeira visita com modal de política completa; consentimento sincronizado com o backend após login.
 
 ---
 
@@ -63,20 +77,31 @@
 
 ```text
 imm-web (Next.js App Router)
-├── app/[locale]/                  # Roteamento i18n via next-intl
-│   ├── (auth)/                    # Páginas não-autenticadas (login, register)
-│   └── (landing)/                 # Página de landing pública
-├── components/ui/                 # Design system customizado sobre Chakra UI
-├── lib/                           # API client, hooks, serviços
-│   ├── hooks/useAuth.ts           # Autenticação e gerenciamento de tokens
-│   ├── hooks/useOnboarding.ts     # Estado e controle do tour de onboarding
-│   ├── auth.service.ts            # Chamadas de API de autenticação
-│   ├── onboarding.service.ts      # Persistência do estado do tour (API/localStorage)
-│   └── endpoints.ts               # Mapa tipado de endpoints da API
-└── providers/                     # Provedores de contexto (QueryClient, Chakra, etc.)
+├── app/[locale]/              # Roteamento i18n via next-intl
+│   ├── (landing)/             # Página pública de apresentação
+│   ├── (auth)/                # Fluxos não-autenticados
+│   │   ├── login/
+│   │   ├── register/
+│   │   ├── forgot-password/
+│   │   ├── reset-password/
+│   │   └── verify-email/
+│   └── (app)/                 # Área autenticada (guarded por middleware)
+│       ├── daily-lab/
+│       ├── habits/
+│       ├── history/
+│       ├── analytics/
+│       └── settings/
+├── components/                # Componentes reutilizáveis
+│   ├── ui/                    # Design system sobre Chakra UI v3
+│   └── onboarding/            # Tour interativo (@zag-js/tour)
+├── lib/                       # Serviços, hooks e utilitários
+│   ├── hooks/                 # Domain hooks (useAuth, useOnboarding, etc.)
+│   ├── *.service.ts           # Chamadas de API por domínio
+│   └── endpoints.ts           # Mapa tipado de endpoints
+└── providers/                 # React context providers
 ```
 
-`imm-web` consome a API REST [`imm-api`](https://github.com/pedrolucazx/imm-api) através de hooks HTTP tipados — sem acesso direto ao banco de dados. Toda comunicação com o servidor passa por hooks TanStack Query. Estado de autenticação é centralizado em `useAuth`.
+`imm-web` consome a API REST [`imm-api`](https://github.com/pedrolucazx/imm-api) através de hooks TanStack Query tipados — sem acesso direto ao banco de dados. Estado de autenticação é centralizado em `useAuth`.
 
 ---
 
@@ -87,7 +112,7 @@ imm-web (Next.js App Router)
 | Framework               | Next.js 15 (App Router)                  |
 | Linguagem               | TypeScript 5                             |
 | Biblioteca de UI        | React 19                                 |
-| Design System           | Chakra UI v3 (neo-brutalism)             |
+| Design System           | Chakra UI v3                             |
 | Ícones                  | Phosphor Icons (`@phosphor-icons/react`) |
 | HTTP / Estado           | TanStack Query v5 + Axios                |
 | Formulários             | React Hook Form v7                       |
@@ -104,43 +129,61 @@ imm-web (Next.js App Router)
 ```text
 imm-web/
 ├── app/
-│   └── [locale]/                  # Raiz do App Router consciente de locale
+│   └── [locale]/
+│       ├── (landing)/
+│       │   └── page.tsx                   # Landing page pública
 │       ├── (auth)/
-│       │   ├── login/             # Página de login
-│       │   └── register/          # Página de registro
-│       └── (landing)/             # Página de landing pública
+│       │   ├── login/page.tsx
+│       │   ├── register/page.tsx
+│       │   ├── forgot-password/page.tsx
+│       │   ├── reset-password/page.tsx
+│       │   └── verify-email/page.tsx
+│       └── (app)/
+│           ├── daily-lab/page.tsx         # Dashboard diário principal
+│           ├── habits/page.tsx            # Listagem + wizard de criação
+│           ├── history/page.tsx           # Histórico por dia + recentes
+│           ├── analytics/page.tsx         # Métricas e progresso
+│           └── settings/page.tsx          # Perfil, idioma, tour, excluir conta
 ├── components/
-│   ├── onboarding/                # Tour interativo de onboarding
-│   │   ├── OnboardingTour.tsx     # Orquestrador do tour (máquina Zag)
-│   │   ├── OnboardingWrapper.tsx  # Provider que inicializa o tour para novos usuários
-│   │   ├── TourBackdrop.tsx       # Overlay de fundo durante o tour
-│   │   ├── TourStep.tsx           # Popover de cada step do tour
-│   │   └── TourStep.styles.ts     # Estilos do TourStep
-│   └── ui/                        # Componentes Chakra UI customizados e wrapped
-│       ├── Button.tsx
-│       ├── Input.tsx
-│       └── ...
+│   ├── onboarding/
+│   │   ├── OnboardingTour.tsx             # Orquestrador (máquina Zag)
+│   │   ├── OnboardingWrapper.tsx          # Provider de inicialização
+│   │   ├── TourStep.tsx                   # Popover de cada step
+│   │   └── TourBackdrop.tsx               # Overlay durante o tour
+│   ├── daily-lab/                         # Checklist, JournalEditor, AIFeedbackPanel
+│   ├── habits/                            # HabitCard, wizard (SkillPlanForm, etc.)
+│   ├── Analytics/                         # StreakCalendar, WordCloudErrors, charts
+│   └── ui/                                # Componentes Chakra customizados
 ├── lib/
 │   ├── hooks/
-│   │   ├── useAuth.ts             # Hook de autenticação
-│   │   └── useOnboarding.ts       # Hook de estado e controle do tour
-│   ├── auth.service.ts            # Camada de serviço de auth API
-│   └── endpoints.ts               # Constantes de endpoints API tipadas
-├── providers/                     # Provedores de contexto React (QueryClient, Chakra, etc.)
-├── i18n/                          # Configuração next-intl e request handler
-├── styles/                        # CSS global
-├── types/                         # Definições de tipos TypeScript compartilhadas
-│   └── onboarding.ts              # Tipos do tour (steps, estado, config)
-├── middleware.ts                  # Middleware de roteamento de locale
+│   │   ├── useAuth.ts                     # Auth state + token management
+│   │   ├── useOnboarding.ts               # Tour state e controle
+│   │   ├── useForgotPassword.ts
+│   │   ├── useResetPassword.ts
+│   │   ├── useVerifyEmail.ts
+│   │   ├── usePronunciationRecorder.ts    # Gravação de áudio
+│   │   └── useWordCloud.ts
+│   ├── auth.service.ts
+│   ├── journal.service.ts
+│   ├── onboarding.service.ts
+│   ├── pronunciation.service.ts
+│   ├── analytics.service.ts
+│   ├── endpoints.ts                       # Constantes de endpoints tipados
+│   └── constants.ts
+├── providers/                             # QueryClient, Chakra, AuthProvider
+├── i18n/                                  # next-intl config + messages (pt-BR, en-US, es-ES)
+├── styles/
+│   └── theme.ts                           # Chakra UI theme customizado
+├── types/                                 # Tipos TypeScript compartilhados
+├── middleware.ts                          # Locale routing + auth guard
 ├── tests/
-│   ├── __setup__/                 # Setup global de Jest & MSW
-│   ├── unit/                      # Testes unitários de componentes + hooks
-│   ├── integration/               # Testes de integração de API (MSW)
-│   └── e2e/                       # Testes E2E com Playwright
-├── .github/
-│   └── workflows/
-│       ├── ci.yml                 # Pipeline de code quality + testes
-│       └── cd.yml                 # Deploy para Vercel após CI bem-sucedido
+│   ├── __setup__/                         # Jest setup + MSW handlers
+│   ├── unit/                              # Componentes e hooks
+│   ├── integration/                       # Chamadas de API com MSW
+│   └── e2e/                               # Playwright (Chromium)
+├── .github/workflows/
+│   ├── ci.yml
+│   └── cd.yml
 ├── .env.example
 ├── jest.config.ts
 ├── next.config.ts
@@ -154,7 +197,7 @@ imm-web/
 
 - **Node.js** >= 20
 - **yarn** >= 1.22
-- Uma instância rodando de [`imm-api`](https://github.com/pedrolucazx/imm-api) (local ou remota)
+- Uma instância de [`imm-api`](https://github.com/pedrolucazx/imm-api) rodando (local ou remota)
 - **Git**
 
 ---
@@ -179,19 +222,16 @@ yarn dev
 
 O app estará disponível em `http://localhost:3000`.
 
-> Certifique-se que `imm-api` está rodando em `http://localhost:3001` (ou atualize `NEXT_PUBLIC_API_URL` conforme necessário).
+> Certifique-se que `imm-api` está rodando em `http://localhost:3001` (ou ajuste `NEXT_PUBLIC_API_URL`).
 
 ---
 
 ## Variáveis de Ambiente
 
-Copie `.env.example` para `.env.local` e configure os valores:
-
 ```env
 # URL base da imm-api
-# Local: http://localhost:3001
-# Homolog: https://imm-homolog.onrender.com
-# Production: https://imm-production.onrender.com
+# Local:    http://localhost:3001
+# Produção: https://api.insidemymind.tech
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
@@ -203,36 +243,34 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Scripts Disponíveis
 
-| Script                  | Descrição                                             |
-| ----------------------- | ----------------------------------------------------- |
-| `yarn dev`              | Inicia o servidor de desenvolvimento do Next.js       |
-| `yarn build`            | Compila a aplicação para produção                     |
-| `yarn start`            | Inicia a versão de produção já compilada              |
-| `yarn lint`             | Executa ESLint                                        |
-| `yarn lint:fix`         | Executa ESLint com correção automática                |
-| `yarn format`           | Formata todos os arquivos com Prettier                |
-| `yarn format:check`     | Verifica formatação sem escrever                      |
-| `yarn test`             | Executa testes unitários e de integração (Jest)       |
-| `yarn test:unit`        | Executa apenas testes unitários                       |
-| `yarn test:integration` | Executa apenas testes de integração                   |
-| `yarn test:e2e`         | Executa testes E2E com Playwright (requer compilação) |
-| `yarn test:e2e:ui`      | Executa Playwright com interface interativa           |
-| `yarn test:watch`       | Executa Jest em modo de observação                    |
-| `yarn test:coverage`    | Executa Jest e gera relatório de cobertura            |
-| `yarn commit`           | Conventional commit interativo via Commitizen         |
+| Script                  | Descrição                                      |
+| ----------------------- | ---------------------------------------------- |
+| `yarn dev`              | Dev server Next.js                             |
+| `yarn build`            | Build de produção                              |
+| `yarn start`            | Inicia build compilado                         |
+| `yarn lint`             | ESLint                                         |
+| `yarn lint:fix`         | ESLint com auto-fix                            |
+| `yarn format`           | Prettier em todos os arquivos                  |
+| `yarn format:check`     | Verifica formatação sem escrever               |
+| `yarn test`             | Unit + integration (Jest)                      |
+| `yarn test:unit`        | Apenas testes unitários                        |
+| `yarn test:integration` | Apenas testes de integração                    |
+| `yarn test:e2e`         | E2E com Playwright (requer `yarn build` antes) |
+| `yarn test:e2e:ui`      | Playwright com interface interativa            |
+| `yarn test:watch`       | Jest em watch mode                             |
+| `yarn test:coverage`    | Jest com relatório de cobertura                |
+| `yarn commit`           | Conventional commit via Commitizen             |
 
 ---
 
 ## Testes
 
-O projeto usa dois test runners separados com responsabilidades distintas:
-
 ### Jest — Unit & Integration
 
-| Suite         | Localização          | Descrição                                             |
-| ------------- | -------------------- | ----------------------------------------------------- |
-| `unit`        | `tests/unit/`        | Renderização de componentes, lógica de hooks, funções |
-| `integration` | `tests/integration/` | Chamadas de API mockadas com MSW (sem rede real)      |
+| Suite         | Localização          | Descrição                                        |
+| ------------- | -------------------- | ------------------------------------------------ |
+| `unit`        | `tests/unit/`        | Componentes, hooks, funções puras                |
+| `integration` | `tests/integration/` | Chamadas de API mockadas com MSW (sem rede real) |
 
 ```bash
 yarn test
@@ -243,28 +281,18 @@ yarn test:coverage
 
 ### Playwright — E2E
 
-Testes completos de navegador executando contra Chromium. Os testes ficam em `tests/e2e/` e rodam contra o servidor Next.js compilado.
+Testes de navegador executando contra Chromium, com a aplicação compilada:
 
 ```bash
-# Build obrigatório antes de rodar em CI
 yarn build && yarn test:e2e
-
-# UI interativa para desenvolvimento local
-yarn test:e2e:ui
+yarn test:e2e:ui   # UI interativa para desenvolvimento local
 ```
 
-Configuração: [`playwright.config.ts`](playwright.config.ts)
-
-- Retries: 1 (CI only)
-- Workers: 2 (CI), ilimitados (local)
-- Trace: no primeiro retry
-- Screenshots: apenas em falha
+Configuração em [`playwright.config.ts`](playwright.config.ts): retries em CI, trace no primeiro retry, screenshots apenas em falha.
 
 ---
 
 ## Pipeline CI/CD
-
-Todo push e pull request para `develop` ou `main` dispara o pipeline definido em `.github/workflows/ci.yml`:
 
 ```text
 code_quality ──► tests ──► ai_review ──► quality_gate
@@ -283,36 +311,29 @@ code_quality ──► tests ──► ai_review ──► quality_gate
 | `ai_review`    | Não (`continue-on-error: true`) | PR only   |
 | `quality_gate` | Sim                             | push + PR |
 
-`quality_gate` é o status check obrigatório na branch protection. Depende apenas de `code_quality` e `tests` — a review de IA nunca bloqueia um merge.
-
-> **Nota:** Testes E2E em CI executam `yarn build` antes de `yarn start`. Não execute Playwright contra o dev server em CI.
-
 ---
 
 ## Deployment
 
-Deployments são disparados pelo pipeline CD (`.github/workflows/cd.yml`) após CI passar, usando a GitHub Action `amondnet/vercel-action`.
+Deploy automático via Vercel. Ao fazer push para `main`, o CI roda e — após aprovação do Quality Gate — o pipeline CD dispara o deploy de produção.
 
-| Ambiente    | Branch    | Alvo              |
-| ----------- | --------- | ----------------- |
-| Homologação | `develop` | Vercel Preview    |
-| Produção    | `main`    | Vercel Production |
-
-Vercel é configurado via GitHub Action — nenhum deployment manual necessário. Apenas o pipeline de CI dispara deploys.
+| Ambiente | Branch | Alvo                        |
+| -------- | ------ | --------------------------- |
+| Produção | `main` | `https://insidemymind.tech` |
 
 ---
 
 ## Estratégia de Branches
 
 ```text
-feature/* ──► develop (homolog) ──► main (production)
-                   │                       │
-              auto-deploys to         admin-only merge
-              Vercel Preview          to Vercel Production
+feature/* ──► develop ──► main (production)
+                │               │
+           CI obrigatório   admin-only merge
+           (Quality Gate)   → deploy Vercel
 ```
 
 - Todo trabalho vai para `develop` via pull requests
-- `main` é protegida — apenas o admin pode fazer merge `develop → main`
+- `main` é protegida — apenas o admin pode fazer merge
 - Branch protection exige que o check **Quality Gate** passe antes de qualquer merge
 
 ---
@@ -320,37 +341,28 @@ feature/* ──► develop (homolog) ──► main (production)
 ## Contribuindo
 
 1. Crie uma branch a partir de `develop`: `git checkout -b feat/sua-feature develop`
-2. Implemente suas mudanças seguindo os padrões de componentes e hooks em `components/ui/` e `lib/`
+2. Siga os padrões de componentes em `components/ui/` e hooks em `lib/hooks/`
 3. Escreva testes — unitários para componentes/hooks, integração para chamadas de API
-4. Verifique se tudo passa localmente:
-
-   ```bash
-   yarn lint && yarn format:check && yarn test
-   ```
-
+4. Verifique localmente: `yarn lint && yarn format:check && yarn test`
 5. Faça commit com [Conventional Commits](https://www.conventionalcommits.org/):
 
    ```bash
    yarn commit
-   # ou manualmente: git commit -m "feat(auth): adicionar checkbox de lembrar-me"
    ```
 
 6. Abra um pull request direcionado para `develop`
 
-**Tipos de commit aceitos:** `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `perf`, `ci`
+**Chakra UI v3 — convenções:**
 
-**Convenções do Chakra UI v3:**
+- Imports base: `@chakra-ui/react` | custom wrappers: `components/ui/`
+- Props: `open`, `disabled`, `invalid`, `required` (não `isOpen`, `isDisabled`, etc.)
+- Use `colorPalette` (não `colorScheme`), `VStack`/`HStack` normalmente
+- Ícones: `@phosphor-icons/react` exclusivamente
 
-- Imports: componentes base de `@chakra-ui/react`, custom wrappers de `components/ui/`
-- Props: `open` (não `isOpen`), `disabled` (não `isDisabled`), `invalid` (não `isInvalid`)
-- Use `colorPalette` (não `colorScheme`), `VStack`/`HStack` (não `Stack`)
-- Componentes compostos: `Dialog.Root`, `Table.Root`, `Tabs.Root`, `Menu.Root`
-- Ícones: `@phosphor-icons/react` apenas — nunca `@chakra-ui/icons`
-
-Pre-commit hooks (Husky + lint-staged) executam checagens de lint e format automaticamente antes de cada commit.
+Pre-commit hooks (Husky + lint-staged) executam lint e format antes de cada commit.
 
 ---
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+MIT — veja [LICENSE](LICENSE).
