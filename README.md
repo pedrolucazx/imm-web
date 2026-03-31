@@ -55,6 +55,8 @@
 
 **Analytics** — heatmap de streak, taxas de conclusão e histórico de progresso por hábito.
 
+**Onboarding Tour** — tour interativo de 6 steps (Welcome → Habits → Daily Lab → Journal → Analytics → Finish) exibido automaticamente para novos usuários na primeira sessão. Pode ser reiniciado a qualquer momento nas Configurações.
+
 ---
 
 ## Arquitetura
@@ -67,7 +69,9 @@ imm-web (Next.js App Router)
 ├── components/ui/                 # Design system customizado sobre Chakra UI
 ├── lib/                           # API client, hooks, serviços
 │   ├── hooks/useAuth.ts           # Autenticação e gerenciamento de tokens
+│   ├── hooks/useOnboarding.ts     # Estado e controle do tour de onboarding
 │   ├── auth.service.ts            # Chamadas de API de autenticação
+│   ├── onboarding.service.ts      # Persistência do estado do tour (API/localStorage)
 │   └── endpoints.ts               # Mapa tipado de endpoints da API
 └── providers/                     # Provedores de contexto (QueryClient, Chakra, etc.)
 ```
@@ -88,6 +92,7 @@ imm-web (Next.js App Router)
 | HTTP / Estado           | TanStack Query v5 + Axios                |
 | Formulários             | React Hook Form v7                       |
 | Internacionalização     | next-intl v4                             |
+| Tour / Onboarding       | `@zag-js/tour` v1 + `@zag-js/react`      |
 | Testes Unit/Integration | Jest + React Testing Library + MSW       |
 | Testes E2E              | Playwright (Chromium)                    |
 | Deployment              | Vercel                                   |
@@ -105,19 +110,27 @@ imm-web/
 │       │   └── register/          # Página de registro
 │       └── (landing)/             # Página de landing pública
 ├── components/
+│   ├── onboarding/                # Tour interativo de onboarding
+│   │   ├── OnboardingTour.tsx     # Orquestrador do tour (máquina Zag)
+│   │   ├── OnboardingWrapper.tsx  # Provider que inicializa o tour para novos usuários
+│   │   ├── TourBackdrop.tsx       # Overlay de fundo durante o tour
+│   │   ├── TourStep.tsx           # Popover de cada step do tour
+│   │   └── TourStep.styles.ts     # Estilos do TourStep
 │   └── ui/                        # Componentes Chakra UI customizados e wrapped
 │       ├── Button.tsx
 │       ├── Input.tsx
 │       └── ...
 ├── lib/
 │   ├── hooks/
-│   │   └── useAuth.ts             # Hook de autenticação
+│   │   ├── useAuth.ts             # Hook de autenticação
+│   │   └── useOnboarding.ts       # Hook de estado e controle do tour
 │   ├── auth.service.ts            # Camada de serviço de auth API
 │   └── endpoints.ts               # Constantes de endpoints API tipadas
 ├── providers/                     # Provedores de contexto React (QueryClient, Chakra, etc.)
 ├── i18n/                          # Configuração next-intl e request handler
 ├── styles/                        # CSS global
 ├── types/                         # Definições de tipos TypeScript compartilhadas
+│   └── onboarding.ts              # Tipos do tour (steps, estado, config)
 ├── middleware.ts                  # Middleware de roteamento de locale
 ├── tests/
 │   ├── __setup__/                 # Setup global de Jest & MSW

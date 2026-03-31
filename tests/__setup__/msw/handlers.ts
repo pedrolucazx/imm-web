@@ -105,4 +105,27 @@ export const handlers = [
 
     return HttpResponse.json({ message: "Verification email sent" });
   }),
+
+  http.get(`${API_URL}/users/me/onboarding`, () => {
+    return HttpResponse.json({
+      completed: false,
+      skipped: false,
+      currentStep: 0,
+      completedAt: null,
+    });
+  }),
+
+  http.put(`${API_URL}/users/me/onboarding`, async ({ request }) => {
+    const body = (await request.json()) as {
+      completed?: boolean;
+      skipped?: boolean;
+      currentStep?: number;
+    };
+    return HttpResponse.json({
+      completed: body.completed ?? false,
+      skipped: body.skipped ?? false,
+      currentStep: body.currentStep ?? 0,
+      completedAt: body.completed ? new Date().toISOString() : null,
+    });
+  }),
 ];

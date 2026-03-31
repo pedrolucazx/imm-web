@@ -32,7 +32,6 @@ import { logger } from "@/lib/logger";
 import { TourBackdrop } from "./TourBackdrop";
 import { TourStep } from "./TourStep";
 
-const TOTAL_STEPS = 6;
 const TOUR_CARD_WIDTH = 380;
 const TOUR_VIEWPORT_PADDING = 24;
 
@@ -218,11 +217,13 @@ export function OnboardingTour() {
 
   const completeTourRef = useRef(completeTour);
   const skipTourRef = useRef(skipTour);
+  const stepsRef = useRef(steps);
 
   useEffect(() => {
     completeTourRef.current = completeTour;
     skipTourRef.current = skipTour;
-  }, [completeTour, skipTour]);
+    stepsRef.current = steps;
+  }, [completeTour, skipTour, steps]);
 
   const machineId = useId();
   const service = useMachine(tourMachine, {
@@ -231,7 +232,10 @@ export function OnboardingTour() {
     closeOnInteractOutside: false,
     closeOnEscape: false,
     onStatusChange({ status, stepIndex }: StatusChangeDetails) {
-      if (status === "completed" || (status === "dismissed" && stepIndex === TOTAL_STEPS - 1)) {
+      if (
+        status === "completed" ||
+        (status === "dismissed" && stepIndex === stepsRef.current.length - 1)
+      ) {
         completeTourRef
           .current()
           .catch((err: unknown) => logger.error({ err }, "onboarding: completeTour failed"));
