@@ -62,6 +62,16 @@ describe("onboardingService", () => {
       expect(result).toEqual(updated);
     });
 
+    it("calls PUT with currentStep payload", async () => {
+      const updated: OnboardingSession = { ...mockSession, currentStep: 3 };
+      mockApi.put.mockResolvedValue(updated);
+
+      const result = await onboardingService.update({ currentStep: 3 });
+
+      expect(mockApi.put).toHaveBeenCalledWith(ENDPOINTS.USER.ONBOARDING, { currentStep: 3 });
+      expect(result).toEqual(updated);
+    });
+
     it("propagates API errors", async () => {
       mockApi.put.mockRejectedValue(new Error("Unauthorized"));
 

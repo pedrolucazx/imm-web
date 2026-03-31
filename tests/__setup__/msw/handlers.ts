@@ -122,11 +122,10 @@ export const handlers = [
       currentStep?: number;
     };
     return HttpResponse.json({
-      completed: false,
-      skipped: false,
-      currentStep: 0,
-      completedAt: null,
-      ...body,
+      completed: body.completed ?? false,
+      skipped: body.skipped ?? false,
+      currentStep: body.currentStep ?? 0,
+      completedAt: body.completed ? new Date().toISOString() : null,
     });
   }),
 ];
