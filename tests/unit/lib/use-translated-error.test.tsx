@@ -15,6 +15,7 @@ const translations = {
   HABIT_INACTIVE: "This habit is no longer active.",
   AI_RATE_LIMIT: "AI service is busy. Please wait a moment and try again.",
   AI_TIMEOUT: "AI request timed out. Please try again.",
+  AI_UNAVAILABLE: "AI service is temporarily unavailable. Please try again in a moment.",
   AI_NOT_CONFIGURED: "AI service is not available at the moment.",
   REFRESH_TOKEN_EXPIRED: "Your session has expired. Please log in again.",
   INVALID_REFRESH_TOKEN: "Your session is invalid. Please log in again.",
@@ -163,6 +164,7 @@ describe("useTranslatedError", () => {
       "HABIT_INACTIVE",
       "AI_RATE_LIMIT",
       "AI_TIMEOUT",
+      "AI_UNAVAILABLE",
       "AI_NOT_CONFIGURED",
       "REFRESH_TOKEN_EXPIRED",
       "INVALID_REFRESH_TOKEN",
@@ -199,5 +201,13 @@ describe("useTranslatedError", () => {
       expect(enKeys).toEqual(ptKeys);
       expect(enKeys).toEqual(esKeys);
     });
+  });
+
+  it("should translate AI_UNAVAILABLE errors", () => {
+    const { result } = renderHook(() => useTranslatedError());
+
+    expect(result.current.translateError(new Error("AI service is temporarily unavailable"))).toBe(
+      translations.AI_UNAVAILABLE
+    );
   });
 });
