@@ -98,30 +98,33 @@ describe("AuthProvider", () => {
       expect(mockApi.setToken).toHaveBeenCalledWith(mockAuthResponse.token);
     });
 
-    it("skips loading block and hydrates user via background refresh when token already in memory", async () => {
+    it("hydrates user after validating the in-memory token via refresh", async () => {
       mockApi.getToken.mockReturnValue("existing-token");
       mockAuthService.refresh.mockResolvedValue(mockAuthResponse);
 
       const { result } = renderHook(() => useAuthContext(), { wrapper });
 
-      expect(result.current.accessToken).toBe("existing-token");
-      expect(result.current.isAuthenticated).toBe(true);
+      expect(result.current.isLoading).toBe(true);
+      expect(result.current.accessToken).toBeNull();
+      expect(result.current.isAuthenticated).toBe(false);
 
       await waitFor(() => expect(result.current.isLoading).toBe(false));
       await waitFor(() => expect(result.current.user).toEqual(mockAuthResponse.user));
       expect(result.current.accessToken).toBe(mockAuthResponse.token);
+      expect(result.current.isAuthenticated).toBe(true);
 
       mockApi.getToken.mockReturnValue(null);
     });
 
-    it("clears token and auth state if background refresh fails after memory token", async () => {
+    it("keeps auth state cleared if in-memory token validation fails", async () => {
       mockApi.getToken.mockReturnValue("existing-token");
       mockAuthService.refresh.mockRejectedValue(new Error("Session expired"));
 
       const { result } = renderHook(() => useAuthContext(), { wrapper });
 
-      expect(result.current.accessToken).toBe("existing-token");
-      expect(result.current.isAuthenticated).toBe(true);
+      expect(result.current.isLoading).toBe(true);
+      expect(result.current.accessToken).toBeNull();
+      expect(result.current.isAuthenticated).toBe(false);
 
       await waitFor(() => expect(result.current.isLoading).toBe(false));
       await waitFor(() => expect(result.current.accessToken).toBeNull());

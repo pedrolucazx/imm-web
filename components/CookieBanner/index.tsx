@@ -54,6 +54,7 @@ export function CookieBanner() {
     setIsPrivacyModalOpen(false);
   };
 
+  if (!isAuthReady) return null;
   if (!isVisible && !isPrivacyModalOpen) return null;
 
   return (

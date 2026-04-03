@@ -20,7 +20,7 @@ export function useJournalEntries(date: string) {
 
   return {
     ...query,
-    isLoading: !isAuthReady || query.isLoading,
+    isLoading: !isAuthReady || query.isPending,
   };
 }
 
@@ -37,7 +37,7 @@ export function useJournalHistory() {
 
   return {
     ...query,
-    isLoading: !isAuthReady || query.isLoading,
+    isLoading: !isAuthReady || query.isPending,
   };
 }
 

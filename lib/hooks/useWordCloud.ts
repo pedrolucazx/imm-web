@@ -9,9 +9,14 @@ export function useWordCloud(habitId: string | null) {
   const isAuthReady = resolveAuthReady(auth);
   const { accessToken } = auth;
 
-  return useQuery<WordCloudItem[], Error>({
+  const query = useQuery<WordCloudItem[], Error>({
     queryKey: ["word-cloud", habitId],
     queryFn: () => pronunciationService.getWordCloud(habitId!),
     enabled: isAuthReady && !!accessToken && !!habitId,
   });
+
+  return {
+    ...query,
+    isLoading: !isAuthReady || query.isLoading,
+  };
 }

@@ -9,11 +9,12 @@ export function useAnalyticsSummary(habitId?: string | null) {
   const isAuthReady = resolveAuthReady(auth);
   const { accessToken } = auth;
   const isUnauthorized = !isAuthReady || !accessToken;
+  const isAuthorized = !isUnauthorized;
 
   const query = useQuery<AnalyticsSummary, Error>({
     queryKey: ["analytics", habitId ?? "all"],
     queryFn: () => analyticsService.getSummary(habitId ?? undefined),
-    enabled: isAuthReady && !!accessToken,
+    enabled: isAuthorized,
   });
 
   return {

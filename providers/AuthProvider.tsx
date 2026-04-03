@@ -46,11 +46,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (hasAttemptedRestore.current) return;
+    setIsAuthReady(false);
     hasAttemptedRestore.current = true;
-
-    if (existingToken) {
-      setAccessTokenState(existingToken);
-    }
 
     authService
       .refresh()
