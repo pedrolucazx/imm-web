@@ -25,7 +25,8 @@ export function resolveLocale(pathname: string): (typeof routing.locales)[number
   );
 }
 
-export function isProtectedRoute(pathname: string): boolean {
+export function isProtectedRoute(pathname: string | null): boolean {
+  if (!pathname) return false;
   return routing.locales.some((locale) =>
     PROTECTED_SEGMENTS.some(
       (segment) =>

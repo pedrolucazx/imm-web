@@ -1,10 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useAuthContext } from "@/lib/auth-context";
+import { resolveAuthReady } from "@/lib/auth-state";
 import { useGetConsents, useSaveConsent } from "./useConsent";
 import { hasLocalConsent } from "@/lib/consent-constants";
 
 export function useConsentSync() {
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuthContext();
+  const auth = useAuthContext();
+  const isAuthReady = resolveAuthReady(auth);
+  const { isAuthenticated } = auth;
   const { data: consentsData, isLoading: isLoadingConsents } = useGetConsents();
   const { mutate: saveConsent } = useSaveConsent({
     onError: () => {
@@ -19,7 +22,7 @@ export function useConsentSync() {
       return;
     }
 
-    if (isAuthLoading || isLoadingConsents) return;
+    if (!isAuthReady || isLoadingConsents) return;
     if (hasSynced.current) return;
     if (!hasLocalConsent()) return;
     if ((consentsData?.length ?? 0) > 0) {
@@ -29,5 +32,5 @@ export function useConsentSync() {
 
     hasSynced.current = true;
     saveConsent();
-  }, [isAuthLoading, isLoadingConsents, isAuthenticated, consentsData, saveConsent]);
+  }, [isAuthReady, isLoadingConsents, isAuthenticated, consentsData, saveConsent]);
 }

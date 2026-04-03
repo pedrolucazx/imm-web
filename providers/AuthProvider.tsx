@@ -6,7 +6,7 @@ import { AuthContext } from "@/lib/auth-context";
 import { api } from "@/lib/api-client";
 import { authService } from "@/lib/auth.service";
 import type { AuthResponse, RegisterResponse, LoginInput, RegisterInput, User } from "@/types/auth";
-import { isAuthRoute } from "@/lib/routing-utils";
+import { isAuthRoute, isProtectedRoute } from "@/lib/routing-utils";
 import { logger } from "@/lib/logger";
 
 function hasRefreshTokenCookie(): boolean {
@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const hasAttemptedRestore = useRef(false);
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [user, setUserState] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(!isCurrentAuthRoute);
+  const [isAuthReady, setIsAuthReady] = useState(isCurrentAuthRoute);
 
   useEffect(() => {
     api.setOnTokenRefreshed((newToken, newUser) => {
@@ -31,51 +31,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isCurrentAuthRoute) {
-      setIsLoading(false);
+      setIsAuthReady(true);
       return;
     }
+
+    const existingToken = api.getToken();
+    const shouldAttemptRestore =
+      Boolean(existingToken) || isProtectedRoute(pathname) || hasRefreshTokenCookie();
+
+    if (!shouldAttemptRestore) {
+      logger.debug("[AuthProvider] skipping session restore on public route", { pathname });
+      setIsAuthReady(true);
+      return;
+    }
+
     if (hasAttemptedRestore.current) return;
     hasAttemptedRestore.current = true;
 
-    const existingToken = api.getToken();
     if (existingToken) {
       setAccessTokenState(existingToken);
-      authService
-        .refresh()
-        .then((data) => {
-          api.setToken(data.token);
-          setAccessTokenState(data.token);
-          setUserState(data.user);
-        })
-        .catch(() => {
-          api.removeToken();
-          setAccessTokenState(null);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-      return;
     }
 
-    const hasRefreshToken = hasRefreshTokenCookie();
-    if (hasRefreshToken) {
-      authService
-        .refresh()
-        .then((data) => {
-          api.setToken(data.token);
-          setAccessTokenState(data.token);
-          setUserState(data.user);
-        })
-        .catch((error) => {
-          logger.debug("[AuthProvider] silent refresh failed", error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      setIsLoading(false);
-    }
-  }, [isCurrentAuthRoute]);
+    authService
+      .refresh()
+      .then((data) => {
+        api.setToken(data.token);
+        setAccessTokenState(data.token);
+        setUserState(data.user);
+      })
+      .catch(() => {
+        api.removeToken();
+        setAccessTokenState(null);
+        setUserState(null);
+      })
+      .finally(() => {
+        setIsAuthReady(true);
+      });
+  }, [pathname, isCurrentAuthRoute]);
 
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
     const response = await authService.login(data);
@@ -113,7 +105,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         accessToken,
         user,
         isAuthenticated: accessToken !== null,
-        isLoading,
+        isLoading: !isAuthReady,
+        isAuthReady,
         login,
         register,
         logout,

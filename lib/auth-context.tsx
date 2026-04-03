@@ -8,6 +8,7 @@ export interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isAuthReady?: boolean;
   login: (_data: LoginInput) => Promise<AuthResponse>;
   register: (_data: RegisterInput) => Promise<RegisterResponse>;
   logout: () => Promise<void>;

@@ -2,18 +2,21 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { consentService } from "@/lib/consent.service";
 import { toaster } from "@/components/ui/toaster";
-import { useTranslatedError } from "./useTranslatedError";
 import { useAuthContext } from "@/lib/auth-context";
+import { resolveAuthReady } from "@/lib/auth-state";
+import { useTranslatedError } from "./useTranslatedError";
 
 export function useGetConsents() {
-  const { isLoading: isAuthLoading, accessToken } = useAuthContext();
+  const auth = useAuthContext();
+  const isAuthReady = resolveAuthReady(auth);
+  const { accessToken } = auth;
 
   return useQuery({
     queryKey: ["consents"],
     queryFn: () => consentService.getConsents(),
     retry: false,
     staleTime: Infinity,
-    enabled: !isAuthLoading && !!accessToken,
+    enabled: isAuthReady && !!accessToken,
   });
 }
 

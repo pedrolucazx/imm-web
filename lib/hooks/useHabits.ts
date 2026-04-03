@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useAuthContext } from "@/lib/auth-context";
+import { resolveAuthReady } from "@/lib/auth-state";
 import {
   habitService,
   type CreateHabitInput,
@@ -12,17 +13,19 @@ import type { Habit } from "@/types/habits";
 import { useTranslatedError } from "./useTranslatedError";
 
 export function useHabits() {
-  const { isLoading: isAuthLoading, accessToken } = useAuthContext();
+  const auth = useAuthContext();
+  const isAuthReady = resolveAuthReady(auth);
+  const { accessToken } = auth;
 
   const query = useQuery<Habit[], Error>({
     queryKey: ["habits"],
     queryFn: () => habitService.list(),
-    enabled: !isAuthLoading && !!accessToken,
+    enabled: isAuthReady && !!accessToken,
   });
 
   return {
     ...query,
-    isLoading: isAuthLoading || query.isPending,
+    isLoading: !isAuthReady || query.isLoading,
   };
 }
 
