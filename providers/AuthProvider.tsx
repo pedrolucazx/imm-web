@@ -17,7 +17,9 @@ function hasRefreshTokenCookie(): boolean {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isCurrentAuthRoute = isAuthRoute(pathname);
+  const isCurrentProtectedRoute = isProtectedRoute(pathname);
   const hasAttemptedRestore = useRef(false);
+  const previousIsProtectedRoute = useRef(isCurrentProtectedRoute);
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [user, setUserState] = useState<User | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(isCurrentAuthRoute);
@@ -30,6 +32,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!previousIsProtectedRoute.current && isCurrentProtectedRoute) {
+      hasAttemptedRestore.current = false;
+    }
+    previousIsProtectedRoute.current = isCurrentProtectedRoute;
+
     if (isCurrentAuthRoute) {
       setIsAuthReady(true);
       return;
@@ -37,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const existingToken = api.getToken();
     const shouldAttemptRestore =
-      Boolean(existingToken) || isProtectedRoute(pathname) || hasRefreshTokenCookie();
+      Boolean(existingToken) || isCurrentProtectedRoute || hasRefreshTokenCookie();
 
     if (!shouldAttemptRestore) {
       logger.debug("[AuthProvider] skipping session restore on public route", { pathname });
@@ -64,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .finally(() => {
         setIsAuthReady(true);
       });
-  }, [pathname, isCurrentAuthRoute]);
+  }, [pathname, isCurrentAuthRoute, isCurrentProtectedRoute]);
 
   const login = useCallback(async (data: LoginInput): Promise<AuthResponse> => {
     const response = await authService.login(data);

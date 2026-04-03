@@ -11,16 +11,17 @@ export function useJournalEntries(date: string) {
   const auth = useAuthContext();
   const isAuthReady = resolveAuthReady(auth);
   const { accessToken } = auth;
+  const isQueryEnabled = isAuthReady && !!accessToken;
 
   const query = useQuery({
     queryKey: ["journal", date],
     queryFn: () => journalService.getEntriesByDate(date),
-    enabled: isAuthReady && !!accessToken,
+    enabled: isQueryEnabled,
   });
 
   return {
     ...query,
-    isLoading: !isAuthReady || query.isPending,
+    isLoading: !isAuthReady || (isQueryEnabled && query.isPending),
   };
 }
 
@@ -28,16 +29,17 @@ export function useJournalHistory() {
   const auth = useAuthContext();
   const isAuthReady = resolveAuthReady(auth);
   const { accessToken } = auth;
+  const isQueryEnabled = isAuthReady && !!accessToken;
 
   const query = useQuery({
     queryKey: ["journal-history"],
     queryFn: () => journalService.listHistory(),
-    enabled: isAuthReady && !!accessToken,
+    enabled: isQueryEnabled,
   });
 
   return {
     ...query,
-    isLoading: !isAuthReady || query.isPending,
+    isLoading: !isAuthReady || (isQueryEnabled && query.isPending),
   };
 }
 

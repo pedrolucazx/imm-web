@@ -22,6 +22,6 @@ export function useAnalyticsSummary(habitId?: string | null) {
     data: isUnauthorized ? null : query.data,
     error: isUnauthorized ? null : query.error,
     isError: isUnauthorized ? false : query.isError,
-    isLoading: !isAuthReady || query.isLoading,
+    isLoading: !isAuthReady || (isAuthorized && query.isPending),
   };
 }
