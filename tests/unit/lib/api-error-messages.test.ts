@@ -186,6 +186,10 @@ describe("api-error-messages", () => {
           "AI_UNAVAILABLE"
         );
       });
+
+      it("should NOT map generic service-unavailable messages to AI_UNAVAILABLE", () => {
+        expect(mapApiErrorToKey("Service temporarily unavailable")).toBeNull();
+      });
     });
 
     describe("AI_NOT_CONFIGURED", () => {

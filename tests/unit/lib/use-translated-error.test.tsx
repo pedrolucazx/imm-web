@@ -202,4 +202,12 @@ describe("useTranslatedError", () => {
       expect(enKeys).toEqual(esKeys);
     });
   });
+
+  it("should translate AI_UNAVAILABLE errors", () => {
+    const { result } = renderHook(() => useTranslatedError());
+
+    expect(result.current.translateError(new Error("AI service is temporarily unavailable"))).toBe(
+      translations.AI_UNAVAILABLE
+    );
+  });
 });

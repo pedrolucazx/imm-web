@@ -296,7 +296,15 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       )}
 
       {step === 3 && stepError !== null && (
-        <Box border="3px solid black" bg="surface.coral" p={4} mt={4}>
+        <Box
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          border="3px solid black"
+          bg="surface.coral"
+          p={4}
+          mt={4}
+        >
           <strong>{stepError.title}</strong>
           <br />
           <span style={{ fontSize: "0.875rem" }}>{stepError.description}</span>

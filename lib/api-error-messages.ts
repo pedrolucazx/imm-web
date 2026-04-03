@@ -99,9 +99,16 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
     return "AI_TIMEOUT";
   }
 
+  const mentionsAiProvider =
+    normalizedMessage.includes("ai service") ||
+    normalizedMessage.includes("gemini") ||
+    normalizedMessage.includes("model") ||
+    normalizedMessage.includes("llm") ||
+    normalizedMessage.includes("assistant");
+
   if (
-    normalizedMessage.includes("service unavailable") ||
-    normalizedMessage.includes("temporarily unavailable") ||
+    (mentionsAiProvider && normalizedMessage.includes("service unavailable")) ||
+    (mentionsAiProvider && normalizedMessage.includes("temporarily unavailable")) ||
     normalizedMessage.includes("unable to generate your plan")
   ) {
     return "AI_UNAVAILABLE";
