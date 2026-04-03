@@ -102,9 +102,11 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
   const mentionsAiProvider =
     normalizedMessage.includes("ai service") ||
     normalizedMessage.includes("gemini") ||
-    normalizedMessage.includes("model") ||
+    normalizedMessage.includes("language model") ||
+    normalizedMessage.includes("ai model") ||
     normalizedMessage.includes("llm") ||
-    normalizedMessage.includes("assistant");
+    normalizedMessage.includes("ai assistant") ||
+    normalizedMessage.includes("openai assistant");
 
   if (
     (mentionsAiProvider && normalizedMessage.includes("service unavailable")) ||

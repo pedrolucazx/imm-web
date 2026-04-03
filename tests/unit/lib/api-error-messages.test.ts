@@ -181,6 +181,10 @@ describe("api-error-messages", () => {
         expect(mapApiErrorToKey("AI service is temporarily unavailable")).toBe("AI_UNAVAILABLE");
       });
 
+      it("should map 'AI assistant service unavailable' to AI_UNAVAILABLE", () => {
+        expect(mapApiErrorToKey("AI assistant service unavailable")).toBe("AI_UNAVAILABLE");
+      });
+
       it("should map '503 Service Unavailable' to AI_UNAVAILABLE", () => {
         expect(mapApiErrorToKey("Gemini API temporary error: 503 Service Unavailable")).toBe(
           "AI_UNAVAILABLE"
@@ -189,6 +193,14 @@ describe("api-error-messages", () => {
 
       it("should NOT map generic service-unavailable messages to AI_UNAVAILABLE", () => {
         expect(mapApiErrorToKey("Service temporarily unavailable")).toBeNull();
+      });
+
+      it("should NOT map generic model messages to AI_UNAVAILABLE", () => {
+        expect(mapApiErrorToKey("Profile model mismatch")).toBeNull();
+      });
+
+      it("should NOT map generic assistant messages to AI_UNAVAILABLE", () => {
+        expect(mapApiErrorToKey("Assistant manager temporarily unavailable")).toBeNull();
       });
     });
 

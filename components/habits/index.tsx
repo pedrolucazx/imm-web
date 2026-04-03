@@ -60,9 +60,11 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const buildStepError = (error: unknown): StepErrorState => {
     const resolvedError = error instanceof Error ? error : new Error(tStep3("errorSubtitle"));
     const errorKey = mapApiErrorToKey(resolvedError.message);
+    const isTemporaryAiError =
+      errorKey === "AI_RATE_LIMIT" || errorKey === "AI_UNAVAILABLE" || errorKey === "AI_TIMEOUT";
 
     return {
-      title: tStep3(errorKey === "AI_RATE_LIMIT" ? "rateLimitTitle" : "errorTitle"),
+      title: tStep3(isTemporaryAiError ? "rateLimitTitle" : "errorTitle"),
       description: translateError(resolvedError),
     };
   };
