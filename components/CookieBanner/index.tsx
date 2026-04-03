@@ -4,15 +4,18 @@ import { useState, useEffect } from "react";
 import { Box, Text, Link as ChakraLink } from "@chakra-ui/react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
-import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
-import { useGetConsents, useSaveConsent } from "@/lib/hooks/useConsent";
-import { s } from "./styles";
-import { hasLocalConsent, setLocalConsent } from "@/lib/consent-constants";
 import { useAuthContext } from "@/lib/auth-context";
+import { resolveAuthReady } from "@/lib/auth-state";
+import { hasLocalConsent, setLocalConsent } from "@/lib/consent-constants";
+import { useGetConsents, useSaveConsent } from "@/lib/hooks/useConsent";
+import { PrivacyPolicyModal } from "./PrivacyPolicyModal";
+import { s } from "./styles";
 
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuthContext();
+  const auth = useAuthContext();
+  const isAuthReady = resolveAuthReady(auth);
+  const { isAuthenticated } = auth;
   const [isVisible, setIsVisible] = useState(false);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
 
@@ -20,14 +23,14 @@ export function CookieBanner() {
   const { mutate: saveConsent, isPending: isSavingConsent } = useSaveConsent();
 
   useEffect(() => {
-    if (isAuthLoading || isLoadingConsents) return;
+    if (!isAuthReady || isLoadingConsents) return;
     if ((consentsData?.length ?? 0) > 0) {
       if (!hasLocalConsent()) setLocalConsent();
       return;
     }
     if (hasLocalConsent()) return;
     setIsVisible(true);
-  }, [isAuthLoading, isLoadingConsents, consentsData]);
+  }, [isAuthReady, isLoadingConsents, consentsData]);
 
   const handleAccept = () => {
     setLocalConsent();
@@ -51,6 +54,7 @@ export function CookieBanner() {
     setIsPrivacyModalOpen(false);
   };
 
+  if (!isAuthReady) return null;
   if (!isVisible && !isPrivacyModalOpen) return null;
 
   return (

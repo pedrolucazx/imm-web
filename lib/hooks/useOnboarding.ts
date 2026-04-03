@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthContext } from "@/lib/auth-context";
+import { resolveAuthReady } from "@/lib/auth-state";
 import { onboardingService } from "@/lib/onboarding.service";
 import type { UpdateOnboardingInput } from "@/types/onboarding";
 
 const LS_KEY_PREFIX = "onboarding_completed";
 
 export function useOnboarding() {
-  const { isAuthenticated, isLoading: isAuthLoading, user } = useAuthContext();
+  const auth = useAuthContext();
+  const isAuthReady = resolveAuthReady(auth);
+  const { isAuthenticated, user } = auth;
   const queryClient = useQueryClient();
 
   const lsKey = user?.id ? `${LS_KEY_PREFIX}_${user.id}` : null;
@@ -20,7 +23,7 @@ export function useOnboarding() {
   const query = useQuery({
     queryKey: onboardingQueryKey,
     queryFn: () => onboardingService.getStatus(),
-    enabled: !isAuthLoading && isAuthenticated && Boolean(user?.id),
+    enabled: isAuthReady && isAuthenticated && Boolean(user?.id),
     staleTime: Infinity,
     retry: false,
   });

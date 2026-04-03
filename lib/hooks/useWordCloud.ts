@@ -1,14 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "@/lib/auth-context";
+import { resolveAuthReady } from "@/lib/auth-state";
 import { pronunciationService } from "@/lib/pronunciation.service";
 import type { WordCloudItem } from "@/types/pronunciation";
 
 export function useWordCloud(habitId: string | null) {
-  const { isLoading: isAuthLoading, accessToken } = useAuthContext();
+  const auth = useAuthContext();
+  const isAuthReady = resolveAuthReady(auth);
+  const { accessToken } = auth;
+  const isQueryEnabled = isAuthReady && !!accessToken && !!habitId;
 
-  return useQuery<WordCloudItem[], Error>({
+  const query = useQuery<WordCloudItem[], Error>({
     queryKey: ["word-cloud", habitId],
     queryFn: () => pronunciationService.getWordCloud(habitId!),
-    enabled: !isAuthLoading && !!accessToken && !!habitId,
+    enabled: isQueryEnabled,
   });
+
+  return {
+    ...query,
+    isLoading: !isAuthReady || (isQueryEnabled && query.isPending),
+  };
 }
