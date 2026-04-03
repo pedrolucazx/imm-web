@@ -14,6 +14,8 @@ import { SkillPlanForm } from "./wizard/SkillPlanForm";
 import { TrackingOptionsForm } from "./wizard/TrackingOptionsForm";
 import { PlanReviewPanel } from "./wizard/PlanReviewPanel";
 import { Textarea } from "@/components/ui/textarea";
+import { mapApiErrorToKey } from "@/lib/api-error-messages";
+import { useTranslatedError } from "@/lib/hooks/useTranslatedError";
 import {
   WIZARD_FORM_ID,
   type HabitSetupData,
@@ -27,18 +29,24 @@ interface HabitCreationWizardProps {
   onCreated: () => void;
 }
 
+type StepErrorState = {
+  title: string;
+  description: string;
+};
+
 export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationWizardProps) {
   const t = useTranslations("habitWizard");
   const tStep1 = useTranslations("habitWizard.step1");
   const tStep2Skill = useTranslations("habitWizard.step2Skill");
   const tStep2Track = useTranslations("habitWizard.step2Tracking");
   const tStep3 = useTranslations("habitWizard.step3");
+  const { translateError } = useTranslatedError();
 
   const [step, setStep] = useState(1);
   const [habitSetup, setHabitSetup] = useState<HabitSetupData | null>(null);
   const [planConfig, setPlanConfig] = useState<SkillPlanData | TrackingConfigData | null>(null);
   const [previewedPlan, setPreviewedPlan] = useState<HabitPlan | null>(null);
-  const [stepError, setStepError] = useState<"generic" | "rate-limit" | null>(null);
+  const [stepError, setStepError] = useState<StepErrorState | null>(null);
   const [regenerateFeedback, setRegenerateFeedback] = useState("");
 
   const feedbackTextareaId = useId();
@@ -48,6 +56,16 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
   const mode = habitSetup ? deriveHabitMode(habitSetup.targetSkill as TargetSkill) : null;
   const wantPlan = (planConfig as TrackingConfigData)?.wantPlan ?? false;
   const needsPlan = mode === "skill-building" || wantPlan;
+
+  const buildStepError = (error: unknown): StepErrorState => {
+    const resolvedError = error instanceof Error ? error : new Error(tStep3("errorSubtitle"));
+    const errorKey = mapApiErrorToKey(resolvedError.message);
+
+    return {
+      title: tStep3(errorKey === "AI_RATE_LIMIT" ? "rateLimitTitle" : "errorTitle"),
+      description: translateError(resolvedError),
+    };
+  };
 
   const handleStep1Next = (data: HabitSetupData) => {
     setHabitSetup(data);
@@ -74,10 +92,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       const plan = await previewMutation.mutateAsync(previewInput);
       setPreviewedPlan(plan);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "";
-      setStepError(
-        msg.includes("429") || msg.toLowerCase().includes("rate limit") ? "rate-limit" : "generic"
-      );
+      setStepError(buildStepError(err));
     }
   };
 
@@ -99,10 +114,7 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
       setPreviewedPlan(plan);
       setRegenerateFeedback("");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "";
-      setStepError(
-        msg.includes("429") || msg.toLowerCase().includes("rate limit") ? "rate-limit" : "generic"
-      );
+      setStepError(buildStepError(err));
     }
   };
 
@@ -285,11 +297,9 @@ export function HabitCreationWizard({ open, onClose, onCreated }: HabitCreationW
 
       {step === 3 && stepError !== null && (
         <Box border="3px solid black" bg="surface.coral" p={4} mt={4}>
-          <strong>{tStep3(stepError === "rate-limit" ? "rateLimitTitle" : "errorTitle")}</strong>
+          <strong>{stepError.title}</strong>
           <br />
-          <span style={{ fontSize: "0.875rem" }}>
-            {tStep3(stepError === "rate-limit" ? "rateLimitSubtitle" : "errorSubtitle")}
-          </span>
+          <span style={{ fontSize: "0.875rem" }}>{stepError.description}</span>
         </Box>
       )}
     </Modal>

@@ -16,6 +16,7 @@ describe("api-error-messages", () => {
       expect(API_ERROR_MESSAGES.HABIT_INACTIVE).toBe("Habit is not active");
       expect(API_ERROR_MESSAGES.AI_RATE_LIMIT).toBe("AI rate limit exceeded");
       expect(API_ERROR_MESSAGES.AI_TIMEOUT).toBe("AI request timed out");
+      expect(API_ERROR_MESSAGES.AI_UNAVAILABLE).toBe("AI service is temporarily unavailable");
       expect(API_ERROR_MESSAGES.AI_NOT_CONFIGURED).toBe("AI service not configured");
       expect(API_ERROR_MESSAGES.REFRESH_TOKEN_EXPIRED).toBe("Session expired");
       expect(API_ERROR_MESSAGES.INVALID_REFRESH_TOKEN).toBe("Invalid session");
@@ -154,6 +155,12 @@ describe("api-error-messages", () => {
         expect(mapApiErrorToKey("AI rate limit exceeded")).toBe("AI_RATE_LIMIT");
       });
 
+      it("should map 'AI service is busy' to AI_RATE_LIMIT", () => {
+        expect(mapApiErrorToKey("AI service is busy. Please wait a moment and try again.")).toBe(
+          "AI_RATE_LIMIT"
+        );
+      });
+
       it("should map 'rate limit exceeded' to AI_RATE_LIMIT", () => {
         expect(mapApiErrorToKey("rate limit exceeded")).toBe("AI_RATE_LIMIT");
       });
@@ -169,17 +176,31 @@ describe("api-error-messages", () => {
       });
     });
 
+    describe("AI_UNAVAILABLE", () => {
+      it("should map 'AI service is temporarily unavailable' to AI_UNAVAILABLE", () => {
+        expect(mapApiErrorToKey("AI service is temporarily unavailable")).toBe("AI_UNAVAILABLE");
+      });
+
+      it("should map '503 Service Unavailable' to AI_UNAVAILABLE", () => {
+        expect(mapApiErrorToKey("Gemini API temporary error: 503 Service Unavailable")).toBe(
+          "AI_UNAVAILABLE"
+        );
+      });
+    });
+
     describe("AI_NOT_CONFIGURED", () => {
-      it("should map 'Gemini API error' to AI_NOT_CONFIGURED", () => {
-        expect(mapApiErrorToKey("Gemini API error")).toBe("AI_NOT_CONFIGURED");
-      });
-
-      it("should map 'Gemini error' to AI_NOT_CONFIGURED", () => {
-        expect(mapApiErrorToKey("Gemini error")).toBe("AI_NOT_CONFIGURED");
-      });
-
       it("should map 'AI service not configured' to AI_NOT_CONFIGURED", () => {
         expect(mapApiErrorToKey("AI service not configured")).toBe("AI_NOT_CONFIGURED");
+      });
+
+      it("should map 'AI service is not available at the moment' to AI_NOT_CONFIGURED", () => {
+        expect(mapApiErrorToKey("AI service is not available at the moment.")).toBe(
+          "AI_NOT_CONFIGURED"
+        );
+      });
+
+      it("should map 'GEMINI_API_KEY is not configured' to AI_NOT_CONFIGURED", () => {
+        expect(mapApiErrorToKey("GEMINI_API_KEY is not configured")).toBe("AI_NOT_CONFIGURED");
       });
 
       it("should NOT map generic 'gemini' to AI_NOT_CONFIGURED", () => {

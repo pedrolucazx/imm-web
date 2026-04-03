@@ -12,6 +12,7 @@ export const API_ERROR_MESSAGES = {
   HABIT_INACTIVE: "Habit is not active",
   AI_RATE_LIMIT: "AI rate limit exceeded",
   AI_TIMEOUT: "AI request timed out",
+  AI_UNAVAILABLE: "AI service is temporarily unavailable",
   AI_NOT_CONFIGURED: "AI service not configured",
   REFRESH_TOKEN_EXPIRED: "Session expired",
   INVALID_REFRESH_TOKEN: "Invalid session",
@@ -85,6 +86,7 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
   if (
     normalizedMessage.includes("gemini rate limit") ||
     normalizedMessage.includes("ai rate limit") ||
+    normalizedMessage.includes("ai service is busy") ||
     normalizedMessage.includes("rate limit exceeded")
   ) {
     return "AI_RATE_LIMIT";
@@ -98,8 +100,16 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
   }
 
   if (
-    normalizedMessage.includes("gemini api") ||
-    normalizedMessage.includes("gemini error") ||
+    normalizedMessage.includes("service unavailable") ||
+    normalizedMessage.includes("temporarily unavailable") ||
+    normalizedMessage.includes("unable to generate your plan")
+  ) {
+    return "AI_UNAVAILABLE";
+  }
+
+  if (
+    normalizedMessage.includes("gemini_api_key is not configured") ||
+    normalizedMessage.includes("ai service is not available at the moment") ||
     normalizedMessage.includes("ai service not configured")
   ) {
     return "AI_NOT_CONFIGURED";

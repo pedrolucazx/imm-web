@@ -27,6 +27,7 @@
     "HABIT_INACTIVE": "Este hábito não está mais ativo.",
     "AI_RATE_LIMIT": "O serviço de IA está ocupado. Aguarde um momento e tente novamente.",
     "AI_TIMEOUT": "A solicitação de IA expirou. Tente novamente.",
+    "AI_UNAVAILABLE": "O serviço de IA está temporariamente indisponível. Tente novamente em instantes.",
     "AI_NOT_CONFIGURED": "O serviço de IA não está disponível no momento.",
     "REFRESH_TOKEN_EXPIRED": "Sua sessão expirou. Faça login novamente.",
     "INVALID_REFRESH_TOKEN": "Sua sessão é inválida. Faça login novamente.",
