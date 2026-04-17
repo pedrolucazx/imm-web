@@ -77,7 +77,7 @@ export default function AnalyticsPage() {
 
   return (
     <PageWrapper title={t("pageTitle")} loading={isLoading}>
-      <Box {...s.content} data-tour="analytics-section">
+      <Box {...s.content}>
         {isError ? (
           <Alert.Root colorPalette="yellow" {...s.errorCard}>
             <Alert.Indicator />
@@ -99,7 +99,7 @@ export default function AnalyticsPage() {
           <>
             {data && (
               <>
-                <Box {...s.globalGrid}>
+                <Box {...s.globalGrid} data-tour="analytics-section">
                   <GlobalStatsRow global={data.global} />
                 </Box>
 
