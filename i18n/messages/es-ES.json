@@ -32,7 +32,9 @@
     "REFRESH_TOKEN_EXPIRED": "Tu sesión ha expirado. Inicia sesión de nuevo.",
     "INVALID_REFRESH_TOKEN": "Tu sesión es inválida. Inicia sesión de nuevo.",
     "FORBIDDEN": "No tienes permiso para realizar esta acción.",
-    "NETWORK_ERROR": "No se pudo conectar al servidor. Verifica tu conexión."
+    "NETWORK_ERROR": "No se pudo conectar al servidor. Verifica tu conexión.",
+    "AVATAR_INVALID_FILE": "Archivo de avatar inválido o no compatible.",
+    "AVATAR_UPLOAD_UNAVAILABLE": "La carga del avatar no está disponible temporalmente. Inténtalo de nuevo más tarde."
   },
   "cookieBanner": {
     "title": "Antes de continuar",

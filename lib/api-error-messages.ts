@@ -18,6 +18,8 @@ export const API_ERROR_MESSAGES = {
   INVALID_REFRESH_TOKEN: "Invalid session",
   FORBIDDEN: "Access denied",
   NETWORK_ERROR: "Network error",
+  AVATAR_INVALID_FILE: "Invalid or unsupported avatar file",
+  AVATAR_UPLOAD_UNAVAILABLE: "Avatar upload is temporarily unavailable",
 } as const;
 
 export type ApiErrorKey = keyof typeof API_ERROR_MESSAGES;
@@ -138,6 +140,14 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
 
   if (normalizedMessage.includes("access denied") || normalizedMessage.includes("forbidden")) {
     return "FORBIDDEN";
+  }
+
+  if (normalizedMessage.includes("invalid or unsupported avatar file")) {
+    return "AVATAR_INVALID_FILE";
+  }
+
+  if (normalizedMessage.includes("avatar upload is temporarily unavailable")) {
+    return "AVATAR_UPLOAD_UNAVAILABLE";
   }
 
   return null;

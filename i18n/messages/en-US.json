@@ -32,7 +32,9 @@
     "REFRESH_TOKEN_EXPIRED": "Your session has expired. Please log in again.",
     "INVALID_REFRESH_TOKEN": "Your session is invalid. Please log in again.",
     "FORBIDDEN": "You don't have permission to perform this action.",
-    "NETWORK_ERROR": "Unable to connect to the server. Please check your connection."
+    "NETWORK_ERROR": "Unable to connect to the server. Please check your connection.",
+    "AVATAR_INVALID_FILE": "Invalid or unsupported avatar file.",
+    "AVATAR_UPLOAD_UNAVAILABLE": "Avatar upload is temporarily unavailable. Please try again later."
   },
   "cookieBanner": {
     "title": "Before you continue",
