@@ -38,6 +38,10 @@ class ApiClient {
         if (this.accessToken) {
           config.headers.Authorization = `Bearer ${this.accessToken}`;
         }
+        if (typeof FormData !== "undefined" && config.data instanceof FormData) {
+          delete config.headers["Content-Type"];
+          delete config.headers["content-type"];
+        }
         if (!config.withCredentials) {
           config.withCredentials = true;
         }

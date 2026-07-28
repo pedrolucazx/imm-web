@@ -2,41 +2,21 @@ import { api } from "@/lib/api-client";
 import { ENDPOINTS } from "@/lib/endpoints";
 import type { AnalyzePronunciationResult, WordCloudItem } from "@/types/pronunciation";
 
-type AudioUploadUrlResponse = {
-  signedUrl: string;
-  publicUrl: string;
-  path: string;
-};
-
 type AnalyzeInput = {
   habitId: string;
-  audioUrl: string;
+  audio: Blob;
   originalText: string;
-  entryDate: string;
+  entryDate?: string;
 };
 
 export const pronunciationService = {
-  async getUploadUrl(contentType: string): Promise<AudioUploadUrlResponse> {
-    return api.post<AudioUploadUrlResponse>(ENDPOINTS.PRONUNCIATION.UPLOAD_URL, { contentType });
-  },
-
-  async uploadAudio(signedUrl: string, blob: Blob, mimeType: string): Promise<void> {
-    const res = await fetch(signedUrl, {
-      method: "PUT",
-      body: blob,
-      headers: { "Content-Type": mimeType },
-    });
-    if (!res.ok) {
-      throw new Error(`Audio upload failed: ${res.status} ${res.statusText}`);
-    }
-  },
-
-  async deleteAudio(path: string): Promise<void> {
-    await api.delete<void>(ENDPOINTS.PRONUNCIATION.DELETE_AUDIO, { data: { path } });
-  },
-
   async analyze(input: AnalyzeInput): Promise<AnalyzePronunciationResult> {
-    return api.post<AnalyzePronunciationResult>(ENDPOINTS.PRONUNCIATION.ANALYZE, input);
+    const form = new FormData();
+    form.append("habitId", input.habitId);
+    form.append("originalText", input.originalText);
+    if (input.entryDate) form.append("entryDate", input.entryDate);
+    form.append("audio", input.audio, "pronunciation.webm");
+    return api.post<AnalyzePronunciationResult>(ENDPOINTS.PRONUNCIATION.ANALYZE, form);
   },
 
   async getWordCloud(habitId: string): Promise<WordCloudItem[]> {

@@ -40,7 +40,6 @@ export interface JournalEntry {
   targetSkillSnap: string | null;
   moodScore: number | null;
   energyScore: number | null;
-  audioUrl: string | null;
   aiFeedback: AiFeedback | null;
   createdAt: string;
   updatedAt: string;
@@ -52,5 +51,4 @@ export interface CreateJournalEntryInput {
   entryDate: string;
   moodScore?: number;
   energyScore?: number;
-  audioUrl?: string;
 }
