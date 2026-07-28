@@ -54,10 +54,7 @@ export default function SettingsPage(): React.JSX.Element {
   const { mutateAsync: saveProfile, isPending: isSaving } = useUpdateProfile();
   const { restartTour } = useOnboarding();
   const { previewUrl, isAvatarReady, isUploading, handleFileChange, uploadIfPending } =
-    useAvatarUpload(profile?.avatarUrl, {
-      onUploadError: (_error: Error) =>
-        toaster.create({ type: "error", title: t("avatarErrorUpload"), meta: { closable: true } }),
-    });
+    useAvatarUpload(profile?.avatarUrl);
 
   const schema = useMemo(
     () =>
@@ -103,17 +100,24 @@ export default function SettingsPage(): React.JSX.Element {
       uiLanguage?: UILanguage;
     } = {};
 
+    let avatarUrl: string | undefined;
     try {
-      const avatarUrl = await uploadIfPending();
-      if (avatarUrl !== undefined) changed.avatarUrl = avatarUrl;
+      avatarUrl = await uploadIfPending();
+    } catch {
+      // useUploadAvatar já mostrou o toast com a mensagem específica do erro
+      // — não duplica aqui, só aborta o submit.
+      return;
+    }
+    if (avatarUrl !== undefined) changed.avatarUrl = avatarUrl;
 
-      if (dirtyFields.name) changed.name = data.name;
-      if (dirtyFields.bio) changed.bio = data.bio;
-      if (dirtyFields.timezone) changed.timezone = data.timezone;
-      if (dirtyFields.ui_language) changed.uiLanguage = data.ui_language;
+    if (dirtyFields.name) changed.name = data.name;
+    if (dirtyFields.bio) changed.bio = data.bio;
+    if (dirtyFields.timezone) changed.timezone = data.timezone;
+    if (dirtyFields.ui_language) changed.uiLanguage = data.ui_language;
 
-      if (Object.keys(changed).length === 0) return;
+    if (Object.keys(changed).length === 0) return;
 
+    try {
       const needsLocaleChange = dirtyFields.ui_language;
       const updatedProfile = await saveProfile(changed);
       reset({

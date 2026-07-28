@@ -32,7 +32,9 @@
     "REFRESH_TOKEN_EXPIRED": "Your session has expired. Please log in again.",
     "INVALID_REFRESH_TOKEN": "Your session is invalid. Please log in again.",
     "FORBIDDEN": "You don't have permission to perform this action.",
-    "NETWORK_ERROR": "Unable to connect to the server. Please check your connection."
+    "NETWORK_ERROR": "Unable to connect to the server. Please check your connection.",
+    "AVATAR_INVALID_FILE": "Invalid or unsupported avatar file.",
+    "AVATAR_UPLOAD_UNAVAILABLE": "Avatar upload is temporarily unavailable. Please try again later."
   },
   "cookieBanner": {
     "title": "Before you continue",
@@ -447,7 +449,6 @@
     "avatarUploadLabel": "Change avatar",
     "avatarErrorSize": "File too large. Please upload an image up to 5MB.",
     "avatarErrorType": "Invalid file type. Please upload a JPEG, PNG, or WebP image.",
-    "avatarErrorUpload": "Failed to upload avatar. Please try again.",
     "nameLabel": "NAME",
     "namePlaceholder": "Your name",
     "nameMinLength": "Name must be at least 2 characters",
