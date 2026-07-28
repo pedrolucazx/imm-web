@@ -97,29 +97,11 @@ jobs:
         run: yarn test:e2e
 
   # ─────────────────────────────────────────────────────────────
-  # Step 3: CodeRabbit — só em PRs, só se Step 2 passar
-  # continue-on-error: true → falha do CodeRabbit é aviso, não bloqueio
-  # ─────────────────────────────────────────────────────────────
-  ai_review:
-    name: "Step 3: AI Code Review (CodeRabbit)"
-    needs: tests
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && needs.tests.result == 'success'
-    permissions:
-      contents: read
-      pull-requests: write
-
-    steps:
-      - name: CodeRabbit Review
-        continue-on-error: true
-        uses: coderabbitai/ai-pr-reviewer@1.16.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
+  # CodeRabbit já roda sozinho via GitHub App instalado no repo —
+  # não precisa de step aqui. (Removido: job "ai_review" chamava a
+  # action coderabbitai/ai-pr-reviewer, descontinuada pela CodeRabbit.)
   # ─────────────────────────────────────────────────────────────
   # Quality Gate — status check obrigatório para branch protection
-  # NÃO depende do ai_review: CodeRabbit nunca bloqueia merge
   # ─────────────────────────────────────────────────────────────
   quality_gate:
     name: "Quality Gate"
