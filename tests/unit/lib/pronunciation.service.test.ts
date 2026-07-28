@@ -37,4 +37,15 @@ describe("pronunciationService.analyze", () => {
       "audio",
     ]);
   });
+
+  it("omits entryDate when absent", async () => {
+    await pronunciationService.analyze({
+      habitId: "habit-id",
+      originalText: "hello world",
+      audio: new Blob(["fake-audio-bytes"], { type: "audio/webm" }),
+    });
+
+    const body = mockApi.post.mock.calls[0][1] as FormData;
+    expect(Array.from(body.keys())).toEqual(["habitId", "originalText", "audio"]);
+  });
 });
