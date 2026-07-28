@@ -449,7 +449,6 @@
     "avatarUploadLabel": "Change avatar",
     "avatarErrorSize": "File too large. Please upload an image up to 5MB.",
     "avatarErrorType": "Invalid file type. Please upload a JPEG, PNG, or WebP image.",
-    "avatarErrorUpload": "Failed to upload avatar. Please try again.",
     "nameLabel": "NAME",
     "namePlaceholder": "Your name",
     "nameMinLength": "Name must be at least 2 characters",

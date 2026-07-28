@@ -449,7 +449,6 @@
     "avatarUploadLabel": "Cambiar avatar",
     "avatarErrorSize": "Archivo demasiado grande. Sube una imagen de hasta 5MB.",
     "avatarErrorType": "Tipo de archivo inválido. Sube una imagen JPEG, PNG o WebP.",
-    "avatarErrorUpload": "Error al subir el avatar. Inténtalo de nuevo.",
     "nameLabel": "NOMBRE",
     "namePlaceholder": "Tu nombre",
     "nameMinLength": "El nombre debe tener al menos 2 caracteres",

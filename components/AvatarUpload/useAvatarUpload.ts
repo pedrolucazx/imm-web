@@ -3,18 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useUploadAvatar } from "@/lib/hooks/useUploadAvatar";
 
-export function useAvatarUpload(
-  currentUrl?: string | null,
-  options?: { onUploadError?: (_error: Error) => void }
-) {
+export function useAvatarUpload(currentUrl?: string | null) {
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isAvatarReady, setIsAvatarReady] = useState(false);
   const previewUrlRef = useRef(previewUrl);
 
-  const { mutateAsync: upload, isPending: isUploading } = useUploadAvatar({
-    onError: options?.onUploadError,
-  });
+  // useUploadAvatar já mostra o toast do erro (com a mensagem específica e
+  // traduzida) — não precisa de um onError aqui também, senão duplica.
+  const { mutateAsync: upload, isPending: isUploading } = useUploadAvatar();
 
   useEffect(() => {
     if (!currentUrl) {
