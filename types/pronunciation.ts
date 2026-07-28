@@ -14,6 +14,5 @@ export type AnalyzePronunciationResult = {
   missedWords: string[];
   correctWords: string[];
   extraWords: string[];
-  audioUrl: string | null;
   createdAt: string;
 };

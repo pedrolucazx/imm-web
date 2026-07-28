@@ -20,18 +20,22 @@ beforeEach(() => {
 // ---------------------------------------------------------------------------
 
 describe("journalService.transcribeAudio", () => {
+  const audio = new Blob(["fake-audio-bytes"], { type: "audio/webm" });
   const input = {
-    audioUrl:
-      "https://fake.supabase.co/storage/v1/object/public/audio-entries/user-uuid-1/file.webm",
+    audio,
     habitId: "550e8400-e29b-41d4-a716-446655440000",
   };
 
-  it("calls api.post with ENDPOINTS.JOURNAL.TRANSCRIBE and the input payload", async () => {
+  it("calls api.post with multipart audio", async () => {
     mockApi.post.mockResolvedValue({ transcription: "Hello world" });
 
     await journalService.transcribeAudio(input);
 
-    expect(mockApi.post).toHaveBeenCalledWith(ENDPOINTS.JOURNAL.TRANSCRIBE, input);
+    const [endpoint, body] = mockApi.post.mock.calls[0];
+    expect(endpoint).toBe(ENDPOINTS.JOURNAL.TRANSCRIBE);
+    expect(body).toBeInstanceOf(FormData);
+    expect(Array.from((body as FormData).keys())).toEqual(["habitId", "audio"]);
+    expect((body as FormData).get("habitId")).toBe(input.habitId);
   });
 
   it("returns the transcription string from the API response", async () => {
@@ -54,7 +58,7 @@ describe("journalService.transcribeAudio", () => {
 });
 
 // ---------------------------------------------------------------------------
-// createEntry — existing method (regression: audioUrl field)
+// createEntry
 // ---------------------------------------------------------------------------
 
 describe("journalService.createEntry", () => {
@@ -71,36 +75,12 @@ describe("journalService.createEntry", () => {
     aiAgentType: null,
     moodScore: 4,
     energyScore: 3,
-    audioUrl:
-      "https://fake.supabase.co/storage/v1/object/public/audio-entries/user-uuid-1/file.webm",
     createdAt: "2026-03-28T00:00:00.000Z",
     updatedAt: "2026-03-28T00:00:00.000Z",
   };
 
-  it("forwards audioUrl when included in the input", async () => {
+  it("sends the create-entry payload", async () => {
     mockApi.post.mockResolvedValue(mockEntry);
-
-    const audioUrl =
-      "https://fake.supabase.co/storage/v1/object/public/audio-entries/user-uuid-1/file.webm";
-    const input = {
-      habitId: "habit-uuid-1",
-      content: "Today I practiced English.",
-      entryDate: "2026-03-28",
-      audioUrl,
-      moodScore: 4 as const,
-      energyScore: 3 as const,
-    };
-
-    await journalService.createEntry(input);
-
-    expect(mockApi.post).toHaveBeenCalledWith(
-      ENDPOINTS.JOURNAL.CREATE,
-      expect.objectContaining({ audioUrl })
-    );
-  });
-
-  it("sends payload without audioUrl when not provided", async () => {
-    mockApi.post.mockResolvedValue({ ...mockEntry, audioUrl: null });
 
     const input = {
       habitId: "habit-uuid-1",
@@ -113,7 +93,5 @@ describe("journalService.createEntry", () => {
     await journalService.createEntry(input);
 
     expect(mockApi.post).toHaveBeenCalledWith(ENDPOINTS.JOURNAL.CREATE, input);
-    const callPayload = (mockApi.post as jest.Mock).mock.calls[0][1];
-    expect(callPayload).not.toHaveProperty("audioUrl");
   });
 });

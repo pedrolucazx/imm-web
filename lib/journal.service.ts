@@ -29,9 +29,12 @@ export const journalService = {
   },
 
   async transcribeAudio(input: {
-    audioUrl: string;
+    audio: Blob;
     habitId: string;
   }): Promise<{ transcription: string }> {
-    return api.post<{ transcription: string }>(ENDPOINTS.JOURNAL.TRANSCRIBE, input);
+    const form = new FormData();
+    form.append("habitId", input.habitId);
+    form.append("audio", input.audio, "journal.webm");
+    return api.post<{ transcription: string }>(ENDPOINTS.JOURNAL.TRANSCRIBE, form);
   },
 };
