@@ -126,7 +126,10 @@ export function mapApiErrorToKey(message: string): ApiErrorKey | null {
     return "AI_NOT_CONFIGURED";
   }
 
-  if (normalizedMessage.includes("refresh token expired")) {
+  if (
+    normalizedMessage.includes("refresh token expired") ||
+    normalizedMessage.includes("session expired")
+  ) {
     return "REFRESH_TOKEN_EXPIRED";
   }
 
