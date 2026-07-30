@@ -11,7 +11,6 @@ import type { JournalEntry } from "@/types/journal";
 import { useSaveJournal } from "@/lib/hooks/useJournal";
 import { getJournalPrompt, LANGUAGE_SKILLS } from "@/lib/habit-utils";
 import { usePronunciationRecorder } from "@/lib/hooks/usePronunciationRecorder";
-import { pronunciationService } from "@/lib/pronunciation.service";
 import { journalService } from "@/lib/journal.service";
 import { toaster } from "@/components/ui/toaster";
 import { useTranslatedError } from "@/lib/hooks/useTranslatedError";
@@ -118,32 +117,24 @@ export function JournalEditor({
     const audioBlob = recorder.audioBlob;
     if (!audioBlob || isTranscribing || isSaving) return;
     setIsTranscribing(true);
-    let uploadedPath: string | null = null;
     try {
-      const { signedUrl, publicUrl, path } = await pronunciationService.getUploadUrl(
-        recorder.mimeType
-      );
-      uploadedPath = path;
-      await pronunciationService.uploadAudio(signedUrl, audioBlob, recorder.mimeType);
       const { transcription } = await journalService.transcribeAudio({
-        audioUrl: publicUrl,
+        audio: audioBlob,
         habitId: habit.id,
       });
+      // Se saveJournalAsync falhar abaixo, o texto já transcrito fica no campo
+      // de escrita em vez de se perder — evita gastar outra chamada de IA à toa.
+      setContent(transcription);
       const entry = await saveJournalAsync({
         habitId: habit.id,
         content: transcription,
         entryDate: today,
-        audioUrl: publicUrl,
         moodScore,
         energyScore,
       });
-      uploadedPath = null;
       recorder.reset();
       onAnalyze(entry.id, habit.id);
     } catch (error) {
-      if (uploadedPath) {
-        pronunciationService.deleteAudio(uploadedPath).catch(() => undefined);
-      }
       toaster.create({
         title: tErrors("title"),
         description: translateError(error as Error),
