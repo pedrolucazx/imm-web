@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/lib/navigation";
 import { LandingClient } from "./LandingClient";
 
 const BASE_URL = (process.env.NEXT_PUBLIC_APP_URL ?? "https://insidemymind.app").replace(/\/$/, "");
@@ -10,6 +13,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
   const t = await getTranslations({ locale, namespace: "landing.seo" });
 
   const title = t("title");
@@ -58,5 +62,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function LandingPage({ params }: PageProps) {
   const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
   return <LandingClient locale={locale} />;
 }
