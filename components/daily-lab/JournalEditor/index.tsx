@@ -122,6 +122,9 @@ export function JournalEditor({
         audio: audioBlob,
         habitId: habit.id,
       });
+      // Se saveJournalAsync falhar abaixo, o texto já transcrito fica no campo
+      // de escrita em vez de se perder — evita gastar outra chamada de IA à toa.
+      setContent(transcription);
       const entry = await saveJournalAsync({
         habitId: habit.id,
         content: transcription,

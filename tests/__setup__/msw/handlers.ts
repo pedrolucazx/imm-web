@@ -128,4 +128,20 @@ export const handlers = [
       completedAt: body.completed ? new Date().toISOString() : null,
     });
   }),
+
+  http.post(`${API_URL}/journal/transcribe`, async ({ request }) => {
+    const contentType = request.headers.get("content-type") ?? "";
+    const form = await request.formData();
+    const audio = form.get("audio");
+    return HttpResponse.json({
+      transcription: "mock transcription",
+      _debug: {
+        contentType,
+        habitId: form.get("habitId"),
+        audioType: audio instanceof File ? audio.type : null,
+        audioName: audio instanceof File ? audio.name : null,
+        audioSize: audio instanceof File ? audio.size : null,
+      },
+    });
+  }),
 ];

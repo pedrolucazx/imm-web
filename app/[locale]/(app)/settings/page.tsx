@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -55,6 +55,9 @@ export default function SettingsPage(): React.JSX.Element {
   const { restartTour } = useOnboarding();
   const { previewUrl, isAvatarReady, isUploading, handleFileChange, uploadIfPending } =
     useAvatarUpload(profile?.avatarUrl);
+  // uploadIfPending clears its pendingFile as soon as the upload succeeds, so a
+  // saveProfile failure right after would otherwise lose the uploaded URL on retry.
+  const uploadedAvatarUrlRef = useRef<string | undefined>(undefined);
 
   const schema = useMemo(
     () =>
@@ -100,15 +103,17 @@ export default function SettingsPage(): React.JSX.Element {
       uiLanguage?: UILanguage;
     } = {};
 
-    let avatarUrl: string | undefined;
     try {
-      avatarUrl = await uploadIfPending();
+      const avatarUrl = await uploadIfPending();
+      if (avatarUrl !== undefined) uploadedAvatarUrlRef.current = avatarUrl;
     } catch {
       // useUploadAvatar já mostrou o toast com a mensagem específica do erro
       // — não duplica aqui, só aborta o submit.
       return;
     }
-    if (avatarUrl !== undefined) changed.avatarUrl = avatarUrl;
+    if (uploadedAvatarUrlRef.current !== undefined) {
+      changed.avatarUrl = uploadedAvatarUrlRef.current;
+    }
 
     if (dirtyFields.name) changed.name = data.name;
     if (dirtyFields.bio) changed.bio = data.bio;
@@ -120,6 +125,7 @@ export default function SettingsPage(): React.JSX.Element {
     try {
       const needsLocaleChange = dirtyFields.ui_language;
       const updatedProfile = await saveProfile(changed);
+      uploadedAvatarUrlRef.current = undefined;
       reset({
         name: updatedProfile.name,
         bio: updatedProfile.profile?.bio ?? "",

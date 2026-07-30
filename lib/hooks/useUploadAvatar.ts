@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { type AvatarContentType } from "@/lib/user.service";
 import { useAuthContext } from "@/lib/auth-context";
 import { authService } from "@/lib/auth.service";
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "../../components/ui/toaster";
 import { useTranslatedError } from "./useTranslatedError";
 import { API_ERROR_MESSAGES } from "@/lib/api-error-messages";
 
@@ -20,6 +20,17 @@ interface PresignedUrlResponse {
   signedUrl: string;
   publicUrl: string;
   requiredHeaders: Record<string, string>;
+}
+
+// fetch() rejects (timeout/abort/network) instead of resolving with a non-ok
+// response — without this, the toast shows the native TimeoutError/AbortError
+// message instead of a translated one.
+async function fetchOrUnavailable(request: () => Promise<Response>): Promise<Response> {
+  try {
+    return await request();
+  } catch {
+    throw new Error(API_ERROR_MESSAGES.AVATAR_UPLOAD_UNAVAILABLE);
+  }
 }
 
 export function useUploadAvatar(options?: { onError?: (_error: Error) => void }) {
@@ -57,12 +68,12 @@ export function useUploadAvatar(options?: { onError?: (_error: Error) => void })
       // então o refresh automático de 401 (lib/api-client.ts) não roda sozinho.
       // Access token tem TTL de 15min; se expirou no meio de uma sessão longa
       // na tela de settings, refaz o refresh aqui e tenta de novo uma vez.
-      let presignRes = await requestPresignedUrl(accessToken);
+      let presignRes = await fetchOrUnavailable(() => requestPresignedUrl(accessToken));
       if (presignRes.status === 401) {
         const refreshed = await authService.refresh();
         setAccessToken(refreshed.token);
         setUser(refreshed.user);
-        presignRes = await requestPresignedUrl(refreshed.token);
+        presignRes = await fetchOrUnavailable(() => requestPresignedUrl(refreshed.token));
       }
 
       if (!presignRes.ok) {
@@ -70,25 +81,28 @@ export function useUploadAvatar(options?: { onError?: (_error: Error) => void })
         throw new Error(API_ERROR_MESSAGES.AVATAR_UPLOAD_UNAVAILABLE);
       }
 
-      const data: Partial<PresignedUrlResponse> = await presignRes.json().catch(() => ({}));
-      if (!data.signedUrl || !data.publicUrl || !data.requiredHeaders) {
+      const rawData: Partial<PresignedUrlResponse> = await presignRes.json().catch(() => ({}));
+      if (!rawData.signedUrl || !rawData.publicUrl || !rawData.requiredHeaders) {
         throw new Error(API_ERROR_MESSAGES.AVATAR_UPLOAD_UNAVAILABLE);
       }
+      const { signedUrl, publicUrl, requiredHeaders } = rawData as PresignedUrlResponse;
 
       // requiredHeaders precisa bater com o que o Lambda assinou. Content-Type
       // é de fato aplicado pelo fetch; Content-Length é header proibido e o
       // browser sempre recalcula do File real — mantido aqui só pra deixar
       // explícito o contrato com o Lambda, não porque o fetch o respeite.
-      const uploadRes = await fetch(data.signedUrl, {
-        method: "PUT",
-        body: file,
-        headers: data.requiredHeaders,
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      });
+      const uploadRes = await fetchOrUnavailable(() =>
+        fetch(signedUrl, {
+          method: "PUT",
+          body: file,
+          headers: requiredHeaders,
+          signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        })
+      );
 
       if (!uploadRes.ok) throw new Error(API_ERROR_MESSAGES.AVATAR_UPLOAD_UNAVAILABLE);
 
-      return data.publicUrl;
+      return publicUrl;
     },
   });
 }
